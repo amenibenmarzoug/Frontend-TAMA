@@ -1,0 +1,49 @@
+<div class="sidebar-content">
+
+    <div class="card">
+
+        <!-- SIDEBAR HEADER -->
+        <div class="header p-24" fxLayout="row" fxLayoutAlign="start center">
+
+            <!-- USER -->
+            <span class="h5 font-weight-600">Formations : </span>
+            <!-- / USER -->
+
+        </div>
+
+
+
+        <!-- / SIDEBAR HEADER -->
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content py-16" fusePerfectScrollbar>
+
+            <div class="nav material2">
+
+
+
+               
+                <div class=" nav-item"  fxLayoutAlign="start center">
+
+                    <mat-form-field class="category-selector " appearance="outline">
+                        <mat-label class="title">Formations</mat-label>
+                        <mat-select (selectionChange)="changeFilter($event.value)">
+                            <mat-option>
+                                Formations
+                            </mat-option>
+                            <mat-option *ngFor="let course of courses" [value]="course.id">
+                              {{course.courseName}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- / SIDEBAR CONTENT -->

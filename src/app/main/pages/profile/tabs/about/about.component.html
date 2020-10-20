@@ -1,0 +1,361 @@
+<div id="about" class="p-24" fxLayout="row wrap">
+
+
+    <!--   Profile PARTICIPANT -->
+    <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65" *ngIf="isParticipant ">
+
+        <div class="profile-box info-box general" fxLayout="column">
+
+            <header class="accent">
+                <div class="title">Informations générales</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Sexe</div>
+                    <div class="info">{{participant.gender}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Date de naissance</div>
+                    <div class="info">{{participant.birthday | date:'longDate'}}</div>
+                </div>
+
+                <!--  <div class="info-line">
+                    <div class="title">Locations</div>
+                    <div class="info location" fxLayout="row" fxLayoutAlign="start center"
+                         *ngFor="let location of about.general.locations">
+                        <span>{{location}}</span>
+                        <mat-icon class="s-16 ml-4">location_on</mat-icon>
+                    </div>
+                </div>-->
+
+                <!-- <div class="info-line">
+                    <div class="title">About Me</div>
+                    <div class="info">{{about.general.about}}</div>
+                </div>-->
+            </div>
+
+        </div>
+
+
+        <!--   <div class="profile-box info-box work" fxLayout="column">
+
+            <header class="accent">
+                <div class="title">Work</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Occupation</div>
+                    <div class="info">{{about.work.occupation}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Skills</div>
+                    <div class="info">{{about.work.skills}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Jobs</div>
+                    <table class="info jobs">
+                        <tr class="job" *ngFor="let job of about.work.jobs">
+                            <td class="company">{{job.company}}</td>
+                            <td class="date">{{job.date}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="profile-box info-box contact" fxLayout="column">
+
+            <header class="accent">
+                <div class="title">Contact</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Adresse</div>
+                    <div class="info">{{participant.street}}, {{participant.city}}, {{participant.postalCode}}</div>
+                </div>
+                <div class="info-line">
+                    <div class="title">Tel.</div>
+                    <div class="info" >
+                        <span>{{participant.phoneNumber}}</span>
+                    </div>
+                </div>
+                
+                <div class="info-line">
+                    <div class="title">Email</div>
+                    <div class="info" >
+                        <span>{{participant.email}}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!--   Profile FORMATEUR -->
+
+    <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65" *ngIf="isTrainer ">
+
+        <div class="profile-box info-box general" fxLayout="column">
+
+            <header class="accent">
+                <div class="title">Informations générales</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Sexe</div>
+                    <div class="info">{{trainer.gender}}</div>
+                </div>
+
+                
+
+                <div class="info-line">
+                    <div class="title">Spécialité</div>
+                    <div class="info">{{trainer.specification}}</div>
+                </div>
+
+
+                <!--  <div class="info-line">
+                    <div class="title">Locations</div>
+                    <div class="info location" fxLayout="row" fxLayoutAlign="start center"
+                         *ngFor="let location of about.general.locations">
+                        <span>{{location}}</span>
+                        <mat-icon class="s-16 ml-4">location_on</mat-icon>
+                    </div>
+                </div>-->
+
+                <!-- <div class="info-line">
+                    <div class="title">About Me</div>
+                    <div class="info">{{about.general.about}}</div>
+                </div>-->
+            </div>
+
+        </div>
+
+
+        
+        <div class="profile-box info-box contact" fxLayout="column">
+
+            <header class="accent">
+                <div class="title">Contact</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Adresse</div>
+                    <div class="info">{{trainer.street}}, {{trainer.city}}, {{trainer.postalCode}}</div>
+                </div>
+                <div class="info-line">
+                    <div class="title">Tel.</div>
+                    <div class="info" >
+                        <span>{{trainer.phoneNumber}}</span>
+                    </div>
+                </div>
+                
+                <div class="info-line">
+                    <div class="title">Email</div>
+                    <div class="info" >
+                        <span>{{trainer.email}}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!--   Profile ENTREPRISE -->
+
+    <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65" *ngIf="isEntreprise ">
+
+       
+
+        <!--   <div class="profile-box info-box work" fxLayout="column">
+
+            <header class="accent">
+                <div class="title">Work</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Occupation</div>
+                    <div class="info">{{about.work.occupation}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Skills</div>
+                    <div class="info">{{about.work.skills}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Jobs</div>
+                    <table class="info jobs">
+                        <tr class="job" *ngFor="let job of about.work.jobs">
+                            <td class="company">{{job.company}}</td>
+                            <td class="date">{{job.date}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="profile-box info-box contact" fxLayout="column">
+
+            <header class="accent">
+                <div class="title">Contact</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Adresse</div>
+                    <div class="info">{{entreprise.street}}, {{entreprise.city}}, {{entreprise.postalCode}}</div>
+                </div>
+                <div class="info-line">
+                    <div class="title">Tel.</div>
+                    <div class="info" >
+                        <span>{{entreprise.phoneNumber}}</span>
+                    </div>
+                </div>
+                <div class="info-line">
+                    <div class="title">Website</div>
+                    <div class="info" >
+                        <span>{{entreprise.website}}</span>
+                    </div>
+                </div>
+                <div class="info-line">
+                    <div class="title">Email</div>
+                    <div class="info">
+                        <span>{{entreprise.email}}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!--   Profile INSTITUTION -->
+    <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65" *ngIf="isInstitution ">
+
+       
+
+
+        <!--   <div class="profile-box info-box work" fxLayout="column">
+
+            <header class="accent">
+                <div class="title">Work</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Occupation</div>
+                    <div class="info">{{about.work.occupation}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Skills</div>
+                    <div class="info">{{about.work.skills}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Jobs</div>
+                    <table class="info jobs">
+                        <tr class="job" *ngFor="let job of about.work.jobs">
+                            <td class="company">{{job.company}}</td>
+                            <td class="date">{{job.date}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="profile-box info-box contact" fxLayout="column">
+
+            <header class="accent">
+                <div class="title">Contact</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Adresse</div>
+                    <div class="info">{{institution.street}}, {{institution.city}}, {{institution.postalCode}}</div>
+                </div>
+                <div class="info-line">
+                    <div class="title">Tel.</div>
+                    <div class="info" >
+                        <span>{{institution.phoneNumber}}</span>
+                    </div>
+                </div>
+               
+                <div class="info-line">
+                    <div class="title">Email</div>
+                    <div class="info" >
+                        <span>{{institution.email}}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!--  <div class="about-sidebar" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="35">
+
+        <div class="profile-box friends" fxLayout="column">
+
+            <header class="accent" fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="title">Friends</div>
+                <div class="more secondary-text">
+                    <span>See 454 more...</span>
+                </div>
+            </header>
+
+            <div class="content" fxLayout="row wrap">
+                <div class="friend" fxFlex="20" *ngFor="let friend of about.friends">
+                    <img [src]="friend.avatar">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="profile-box groups" fxLayout="column">
+
+            <header class="accent" fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="title">Joined Groups</div>
+                <div class="more secondary-text">
+                    <span>See 6 more...</span>
+                </div>
+            </header>
+
+            <div class="content">
+
+                <div class="group" *ngFor="let group of about.groups" fxLayout="row"
+                    fxLayoutAlign="space-between center">
+
+                    <div fxLayout="row" fxLayoutAlign="start center">
+
+                        <div class="logo">{{group.name.substring(0,1)}}</div>
+
+                        <div>
+                            <div class="name">{{group.name}}</div>
+                            <div class="category">{{group.category}}</div>
+                            <div class="members">{{group.members}} people</div>
+                        </div>
+                    </div>
+
+                    <button mat-icon-button aria-label="More">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div> -->
+
+</div>

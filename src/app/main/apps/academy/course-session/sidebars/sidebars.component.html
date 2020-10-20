@@ -1,0 +1,100 @@
+<div class="sidebar-content">
+
+    <div class="card">
+
+        <!-- SIDEBAR HEADER -->
+        <div class="header p-24" fxLayout="row" fxLayoutAlign="start center">
+
+            <!-- USER -->
+            
+            <span class="h5">Selectionner :</span>
+            <!-- / USER -->
+
+        </div>
+        <!-- / SIDEBAR HEADER -->
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content py-16" fusePerfectScrollbar>
+
+            <div class="nav material2">
+
+                <div class="nav-item" aria-label="inbox">
+                    <a class="nav-link" matRipple (click)="changeFilter('all')"
+                       [ngClass]="{'active accent':filterBy ==='all'}">
+                        <span class="title">Toutes les scéances</span>
+                    </a>
+                </div>
+
+             
+
+                
+                <div class="nav-item" aria-label="Cursus" >
+                    <mat-form-field appearance="outline" class="category-selector">
+                        <mat-label>Cursus</mat-label>
+                        <mat-select [(ngModel)]="currentCategory"
+                                    (selectionChange)="  selectCursus()">
+                            <mat-option [value]="'all'">
+                                Tous
+                            </mat-option>
+                            <mat-option *ngFor="let category of cursus" [value]="category.id">
+                              
+                                 {{ category.cursusName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="nav-item" aria-label="Formations" >
+                    <mat-form-field appearance="outline" class="category-selector">
+                        <mat-label>Formations</mat-label>
+                        <mat-select [(ngModel)]="currentTraining"
+                                    (selectionChange)="selectCourse()">
+                            <mat-option [value]="'all'">
+                                Tous
+                            </mat-option>
+                            <mat-option *ngFor="let training of coursesFilteredByCategory" [value]="training.id">
+                              
+                                 {{ training.courseName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="nav-item" aria-label="Formations" >
+                    <mat-form-field appearance="outline" class="category-selector">
+                        <mat-label>Institutions</mat-label>
+                        <mat-select [(ngModel)]="currentInstitution"
+                                    (selectionChange)="selectInstitution()">
+                            <mat-option [value]="'all'">
+                                Tous
+                            </mat-option>
+                            <mat-option *ngFor="let institution of institutions" [value]="institution.id">
+                              
+                                 {{ institution.institutionName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="nav-item" aria-label="Institutions" >
+                    <mat-form-field appearance="outline" class="category-selector">
+                        <mat-label>Institutions-Salle</mat-label>
+                        <mat-select [(ngModel)]="currentClassroom"
+                                    (selectionChange)="selectClassroom($event.value)">
+                            <mat-option [value]="'all'">
+                                Tous
+                            </mat-option>
+                            <mat-option *ngFor="let classRoom of filteredClassrooms" [value]="classRoom">
+                              
+                                 {{ classRoom.institution.institutionName }}-{{ classRoom.classRoomName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- / SIDEBAR CONTENT -->

@@ -1,0 +1,57 @@
+<mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let contact">
+            <mat-checkbox [(ngModel)]="checkboxes[contact.id]" (ngModelChange)="onSelectedChange(contact.id.toString())"  (click)="$event.stopPropagation()">
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Nom du Groupe</mat-header-cell>
+        <mat-cell *matCellDef="let contact">
+                {{contact.groupName}}
+         <!--a class="link" [routerLink]="'/apps/groups/group-list'"(click)="goToGroupParticipants(contact.id)">{{contact.groupName}}</a-->  
+        </mat-cell>
+    </ng-container>
+ 
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="buttons">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let contact">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <!-- <button mat-icon-button (click)="$event.stopPropagation();toggleStar(contact.id)" aria-label="Toggle star">
+                    <mat-icon class="amber-fg" *ngIf="user.starred.includes(contact.id)">star</mat-icon>
+                    <mat-icon class="secondary-text" *ngIf="!user.starred.includes(contact.id)">star_border</mat-icon>
+                </button>-->
+
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More" (click)="$event.stopPropagation();">
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                  <button mat-menu-item aria-label="list" (click)="goToGroupParticipants(contact.id)">
+                        <mat-icon>list</mat-icon>
+                     <span>List Participants</span> 
+                    </button>
+                
+                   <button mat-menu-item aria-label="remove" (click)="deleteContact(contact.id)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Supprimer</span>
+                    </button>
+               
+                </mat-menu>
+
+            </div>
+
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns "></mat-header-row>
+    <mat-row *matRowDef="let contact; columns: displayedColumns; " class="contact " (click)="editContact(contact) " [ngClass]="{ 'accent-50':checkboxes[contact.id]} " [@animate]="{value: '*',params:{y: '100%'}} ">
+    </mat-row>
+</mat-table>

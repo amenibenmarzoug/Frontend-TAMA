@@ -1,0 +1,223 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+
+        <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
+            <div class="contact-name mt-8">{{contact.firstNameP}} {{contact.lastNameP}}</div>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="contactForm">
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Prénom</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="firstNameP" formControlName="firstNameP" matInput required>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Nom</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="lastNameP" formControlName="lastNameP" matInput required>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
+                <mat-form-field appearance="outline" fxFlex class="pr-4">
+                    <mat-label>Sexe</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <mat-select formControlName="gender">
+                        <mat-option [value]="'Masculin'">
+                            Masculin
+                        </mat-option>
+                        <mat-option [value]="'Féminin'">
+                            Féminin
+                        </mat-option>
+
+                    </mat-select>
+
+                    <mat-error *ngIf="formErrorsP.gender">{{formErrorsP.gender}}</mat-error>
+
+
+
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Numéro Téléphone</mat-label>
+                    <mat-icon matSuffix class="secondary-text">phone</mat-icon>
+                    <input formControlName="phoneNumber" matInput required>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Email</mat-label>
+                    <mat-icon matSuffix class="secondary-text">email</mat-icon>
+                    <input name="email" formControlName="email" matInput type="email" requitred>
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Date de Naissance</mat-label>
+                    <input matInput [matDatepicker]="birthdayDatePicker" name="birthday" formControlName="birthday" required>
+                    <mat-datepicker-toggle matSuffix [for]="birthdayDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #birthdayDatePicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <!-- <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Adresse</mat-label>
+                    <mat-icon matSuffix class="secondary-text">home</mat-icon>
+                    <input name="address" formControlName="address" matInput>
+                </mat-form-field>
+            </div> -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Rue</mat-label>
+                    <mat-icon matSuffix class="secondary-text">home</mat-icon>
+                    <input name="street" formControlName="street" matInput required>
+                    <!--mat-error>Street is required!</mat-error-->
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+
+                <mat-form-field appearance="outline" fxFlex="100">
+                    <mat-label>Ville</mat-label>
+                    <mat-select formControlName="city" required>
+                        <mat-option *ngFor="let city of cities" [value]="city">
+                            {{city}}
+                        </mat-option>
+
+                    </mat-select>
+                    <mat-icon matSuffix class="secondary-text">outlined_flag</mat-icon>
+                    <!--mat-error>Country is required!</mat-error-->
+                </mat-form-field>
+
+                <!-- <mat-form-field appearance="outline" fxFlex="33">
+                    <mat-label>State</mat-label>
+                    <input matInput formControlName="state">
+                    <mat-icon matSuffix class="secondary-text">location_city</mat-icon>
+                </mat-form-field> -->
+
+                <mat-form-field appearance="outline" fxFlex="33">
+                    <mat-label>Code Postal</mat-label>
+                    <input matInput #postalCode formControlName="postalCode" maxlength="5 " required>
+                    <mat-icon matSuffix class="secondary-text ">markunread_mailbox</mat-icon>
+
+                    <!--mat-error>Postal Code is required!</mat-error-->
+                </mat-form-field>
+
+            </div>
+            <!-- <div fxLayout="row" fxLayoutAlign="start start" style="display:none !important;">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Mot de passe</mat-label>
+                    <mat-icon matSuffix class="secondary-text">work</mat-icon>
+                    <input name="password" formControlName="password" matInput>
+                </mat-form-field>
+            </div> -->
+            <!--div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Entreprise</mat-label>
+                    <mat-icon matSuffix class="secondary-text">domain</mat-icon>
+                    <input name="company" formControlName="company" matInput>
+                </mat-form-field>
+            </div-->
+
+            <!--div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Current Position</mat-label>
+                    <mat-icon matSuffix class="secondary-text">work</mat-icon>
+                    <input name="jobTitle" formControlName="jobTitle" matInput>
+                </mat-form-field>
+            </div-->
+            <!--div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
+                <mat-form-field appearance="outline" fxFlex class="pr-4">
+                    <mat-label>Niveau Management </mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <mat-select formControlName="level">
+                        <mat-option [value]="'0.5'">
+                            0.5
+                        </mat-option>
+                        <mat-option [value]="'1'">
+                            1
+                        </mat-option>
+                        <mat-option [value]="'2'">
+                            2
+                        </mat-option>
+                        <mat-option [value]="'3'">
+                            3
+                        </mat-option>
+
+                    </mat-select>
+
+
+
+
+                    <mat-error *ngIf="formErrorsP.gender">{{formErrorsP.level}}</mat-error>
+
+
+                </mat-form-field>
+            </div-->
+
+
+
+            <div fxLayout="row" fxLayoutAlign="start start" style="display:none !important;">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Niveau Education</mat-label>
+                    <mat-icon matSuffix class="secondary-text">work</mat-icon>
+                    <input name="educationLevel" formControlName="educationLevel" matInput required> 
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start" style="display:none !important;">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Position Actuelle </mat-label>
+                    <mat-icon matSuffix class="secondary-text">work</mat-icon>
+                    <input name="currentPosition" formControlName="currentPosition" matInput required>
+                </mat-form-field>
+            </div>
+
+
+
+
+            <div fxLayout="row" class="textarea-wrapper" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Remarques</mat-label>
+                    <textarea name="notes" formControlName="notes" matInput type="text" max-rows="4"></textarea>
+                </mat-form-field>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <button *ngIf="action === 'edit'" mat-button class="mr-8" (click)="matDialogRef.close(['delete',contactForm])" aria-label="Delete" matTooltip="Delete">
+            Supprimer
+        </button>
+
+        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(contactForm)"  aria-label="SAVE">
+            Ajouter
+        </button>
+
+        <button *ngIf="action === 'edit'" mat-button class="save-button" (click)="matDialogRef.close(['save',contactForm])" aria-label="SAVE">
+            Enregistrer
+        </button>
+
+    </div>
+</div>
