@@ -105,7 +105,7 @@ export class MainComponent implements OnInit {
    */
   changeFilter(filter): void {
     this.data = JSON.parse(sessionStorage.getItem(USER_KEY));
-    console.log(this.data);
+    console.log(filter);
     this.trainerId = this.data.id
     this._mydisponibilityService.getTrainerById(this.data.id)
     this.filterBy = filter;

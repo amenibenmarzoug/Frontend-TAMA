@@ -12,14 +12,7 @@ export const navigationTrainer: FuseNavigation[] = [
         url: '/apps/calendar'
     },
 
-    {
-        id: 'my-disponibility',
-        title: 'Mes disponibilités',
-
-        type: 'item',
-        icon: 'account_box',
-        url: '/apps/my-disponibility'
-    },
+   
 
 
     {

@@ -86,7 +86,7 @@ export class TrainerListComponent implements OnInit, OnDestroy
                 }
                 this.selectedContacts = selectedContacts;
             });
-
+            console.log(this.contacts);
         this._trainersService.onUserDataChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(user => {

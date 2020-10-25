@@ -28,7 +28,7 @@ export class DisponibilityListComponent implements OnInit, OnDestroy {
     contacts: CourseSession[];
     user: any;
     dataSource: FilesDataSource | null;
-    displayedColumns = ['checkbox', 'lieu', 'date', 'time', 'institution', 'seance'];
+    displayedColumns = ['checkbox', 'jour'];
     selectedContacts: any[];
     coursesId: any[] = [];
     checkboxes: {};

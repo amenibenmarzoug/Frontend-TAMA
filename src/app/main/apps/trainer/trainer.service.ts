@@ -24,7 +24,7 @@ export class TrainerService implements Resolve<any>
     onUserDataChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
-
+    disponibilities:any[];
     contacts: Contact[];
     user: any;
     selectedContacts: string[] = [];
@@ -228,7 +228,7 @@ export class TrainerService implements Resolve<any>
      */
     updateContact(contact): Promise<any>
     {
-        contact.password = contact.phoneNumber;
+         contact.password = contact.phoneNumber;
         return new Promise((resolve, reject) => {
 
             this._httpClient.post(AUTH_API + 'auth/signup' , contact)
@@ -239,7 +239,8 @@ export class TrainerService implements Resolve<any>
         });
     }
     updateContact1(contact): Promise<any>
-    {
+    {    contact.disponibilityDays=this.disponibilities;
+        console.log (contact) 
         return new Promise((resolve, reject) => {
     console.log (contact) ;
             this._httpClient.put(AUTH_API + 'trainers'  , contact )
