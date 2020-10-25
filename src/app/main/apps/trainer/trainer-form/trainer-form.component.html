@@ -40,10 +40,10 @@
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
                     <!-- <input name="gender" formControlName="gender" matInput> -->
                     <mat-select formControlName="gender">
-                        <mat-option [value]="'Male'">
+                        <mat-option [value]="'Masculin'">
                             Masculin
                         </mat-option>
-                        <mat-option [value]="'Female'">
+                        <mat-option [value]="'Féminin'">
                             Féminin
                         </mat-option>
 
@@ -120,6 +120,19 @@
                     <mat-icon matSuffix class="secondary-text ">markunread_mailbox</mat-icon>
 
                     <mat-error>Postal Code is required!</mat-error>
+                </mat-form-field>
+
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <mat-form-field  appearance="outline" fxFlex>
+                    <mat-label >Jours de disponibilité</mat-label>
+                    <mat-select multiple=""  [(value)]="contact.disponibilityDays"  (selectionChange)="changeFilter($event.value)" formControlname="disponibilityDays">
+                       
+                        <mat-option *ngFor="let day of days" [value]="day.day">
+                          {{day.day}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
             </div>

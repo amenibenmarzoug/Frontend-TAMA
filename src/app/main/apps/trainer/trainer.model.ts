@@ -15,6 +15,7 @@ export class Contact
     street: string;
     city: string;
     postalCode: string
+    disponibilityDays:any;
 
     /**
      * Constructor
@@ -37,6 +38,7 @@ export class Contact
             this.street = contact.street || '';
             this.city = contact.city || '';
             this.postalCode = contact.postalCode || '';
+            this.disponibilityDays=contact.disponibilityDays || '';
         }
     }
 }

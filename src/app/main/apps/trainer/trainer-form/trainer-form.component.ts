@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { Contact } from 'app/main/apps/trainer/trainer.model';
-
-
+import { Days } from 'app/main/apps/my-disponibility/days';
+import { TrainerService } from 'app/main/apps/trainer/trainer.service';
 @Component({
     selector     : 'trainer-form',
     templateUrl  : './trainer-form.component.html',
@@ -17,6 +17,7 @@ export class TrainerFormComponent
     action: string;
     contact: Contact;
     
+    days: any[]=Days;
     contactForm: FormGroup;
     dialogTitle: string;
 
@@ -30,7 +31,7 @@ export class TrainerFormComponent
     constructor(
         public matDialogRef: MatDialogRef<TrainerFormComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,private _serviceTrainer: TrainerService
     )
     {
         // Set the defaults
@@ -50,6 +51,10 @@ export class TrainerFormComponent
         this.contactForm = this.createContactForm();
     }
 
+    changeFilter(filter): void {
+        console.log(filter);
+        this._serviceTrainer.disponibilities=filter;
+      }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -73,7 +78,8 @@ export class TrainerFormComponent
             password:[this.contact.password],
             street :[this.contact.street],
             city    : [this.contact.city],
-            postalCode: [this.contact.postalCode]
+            postalCode: [this.contact.postalCode],
+            disponibilityDays:[this.contact.disponibilityDays]
             
         });
     }
