@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { CourseSessionService } from 'app/main/apps/academy/course-session.service';
-import { Cursus } from '../../cursus.model';
+import { Program } from '../../program.model';
 import { Training } from '../../trainings/training.model';
 import { isThisISOWeek } from 'date-fns/esm';
 

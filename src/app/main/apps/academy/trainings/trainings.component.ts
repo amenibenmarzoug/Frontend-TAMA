@@ -122,8 +122,8 @@ export class TrainingsComponent implements OnInit {
                 console.log(`Dialog result after return: ${response}`);
 
                //this._contactsService.updateContact(response.getRawValue(),this._contactsService.course);
-               console.log(this._contactsService.cursus);
-                this._contactsService.updateContact(response.getRawValue(),this._contactsService.cursus);
+               console.log(this._contactsService.program);
+                this._contactsService.updateContact(response.getRawValue(),this._contactsService.program);
                 console.log(`Dialog result after return: ${response.getRawValue().data}`);
 
             });
@@ -131,7 +131,7 @@ export class TrainingsComponent implements OnInit {
 
     addNewCourse(): void {
 
-        if ((this._contactsService.cursus == null)){
+        if ((this._contactsService.program == null)){
               this.addCourseAlert("Veuillez choisir le Cursus");
           }
          
@@ -189,7 +189,7 @@ export class TrainingsComponent implements OnInit {
               if (result) {
                   console.log("ajout formation avec succès");
   
-                  this._contactsService.updateContact(this.training,this._contactsService.cursus);
+                  this._contactsService.updateContact(this.training,this._contactsService.program);
                     
               }
               this.confirmDialogRef = null;

@@ -1,0 +1,74 @@
+<div id="thematique" class="page-layout simple">
+
+
+    <!-- CONTENT -->
+    <div class="content p-24">
+
+        <div fxLayout="column" fxLayoutAlign="center">
+
+            <div class="filters" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+                fxLayoutAlign.gt-xs="space-between center">
+
+                <mat-form-field appearance="outline" floatLabel="always" class="course-search">
+                    <mat-label>Chercher une Thématique</mat-label>
+                    <input matInput placeholder="Entrer le titre du thème..." [(ngModel)]="searchTerm"
+                        (input)="filterCoursesByTerm()">
+                </mat-form-field>
+
+
+                <button mat-fab class="add-event-button mat-accent" aria-label="Add event"
+                    [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}" (click)="openDialog1()">
+                    <mat-icon>add</mat-icon>
+                </button>
+                <!-- / ADD EVENT BUTTON -->
+            </div>
+
+
+            <div class="courses" fxLayout="row wrap" fxLayoutAlign="center" [@animateStagger]="{value:'50'}">
+
+                <div class="course" *ngFor="let theme of filteredThemes" fxFlex="100" fxFlex.gt-xs="50"
+                    fxFlex.gt-sm="33" [ngClass]="theme.category" [@animate]="{value:'*',params:{y:'100%'}}">
+
+                    <div class="course-content" fxLayout="column" fxFlex="1 1 auto">
+
+                        <div class="header" fxLayout="row" fxLayoutAlign="center center"
+                            [ngClass]="theme.category + '-bg'">
+
+                        </div>
+
+                        <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex="1 1 auto">
+                            <div class="h1">{{theme.themeName}}</div>
+                            <div class="updated">Nombre de jours: {{theme.nbDaysTheme}}
+
+                            </div>
+                        </div>
+
+                        <div class="footer" fxLayout="row" fxLayoutAlign="center center">
+
+                            <button mat-button color="accent" (click)="editTheme(theme)">
+                                Modifier
+                            </button>
+
+
+                            <button mat-button color="accent" (click)="deleteTheme(theme)">
+                                Supprimer
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="no-courses" *ngIf="filteredThemes.length === 0">
+                    Aucune Thématique Trouvée!
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

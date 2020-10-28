@@ -8,7 +8,7 @@ import { FuseUtils } from '@fuse/utils';
 //import { Contact } from 'app/main/apps/contacts/contact.model';
 import { Training } from 'app/main/apps/academy/trainings/training.model';
 
-import { Cursus } from 'app/main/apps/academy/cursus.model';
+import { Program } from 'app/main/apps/academy/program.model';
 const AUTH_API = 'http://localhost:8080/api/';
 
 @Injectable({
@@ -31,7 +31,7 @@ export class TrainingsService implements Resolve<any> {
 
 
     
-    cursus: Cursus ; 
+    program: Program ; 
     training : Training ;
     onCategoriesChanged: BehaviorSubject<any>;
     onCoursesChanged: BehaviorSubject<any>;

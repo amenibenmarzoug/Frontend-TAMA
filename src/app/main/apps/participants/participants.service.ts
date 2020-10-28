@@ -7,7 +7,7 @@ import { FuseUtils } from '@fuse/utils';
 
 //import { Contact } from 'app/main/apps/participants/participant.model';
 import { Contact } from './participant.model';
-import { Cursus } from '../academy/cursus.model';
+import { Program } from '../academy/program.model';
 const USER_KEY = 'auth-user';
 
 @Injectable()
@@ -32,7 +32,7 @@ export class ParticipantsService implements Resolve<any>
     groupeId:number;
     entreprises:Contact[];
     groups: Contact[];
-    courses:Cursus[];
+    programs:Program[];
     contactSelected:Contact[];
     searchText: string;
     filterBy: string;
@@ -199,7 +199,7 @@ export class ParticipantsService implements Resolve<any>
             this._httpClient.get('http://localhost:8080/api/cursus')
             .subscribe((response: any) => {
                 this.onCursusChanged.next(response);
-                this.courses=response;
+                this.programs=response;
                 resolve(response);
             }, reject);
         }
