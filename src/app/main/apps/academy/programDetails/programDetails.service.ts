@@ -59,7 +59,7 @@ export class ProgramDetailsService implements Resolve<any>
                 this.getTimeline(),
                 this.getAbout(),
                 this.getPhotosVideos(),
-                this.getThemes(),
+                //this.getThemes(),
                 //this.getThemesPerProgram(),
             ]).then(
                 () => {
@@ -103,9 +103,10 @@ export class ProgramDetailsService implements Resolve<any>
     getThemesPerProgram(): Promise<any>
     {
 
-        const id = new HttpParams().set('id', this.programId);
+        let id = new HttpParams().set('id', this.programId);
+        console.log("id chnw hedha " + id);
         return new Promise((resolve, reject)=>{
-            this._httpClient.get(AUTH_API + '/program/themes', {params:id})
+            this._httpClient.get(AUTH_API + 'program/themes', {params:id})
             .subscribe((response:any)=>{
                 this.themes = response;
                 this.themes = this.themes.map(theme =>{
@@ -119,7 +120,23 @@ export class ProgramDetailsService implements Resolve<any>
 
 
     }
-
+     /**
+     * Update contact
+     *
+     * @param contact
+     * @returns {Promise<any>}
+     */
+    addTheme(theme): Promise<any>
+    {
+        return new Promise((resolve, reject) => {
+            let id = new HttpParams().set('id', this.programId);
+            this._httpClient.post(AUTH_API + 'themeProgram' , theme,{ params: id })
+                .subscribe(response => {
+                    this.getThemesPerProgram();
+                    resolve(response);
+                });
+        });
+    }
     updateTheme(theme): Promise<any>
     {
         return new Promise((resolve, reject) => {

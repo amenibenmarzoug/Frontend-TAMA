@@ -68,7 +68,6 @@ export class RessourcesListComponent implements OnInit, OnDestroy
             this.equipmentId = +params['id'];
            
         });
-        console.log("baliiiiz" + this.equipmentId);
         this._ressourcesService.equipmentId = this.equipmentId;
         console.log(this.equipmentId);
         this._ressourcesService.getContacts();

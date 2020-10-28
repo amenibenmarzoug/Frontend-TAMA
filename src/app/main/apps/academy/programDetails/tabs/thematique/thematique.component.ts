@@ -138,9 +138,9 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
 
 
     //open the dialog of cursus add (not used now)
-    openDialog1() {
+    newTheme() {
         this.dialogRef = this.dialog.open(ThematiqueFormComponent, {
-            panelClass: 'cursus-form-dialog',
+            panelClass: 'theme-form-dialog',
             data: {
                 action: 'new'
             }
@@ -153,11 +153,10 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
 
                     return;
                 }
-                console.log(response.getRawValue());
+            this._programDetailsService.addTheme(response.getRawValue());
 
 
             });
-        console.log(`DDETECCTED`);
 
     }
 

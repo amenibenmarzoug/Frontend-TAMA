@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { ProgramDetailsService } from './programDetails.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -20,6 +21,8 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
     institution: any;
     entreprise: any;
     name:string;
+    programId: any;
+    private sub:any;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -30,7 +33,9 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
      * @param {ProgramDetailsService} _profileService
      */
     constructor(
-        private _programDetailsService: ProgramDetailsService
+        private _programDetailsService: ProgramDetailsService,
+        private route: ActivatedRoute
+
     ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -44,7 +49,13 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-      
+        this.sub = this.route.params.subscribe(params =>{
+            this.programId = +params['id'];
+            console.log("id du prog" +this.programId);
+           
+        });
+        this._programDetailsService.programId = this.programId;
+        this._programDetailsService.getThemesPerProgram();
        
     }
 
