@@ -50,9 +50,7 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.sub = this.route.params.subscribe(params =>{
-            this.programId = +params['id'];
-            console.log("id du prog" +this.programId);
-           
+            this.programId = +params['id'];           
         });
         this._programDetailsService.programId = this.programId;
         this._programDetailsService.getThemesPerProgram();
@@ -66,6 +64,5 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
-       // this._profileService.data=null;
     }
 }

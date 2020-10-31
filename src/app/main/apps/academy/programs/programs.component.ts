@@ -196,7 +196,6 @@ export class AcademyProgramsComponent implements OnInit, OnDestroy {
             });
     }
     goToProgramModule(id) {
-
         this.router.navigate(['./apps/academy/programDetails', id]);
     }
 

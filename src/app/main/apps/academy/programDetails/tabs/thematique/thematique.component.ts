@@ -22,7 +22,7 @@ import { ThematiqueFormComponent } from './thematique-form/thematique-form.compo
 export class ThematiqueComponent implements OnInit, OnDestroy {
     categories: any[];
     themes: any[];
-    programsFilteredByCategory: any[];
+    themesFilteredByCategory: any[];
     filteredThemes: any[];
     currentCategory: string;
     searchTerm: string;
@@ -58,12 +58,19 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        // Subscribe to categories
+        this._programDetailsService.onCategoriesChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(categories => {
+                this.categories = categories;
+            });
 
-        // Subscribe to courses
+
+        // Subscribe to themes
         this._programDetailsService.onThemeChanged
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(courses => {
-                this.filteredThemes = this.programsFilteredByCategory = this.themes = courses;
+            .subscribe(themes => {
+                this.filteredThemes = this.themesFilteredByCategory = this.themes = themes;
             });
     }
 
@@ -83,41 +90,41 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
     /**
      * Filter courses by category
      */
-    filterCoursesByCategory(): void {
+    filterThemesByCategory(): void {
         // Filter
         if (this.currentCategory === 'all') {
-            this.programsFilteredByCategory = this.themes;
+            this.themesFilteredByCategory = this.themes;
             this.filteredThemes = this.themes;
         }
         else {
-            this.programsFilteredByCategory = this.themes.filter((course) => {
+            this.themesFilteredByCategory = this.themes.filter((theme) => {
 
-                return course.category === this.currentCategory;
+                return theme.category === this.currentCategory;
             });
 
-            this.filteredThemes = [...this.programsFilteredByCategory];
+            this.filteredThemes = [...this.themesFilteredByCategory];
 
         }
 
         // Re-filter by search term
-        this.filterCoursesByTerm();
+        this.filterThemesByTerm();
     }
 
     /**
      * Filter courses by term
      */
-    filterCoursesByTerm(): void {
+    filterThemesByTerm(): void {
         const searchTerm = this.searchTerm.toLowerCase();
 
         // Search
         if (searchTerm === '') {
-            this.filteredThemes = this.programsFilteredByCategory;
+            this.filteredThemes = this.themesFilteredByCategory;
         }
 
         //filter with cursusName and cursusCategory 
         else {
-            this.filteredThemes = this.programsFilteredByCategory.filter((course) => {
-                return course.cursusName.toLowerCase().includes(searchTerm);
+            this.filteredThemes = this.themesFilteredByCategory.filter((theme) => {
+                return theme.programName.toLowerCase().includes(searchTerm);
             });
         }
     }
@@ -170,7 +177,7 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
         this.dialogRef = this.dialog.open(ThematiqueFormComponent, {
             panelClass: 'theme-form-dialog',
             data: {
-                program: theme,
+                theme: theme,
                 action: 'edit'
             }
         });
@@ -187,10 +194,7 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
                      * Save
                      */
                     case 'save':
-
-                        console.log("save thème");
-
-                        this._programDetailsService.updateTheme(formData.getRawValue());
+                        this._programDetailsService.updateTheme(formData.getRawValue(),this._programDetailsService.program);
 
                         break;
                     /**

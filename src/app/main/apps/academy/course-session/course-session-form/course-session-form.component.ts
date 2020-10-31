@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 
 
-import { Training } from 'app/main/apps/academy/trainings/training.model';
+//import { Training } from 'app/main/apps/academy/trainings/training.model';
 import { CourseSession } from 'app/main/apps/academy/course-session/courseSession.model';
 import { ThemePalette } from '@angular/material/core';
 import { registerLocaleData } from '@angular/common';
@@ -85,11 +85,11 @@ export class CourseSessionFormComponent  {
 
         console.log(_data) ;
 
-        this.contact.course=_data.contact.course ; 
+       // this.contact.course=_data.contact.course ; 
         this.contact.classRoom=_data.contact.classRoom; 
 
         console.log("edit") ; 
-        console.log(this.contact.course) ;
+        //console.log(this.contact.course) ;
         console.log(this.contact.classRoom) ;
 
 
@@ -105,11 +105,11 @@ export class CourseSessionFormComponent  {
 
         this.contact = new CourseSession({});
         
-        this.contact.course=_data.foreignKeyCourse ; 
+        //this.contact.course=_data.foreignKeyCourse ; 
        
 
         console.log("foreign key te3 hetha") ; 
-        console.log(this.contact.course) ; 
+        //console.log(this.contact.course) ; 
         this.contact.classRoom=_data.foreignKeyInstitution; 
         
         //console.log("foreign key institution") ; 
@@ -195,7 +195,7 @@ createContactForm(): FormGroup
       
         courseSessionEndDate: [this.contact.courseSessionEndDate],
       //  institution :[this.contact.institution],
-        course:[this.contact.course],
+        //course:[this.contact.course],
 
         classRoom: [this.contact.classRoom],
         //institutionName  : [this.contact.institutionName],

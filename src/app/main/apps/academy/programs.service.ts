@@ -49,7 +49,7 @@ export class AcademyProgramsService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getCategories(),
+                //this.getCategories(),
                 this.getPrograms()
             ]).then(
                 () => {

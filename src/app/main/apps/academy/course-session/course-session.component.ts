@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
-import { TrainingsService } from '../trainings.service';
+//import { TrainingsService } from '../trainings.service';
 import { fuseAnimations } from '@fuse/animations';
 import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';

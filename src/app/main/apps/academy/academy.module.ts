@@ -22,21 +22,13 @@ import { AcademyCourseService } from 'app/main/apps/academy/course.service';
 import { FuseSidebarModule } from '@fuse/components';
 import { ProgramFormComponent } from './programs/program-form/program-form.component';
 import { MatMenuModule } from '@angular/material/menu';
-import { TrainingsComponent } from './trainings/trainings.component';
-import{TrainingsService} from './trainings.service';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSortModule } from '@angular/material/sort';
-import { TrainingFormComponent } from './trainings/training-form/training-form.component';
-import { TrainingListComponent } from './trainings/training-list/training-list.component';
-import { SelectedBarComponent } from './trainings/selected-bar/selected-bar.component';
-import { MainComponent } from './trainings/sidebars/main/main.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatStepperModule } from '@angular/material/stepper';
 import {MatListModule} from '@angular/material/list';
-import { CursusTrainingComponent } from './cursus-training/cursus-training.component';
-import{CursusTrainingService} from './cursus-training.service';
 
 
 import{CourseSessionComponent} from './course-session/course-session.component';
@@ -53,13 +45,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SidebarsComponent } from './course-session/sidebars/sidebars.component';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-import { CreatedTrainingsListComponent } from './cursus-training/created-trainings-list/created-trainings-list.component';
+//import { CreatedTrainingsListComponent } from './cursus-training/created-trainings-list/created-trainings-list.component';
 import {ProgramDetailsService} from 'app/main/apps/academy/programDetails/programDetails.service'
 import { ProgramDetailsComponent } from './programDetails/programDetails.component';
 import { ThematiqueComponent } from './programDetails/tabs/thematique/thematique.component';
 import { ModuleComponent } from './programDetails/tabs/module/module.component';
 import { ThemeDetailComponent } from './programDetails/tabs/themeDetail/themeDetail.component';
 import { ThematiqueFormComponent } from './programDetails/tabs/thematique/thematique-form/thematique-form.component';
+import { ModuleFormComponent } from './programDetails/tabs/module/module-form/module-form.component';
+import { MainModuleComponent } from './programDetails/tabs/module/sidebars/main/mainModule.component';
+import { ModuleListComponent } from './programDetails/tabs/module/module-list/module-list.component';
+import {SelectedBarModuleComponent} from './programDetails/tabs/module/selected-bar-module/selected-bar-module.component'
+import { ThemeDetailFormComponent } from './programDetails/tabs/themeDetail/theme-detail-form/theme-detail-form.component';
+import { ThemeDetailsListComponent } from './programDetails/tabs/themeDetail/theme-detail-list/theme-detail-list.component';
+import { MainThemeDetailComponent } from './programDetails/tabs/themeDetail/sidebars/main/main-theme-detail.component';
+import {SelectedBarThemeDetailComponent} from './programDetails/tabs/themeDetail/selected-bar-theme-detail/selected-bar-theme-detail.component';
+
+
 registerLocaleData(localeFr, 'fr');
 const routes = [
    
@@ -77,20 +79,6 @@ const routes = [
             academy: AcademyCourseService
         }
     },
-   {
-        path     : 'trainings',
-        component: TrainingsComponent,
-        resolve  : {
-            academy: TrainingsService
-        }
-    },
-    {
-        path     : 'add',
-        component: CursusTrainingComponent,
-        resolve  : {
-            academy: CursusTrainingService
-        }
-    },
     {
         path     : 'addCourseSession',
         component: CourseSessionComponent,
@@ -99,16 +87,20 @@ const routes = [
         }
     },
     {
+        path     : 'programDetails',
+        component: ProgramDetailsComponent,
+        resolve  : {
+            profile: ProgramDetailsService
+        }
+    },
+    {
         path     : 'programDetails/:id',
         component: ProgramDetailsComponent,
         resolve  : {
-            academy: ProgramDetailsService
+            profile: ProgramDetailsService
         }
     },
-  /*  {
-        path      : '**',
-        redirectTo: 'courses'
-    }*/
+ 
 ];
 @NgModule({
     declarations: [
@@ -116,21 +108,27 @@ const routes = [
         AcademyCourseComponent,
         ProgramFormComponent,
         ThematiqueFormComponent,
-        TrainingsComponent,
-        TrainingFormComponent,
-        TrainingListComponent,
-        MainComponent,
-        SelectedBarComponent,
-        CursusTrainingComponent,
         CourseSessionComponent, 
         CourseSessionFormComponent,
         CourseSessionListComponent,
         SidebarsComponent,
-        CreatedTrainingsListComponent,
         ProgramDetailsComponent,
         ThematiqueComponent,
         ModuleComponent,
-        ThemeDetailComponent
+        ThemeDetailComponent,
+        ModuleFormComponent,
+        ModuleListComponent,
+        MainModuleComponent,
+        SelectedBarModuleComponent,
+        ThemeDetailFormComponent,
+        ThemeDetailComponent,
+        ThemeDetailsListComponent,
+        MainThemeDetailComponent,
+        SelectedBarThemeDetailComponent,
+        
+
+        
+
         
 
         
@@ -172,13 +170,11 @@ const routes = [
         
     ],
     providers   : [
-        TrainingsService,
         AcademyProgramsService,
-        AcademyCourseService,
-        TrainingsService,
-        CourseSessionService,
-        TrainingFormComponent,
-        CursusTrainingService,
+        ProgramFormComponent,
+        ThematiqueFormComponent,
+        ThemeDetailFormComponent,
+        ModuleFormComponent,
         MatNativeDatetimeModule,
         ProgramDetailsService,
         
@@ -187,10 +183,14 @@ const routes = [
        
     ],
     exports:[
-        TrainingListComponent,
+        ModuleListComponent,
+        ThemeDetailsListComponent,
+        
     ],
     entryComponents: [
-        TrainingFormComponent
+        ModuleFormComponent,
+        ThemeDetailFormComponent,
+        ThematiqueFormComponent
     ]
 })
 export class AcademyModule

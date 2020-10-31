@@ -1,5 +1,5 @@
 import { FuseUtils } from '@fuse/utils';
-import { Training } from '../trainings/training.model';
+//import { Training } from '../trainings/training.model';
 import { startOfDay, endOfDay } from 'date-fns';
 import { MyClasses } from '../../classrooms/classrooms.model';
 
@@ -10,7 +10,7 @@ export class CourseSession
     classRoom:MyClasses;
     institution: any;
     city:string;
-    course:Training;
+    //course:Training;
     institutionName:string;
     courseSessionBeginDate: Date;
     courseSessionName: string;
@@ -34,7 +34,7 @@ export class CourseSession
             //this.institutionName= contact.classRoom.institution.institutionName || '';
             //this.city=contact.classRoom.institution.city || '';
             this.courseSessionName=contact.courseSessionName || '';
-            this.course=contact.course || '';
+            //this.course=contact.course || '';
             this.courseSessionEndDate= new Date(contact.courseSessionEndDate)|| endOfDay(new Date());;
            
           

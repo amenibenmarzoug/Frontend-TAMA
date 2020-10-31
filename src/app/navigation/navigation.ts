@@ -76,61 +76,49 @@ export const navigation: FuseNavigation[] = [
             },
             {
                 id: 'academy',
-                title: 'Academie',
+                title: 'Académie',
                 translate: 'NAV.ACADEMY',
                 type: 'collapsable',
                 icon: 'school',
                 //url      : '/apps/academy',
-                children: [{
-                    id: 'trainings',
-                    title: 'Formations',
-                    //type : 'item',
-                    //url  : '/apps/academy/trainings',
-                    type: 'collapsable',
-                    children: [
-                        {
-                            id: 'addCourseSession',
-                            title: 'Ajout Séance',
-                            type: 'item',
-                            url: '/apps/academy/addCourseSession',
-                        },
-                        {
-                            id: 'showCourse',
-                            title: 'Formations',
-                            type: 'item',
-                            url: '/apps/academy/trainings',
-                        }
-                    ]
+                children: [
 
-                },
-                {
-                    id: 'cursus',
-                    title: 'Cursus',
-                    // type : 'item',
-                    type: 'collapsable',
-                    // url  : '/apps/academy/cursus',
-                    //exactMatch: true
-                    children: [
-                        {
-                            id: 'add',
-                            title: 'Ajout Cursus',
-                            type: 'item',
-                            url: '/apps/academy/add',
+                    {
+                        id: 'programs',
+                        title: 'Programme',
+                        translate: 'NAV.ACADEMY',
+                        type: 'item',
+                        url: '/apps/academy/programs',
+                        children: [
+                            {
+                                id: 'programDetails',
+                                title: 'Détails du Programme',
+                                translate: 'NAV.ACADEMY',
+                                type: 'item',
+                                url: '/apps/academy/programDetails',
+                            }
+                        ]
 
-                        },
-                        {
-                            id: 'show',
-                            title: 'Cursus',
-                            type: 'item',
-                            url: '/apps/academy/cursus',
+                    },
+                    {
+                        id: 'programsD',
+                        title: 'Programme Dédié',
+                        type: 'item',
+                        //url  : '/apps/academy/trainings',
 
-                        }
-                    ]
 
-                }
+                    },
+
+                    {
+                        id: 'add',
+                        title: 'Ajout Séance',
+                        type: 'item',
+                        url: '/apps/academy/addCourseSession',
+                    }
                 ]
 
             },
+
 
             {
                 id: 'cursus',

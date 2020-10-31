@@ -4,7 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { CourseSessionService } from 'app/main/apps/academy/course-session.service';
 import { Program } from '../../program.model';
-import { Training } from '../../trainings/training.model';
+//import { Training } from '../../trainings/training.model';
 import { isThisISOWeek } from 'date-fns/esm';
 
 @Component({
@@ -190,10 +190,10 @@ export class SidebarsComponent implements OnInit, OnDestroy {
               for (var val of this.coursesFilteredByCategory) {
                   let valId=val.id;
                   this._contactsService.contacts.forEach(contact => {
-                    if (contact.course.id == val.id) {
-                        if (!this.filteredCourses.includes(contact))
-                            this.filteredCourses.push(contact);
-                    }
+                    // if (contact.course.id == val.id) {
+                    //     if (!this.filteredCourses.includes(contact))
+                    //         this.filteredCourses.push(contact);
+                    // }
         
                 });
 

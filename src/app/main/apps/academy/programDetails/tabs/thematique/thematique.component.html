@@ -1,4 +1,4 @@
-<div id="thematique" class="page-layout simple">
+<div id="academy-courses" class="page-layout simple">
 
 
     <!-- CONTENT -->
@@ -12,7 +12,7 @@
                 <mat-form-field appearance="outline" floatLabel="always" class="course-search">
                     <mat-label>Chercher une Thématique</mat-label>
                     <input matInput placeholder="Entrer le titre du thème..." [(ngModel)]="searchTerm"
-                        (input)="filterCoursesByTerm()">
+                        (input)="filterThemesByTerm()">
                 </mat-form-field>
 
 
@@ -37,7 +37,9 @@
                         </div>
 
                         <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex="1 1 auto">
-                            <div class="h1">{{theme.themeName}}</div>
+                           
+                            <div class="h3">Nom du Theme :  {{theme.themeName}}</div>
+                            <div class="updated">Programme lié: {{theme.program.programName}}</div>
                             <div class="updated">Nombre de jours: {{theme.nbDaysTheme}}
 
                             </div>

@@ -26,6 +26,18 @@
 
         </form>
     </div>
+    <div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
+        <mat-form-field appearance="outline" fxFlex class="pr-4">
+            <mat-label>Programme</mat-label>
+            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+            <mat-select (selectionChange)="getProgrammeForm($event.value)">
+               
+                <mat-option *ngFor="let program of programs" [value]="program">
+                    {{ program.programName}} 
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
 
 
     <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">

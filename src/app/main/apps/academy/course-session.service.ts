@@ -7,7 +7,7 @@ import { FuseUtils } from '@fuse/utils';
 import { Program } from 'app/main/apps/academy/program.model';
 
 //import { Contact } from 'app/main/apps/contacts/contact.model';
-import { Training } from 'app/main/apps/academy/trainings/training.model';
+//import { Training } from 'app/main/apps/academy/trainings/training.model';
 import { CourseSession } from './course-session/courseSession.model';
 const AUTH_API = 'http://localhost:8080/api/';
 @Injectable({
@@ -34,7 +34,7 @@ export class CourseSessionService implements Resolve<any>  {
     filterBy: string;
     id: number;
     program: Program;
-    training: Training;
+    //training: Training;
     courseSession: any;
     courseSessionId: any
 
