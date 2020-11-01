@@ -37,6 +37,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import {MatListModule} from '@angular/material/list';
 import { CursusTrainingComponent } from './cursus-training/cursus-training.component';
 import{CursusTrainingService} from './cursus-training.service';
+import { AddSessionService } from 'app/main/apps/academy/add-session/add-session.service';
 
 
 import{CourseSessionComponent} from './course-session/course-session.component';
@@ -60,6 +61,10 @@ import { ThematiqueComponent } from './programDetails/tabs/thematique/thematique
 import { ModuleComponent } from './programDetails/tabs/module/module.component';
 import { ThemeDetailComponent } from './programDetails/tabs/themeDetail/themeDetail.component';
 import { ThematiqueFormComponent } from './programDetails/tabs/thematique/thematique-form/thematique-form.component';
+import { AddSessionComponent } from './add-session/add-session.component';
+import { TrainersListComponent } from './add-session/trainers-list/trainers-list.component';
+
+import { CursusParticipantService } from '../cursus/cursus-participants/cursus-participant.service';
 registerLocaleData(localeFr, 'fr');
 const routes = [
    
@@ -99,6 +104,13 @@ const routes = [
         }
     },
     {
+        path     : 'addSession',
+        component: AddSessionComponent,
+        resolve  : {
+            academy: AddSessionService
+        }
+    },
+    {
         path     : 'programDetails/:id',
         component: ProgramDetailsComponent,
         resolve  : {
@@ -112,6 +124,7 @@ const routes = [
 ];
 @NgModule({
     declarations: [
+        
         AcademyProgramsComponent,
         AcademyCourseComponent,
         ProgramFormComponent,
@@ -130,7 +143,9 @@ const routes = [
         ProgramDetailsComponent,
         ThematiqueComponent,
         ModuleComponent,
-        ThemeDetailComponent
+        ThemeDetailComponent,
+        AddSessionComponent,
+        TrainersListComponent
         
 
         
@@ -181,7 +196,8 @@ const routes = [
         CursusTrainingService,
         MatNativeDatetimeModule,
         ProgramDetailsService,
-        
+        CursusParticipantService,
+        AddSessionService,
         {provide: LOCALE_ID, useValue: 'fr' }
 
        
