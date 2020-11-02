@@ -272,10 +272,11 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     console.log(this.filteredModules);
   }
 
-  selectModule(moduleId): void {
+  selectModule(module): void {
     this.filteredThemeDetails = [];
+    this._addSessionService.selectedModule=module;
     this.themeDetails.forEach(themeDetail => {
-      if (themeDetail.moduleInstance.id == moduleId) {
+      if (themeDetail.moduleInstance.id == module.id) {
         if (!this.filteredThemeDetails.includes(themeDetail))
           this.filteredThemeDetails.push(themeDetail);
       }
@@ -300,7 +301,23 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   }
 
 
-
+  sendDate():void{
+    this._addSessionService.selectedDate=this.horizontalStepperStep1.value.courseSessionBeginDate;
+    console.log(this._addSessionService.selectedDate);
+    console.log(this._addSessionService.selectedDate.getDay());
+    switch(this._addSessionService.selectedDate.getDay()){
+      case 0 : this._addSessionService.selectedDay="DIMANCHE"; break;
+      case 1 : this._addSessionService.selectedDay="LUNDI"; break;
+      case 2 : this._addSessionService.selectedDay="MARDI"; break;
+      case 3 : this._addSessionService.selectedDay="MERCREDI"; break;
+      case 4 : this._addSessionService.selectedDay="JEUDI"; break;
+      case 5 : this._addSessionService.selectedDay="VENDREDI"; break;
+      case 6 : this._addSessionService.selectedDay="SAMEDI"; break;
+    }
+    console.log(this._addSessionService.selectedDay);
+    this._addSessionService.getTrainers();
+    console.log(this._addSessionService.selectedModule);
+  }
   // -----------------------------------------------------------------------------------------------------
   // @ Public methods
   // -----------------------------------------------------------------------------------------------------

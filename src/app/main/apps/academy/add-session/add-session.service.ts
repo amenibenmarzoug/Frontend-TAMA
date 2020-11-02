@@ -3,6 +3,7 @@ import { List } from "lodash";
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { Session } from './session.model';
 
 
 const AUTH_API = 'http://localhost:8080/api/';
@@ -27,20 +28,24 @@ export class AddSessionService implements Resolve<any>{
     onThemeDetailsChanged: BehaviorSubject<any>;
     onSessionsChanged: BehaviorSubject<any>;
     selectedContacts: string[] = [];
-    events:any[];
+    events: any[];
+    unavailableTrainersId: any[];
     trainers: any[];
     programs: any[];
     themes: any[];
     modules: any[];
     themeDetails: any[];
     classRooms: any;
-    sessions:any[];
+    sessions: Session[];
     institutions: any[];
     chosenInstitutionId: any;
     onEventsUpdated: Subject<any>;
     chosenClassRoom: any;
+    selectedModule: any;
+    selectedDate: Date;
+    selectedDay: String;
     onInstitutionsChanged: BehaviorSubject<any>;
-
+    date: Date;
 
     receivedFilter: EventEmitter<any[]>;
     constructor(private _httpClient: HttpClient) {
@@ -56,10 +61,10 @@ export class AddSessionService implements Resolve<any>{
         this.onUserDataChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
-        this.onProgramsChanged= new BehaviorSubject([]);
-        this.onThemesChanged= new BehaviorSubject([]);
-        this.onModulesChanged= new BehaviorSubject([]);
-        this.onThemeDetailsChanged= new BehaviorSubject([]);
+        this.onProgramsChanged = new BehaviorSubject([]);
+        this.onThemesChanged = new BehaviorSubject([]);
+        this.onModulesChanged = new BehaviorSubject([]);
+        this.onThemeDetailsChanged = new BehaviorSubject([]);
 
         this.receivedFilter = new EventEmitter<any[]>();
     }
@@ -88,7 +93,10 @@ export class AddSessionService implements Resolve<any>{
 
             ]).then(
                 ([files]) => {
-
+                    this.onFilterChanged.subscribe(filter => {
+                        //this.filterBy = filter;
+                        this.getTrainers();
+                    });
 
                     resolve();
 
@@ -148,7 +156,7 @@ export class AddSessionService implements Resolve<any>{
 
 
     getSessions(): Promise<any> {
-       
+
 
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'session')
@@ -168,18 +176,61 @@ export class AddSessionService implements Resolve<any>{
 
 
     getTrainers(): Promise<any> {
-        /* console.log(this._httpClient.get<any[]>(AUTH_API + 'courseSession'));
-         return this._httpClient.get<any[]>(AUTH_API + 'courseSession')
-         .pipe(catchError(this.processHTTPMsgService.handleError));*/
+
 
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'trainers')
                 .subscribe((response: any) => {
                     console.log("response");
                     console.log(response);
-                    this.onTrainersChanged.next(response);
+
                     this.trainers = response;
-                    resolve(response);
+                    this.unavailableTrainersId = [];
+                    if (this.selectedDay != null) {
+
+                        if (this.sessions.length != 0) {
+                            this.sessions.forEach(session => {
+                                this.date = new Date(session.sessionBeginDate);
+                                console.log(this.date);
+                                console.log(this.selectedDate);
+
+                                if (this.date.toDateString() == this.selectedDate.toDateString()) {
+                                    if ((session.trainer != null) && (!this.unavailableTrainersId.includes(session.trainer.id)))
+                                        this.unavailableTrainersId.push(session.trainer.id);
+                                }
+
+                            });
+                            this.trainers = response.filter(trainer => {
+                                console.log(trainer);
+                                console.log(this.unavailableTrainersId.includes(trainer.id));
+                                if ((trainer.disponibilityDays.includes(this.selectedDay)) && (!this.unavailableTrainersId.includes(trainer.id))) {
+                                    //console.log("");
+                                    return true;
+                                }
+                                return false;
+                            });
+                            console.log("UNAVAILABLE TRAINERS");
+                            console.log(this.unavailableTrainersId);
+                        }
+                        else {
+                            this.trainers = response.filter(trainer => {
+                                console.log(trainer);
+                                if ((trainer.disponibilityDays.includes(this.selectedDay))) {
+                                    //console.log("");
+                                    return true;
+                                }
+                                return false;
+                            });
+                        }
+
+
+
+                    }
+                    else {
+                        this.trainers = [];
+                    }
+                    this.onTrainersChanged.next(this.trainers);
+                    resolve(this.trainers);
                 }, reject);
         }
         );
@@ -250,12 +301,12 @@ export class AddSessionService implements Resolve<any>{
     }
 
 
-     /**
-       * Get events
-       *
-       * @returns {Promise<any>}
-       */
-      getEvents(): Promise<any> {
+    /**
+      * Get events
+      *
+      * @returns {Promise<any>}
+      */
+    getEvents(): Promise<any> {
 
 
         return new Promise((resolve, reject) => {
@@ -283,17 +334,17 @@ export class AddSessionService implements Resolve<any>{
             this._httpClient.post(AUTH_API + 'session', session)
                 .subscribe(response => {
 
-                  //  this.onCoursesSessionSaved.next(response);
+                    //  this.onCoursesSessionSaved.next(response);
                     console.log(response);
-                  //  this.courseSession = response;
-                  //  this.courseSessionId = this.courseSession.id;
+                    //  this.courseSession = response;
+                    //  this.courseSessionId = this.courseSession.id;
                     event.session = response;
                     this.addEvent(event);
 
                     console.log("event in update");
                     console.log(event);
                     console.log(response);
-                  
+
 
                     resolve(response);
                     this.getSessions();
@@ -309,7 +360,7 @@ export class AddSessionService implements Resolve<any>{
             console.log("courseSession in addevent");
             console.log(event.courseSession);
             console.log(event);
-            
+
             this._httpClient.post(AUTH_API + 'event', event)
                 .subscribe(response => {
 

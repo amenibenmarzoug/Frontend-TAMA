@@ -74,7 +74,7 @@
                                     <mat-select 
                                                 (selectionChange)="selectModule($event.value)">
                                       
-                                        <mat-option *ngFor="let module of filteredModules" [value]="module.id">
+                                        <mat-option *ngFor="let module of filteredModules" [value]="module">
                                           
                                              {{ module.moduleInstanceName}}
                                         </mat-option>
@@ -154,7 +154,7 @@
                         </div>
 
                         <div fxLayout="row" fxLayoutAlign="center center">
-                            <button mat-raised-button matStepperNext type="button" color="accent">
+                            <button mat-raised-button matStepperNext type="button" color="accent" (click)="sendDate()">
                                 Suivant
                             </button>
                         </div>
@@ -172,7 +172,7 @@
                     
                 
 
-                            <div class="content" >
+                            <div class="content" [hidden]="!horizontalStepperStep1.valid" >
                                 <app-trainers-list></app-trainers-list>                               
                               
                             </div>

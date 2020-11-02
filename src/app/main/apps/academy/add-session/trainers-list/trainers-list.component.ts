@@ -60,14 +60,27 @@ export class TrainersListComponent implements OnInit , OnDestroy {
    * On init
    */
   ngOnInit(): void {
-      //this.dataSource = new FilesDataSource(this._disponibilityTrainerService);
+      //this.dataSource = null;
       this.dataSource = new FilesDataSource(this._addSessionService);
 
       this._addSessionService.onTrainersChanged
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(trainers => {
 
+            /*this.trainers = trainers.filter(trainer => {
+                console.log((trainer.disponibilityDays.includes(this._addSessionService.selectedDate.day)));
+                if ((trainer.disponibilityDays.includes(this._addSessionService.selectedDate.day))&&(trainer.specification== this._addSessionService.selectedModule)) {
+                    //console.log("");
+                    return true;
+                }
+                return false;
+            });*/
+            //console.log(this._addSessionService.selectedDate.getDay());
+
+            
               this.trainers = trainers;
+              if (this._addSessionService.selectedDay == null) {
+                  this.trainers=[];}
               //this.courseSessions=contacts;
 
               //this.contacts=this.courseSessions;
@@ -85,12 +98,16 @@ export class TrainersListComponent implements OnInit , OnDestroy {
               this.trainers.map(contact => {
                   this.checkboxes[contact.id] = false;
               });
+              this.trainers.forEach(trainer => {
+                console.log(trainer.disponibilityDays);
+
+            });
               console.log("trainers list");
               console.log(this.trainers);
           });
 
 
-      this.dataSource = new FilesDataSource(this._addSessionService);
+      
       this._addSessionService.onSelectedContactsChanged
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(selectedContacts => {
