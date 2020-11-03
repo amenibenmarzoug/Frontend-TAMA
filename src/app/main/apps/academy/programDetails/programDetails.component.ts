@@ -30,7 +30,7 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      *
-     * @param {ProgramDetailsService} _profileService
+     * @param {ProgramDetailsService} _programDetailsService
      */
     constructor(
         private _programDetailsService: ProgramDetailsService,

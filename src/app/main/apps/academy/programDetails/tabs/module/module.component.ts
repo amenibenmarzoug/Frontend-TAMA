@@ -3,13 +3,13 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
-import { ProgramDetailsService } from '../../programDetails.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { ModuleFormComponent } from 'app/main/apps/academy/programDetails/tabs/module/module-form/module-form.component'
+import { ProgramDetailsService } from '../../programDetails.service';
 @Component({
     selector: 'module',
     templateUrl: './module.component.html',
@@ -32,12 +32,12 @@ export class ModuleComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      *
-     * @param {ProgramDetailsService} _programDetailsService
+     * @param {ProgramDetailsService} _moduleService
      * @param {FuseSidebarService} _fuseSidebarService
      * @param {MatDialog} _matDialog
      */
     constructor(
-        private _programDetailsService: ProgramDetailsService,
+        private _moduleService: ProgramDetailsService,
         private _fuseSidebarService: FuseSidebarService,
         private _matDialog: MatDialog
     ) {
@@ -56,7 +56,7 @@ export class ModuleComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._programDetailsService.onSelectedModulesChanged
+        this._moduleService.onSelectedModulesChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedModules => {
                 this.hasSelectedModules = selectedModules.length > 0;
@@ -69,7 +69,7 @@ export class ModuleComponent implements OnInit, OnDestroy {
                 distinctUntilChanged()
             )
             .subscribe(searchText => {
-                this._programDetailsService.onSearchTextChanged.next(searchText);
+                this._moduleService.onSearchTextChangedModule.next(searchText);
             });
 
     }
@@ -79,7 +79,7 @@ export class ModuleComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy(): void {
         // Reset the search
-        this._programDetailsService.onSearchTextChanged.next('');
+        this._moduleService.onSearchTextChangedModule.next('');
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -90,7 +90,7 @@ export class ModuleComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     addNewModule(): void {
-        if ((this._programDetailsService.theme == null)) {
+        if ((this._moduleService.theme == null)) {
             this.addModuleAlert("Veuillez choisir le thème");
         }
 
@@ -145,7 +145,7 @@ export class ModuleComponent implements OnInit, OnDestroy {
             if (result) {
                 console.log("ajout module avec succès");
 
-                this._programDetailsService.addModule(this.module, this._programDetailsService.theme);
+                this._moduleService.addModule(this.module, this._moduleService.theme);
 
             }
             this.confirmDialogRef = null;

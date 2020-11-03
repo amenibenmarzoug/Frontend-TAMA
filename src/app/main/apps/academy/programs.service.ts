@@ -8,7 +8,7 @@ import { Program } from 'app/main/apps/academy/program.model';
 
 const AUTH_API = 'http://localhost:8080/api/';
 @Injectable()
-export class AcademyProgramsService implements Resolve<any>
+export class ProgramsService implements Resolve<any>
 {
     onCategoriesChanged: BehaviorSubject<any>;
     onCoursesChanged: BehaviorSubject<any>;

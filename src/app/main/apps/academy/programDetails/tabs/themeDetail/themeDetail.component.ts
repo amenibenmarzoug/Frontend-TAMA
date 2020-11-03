@@ -4,13 +4,13 @@ import { fuseAnimations } from '@fuse/animations';
 
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { ProgramDetailsService } from '../../programDetails.service';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
 import {ThemeDetailFormComponent} from '../themeDetail/theme-detail-form/theme-detail-form.component';
+import { ProgramDetailsService } from '../../programDetails.service';
 @Component({
     selector     : 'themeDetail',
     templateUrl  : './themeDetail.component.html',
@@ -34,12 +34,12 @@ export class ThemeDetailComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {ProgramDetailsService} _programDetailsService
+     * @param {ProgramDetailsService} _themeDetailsService
      * @param {FuseSidebarService} _fuseSidebarService
      * @param {MatDialog} _matDialog
      */
     constructor(
-        private _programDetailsService: ProgramDetailsService,
+        private _themeDetailsService: ProgramDetailsService,
         private _fuseSidebarService: FuseSidebarService,
         private _matDialog: MatDialog
     ) {
@@ -58,7 +58,7 @@ export class ThemeDetailComponent implements OnInit, OnDestroy
      * On init
      */
     ngOnInit(): void {
-        this._programDetailsService.onSelectedThemeDetailChanged
+        this._themeDetailsService.onSelectedThemeDetailChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedThemeDetails => {
                 this.hasSelectedThemeDetails = selectedThemeDetails.length > 0;
@@ -71,7 +71,7 @@ export class ThemeDetailComponent implements OnInit, OnDestroy
                 distinctUntilChanged()
             )
             .subscribe(searchText => {
-                this._programDetailsService.onSearchTextChanged.next(searchText);
+                this._themeDetailsService.onSearchTextChangedThemeDetail.next(searchText);
             });
 
     }
@@ -81,7 +81,7 @@ export class ThemeDetailComponent implements OnInit, OnDestroy
      */
     ngOnDestroy(): void {
         // Reset the search
-        this._programDetailsService.onSearchTextChanged.next('');
+        this._themeDetailsService.onSearchTextChangedThemeDetail.next('');
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -92,7 +92,7 @@ export class ThemeDetailComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
 
     addNewThemeDetail(): void {
-        if ((this._programDetailsService.module == null)) {
+        if ((this._themeDetailsService.module == null)) {
             this.addThemeDetailAlert("Veuillez choisir le Module");
         }
 
@@ -147,7 +147,7 @@ export class ThemeDetailComponent implements OnInit, OnDestroy
             if (result) {
                 console.log("ajout theme Detail avec succès");
 
-                this._programDetailsService.addThemeDetail(this.themeDetail, this._programDetailsService.module);
+                this._themeDetailsService.addThemeDetail(this.themeDetail, this._themeDetailsService.module);
 
             }
             this.confirmDialogRef = null;

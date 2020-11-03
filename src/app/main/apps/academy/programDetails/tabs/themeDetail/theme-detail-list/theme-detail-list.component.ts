@@ -41,11 +41,11 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      *
-     * @param {ProgramDetailsService} _programDetailsService
+     * @param {ProgramDetailsService} _themeDetailsService
      * @param {MatDialog} _matDialog
      */
     constructor(
-        private _programDetailsService: ProgramDetailsService,
+        private _themeDetailsService: ProgramDetailsService,
         public _matDialog: MatDialog
     ) {
         // Set the private defaults
@@ -60,9 +60,9 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.dataSource = new FilesDataSource(this._programDetailsService);
+        this.dataSource = new FilesDataSource(this._themeDetailsService);
 
-        this._programDetailsService.onThemeDetailChanged
+        this._themeDetailsService.onThemeDetailChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(themeDetails => {
                 this.themeDetails = themeDetails;
@@ -73,7 +73,7 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
                 });
             });
 
-        this._programDetailsService.onSelectedThemeDetailChanged
+        this._themeDetailsService.onSelectedThemeDetailChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedThemeDetails => {
                 for (const id in this.checkboxes) {
@@ -85,10 +85,10 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
                 }
                 this.selectedThemeDetails = selectedThemeDetails;
             });
-        this._programDetailsService.onFilterChanged
+        this._themeDetailsService.onFilterChangedThemeDetail
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(() => {
-                this._programDetailsService.deselectThemeDetail();
+                this._themeDetailsService.deselectThemeDetail();
             });
 
     }
@@ -133,7 +133,7 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
                      */
                     case 'save':
 
-                        this._programDetailsService.updateThemeDetail(formData.getRawValue(),this._programDetailsService.module);
+                        this._themeDetailsService.updateThemeDetail(formData.getRawValue(),this._themeDetailsService.module);
 
                         break;
                     /**
@@ -160,7 +160,7 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._programDetailsService.deleteThemeDetail(themeDetail);
+                this._themeDetailsService.deleteThemeDetail(themeDetail);
             }
             this.confirmDialogRef = null;
         });
@@ -173,7 +173,7 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
      * @param contactId
      */
     onSelectedChange(themeDetailId): void {
-        this._programDetailsService.toggleSelectedThemeDetail(themeDetailId);
+        this._themeDetailsService.toggleSelectedThemeDetail(themeDetailId);
     }
 
     
@@ -184,10 +184,10 @@ export class FilesDataSource extends DataSource<any>
     /**
      * Constructor
      *
-     * @param {ProgramDetailsService} _programDetailsService
+     * @param {ProgramDetailsService} _themeDetailsService
      */
     constructor(
-        private _programDetailsService: ProgramDetailsService
+        private _themeDetailsService: ProgramDetailsService
     ) {
         super();
     }
@@ -197,7 +197,7 @@ export class FilesDataSource extends DataSource<any>
      * @returns {Observable<any[]>}
      */
     connect(): Observable<any[]> {
-        return this._programDetailsService.onThemeDetailChanged;
+        return this._themeDetailsService.onThemeDetailChanged;
 
     }
 

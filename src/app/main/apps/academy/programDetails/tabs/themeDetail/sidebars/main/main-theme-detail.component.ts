@@ -27,10 +27,10 @@ export class MainThemeDetailComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      *
-     * @param {ProgramDetailsService} _programDetailsService
+     * @param {ProgramDetailsService} _themeDetailsService
      */
     constructor(
-        private _programDetailsService: ProgramDetailsService
+        private _themeDetailsService: ProgramDetailsService
     ) {
         this.currentCategory = 'all';
         this.searchTerm = '';
@@ -46,25 +46,17 @@ export class MainThemeDetailComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.filterBy = this._programDetailsService.filterBy || 'all';
+        this.filterBy = this._themeDetailsService.filterByThemeDetail || 'all';
 
-        this._programDetailsService.onUserDataChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(user => {
-                this.user = user;
-            });
+      
 
-            this._programDetailsService.onThemeDetailChanged
+            this._themeDetailsService.onThemeDetailChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(themeDetail => {
                 this.themeDetails = themeDetail;
             });
 
-            this._programDetailsService.onmoduleChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(module => {
-                this.module = module;
-            });
+           
     }
 
     /**
@@ -87,8 +79,8 @@ export class MainThemeDetailComponent implements OnInit, OnDestroy {
      */
     changeFilter(filter): void {
         this.filterBy = filter.id;
-        this._programDetailsService.module=filter;
-        this._programDetailsService.onFilterChangedT.next(this.filterBy);
+        this._themeDetailsService.module=filter;
+        this._themeDetailsService.onFilterChangedThemeDetail.next(this.filterBy);
 
     }
 
@@ -104,14 +96,14 @@ export class MainThemeDetailComponent implements OnInit, OnDestroy {
 
             this.themeDetailFilteredByCategory = this.themeDetails.filter((themeDetail) => {
                
-                this._programDetailsService.module=themeDetail.module;
+                this._themeDetailsService.module=themeDetail.module;
                 return themeDetail.module.moduleName === this.currentCategory;
             });
 
             this.filteredThemeDetails = [...this.themeDetailFilteredByCategory];
 
         }
-        this._programDetailsService.onThemeDetailChanged.next(this.filteredThemeDetails);
+        this._themeDetailsService.onThemeDetailChanged.next(this.filteredThemeDetails);
 
         // Re-filter by search term
         this.filterThemeDetailsByTerm();

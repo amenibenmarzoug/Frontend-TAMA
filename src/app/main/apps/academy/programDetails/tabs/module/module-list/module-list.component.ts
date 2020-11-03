@@ -42,11 +42,11 @@ export class ModuleListComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      *
-     * @param {ProgramDetailsService} _programDetailsService
+     * @param {ProgramDetailsService} _moduleService
      * @param {MatDialog} _matDialog
      */
     constructor(
-        private _programDetailsService: ProgramDetailsService,
+        private _moduleService: ProgramDetailsService,
         public _matDialog: MatDialog
     ) {
         // Set the private defaults
@@ -61,9 +61,9 @@ export class ModuleListComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.dataSource = new FilesDataSource(this._programDetailsService);
+        this.dataSource = new FilesDataSource(this._moduleService);
 
-        this._programDetailsService.onmoduleChanged
+        this._moduleService.onmoduleChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(modules => {
                 this.modules = modules;
@@ -74,7 +74,7 @@ export class ModuleListComponent implements OnInit, OnDestroy {
                 });
             });
 
-        this._programDetailsService.onSelectedModulesChanged
+        this._moduleService.onSelectedModulesChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedModules => {
                 for (const id in this.checkboxes) {
@@ -86,10 +86,10 @@ export class ModuleListComponent implements OnInit, OnDestroy {
                 }
                 this.selectedModules = selectedModules;
             });
-        this._programDetailsService.onFilterChanged
+        this._moduleService.onFilterChangedModule
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(() => {
-                this._programDetailsService.deselectModules();
+                this._moduleService.deselectModules();
             });
 
     }
@@ -134,7 +134,7 @@ export class ModuleListComponent implements OnInit, OnDestroy {
                      */
                     case 'save':
 
-                        this._programDetailsService.updateModule(formData.getRawValue(),this._programDetailsService.theme);
+                        this._moduleService.updateModule(formData.getRawValue(),this._moduleService.theme);
 
                         break;
                     /**
@@ -161,7 +161,7 @@ export class ModuleListComponent implements OnInit, OnDestroy {
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._programDetailsService.deleteModule(module);
+                this._moduleService.deleteModule(module);
             }
             this.confirmDialogRef = null;
         });
@@ -174,7 +174,7 @@ export class ModuleListComponent implements OnInit, OnDestroy {
      * @param contactId
      */
     onSelectedChange(moduleId): void {
-        this._programDetailsService.toggleSelectedModule(moduleId);
+        this._moduleService.toggleSelectedModule(moduleId);
     }
 
     
@@ -185,10 +185,10 @@ export class FilesDataSource extends DataSource<any>
     /**
      * Constructor
      *
-     * @param {ProgramDetailsService} _programDetailsService
+     * @param {ProgramDetailsService} _moduleService
      */
     constructor(
-        private _programDetailsService: ProgramDetailsService
+        private _moduleService: ProgramDetailsService
     ) {
         super();
     }
@@ -198,7 +198,7 @@ export class FilesDataSource extends DataSource<any>
      * @returns {Observable<any[]>}
      */
     connect(): Observable<any[]> {
-        return this._programDetailsService.onmoduleChanged;
+        return this._moduleService.onmoduleChanged;
 
     }
 

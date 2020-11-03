@@ -1,50 +1,50 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { Thematique } from 'app/main/apps/academy/programDetails/tabs/thematique/thematique.model'
+import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
 import { Module } from './tabs/module/module.model';
 import { FuseUtils } from '@fuse/utils';
 import { ThemeDetail } from './tabs/themeDetail/theme-detail.model';
 import { Program } from '../program.model';
+import { Thematique } from './tabs/thematique/thematique.model';
 const AUTH_API = 'http://localhost:8080/api/';
 
 @Injectable()
 export class ProgramDetailsService implements Resolve<any>
 {
-    timeline: any;
-    about: any;
-    photosVideos: any;
-    themeId: any;
+    
     program:any;
+    themeId: any;
+    moduleId:any;
+    modules:Module[];
+    themeDetails: ThemeDetail[];
     module:Module;
     theme: Thematique;
     themeDetail: ThemeDetail;
-    onFilterChanged: Subject<any>;
-    onCategoriesChanged: BehaviorSubject<any>;
-    onUserDataChanged: BehaviorSubject<any>;
-    onThemeChanged: BehaviorSubject<any>;
-    onmoduleChanged: BehaviorSubject<any>;
+    onFilterChangedModule: Subject<any>;
     onThemeDetailChanged: BehaviorSubject<any>;
-    onSelectedModules: BehaviorSubject<any>;
-    onSelectedModulesChanged: BehaviorSubject<any>;
-    onSelectedThemeDetail: BehaviorSubject<any>;
-    onSelectedThemeDetailChanged: BehaviorSubject<any>;
+    onFilterChangedThemeDetail: Subject<any>;
+    onCategoriesChanged: BehaviorSubject<any>;
+    onThemeChanged: BehaviorSubject<any>;
     onProgramChanged: BehaviorSubject<any>;
-    onSearchTextChanged: Subject<any>;
-    searchText: string;
+    onSearchTextChangedModule: Subject<any>;
+    onSelectedThemeDetailChanged: BehaviorSubject<any>;
+    onSearchTextChangedThemeDetail: Subject<any>;
+    onmoduleChanged: BehaviorSubject<any>;
+    onSelectedModulesChanged: BehaviorSubject<any>;
+    searchTextModule: string;
+    searchTextThemeDetail: string;
     themes: Thematique[];
-    modules: Module[];
-    themeDetails: ThemeDetail[];
     programs: Program[];
     cursusId: any;
-    moduleId:any;
     programId: any;
-    filterBy: any;
+    filterByModule: any;
+    filterByThemeDetail: any;
     courseSessionsSpec: any[] = [];
-    courseSessions: any;
     selectedModules: string[] = [];
     selectedThemeDetail: string[]=[];
+    courseSessions: any;
+    
     onFilterChangedT: BehaviorSubject<any>;
 
 
@@ -59,18 +59,17 @@ export class ProgramDetailsService implements Resolve<any>
         // Set the defaults
         
         this.onThemeChanged = new BehaviorSubject({});
-        this.onmoduleChanged = new BehaviorSubject({});
-        this.onSelectedModules = new BehaviorSubject({});
-        this.onSelectedModulesChanged = new BehaviorSubject({});
-        this.onFilterChanged = new Subject();
-        this.onSearchTextChanged = new Subject();
-        this.onUserDataChanged = new BehaviorSubject([]);
+        this.onThemeDetailChanged = new BehaviorSubject([]);
+        this.onSelectedThemeDetailChanged = new BehaviorSubject([]);
+        this.onFilterChangedModule = new Subject();
+        this.onSearchTextChangedModule = new Subject();
+        this.onSearchTextChangedThemeDetail = new Subject();
         this.onCategoriesChanged = new BehaviorSubject({});
         this.onThemeChanged= new BehaviorSubject({});
-        this.onThemeDetailChanged= new BehaviorSubject({});
-        this.onSelectedThemeDetailChanged= new BehaviorSubject({});
         this.onProgramChanged= new BehaviorSubject({});
-        this.onFilterChangedT= new BehaviorSubject({});
+        this.onFilterChangedThemeDetail= new BehaviorSubject({});
+        this.onmoduleChanged = new BehaviorSubject([]);
+        this.onSelectedModulesChanged = new BehaviorSubject([]);
 
     }
 
@@ -85,30 +84,31 @@ export class ProgramDetailsService implements Resolve<any>
 
         return new Promise((resolve, reject) => {
             Promise.all([
-                this.getThemes(),
-                this.getModules(),
-                this.getThemeDetail(),
-                //this.getThemes(),
-                //this.getThemesPerProgram(),
+               // this.getThemes(),
+               
             ]).then(
                 ([files]) => {
-
-                    this.onSearchTextChanged.subscribe(searchText => {
-                        this.searchText = searchText;
-                        this.getModules();
+                    this.onSearchTextChangedThemeDetail.subscribe(searchText => {
+                        this.searchTextThemeDetail = searchText;
                         this.getThemeDetail();
                     });
 
-                    this.onFilterChanged.subscribe(filter => {
-                        this.filterBy = filter;
+                    this.onFilterChangedThemeDetail.subscribe(filter => {
+                        this.filterByThemeDetail = filter;
+                        this.getThemeDetail();
+                    });
+                    this.onSearchTextChangedModule.subscribe(searchText => {
+                        this.searchTextModule = searchText;
                         this.getModules();
                     });
-                    this.onFilterChangedT.subscribe(filter => {
-                        this.filterBy = filter;
-                        this.getThemeDetail();
+
+                    this.onFilterChangedModule.subscribe(filter => {
+                        this.filterByModule = filter;
+                        this.getModules();
                     });
 
                     resolve();
+
                 },
                 reject
             );
@@ -223,6 +223,8 @@ export class ProgramDetailsService implements Resolve<any>
     }
 
 
+    /* ***********************module**********************/
+
     /**
      * Get Modules
      *
@@ -234,10 +236,10 @@ export class ProgramDetailsService implements Resolve<any>
                 .subscribe((response: any) => {
 
                     this.modules = response;
-                    this.themeId = this.filterBy;
+                    this.themeId = this.filterByModule;
 
                     if (this.themeId != null) {
-                        if (this.filterBy === 'Modules') {
+                        if (this.filterByModule === 'Modules') {
                         }
                         else {
 
@@ -253,8 +255,8 @@ export class ProgramDetailsService implements Resolve<any>
                     else {
                         this.modules = response;
                     }
-                    if (this.searchText && this.searchText !== '') {
-                        this.modules = FuseUtils.filterArrayByString(this.modules, this.searchText);
+                    if (this.searchTextModule && this.searchTextModule !== '') {
+                        this.modules = FuseUtils.filterArrayByString(this.modules, this.searchTextModule);
                     }
 
                     this.modules = this.modules.map(module => {
@@ -404,8 +406,7 @@ export class ProgramDetailsService implements Resolve<any>
         this.onmoduleChanged.next(this.modules);
         this.deselectModules();
     }
-
-    /* *********************************************/
+    /*********************ThemeDetails***********************/
 
     /**
      * Get Modules
@@ -418,10 +419,10 @@ export class ProgramDetailsService implements Resolve<any>
                 .subscribe((response: any) => {
 
                     this.themeDetails = response;
-                    this.moduleId = this.filterBy;
+                    this.moduleId = this.filterByThemeDetail;
 
                     if (this.moduleId != null) {
-                        if (this.filterBy === 'ThemeDetail') {
+                        if (this.filterByThemeDetail === 'ThemeDetail') {
                         }
                         else {
 
@@ -437,8 +438,8 @@ export class ProgramDetailsService implements Resolve<any>
                     else {
                         this.themeDetails = response;
                     }
-                    if (this.searchText && this.searchText !== '') {
-                        this.themeDetails = FuseUtils.filterArrayByString(this.themeDetails, this.searchText);
+                    if (this.searchTextThemeDetail && this.searchTextThemeDetail !== '') {
+                        this.themeDetails = FuseUtils.filterArrayByString(this.themeDetails, this.searchTextThemeDetail);
                     }
 
                     this.themeDetails = this.themeDetails.map(themeDetail => {
@@ -588,7 +589,6 @@ export class ProgramDetailsService implements Resolve<any>
         this.onThemeDetailChanged.next(this.themeDetails);
         this.deselectThemeDetail();
     }
-
 
     
 

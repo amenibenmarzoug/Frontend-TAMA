@@ -26,11 +26,11 @@ export class SelectedBarModuleComponent implements OnInit,OnDestroy {
     /**
      * Constructor
      *
-     * @param {ProgramDetailsService} _programDetailsService
+     * @param {ProgramDetailsService} _moduleService
      * @param {MatDialog} _matDialog
      */
     constructor(
-        private _programDetailsService: ProgramDetailsService,
+        private _moduleService: ProgramDetailsService,
         public _matDialog: MatDialog
     )
     {
@@ -47,13 +47,13 @@ export class SelectedBarModuleComponent implements OnInit,OnDestroy {
      */
     ngOnInit(): void
     {
-        this._programDetailsService.onSelectedModulesChanged
+        this._moduleService.onSelectedModulesChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedModules => {
                 this.selectedModules = selectedModules;
                 setTimeout(() => {
                     this.hasSelectedModules = selectedModules.length > 0;
-                    this.isIndeterminate = (selectedModules.length !== this._programDetailsService.modules.length && selectedModules.length > 0);
+                    this.isIndeterminate = (selectedModules.length !== this._moduleService.modules.length && selectedModules.length > 0);
                 }, 0);
             });
     }
@@ -77,7 +77,7 @@ export class SelectedBarModuleComponent implements OnInit,OnDestroy {
      */
     selectAll(): void
     {
-       this._programDetailsService.selectModules();
+       this._moduleService.selectModules();
     }
 
     /**
@@ -85,7 +85,7 @@ export class SelectedBarModuleComponent implements OnInit,OnDestroy {
      */
     deselectAll(): void
     {
-        this._programDetailsService.deselectModules();
+        this._moduleService.deselectModules();
     }
 
     /**
@@ -103,7 +103,7 @@ export class SelectedBarModuleComponent implements OnInit,OnDestroy {
             .subscribe(result => {
                 if ( result )
                 {
-                    this._programDetailsService.deleteSelectedModule();
+                    this._moduleService.deleteSelectedModule();
                 }
                 this.confirmDialogRef = null;
             });

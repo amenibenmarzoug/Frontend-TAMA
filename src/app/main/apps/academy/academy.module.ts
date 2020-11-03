@@ -15,9 +15,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { CalendarModule as AngularCalendarModule, DateAdapter } from 'angular-calendar';
 import { FuseSharedModule } from '@fuse/shared.module';
-import { AcademyProgramsComponent } from 'app/main/apps/academy/programs/programs.component';
+import { ProgramsComponent } from 'app/main/apps/academy/programs/programs.component';
 import { AcademyCourseComponent } from 'app/main/apps/academy/course/course.component';
-import { AcademyProgramsService } from 'app/main/apps/academy/programs.service';
+import {  ProgramsService } from 'app/main/apps/academy/programs.service';
 import { AcademyCourseService } from 'app/main/apps/academy/course.service';
 import { FuseSidebarModule } from '@fuse/components';
 import { ProgramFormComponent } from './programs/program-form/program-form.component';
@@ -46,7 +46,7 @@ import { SidebarsComponent } from './course-session/sidebars/sidebars.component'
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 //import { CreatedTrainingsListComponent } from './cursus-training/created-trainings-list/created-trainings-list.component';
-import {ProgramDetailsService} from 'app/main/apps/academy/programDetails/programDetails.service'
+import {ProgramDetailsService} from './programDetails/programDetails.service';
 import { ProgramDetailsComponent } from './programDetails/programDetails.component';
 import { ThematiqueComponent } from './programDetails/tabs/thematique/thematique.component';
 import { ModuleComponent } from './programDetails/tabs/module/module.component';
@@ -60,6 +60,7 @@ import { ThemeDetailFormComponent } from './programDetails/tabs/themeDetail/them
 import { ThemeDetailsListComponent } from './programDetails/tabs/themeDetail/theme-detail-list/theme-detail-list.component';
 import { MainThemeDetailComponent } from './programDetails/tabs/themeDetail/sidebars/main/main-theme-detail.component';
 import {SelectedBarThemeDetailComponent} from './programDetails/tabs/themeDetail/selected-bar-theme-detail/selected-bar-theme-detail.component';
+import { from } from 'rxjs';
 
 
 registerLocaleData(localeFr, 'fr');
@@ -67,44 +68,39 @@ const routes = [
    
     {
         path     : 'programs',
-        component: AcademyProgramsComponent,
+        component: ProgramsComponent,
         resolve  : {
-            academy: AcademyProgramsService
+            academy: ProgramsService
         }
     },
-    {
-        path     : 'courses/:courseId/:courseName',
-        component: AcademyCourseComponent,
-        resolve  : {
-            academy: AcademyCourseService
-        }
-    },
-    {
-        path     : 'addCourseSession',
-        component: CourseSessionComponent,
-        resolve  : {
-            academy: CourseSessionService
-        }
-    },
-    {
-        path     : 'programDetails',
-        component: ProgramDetailsComponent,
-        resolve  : {
-            profile: ProgramDetailsService
-        }
-    },
+  
+    // {
+    //     path     : 'courses/:courseId/:courseName',
+    //     component: AcademyCourseComponent,
+    //     resolve  : {
+    //         academy: AcademyCourseService
+    //     }
+    // },
+    // {
+    //     path     : 'addCourseSession',
+    //     component: CourseSessionComponent,
+    //     resolve  : {
+    //         academy: CourseSessionService
+    //     }
+    // },
+   
     {
         path     : 'programDetails/:id',
         component: ProgramDetailsComponent,
         resolve  : {
-            profile: ProgramDetailsService
+            profile: ProgramDetailsService,
         }
     },
  
 ];
 @NgModule({
     declarations: [
-        AcademyProgramsComponent,
+        ProgramsComponent,
         AcademyCourseComponent,
         ProgramFormComponent,
         ThematiqueFormComponent,
@@ -170,11 +166,7 @@ const routes = [
         
     ],
     providers   : [
-        AcademyProgramsService,
-        ProgramFormComponent,
-        ThematiqueFormComponent,
-        ThemeDetailFormComponent,
-        ModuleFormComponent,
+        ProgramsService,,
         MatNativeDatetimeModule,
         ProgramDetailsService,
         
@@ -185,6 +177,7 @@ const routes = [
     exports:[
         ModuleListComponent,
         ThemeDetailsListComponent,
+        ThematiqueComponent
         
     ],
     entryComponents: [

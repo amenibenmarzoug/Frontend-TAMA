@@ -27,10 +27,10 @@ export class MainModuleComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      *
-     * @param {ProgramDetailsService} _programDetailsService
+     * @param {ProgramDetailsService} _moduleService
      */
     constructor(
-        private _programDetailsService: ProgramDetailsService
+        private _moduleService: ProgramDetailsService
     ) {
         this.currentCategory = 'all';
         this.searchTerm = '';
@@ -46,25 +46,17 @@ export class MainModuleComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.filterBy = this._programDetailsService.filterBy || 'all';
+        this.filterBy = this._moduleService.filterByModule || 'all';
 
-        this._programDetailsService.onUserDataChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(user => {
-                this.user = user;
-            });
+      
 
-            this._programDetailsService.onmoduleChanged
+            this._moduleService.onmoduleChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(modules => {
                 this.modules = modules;
             });
 
-            this._programDetailsService.onThemeChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(theme => {
-                this.theme = theme;
-            });
+          
     }
 
     /**
@@ -87,8 +79,8 @@ export class MainModuleComponent implements OnInit, OnDestroy {
      */
     changeFilter(filter): void {
         this.filterBy = filter.id;
-        this._programDetailsService.theme=filter;
-        this._programDetailsService.onFilterChanged.next(this.filterBy);
+        this._moduleService.theme=filter;
+        this._moduleService.onFilterChangedModule.next(this.filterBy);
 
     }
 
@@ -104,14 +96,14 @@ export class MainModuleComponent implements OnInit, OnDestroy {
 
             this.modulesFilteredByCategory = this.modules.filter((module) => {
                
-                this._programDetailsService.theme=module.theme;
+                this._moduleService.theme=module.theme;
                 return module.theme.themeName === this.currentCategory;
             });
 
             this.filteredModules = [...this.modulesFilteredByCategory];
 
         }
-        this._programDetailsService.onmoduleChanged.next(this.filteredModules);
+        this._moduleService.onmoduleChanged.next(this.filteredModules);
 
         // Re-filter by search term
         this.filterModulesByTerm();

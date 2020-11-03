@@ -1,14 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AcademyProgramsService } from '../../../programs.service';
-import { ProgramFormComponent } from '../../../programs/program-form/program-form.component';
 import { ProgramDetailsService } from '../../programDetails.service';
 import { ThematiqueFormComponent } from './thematique-form/thematique-form.component';
 
@@ -29,6 +28,8 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
     dialogRef: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     duration: any;
+    programId: any;
+    private sub:any;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -40,7 +41,8 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _programDetailsService: ProgramDetailsService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private route: ActivatedRoute
     ) {
         // Set the defaults
         this.currentCategory = 'all';
@@ -58,6 +60,8 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+
+       
         // Subscribe to categories
         this._programDetailsService.onCategoriesChanged
             .pipe(takeUntil(this._unsubscribeAll))
@@ -99,7 +103,7 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
         else {
             this.themesFilteredByCategory = this.themes.filter((theme) => {
 
-                return theme.category === this.currentCategory;
+               // return theme.category === this.currentCategory;
             });
 
             this.filteredThemes = [...this.themesFilteredByCategory];
@@ -124,7 +128,7 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
         //filter with cursusName and cursusCategory 
         else {
             this.filteredThemes = this.themesFilteredByCategory.filter((theme) => {
-                return theme.programName.toLowerCase().includes(searchTerm);
+                return theme.themeName.toLowerCase().includes(searchTerm);
             });
         }
     }

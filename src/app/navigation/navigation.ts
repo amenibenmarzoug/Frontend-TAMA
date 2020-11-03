@@ -89,25 +89,16 @@ export const navigation: FuseNavigation[] = [
                         translate: 'NAV.ACADEMY',
                         type: 'item',
                         url: '/apps/academy/programs',
-                        children: [
-                            {
-                                id: 'programDetails',
-                                title: 'Détails du Programme',
-                                translate: 'NAV.ACADEMY',
-                                type: 'item',
-                                url: '/apps/academy/programDetails',
-                            }
-                        ]
-
+                        
                     },
-                    {
-                        id: 'programsD',
-                        title: 'Programme Dédié',
-                        type: 'item',
-                        //url  : '/apps/academy/trainings',
+                    // {
+                    //     id: 'programsD',
+                    //     title: 'Programme Dédié',
+                    //     type: 'item',
+                    //     //url  : '/apps/academy/trainings',
 
 
-                    },
+                    // },
 
                     {
                         id: 'add',

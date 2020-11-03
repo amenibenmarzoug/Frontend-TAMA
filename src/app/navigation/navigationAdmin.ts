@@ -49,14 +49,14 @@ export const navigationAdmin: FuseNavigation[] = [
                 url: '/apps/academy/programs',
                 
             },
-            {
-                id: 'programsD',
-                title: 'Programme Dédié',
-                type: 'item',
-                //url  : '/apps/academy/trainings',
+            // {
+            //     id: 'programsD',
+            //     title: 'Programme Dédié',
+            //     type: 'item',
+            //     //url  : '/apps/academy/trainings',
 
 
-            },
+            // },
 
             {
                 id: 'add',

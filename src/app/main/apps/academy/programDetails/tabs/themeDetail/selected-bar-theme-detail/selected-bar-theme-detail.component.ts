@@ -7,7 +7,6 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 import { ProgramDetailsService } from '../../../programDetails.service';
 
 
-
 @Component({
   selector: 'app-selected-bar-theme-detail',
   templateUrl: './selected-bar-theme-detail.component.html',
@@ -26,11 +25,11 @@ export class SelectedBarThemeDetailComponent implements OnInit,OnDestroy {
     /**
      * Constructor
      *
-     * @param {ProgramDetailsService} _programDetailsService
+     * @param {ProgramDetailsService} _themeDetailsService
      * @param {MatDialog} _matDialog
      */
     constructor(
-        private _programDetailsService: ProgramDetailsService,
+        private _themeDetailsService: ProgramDetailsService,
         public _matDialog: MatDialog
     )
     {
@@ -47,13 +46,13 @@ export class SelectedBarThemeDetailComponent implements OnInit,OnDestroy {
      */
     ngOnInit(): void
     {
-        this._programDetailsService.onSelectedThemeDetailChanged
+        this._themeDetailsService.onSelectedThemeDetailChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedThemeDetail => {
                 this.selectedThemeDetail = selectedThemeDetail;
                 setTimeout(() => {
                     this.hasSelectedThemeDetail = selectedThemeDetail.length > 0;
-                    this.isIndeterminate = (selectedThemeDetail.length !== this._programDetailsService.themeDetails.length && selectedThemeDetail.length > 0);
+                    this.isIndeterminate = (selectedThemeDetail.length !== this._themeDetailsService.themeDetails.length && selectedThemeDetail.length > 0);
                 }, 0);
             });
     }
@@ -77,7 +76,7 @@ export class SelectedBarThemeDetailComponent implements OnInit,OnDestroy {
      */
     selectAll(): void
     {
-       this._programDetailsService.selectThemeDetail();
+       this._themeDetailsService.selectThemeDetail();
     }
 
     /**
@@ -85,7 +84,7 @@ export class SelectedBarThemeDetailComponent implements OnInit,OnDestroy {
      */
     deselectAll(): void
     {
-        this._programDetailsService.deselectThemeDetail();
+        this._themeDetailsService.deselectThemeDetail();
     }
 
     /**
@@ -103,7 +102,7 @@ export class SelectedBarThemeDetailComponent implements OnInit,OnDestroy {
             .subscribe(result => {
                 if ( result )
                 {
-                    this._programDetailsService.deleteSelectedThemeDetail();
+                    this._themeDetailsService.deleteSelectedThemeDetail();
                 }
                 this.confirmDialogRef = null;
             });
