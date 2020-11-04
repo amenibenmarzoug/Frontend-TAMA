@@ -44,7 +44,7 @@ export class ThematiqueFormComponent implements OnInit {
     }
     this.themeForm = this.createThemeForm();
     this._unsubscribeAll = new Subject();
-     this.programs=this._programDetailsService.programs;
+    // this.programs=this._programDetailsService.programs;
   }
 
   ngOnInit(): void {
@@ -57,16 +57,13 @@ export class ThematiqueFormComponent implements OnInit {
       id: [this.theme.id],
       themeName: [this.theme.themeName],
       nbDaysTheme: [this.theme.nbDaysTheme],
-      program: [this.theme.program],
+     
 
 
     });
 
   }
 
-  getProgrammeForm(event){
-     
-    this._programDetailsService.program=event;          
-}
+ 
 
 }

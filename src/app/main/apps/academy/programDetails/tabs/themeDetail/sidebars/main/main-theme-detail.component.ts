@@ -55,6 +55,11 @@ export class MainThemeDetailComponent implements OnInit, OnDestroy {
             .subscribe(themeDetail => {
                 this.themeDetails = themeDetail;
             });
+            this._themeDetailsService.onmoduleChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(module => {
+                this.module = module;
+            });
 
            
     }

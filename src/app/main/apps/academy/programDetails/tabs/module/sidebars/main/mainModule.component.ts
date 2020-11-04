@@ -48,15 +48,22 @@ export class MainModuleComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.filterBy = this._moduleService.filterByModule || 'all';
 
-      
 
-            this._moduleService.onmoduleChanged
+
+        this._moduleService.onmoduleChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(modules => {
                 this.modules = modules;
             });
 
-          
+        this._moduleService.onThemeChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(theme => {
+                this.theme = theme;
+
+            });
+
+
     }
 
     /**
@@ -79,24 +86,22 @@ export class MainModuleComponent implements OnInit, OnDestroy {
      */
     changeFilter(filter): void {
         this.filterBy = filter.id;
-        this._moduleService.theme=filter;
+        this._moduleService.theme = filter;
         this._moduleService.onFilterChangedModule.next(this.filterBy);
 
     }
 
     filterModulesByCategory(): void {
         // Filter
-        if ( this.currentCategory === 'all' )
-        {
+        if (this.currentCategory === 'all') {
             this.modulesFilteredByCategory = this.modules;
             this.filteredModules = this.modules;
         }
-        else
-        {
+        else {
 
             this.modulesFilteredByCategory = this.modules.filter((module) => {
-               
-                this._moduleService.theme=module.theme;
+
+                this._moduleService.theme = module.theme;
                 return module.theme.themeName === this.currentCategory;
             });
 
@@ -107,7 +112,7 @@ export class MainModuleComponent implements OnInit, OnDestroy {
 
         // Re-filter by search term
         this.filterModulesByTerm();
-        
+
     }
 
     /**
@@ -121,8 +126,8 @@ export class MainModuleComponent implements OnInit, OnDestroy {
             this.filteredModules = this.modulesFilteredByCategory;
         }
         else {
-            this.filteredModules = this.modulesFilteredByCategory.filter((theme) => {
-                return theme.themeName.toLowerCase().includes(searchTerm);
+            this.filteredModules = this.modulesFilteredByCategory.filter((module) => {
+                return module.themeName.toLowerCase().includes(searchTerm);
             });
         }
     }

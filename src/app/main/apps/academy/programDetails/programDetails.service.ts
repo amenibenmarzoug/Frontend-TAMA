@@ -85,6 +85,7 @@ export class ProgramDetailsService implements Resolve<any>
         return new Promise((resolve, reject) => {
             Promise.all([
                // this.getThemes(),
+               this.getPrograms(),
                
             ]).then(
                 ([files]) => {
@@ -124,6 +125,7 @@ export class ProgramDetailsService implements Resolve<any>
                 .subscribe((response: any) => {
                     this.onProgramChanged.next(response);
                     this.programs=response;
+                    console.log(this.programs);
                     resolve(response);
                 }, reject);
             }

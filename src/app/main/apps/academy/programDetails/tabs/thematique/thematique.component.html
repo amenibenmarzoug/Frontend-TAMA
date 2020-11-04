@@ -26,15 +26,15 @@
 
             <div class="courses" fxLayout="row wrap" fxLayoutAlign="center" [@animateStagger]="{value:'50'}">
 
-                <div class="course" *ngFor="let theme of filteredThemes" fxFlex="100" fxFlex.gt-xs="50"
+                <div class="course" *ngFor="let theme of filteredThemes"  fxFlex="100" fxFlex.gt-xs="50"
                     fxFlex.gt-sm="33" [ngClass]="theme.category" [@animate]="{value:'*',params:{y:'100%'}}">
 
                     <div class="course-content" fxLayout="column" fxFlex="1 1 auto">
 
-                        <!-- <div class="header" fxLayout="row" fxLayoutAlign="center center"
-                            [ngClass]="theme.category + '-bg'">
+                        <div *ngIf="theme!=null" class="header" fxLayout="row" fxLayoutAlign="center center"
+                            >
 
-                        </div> -->
+                        </div>
 
                         <div *ngIf="theme!=null" class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex="1 1 auto">
                            

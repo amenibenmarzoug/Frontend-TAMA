@@ -6,7 +6,7 @@ import { FuseUtils } from '@fuse/utils';
 
 export class CalendarEventModel {
   id: number;
-  courseSession: any;
+  session: any;
   start: Date;
   end?: Date;
   title: string;
@@ -38,12 +38,12 @@ export class CalendarEventModel {
     data = data || {};
     this.id = data.id || FuseUtils.generateGUID();
 
-    if (data.courseSession != null) {
-       this.courseSession = data.courseSession;
-      this.title = data.courseSession.courseSessionName;
+    if (data.session != null) {
+       this.session = data.session;
+      this.title = data.session.sessionName;
 
-      this.start = new Date(data.courseSession.courseSessionBeginDate);
-      this.end = new Date(data.courseSession.courseSessionEndDate);
+      this.start = new Date(data.session.sessionBeginDate);
+      this.end = new Date(data.session.sessionEndDate);
 
     }
 
@@ -51,8 +51,8 @@ export class CalendarEventModel {
 
       this.title = 'event';
       // this.courseSession =  null;
-      this.start = new Date() || new Date(data.courseSession.courseSessionBeginDate) || null;
-      this.end = new Date() || new Date(data.courseSession.courseSessionEndDate) || null;
+      this.start = new Date() || new Date(data.session.sessionBeginDate) || null;
+      this.end = new Date() || new Date(data.session.sessionEndDate) || null;
     }
 
     this.colorPrimary = data.colorPrimary || '#1e90ff';

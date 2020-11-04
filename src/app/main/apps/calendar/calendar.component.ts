@@ -142,6 +142,7 @@ export class CalendarComponent implements OnInit {
      * Set events
      */
     setEvents(): void {
+      //  this._calendarService.getEvents();
         this.events = this._calendarService.events.map(item => {
             const date=new Date(item.start);
             this.eventsDates.push(date.toDateString());

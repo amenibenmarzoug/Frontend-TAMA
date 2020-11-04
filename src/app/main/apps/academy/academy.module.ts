@@ -28,6 +28,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatStepperModule } from '@angular/material/stepper';
 import {MatListModule} from '@angular/material/list';
 
+
 /*import {
     NgxMatDatetimePickerModule, 
     NgxMatNativeDateModule, 
@@ -55,6 +56,11 @@ import { from } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 
 
+import { AddSessionComponent } from './add-session/add-session.component';
+import { TrainersListComponent } from './add-session/trainers-list/trainers-list.component';
+
+import { CursusParticipantService } from '../cursus/cursus-participants/cursus-participant.service';
+import { AddSessionService } from './add-session/add-session.service';
 registerLocaleData(localeFr, 'fr');
 const routes = [
     {
@@ -93,9 +99,17 @@ const routes = [
             academy: ProgramsService
         }
     },
+    
     {
-        path     : '**',
-        component: ProgramsComponent,
+        path     : 'addSession',
+        component: AddSessionComponent,
+        resolve  : {
+            academy: AddSessionService
+        }
+    },
+    {
+        path     : 'programDetails/:id',
+        component: ProgramDetailsComponent,
         resolve  : {
             academy: ProgramsService,
         }
@@ -132,6 +146,9 @@ const routes = [
 
         
 
+        ThemeDetailComponent,
+        AddSessionComponent,
+        TrainersListComponent
         
 
         
@@ -178,8 +195,8 @@ const routes = [
     providers   : [
         MatNativeDatetimeModule,
         ProgramDetailsService,
-        ProgramsService,
-        
+        ProgramsService,        
+        AddSessionService,
         {provide: LOCALE_ID, useValue: 'fr' }
 
        
