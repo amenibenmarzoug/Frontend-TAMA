@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { AddSessionService } from 'app/main/apps/academy/add-session/add-session.service';
@@ -8,17 +8,26 @@ import { CursusCoursessService } from 'app/main/apps/cursus/courses/coursess.ser
 import { CursusCoursesComponent } from 'app/main/apps/cursus/courses/courses.component';
 import { TokenStorageService } from 'app/main/pages/authentication/common-authentication/token-storage.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 import { takeUntil } from 'rxjs/operators';
 import { CalendarEventModel } from '../../calendar/event.model';
+import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { fuseAnimations } from '@fuse/animations';
+import { TranslateService } from '@ngx-translate/core';
+import { DateAdapter } from '@angular/material/core';
 
 
+registerLocaleData(localeFr, 'fr');
 
 const USER_KEY = 'auth-user';
 @Component({
   selector: 'app-add-session',
   templateUrl: './add-session.component.html',
-  styleUrls: ['./add-session.component.scss']
+  styleUrls: ['./add-session.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+    animations: fuseAnimations
 })
 export class AddSessionComponent implements OnInit, OnDestroy {
   form: FormGroup;
@@ -32,6 +41,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   verticalStepperStep1: FormGroup;
   verticalStepperStep2: FormGroup;
   verticalStepperStep3: FormGroup;
+
 
   dateCourse: Date;
   beginHour: any;
@@ -57,22 +67,74 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   themeDetails: any[];
   chosenInstitutionName: string;
   selectedThemeDet: any;
+  selectedTheme:any;
+  selectedClassRoom:any
   selectedTrainers: any[] = [];
   selectedTrainer: any;
+  selectedModule:any;
   session: Session;
   isDisabled: boolean = true;
   event: CalendarEventModel;
+  alertDialog: MatDialogRef<AlertDialogComponent>;
   // Private
   private _unsubscribeAll: Subject<any>;
+  
 
+  formErrorsStepper1 = {
+
+
+    'program': '',
+    'module': '',
+    'theme': '',
+
+    'themeDet': '',
+    'courseSessionName': '',
+    'courseSessionBeginDate': '',
+    'courseSessionEndDate': '',
+
+  };
+
+  validationMessagesStepper1 = {
+
+    'program': {
+      'required': 'Le programme est requis.',
+
+    },
+    'module': {
+      'required': 'Le module est requis.',
+
+    },
+    'theme': {
+      'required': 'Le theme est requis.',
+
+    },
+
+    'themeDet': {
+      'required': 'Le thème de la journée est requis',
+
+    },
+    'courseSessionName': {
+      'required': 'Le titre de la séance est requis',
+
+    },
+    'courseSessionBeginDate': {
+      'required': 'La date de début est requise',
+
+    },
+    'courseSessionEndDate': {
+      'required': 'La date de fin est requise',
+
+    },
+  }
   /**
    * Constructor
    *
    * @param {FormBuilder} _formBuilder
    */
   constructor(
-    private _addSessionService: AddSessionService, private _formBuilder: FormBuilder
+    private _addSessionService: AddSessionService,  private _formBuilder: FormBuilder, private _matDialog: MatDialog,private translate: TranslateService, private dateAdapter: DateAdapter<Date>
   ) {
+    this.dateAdapter.setLocale('fr');
     this.courseDateMaxHour = new Date();
     this.courseDateMaxHour.setHours(23, 59, 59);
     this.events.push(new Date());
@@ -188,6 +250,9 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       state: ['', Validators.required],
       postalCode: ['', [Validators.required, Validators.maxLength(5)]]
     });
+
+    this.horizontalStepperStep1.valueChanges
+      .subscribe(data => this.onValueChangedStepper1(data));
   }
 
   /**
@@ -219,7 +284,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
 
 
   selectInstitution(institutionId): void {
-
+    this.selectedClassRoom=null;
     console.log("chosen institution");
     this._addSessionService.getClassRooms();
     console.log(this._addSessionService.classRooms);
@@ -242,10 +307,12 @@ export class AddSessionComponent implements OnInit, OnDestroy {
 
   }
 
-  selectProgram(programId): void {
+  selectProgram(program): void {
+    this.selectedTheme=null;
     this.filteredThemes = [];
+    this.horizontalStepperStep1.value.theme = null;
     this.themes.forEach(theme => {
-      if (theme.programInstance.id == programId) {
+      if (theme.programInstance.id == program.id) {
         if (!this.filteredThemes.includes(theme))
           this.filteredThemes.push(theme);
       }
@@ -255,10 +322,12 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     console.log(this.filteredThemes);
   }
 
-  selectTheme(themeId): void {
+  selectTheme(theme): void {
+    this.selectedModule=null;
     this.filteredModules = [];
+    this.selectedTheme=theme;
     this.modules.forEach(module => {
-      if (module.themeInstance.id == themeId) {
+      if (module.themeInstance.id == theme.id) {
         if (!this.filteredModules.includes(module))
           this.filteredModules.push(module);
       }
@@ -269,8 +338,12 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   }
 
   selectModule(module): void {
+    this.selectedThemeDet = null;
+    //this.onValueChangedStepper1();
+    console.log(this.selectedThemeDet);
     this.filteredThemeDetails = [];
     this._addSessionService.selectedModule = module;
+    this.selectedModule=module;
     this.themeDetails.forEach(themeDetail => {
       if (themeDetail.moduleInstance.id == module.id) {
         if (!this.filteredThemeDetails.includes(themeDetail))
@@ -287,10 +360,11 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     //this._addSessionService.chosenClassRoom = event;
     this.selectedThemeDet = themeDet;
 
+
   }
 
   selectClassroom(event): void {
-
+    this.selectedClassRoom=event;
     this._addSessionService.chosenClassRoom = event;
     this.currentClassroom = event;
 
@@ -332,6 +406,22 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   }
 
   sendDate(): void {
+   /* if ((this.selectedThemeDet == null) || (this.selectedThemeDet == null)) {
+      this.alertDialog = this._matDialog.open(AlertDialogComponent, {
+        disableClose: false
+      });
+
+      this.alertDialog.componentInstance.dialogMessage = 'Veuillez selectionner la formation et le formateur concernés';
+
+      this.alertDialog.afterClosed().subscribe(result => {
+        if (result) {
+          console.log("selectionner");
+
+        }
+        this.alertDialog = null;
+      });
+    }*/
+
     this._addSessionService.selectedDate = this.horizontalStepperStep1.value.courseSessionBeginDate;
     console.log(this._addSessionService.selectedDate);
     console.log(this._addSessionService.selectedDate.getDay());
@@ -356,6 +446,10 @@ export class AddSessionComponent implements OnInit, OnDestroy {
    * Finish the horizontal stepper
    */
 
+  disableFirstButton(): any {
+    //this.horizontalStepperStep1.valueChanges
+  }
+
   sendClassroom(): void {
     this.session.classRoom = this.currentClassroom;
   }
@@ -375,11 +469,34 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     this.event.title = this.session.sessionName;
     this.event.start = this.session.sessionBeginDate;
     this.event.end = this.session.sessionEndDate;
-
-    this._addSessionService.saveCourseSessionAndEvent(this.session, this.event)
-    this._addSessionService.getEvents();
+    console.log(this.event);
+    this._addSessionService.saveCourseSessionAndEvent(this.session, this.event);
+    /*this._addSessionService.saveCourseSessionAndEvent(this.session, this.event).then(() => {
+      this._addSessionService.getEvents();
+    });*/
+    
+    
   }
 
+  onValueChangedStepper1(data?: any) {
+    if (!this.horizontalStepperStep1) { return; }
+    const form = this.horizontalStepperStep1;
+    for (const field in this.formErrorsStepper1) {
+      if (this.formErrorsStepper1.hasOwnProperty(field)) {
+        // clear previous error message (if any)
+        this.formErrorsStepper1[field] = '';
+        const control = form.get(field);
+        if (control && (control.dirty || control.touched) && !control.valid) {
+          const messages = this.validationMessagesStepper1[field];
+          for (const key in control.errors) {
+            if (control.errors.hasOwnProperty(key)) {
+              this.formErrorsStepper1[field] += messages[key] + ' ';
+            }
+          }
+        }
+      }
+    }
+  }
   /**
    * Finish the vertical stepper
    */

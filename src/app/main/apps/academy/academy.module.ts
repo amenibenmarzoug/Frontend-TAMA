@@ -28,6 +28,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatStepperModule } from '@angular/material/stepper';
 import {MatListModule} from '@angular/material/list';
 
+import {
+    MAT_MOMENT_DATE_FORMATS,
+    MomentDateAdapter,
+    MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+  } from '@angular/material-moment-adapter';
 
 /*import {
     NgxMatDatetimePickerModule, 
@@ -61,6 +66,7 @@ import { TrainersListComponent } from './add-session/trainers-list/trainers-list
 
 import { CursusParticipantService } from '../cursus/cursus-participants/cursus-participant.service';
 import { AddSessionService } from './add-session/add-session.service';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 registerLocaleData(localeFr, 'fr');
 const routes = [
     {
@@ -197,7 +203,13 @@ const routes = [
         ProgramDetailsService,
         ProgramsService,        
         AddSessionService,
-        {provide: LOCALE_ID, useValue: 'fr' }
+        {provide: LOCALE_ID, useValue: 'fr' },
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+          },
+          {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
 
        
     ],

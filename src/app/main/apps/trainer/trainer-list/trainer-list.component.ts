@@ -143,7 +143,7 @@ export class TrainerListComponent implements OnInit, OnDestroy
                      * Save
                      */
                     case 'save':
-
+                        console.log(formData.getRawValue());
                         this._trainersService.updateContact1(formData.getRawValue());
 
                         break;

@@ -242,7 +242,8 @@ export class AddSessionService implements Resolve<any>{
                             this.trainers = response.filter(trainer => {
                                 console.log(trainer);
                                 console.log(this.unavailableTrainersId.includes(trainer.id));
-                                if ((trainer.disponibilityDays.includes(this.selectedDay)) && (!this.unavailableTrainersId.includes(trainer.id))) {
+                                console.log(this.selectedModule.moduleInstanceName);
+                                if ((trainer.disponibilityDays.includes(this.selectedDay)) && (!this.unavailableTrainersId.includes(trainer.id)) &&(trainer.specifications.includes(this.selectedModule.moduleInstanceName))) {
                                     //console.log("");
                                     return true;
                                 }
@@ -254,7 +255,8 @@ export class AddSessionService implements Resolve<any>{
                         else {
                             this.trainers = response.filter(trainer => {
                                 console.log(trainer);
-                                if ((trainer.disponibilityDays.includes(this.selectedDay))) {
+                                
+                                if ((trainer.disponibilityDays.includes(this.selectedDay)) &&(trainer.specifications.includes(this.selectedModule.moduleInstanceName))) {
                                     //console.log("");
                                     return true;
                                 }
@@ -355,8 +357,8 @@ export class AddSessionService implements Resolve<any>{
                 .subscribe((response: any) => {
 
                     this.events = response;
-                    console.log("GET EVENTS");
-                    console.log(this.events);
+                    //console.log("GET EVENTS");
+                   // console.log(this.events);
                     //this.onEventsUpdated.next(this.events);
                     resolve(this.events);
                 }, reject);

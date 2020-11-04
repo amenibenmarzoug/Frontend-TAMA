@@ -6,7 +6,6 @@ export const navigationTrainer: FuseNavigation[] = [
     {
         id: 'calendar',
         title: 'Calendrier',
-        translate: 'NAV.CALENDAR',
         type: 'item',
         icon: 'today',
         url: '/apps/calendar'

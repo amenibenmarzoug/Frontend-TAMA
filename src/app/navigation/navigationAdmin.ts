@@ -26,7 +26,6 @@ export const navigationAdmin: FuseNavigation[] = [
     {
         id: 'calendar',
         title: 'Calendrier',
-        translate: 'NAV.CALENDAR',
         type: 'item',
         icon: 'today',
         url: '/apps/calendar'
@@ -35,7 +34,6 @@ export const navigationAdmin: FuseNavigation[] = [
     {
         id: 'academy',
         title: 'Académie',
-        translate: 'NAV.ACADEMY',
         type: 'collapsable',
         icon: 'school',
         //url      : '/apps/academy',
@@ -74,7 +72,6 @@ export const navigationAdmin: FuseNavigation[] = [
     {
         id: 'trainers',
         title: 'Formateurs',
-        translate: 'NAV.TRAINERS',
         type: 'item',
         icon: 'account_box',
         url: '/apps/trainer'
@@ -109,7 +106,6 @@ export const navigationAdmin: FuseNavigation[] = [
     {
         id: 'Entreprises',
         title: 'Entreprises',
-        translate: 'NAV.ENTREPRISES',
         type: 'item',
         icon: 'account_box',
         url: '/apps/entreprises'
@@ -118,7 +114,6 @@ export const navigationAdmin: FuseNavigation[] = [
     {
         id: 'institution',
         title: 'Institutions',
-        translate: 'NAV.TRAINERS',
         type: 'item',
         icon: 'account_balance',
         url: '/apps/institution'
@@ -127,7 +122,6 @@ export const navigationAdmin: FuseNavigation[] = [
     {
         id: 'groups',
         title: 'Groupes',
-        translate: 'NAV.GROUPS',
         type: 'item',
         icon: 'account_box',
         url: '/apps/groups'
