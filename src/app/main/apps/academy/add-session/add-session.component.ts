@@ -60,6 +60,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   selectedTrainers: any[] = [];
   selectedTrainer: any;
   session: Session;
+  isDisabled: boolean = true;
   event: CalendarEventModel;
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -151,23 +152,14 @@ export class AddSessionComponent implements OnInit, OnDestroy {
 
     // Horizontal Stepper form steps
     this.horizontalStepperStep1 = this._formBuilder.group({
-      //id      : [this.contact.id],
+      program: ['', Validators.required],
+      module: ['', Validators.required],
+      theme: ['', Validators.required],
+      themeDet: ['', Validators.required],
       courseSessionName: ['', Validators.required],
-
-      //  dateCourse: this.courseDate , 
-      //  beginHour:this.beginHour,
-      //  endHour:this.endHour , 
       courseSessionBeginDate: ['', Validators.required],
-
       courseSessionEndDate: ['', Validators.required],
-      //  institution :[this.contact.institution],
-      //    course:['', Validators.required],
 
-      //    classRoom: ['', Validators.required],
-      //institutionName  : [this.contact.institutionName],
-      //   city  : ['', Validators.required],
-      //     firstName: ['', Validators.required],
-      //     lastName : ['', Validators.required]
     });
 
     /* this.horizontalStepperStep2 = this._formBuilder.group({
@@ -175,9 +167,10 @@ export class AddSessionComponent implements OnInit, OnDestroy {
      });*/
 
     this.horizontalStepperStep3 = this._formBuilder.group({
-      /*city: ['', Validators.required],
-      state: ['', Validators.required],
-      postalCode: ['', [Validators.required, Validators.maxLength(5)]]*/
+      institution: ['', Validators.required],
+      classroom: ['', Validators.required],
+
+
     });
 
     // Vertical Stepper form stepper
@@ -228,7 +221,10 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   selectInstitution(institutionId): void {
 
     console.log("chosen institution");
-
+    this._addSessionService.getClassRooms();
+    console.log(this._addSessionService.classRooms);
+    this.classRooms = this._addSessionService.classRooms;
+    console.log(this.classRooms);
     this.chosenInstitutionName = this.currentInstitution;
     this._addSessionService.chosenInstitutionId = institutionId;
     console.log(this.currentInstitution);
@@ -274,7 +270,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
 
   selectModule(module): void {
     this.filteredThemeDetails = [];
-    this._addSessionService.selectedModule=module;
+    this._addSessionService.selectedModule = module;
     this.themeDetails.forEach(themeDetail => {
       if (themeDetail.moduleInstance.id == module.id) {
         if (!this.filteredThemeDetails.includes(themeDetail))
@@ -300,32 +296,16 @@ export class AddSessionComponent implements OnInit, OnDestroy {
 
   }
 
+  disableButton(): any {
 
-  sendDate():void{
-    this._addSessionService.selectedDate=this.horizontalStepperStep1.value.courseSessionBeginDate;
-    console.log(this._addSessionService.selectedDate);
-    console.log(this._addSessionService.selectedDate.getDay());
-    switch(this._addSessionService.selectedDate.getDay()){
-      case 0 : this._addSessionService.selectedDay="DIMANCHE"; break;
-      case 1 : this._addSessionService.selectedDay="LUNDI"; break;
-      case 2 : this._addSessionService.selectedDay="MARDI"; break;
-      case 3 : this._addSessionService.selectedDay="MERCREDI"; break;
-      case 4 : this._addSessionService.selectedDay="JEUDI"; break;
-      case 5 : this._addSessionService.selectedDay="VENDREDI"; break;
-      case 6 : this._addSessionService.selectedDay="SAMEDI"; break;
-    }
-    console.log(this._addSessionService.selectedDay);
-    this._addSessionService.getTrainers();
-    console.log(this._addSessionService.selectedModule);
+    if (this._addSessionService.selectedContacts.length == 0)
+      return true;
+    else
+      return false;
   }
-  // -----------------------------------------------------------------------------------------------------
-  // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
 
-  /**
-   * Finish the horizontal stepper
-   */
-  finishHorizontalStepper(): void {
+  selectedTrainerButton(): void {
+    this._addSessionService.getClassRooms();
     this._addSessionService.selectedContacts.forEach(select => {
       this.selectedTrainers.push(select.toString());
 
@@ -343,27 +323,61 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       }
 
     });
-    console.log(this.selectedTrainer);
-    console.log(this.currentClassroom);
-    console.log(this.horizontalStepperStep1);
     this.session = new Session({});
     this.session.sessionName = this.horizontalStepperStep1.value.courseSessionName;
     this.session.sessionBeginDate = this.horizontalStepperStep1.value.courseSessionBeginDate;
     this.session.sessionEndDate = this.horizontalStepperStep1.value.courseSessionEndDate;
     this.session.trainer = this.selectedTrainer;
     this.session.themeDetailInstance = this.selectedThemeDet;
-    this.session.classRoom=this.currentClassroom;
+  }
+
+  sendDate(): void {
+    this._addSessionService.selectedDate = this.horizontalStepperStep1.value.courseSessionBeginDate;
+    console.log(this._addSessionService.selectedDate);
+    console.log(this._addSessionService.selectedDate.getDay());
+    switch (this._addSessionService.selectedDate.getDay()) {
+      case 0: this._addSessionService.selectedDay = "DIMANCHE"; break;
+      case 1: this._addSessionService.selectedDay = "LUNDI"; break;
+      case 2: this._addSessionService.selectedDay = "MARDI"; break;
+      case 3: this._addSessionService.selectedDay = "MERCREDI"; break;
+      case 4: this._addSessionService.selectedDay = "JEUDI"; break;
+      case 5: this._addSessionService.selectedDay = "VENDREDI"; break;
+      case 6: this._addSessionService.selectedDay = "SAMEDI"; break;
+    }
+    console.log(this._addSessionService.selectedDay);
+    this._addSessionService.getTrainers();
+    console.log(this._addSessionService.selectedModule);
+  }
+  // -----------------------------------------------------------------------------------------------------
+  // @ Public methods
+  // -----------------------------------------------------------------------------------------------------
+
+  /**
+   * Finish the horizontal stepper
+   */
+
+  sendClassroom(): void {
+    this.session.classRoom = this.currentClassroom;
+  }
+
+  finishHorizontalStepper(): void {
+
+    console.log(this.selectedTrainer);
+    console.log(this.currentClassroom);
+    console.log(this.horizontalStepperStep1);
+
+
     console.log(this.session);
     console.log(this.selectedThemeDet);
     this.event = new CalendarEventModel(null);
 
 
     this.event.title = this.session.sessionName;
-    this.event.start =  this.session.sessionBeginDate ;
-    this.event.end = this.session.sessionEndDate ;
+    this.event.start = this.session.sessionBeginDate;
+    this.event.end = this.session.sessionEndDate;
 
-    this._addSessionService.saveCourseSessionAndEvent(this.session,this.event)
-    alert('You have finished the horizontal stepper!');
+    this._addSessionService.saveCourseSessionAndEvent(this.session, this.event)
+    this._addSessionService.getEvents();
   }
 
   /**

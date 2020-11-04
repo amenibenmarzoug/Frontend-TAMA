@@ -124,7 +124,7 @@ export class TrainersListComponent implements OnInit , OnDestroy {
                   console.log(this.checkboxes[id]);
               }
               this.selectedContacts = selectedContacts;
-              //this.checkboxes={};
+             
               
               console.log(this.selectedContacts);
           });

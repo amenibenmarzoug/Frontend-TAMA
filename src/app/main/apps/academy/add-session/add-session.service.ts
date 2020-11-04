@@ -30,6 +30,7 @@ export class AddSessionService implements Resolve<any>{
     selectedContacts: string[] = [];
     events: any[];
     unavailableTrainersId: any[];
+    unavailableClassroomsId: any[];
     trainers: any[];
     programs: any[];
     themes: any[];
@@ -143,12 +144,50 @@ export class AddSessionService implements Resolve<any>{
                 .subscribe((response: any) => {
                     console.log("response classromm");
                     console.log(response);
-                    this.onClassRoomsChanged.next(response);
+                    
+                    
                     this.classRooms = response;
+                    this.unavailableClassroomsId = [];
+                    console.log("SELECTED DAY IN SERVICE");
+                    console.log(this.selectedDate);
+                    if (this.selectedDay != null) {
+
+                        if (this.sessions.length != 0) {
+                            this.sessions.forEach(session => {
+                                this.date = new Date(session.sessionBeginDate);
+                                
+
+                                if (this.date.toDateString() == this.selectedDate.toDateString()) {
+                                    if ((session.classRoom != null) && (!this.unavailableClassroomsId.includes(session.classRoom.id)))
+                                        this.unavailableClassroomsId.push(session.classRoom.id);
+                                }
+
+                            });
+                            this.classRooms = response.filter(classroom => {
+                                console.log(classroom);
+                                console.log(this.unavailableClassroomsId.includes(classroom.id));
+                                if (!this.unavailableClassroomsId.includes(classroom.id)) {
+                                    return true;
+                                }
+                                return false;
+                            });
+                            console.log(this.classRooms);
+                            console.log("UNAVAILABLE CLASSROOMS");
+                            console.log(this.unavailableClassroomsId);
+                        }
+                        else {
+                            this.classRooms = response;
+                        }
 
 
 
-                    resolve(response);
+                    }
+                    else {
+                        this.classRooms = [];
+                    }
+                    console.log(this.classRooms);
+                    this.onClassRoomsChanged.next(this.classRooms);
+                    resolve(this.classRooms);
                 }, reject);
         }
         );
@@ -344,10 +383,11 @@ export class AddSessionService implements Resolve<any>{
                     console.log("event in update");
                     console.log(event);
                     console.log(response);
-
+                  
 
                     resolve(response);
                     this.getSessions();
+                    this.getEvents();
                 });
             // this.courseSession=new CourseSession(courseSession);
         });

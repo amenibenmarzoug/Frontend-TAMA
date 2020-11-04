@@ -25,10 +25,12 @@ export class TrainerService implements Resolve<any>
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
     disponibilities:any[];
+    specifications:any[];
     contacts: Contact[];
     user: any;
     selectedContacts: string[] = [];
-
+    onModulesChanged: BehaviorSubject<any>;
+    modules:any[];
     searchText: string;
     filterBy: string;
     id : number ;
@@ -46,6 +48,7 @@ export class TrainerService implements Resolve<any>
         this.onContactsChanged = new BehaviorSubject([]);
         this.onSelectedContactsChanged = new BehaviorSubject([]);
         this.onUserDataChanged = new BehaviorSubject([]);
+        this.onModulesChanged= new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
     }
@@ -67,7 +70,8 @@ export class TrainerService implements Resolve<any>
 
             Promise.all([
                 this.getContacts(),
-                this.getUserData()
+                this.getUserData(),
+                this.getModules(),
             ]).then(
                 ([files]) => {
 
@@ -147,6 +151,22 @@ export class TrainerService implements Resolve<any>
                         resolve(this.user);
                     }, reject);
             }
+        );
+    }
+
+    getModules(): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'module')
+                .subscribe((response: any) => {
+                    console.log("MODULES");
+                    console.log(response);
+                    this.onModulesChanged.next(response);
+                    this.modules = response;
+                    resolve(response);
+                }, reject);
+        }
         );
     }
 
@@ -240,6 +260,7 @@ export class TrainerService implements Resolve<any>
     }
     updateContact1(contact): Promise<any>
     {    contact.disponibilityDays=this.disponibilities;
+        contact.specifications=this.specifications;
         console.log (contact) 
         return new Promise((resolve, reject) => {
     console.log (contact) ;

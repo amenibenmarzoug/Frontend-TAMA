@@ -16,9 +16,9 @@
     <!-- CONTENT -->
     <div class="content p-24">
 
-        
 
- 
+
+
 
 
         <div class="horizontal-stepper-wrapper">
@@ -35,67 +35,67 @@
 
                         <div fxFlex="1 0 auto" fxLayout="column">
 
-                            <div class="nav-item" aria-label="Formations" >
+                            <div class="nav-item" aria-label="Formations">
                                 <mat-form-field appearance="outline" class="w-100-p">
                                     <mat-label>Programme</mat-label>
-                                    <mat-select 
-                                                (selectionChange)="selectProgram($event.value)">
-                                        
+                                    <mat-select formControlName="program"
+                                        (selectionChange)="selectProgram($event.value)" required>
+
                                         <mat-option *ngFor="let program of programs" [value]="program.id">
-                                          
-                                             {{ program.program.programName}} -    {{ program.location}}
+
+                                            {{ program.program.programName}} - {{ program.location}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="nav-item" aria-label="Thème" >
+                            <div class="nav-item" aria-label="Thème">
                                 <mat-form-field appearance="outline" class="w-100-p">
                                     <mat-label>Thème</mat-label>
-                                    <mat-select 
-                                                (selectionChange)="selectTheme($event.value)">
-                                        
+                                    <mat-select formControlName="theme" (selectionChange)="selectTheme($event.value)"
+                                        required>
+
                                         <mat-option *ngFor="let theme of filteredThemes" [value]="theme.id">
-                                          
-                                             {{ theme.theme.themeName }}
+
+                                            {{ theme.theme.themeName }}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
 
-                          
+
 
                         </div>
 
                         <div fxFlex="1 0 auto" fxLayout="column">
 
-                            <div class="nav-item" aria-label="Module" >
+                            <div class="nav-item" aria-label="Module">
                                 <mat-form-field appearance="outline" class="w-100-p">
                                     <mat-label>Module</mat-label>
-                                    <mat-select 
-                                                (selectionChange)="selectModule($event.value)">
-                                      
+                                    <mat-select formControlName="module" (selectionChange)="selectModule($event.value)"
+                                        required>
+
                                         <mat-option *ngFor="let module of filteredModules" [value]="module">
-                                          
-                                             {{ module.moduleInstanceName}}
+
+                                            {{ module.moduleInstanceName}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="nav-item" aria-label="Thème de la journée" >
+                            <div class="nav-item" aria-label="Thème de la journée">
                                 <mat-form-field appearance="outline" class="w-100-p">
                                     <mat-label>Thème de la journée</mat-label>
-                                    <mat-select 
-                                                (selectionChange)="selectThemeDetail($event.value)">
-                                        
+                                    <mat-select formControlName="themeDet"
+                                        (selectionChange)="selectThemeDetail($event.value)" required>
+
                                         <mat-option *ngFor="let themeDet of filteredThemeDetails" [value]="themeDet">
-                                          
+
                                             {{ themeDet.themeDetail.themeDetailName }}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
 
-                          
+
 
                         </div>
 
@@ -103,58 +103,39 @@
 
                             <mat-form-field appearance="outline" class="w-100-p">
                                 <mat-label>Titre Scéance</mat-label>
-                                <input matInput name="courseSessionName" formControlName="courseSessionName" 
-                                required >
+                                <input matInput name="courseSessionName" formControlName="courseSessionName" required>
                             </mat-form-field>
-                
-                
-                             
-                
-                              <mat-form-field>
+
+
+
+
+                            <mat-form-field>
                                 <mat-placeholder>Date et Heure Début</mat-placeholder>
-                                <mat-datetimepicker-toggle [for]="datetimePickerBegin" matSuffix></mat-datetimepicker-toggle>
-                                <mat-datetimepicker
-                                  #datetimePickerBegin
-                                  type="datetime"
-                                  
-                                  timeInterval="5">
+                                <mat-datetimepicker-toggle [for]="datetimePickerBegin" matSuffix>
+                                </mat-datetimepicker-toggle>
+                                <mat-datetimepicker #datetimePickerBegin type="datetime" timeInterval="5">
                                 </mat-datetimepicker>
-                                <input
-                                  matInput
-                                  [min]="cursusBeginDate"
-                                  [max]="cursusEndDate"
-                                  formControlName="courseSessionBeginDate"
-                                  [matDatetimepicker]="datetimePickerBegin"
-                                  required
-                                  autocomplete="false"
-                                  (dateInput)="addEvent($event)" >
-                              </mat-form-field>
-                              
-                              <mat-form-field>
+                                <input matInput [min]="cursusBeginDate" [max]="cursusEndDate"
+                                    formControlName="courseSessionBeginDate" [matDatetimepicker]="datetimePickerBegin"
+                                    required autocomplete="false" (dateInput)="addEvent($event)">
+                            </mat-form-field>
+
+                            <mat-form-field>
                                 <mat-placeholder>Date et Heure Fin</mat-placeholder>
-                                <mat-datetimepicker-toggle [for]="datetimePickerEnd" matSuffix></mat-datetimepicker-toggle>
-                                <mat-datetimepicker
-                                  #datetimePickerEnd
-                                  type="datetime"
-                                  
-                                  timeInterval="5">
+                                <mat-datetimepicker-toggle [for]="datetimePickerEnd" matSuffix>
+                                </mat-datetimepicker-toggle>
+                                <mat-datetimepicker #datetimePickerEnd type="datetime" timeInterval="5">
                                 </mat-datetimepicker>
-                                <input
-                                
-                                  matInput
-                                  [min]="courseDate"
-                                  [max]="courseDateMaxHour"
-                                  formControlName="courseSessionEndDate"
-                                  
-                                  [matDatetimepicker]="datetimePickerEnd"
-                                  required
-                                  autocomplete="false">
-                              </mat-form-field> 
+                                <input matInput [min]="courseDate" [max]="courseDateMaxHour"
+                                    formControlName="courseSessionEndDate" [matDatetimepicker]="datetimePickerEnd"
+                                    required autocomplete="false">
+                            </mat-form-field>
 
                         </div>
 
                         <div fxLayout="row" fxLayoutAlign="center center">
-                            <button mat-raised-button matStepperNext type="button" color="accent" (click)="sendDate()">
+                            <button mat-raised-button matStepperNext type="button" color="accent" (click)="sendDate()"
+                                [disabled]="!horizontalStepperStep1.valid">
                                 Suivant
                             </button>
                         </div>
@@ -165,30 +146,31 @@
 
                 <mat-step [stepControl]="horizontalStepperStep2">
 
-           
 
-                        <ng-template matStepLabel>Choisir un formateur</ng-template>
 
-                    
-                
+                    <ng-template matStepLabel>Choisir un formateur</ng-template>
 
-                            <div class="content" [hidden]="!horizontalStepperStep1.valid" >
-                                <app-trainers-list></app-trainers-list>                               
-                              
-                            </div>
-                            
-                
 
-                        <div fxLayout="row" fxLayoutAlign="center center">
-                            <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
-                                Précédent
-                            </button>
-                            <button mat-raised-button matStepperNext type="button" color="accent">
-                                Suivant
-                            </button>
-                        </div>
 
-                  
+
+                    <div class="content" [hidden]="!horizontalStepperStep1.valid">
+                        <app-trainers-list></app-trainers-list>
+
+                    </div>
+
+
+
+                    <div fxLayout="row" fxLayoutAlign="center center">
+                        <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
+                            Précédent
+                        </button>
+                        <button mat-raised-button matStepperNext type="button" color="accent"
+                            (click)="selectedTrainerButton()" [disabled]="disableButton()">
+                            Suivant
+                        </button>
+                    </div>
+
+
                 </mat-step>
 
                 <mat-step [stepControl]="horizontalStepperStep3">
@@ -199,38 +181,38 @@
 
                         <div fxFlex="1 0 auto" fxLayout="column">
 
-                            <div class="nav-item" aria-label="Formations" >
+                            <div class="nav-item" aria-label="Formations">
                                 <mat-form-field appearance="outline" class="w-100-p">
                                     <mat-label>Institutions</mat-label>
-                                    <mat-select 
-                                                (selectionChange)="selectInstitution($event.value)">
+                                    <mat-select formControlName="institution"
+                                        (selectionChange)="selectInstitution($event.value)" required>
                                         <mat-option [value]="'all'">
                                             Tous
                                         </mat-option>
                                         <mat-option *ngFor="let institution of institutions" [value]="institution.id">
-                                          
-                                             {{ institution.institutionName }}
+
+                                            {{ institution.institutionName }}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="nav-item" aria-label="Institutions" >
+                            <div class="nav-item" aria-label="Institutions">
                                 <mat-form-field appearance="outline" class="w-100-p">
                                     <mat-label>Institutions-Salle</mat-label>
-                                    <mat-select 
-                                                (selectionChange)="selectClassroom($event.value)">
+                                    <mat-select formControlName="classroom"
+                                        (selectionChange)="selectClassroom($event.value)" required>
                                         <mat-option [value]="'all'">
                                             Tous
                                         </mat-option>
                                         <mat-option *ngFor="let classRoom of filteredClassrooms" [value]="classRoom">
-                                          
-                                             {{ classRoom.institution.institutionName }}-{{ classRoom.classRoomName }}
+
+                                            {{ classRoom.institution.institutionName }}-{{ classRoom.classRoomName }}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
 
-                          
+
 
                         </div>
 
@@ -238,7 +220,7 @@
                             <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
                                 Précédent
                             </button>
-                            <button mat-raised-button matStepperNext type="button" color="accent">
+                            <button mat-raised-button matStepperNext type="button" color="accent" [disabled]="!horizontalStepperStep3.valid" (click)="sendClassroom()" >
                                 Suivant
                             </button>
                         </div>
@@ -251,16 +233,21 @@
 
                     <ng-template matStepLabel>Confirmer</ng-template>
 
-                    <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center">
-                        Thank your for filling out our form.
+                    <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center" *ngIf="selectedTrainer!=null && session!=null">
+                        Etes vous sûr des données suivantes? :
                     </div>
-
+                    <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center" *ngIf="selectedTrainer!=null && session!=null"> Séance: {{session.sessionName}} {{session.themeDetailInstance.themeDetail.themeDetailName}}</div>
+                    <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center" *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null"> Formateur: {{selectedTrainer.firstName}} {{selectedTrainer.lastName}}</div>
+                    <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center" *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null"> Date: {{session.sessionBeginDate}} </div>
+                    <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center" *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null"> Salle: {{session.classRoom.classRoomName}}</div>
+               
                     <div fxLayout="row" fxLayoutAlign="center center">
                         <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
                             Précédent
                         </button>
-                        <button mat-raised-button type="button" color="accent" (click)="finishHorizontalStepper()">
-                            Finish
+                        <button mat-raised-button type="button" color="accent" (click)="finishHorizontalStepper()"
+                            [routerLink]="'/apps/calendar'">
+                            Confirmer
                         </button>
                     </div>
 
@@ -271,13 +258,11 @@
 
         </div>
 
-      
 
-        
+
+
 
     </div>
     <!-- / CONTENT -->
 
 </div>
-
-
