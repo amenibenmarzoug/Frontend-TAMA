@@ -40,6 +40,7 @@ const routes = [
         path        : 'academy',
         loadChildren: () => import('./academy/academy.module').then(m => m.AcademyModule)
     },
+  
     {
         path        : 'disponibility-trainer',
         loadChildren: () => import('./disponibility-trainer/disponibility-trainer.module').then(m => m.DisponibilityTrainerModule)

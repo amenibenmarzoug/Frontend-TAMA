@@ -31,12 +31,12 @@
 
                     <div class="course-content" fxLayout="column" fxFlex="1 1 auto">
 
-                        <div class="header" fxLayout="row" fxLayoutAlign="center center"
+                        <!-- <div class="header" fxLayout="row" fxLayoutAlign="center center"
                             [ngClass]="theme.category + '-bg'">
 
-                        </div>
+                        </div> -->
 
-                        <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex="1 1 auto">
+                        <div *ngIf="theme!=null" class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex="1 1 auto">
                            
                             <div class="h3">Nom du Theme :  {{theme.themeName}}</div>
                             <div class="updated">Programme lié: {{theme.program.programName}}</div>

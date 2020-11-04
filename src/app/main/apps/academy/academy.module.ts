@@ -16,9 +16,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { CalendarModule as AngularCalendarModule, DateAdapter } from 'angular-calendar';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ProgramsComponent } from 'app/main/apps/academy/programs/programs.component';
-import { AcademyCourseComponent } from 'app/main/apps/academy/course/course.component';
 import {  ProgramsService } from 'app/main/apps/academy/programs.service';
-import { AcademyCourseService } from 'app/main/apps/academy/course.service';
 import { FuseSidebarModule } from '@fuse/components';
 import { ProgramFormComponent } from './programs/program-form/program-form.component';
 import { MatMenuModule } from '@angular/material/menu';
@@ -30,22 +28,15 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatStepperModule } from '@angular/material/stepper';
 import {MatListModule} from '@angular/material/list';
 
-
-import{CourseSessionComponent} from './course-session/course-session.component';
-import {CourseSessionService} from './course-session.service';
-import { CourseSessionFormComponent } from './course-session/course-session-form/course-session-form.component';
-import { CourseSessionListComponent } from './course-session/course-session-list/course-session-list.component';
 /*import {
     NgxMatDatetimePickerModule, 
     NgxMatNativeDateModule, 
     NgxMatTimepickerModule 
 } from '@angular-material-components/datetime-picker';*/
 import {MatDatetimepickerModule, MatNativeDatetimeModule, MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SidebarsComponent } from './course-session/sidebars/sidebars.component';
-import { registerLocaleData } from '@angular/common';
+
+import { CommonModule, registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-//import { CreatedTrainingsListComponent } from './cursus-training/created-trainings-list/created-trainings-list.component';
 import {ProgramDetailsService} from './programDetails/programDetails.service';
 import { ProgramDetailsComponent } from './programDetails/programDetails.component';
 import { ThematiqueComponent } from './programDetails/tabs/thematique/thematique.component';
@@ -61,11 +52,11 @@ import { ThemeDetailsListComponent } from './programDetails/tabs/themeDetail/the
 import { MainThemeDetailComponent } from './programDetails/tabs/themeDetail/sidebars/main/main-theme-detail.component';
 import {SelectedBarThemeDetailComponent} from './programDetails/tabs/themeDetail/selected-bar-theme-detail/selected-bar-theme-detail.component';
 import { from } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 
 registerLocaleData(localeFr, 'fr');
 const routes = [
-   
     {
         path     : 'programs',
         component: ProgramsComponent,
@@ -73,54 +64,70 @@ const routes = [
             academy: ProgramsService
         }
     },
-  
-    // {
-    //     path     : 'courses/:courseId/:courseName',
-    //     component: AcademyCourseComponent,
-    //     resolve  : {
-    //         academy: AcademyCourseService
-    //     }
-    // },
-    // {
-    //     path     : 'addCourseSession',
-    //     component: CourseSessionComponent,
-    //     resolve  : {
-    //         academy: CourseSessionService
-    //     }
-    // },
-   
     {
         path     : 'programDetails/:id',
         component: ProgramDetailsComponent,
         resolve  : {
-            profile: ProgramDetailsService,
+            academy: ProgramDetailsService,
         }
     },
+    
+    {
+        path     : 'module',
+        component: ModuleComponent,
+        resolve  : {
+            academy: ProgramsService
+        }
+    },
+    {
+        path     : 'themeDetail',
+        component: ThemeDetailComponent,
+        resolve  : {
+            academy: ProgramsService
+        }
+    },
+    {
+        path     : 'thematique',
+        component: ThematiqueComponent,
+        resolve  : {
+            academy: ProgramsService
+        }
+    },
+    {
+        path     : '**',
+        component: ProgramsComponent,
+        resolve  : {
+            academy: ProgramsService,
+        }
+    },
+   
+    
  
 ];
 @NgModule({
     declarations: [
         ProgramsComponent,
-        AcademyCourseComponent,
         ProgramFormComponent,
-        ThematiqueFormComponent,
-        CourseSessionComponent, 
-        CourseSessionFormComponent,
-        CourseSessionListComponent,
-        SidebarsComponent,
-        ProgramDetailsComponent,
+
         ThematiqueComponent,
+        ThematiqueFormComponent,
+
+        ProgramDetailsComponent,
+
         ModuleComponent,
-        ThemeDetailComponent,
         ModuleFormComponent,
         ModuleListComponent,
         MainModuleComponent,
         SelectedBarModuleComponent,
+
+
+
+        ThemeDetailComponent,  
         ThemeDetailFormComponent,
-        ThemeDetailComponent,
         ThemeDetailsListComponent,
         MainThemeDetailComponent,
         SelectedBarThemeDetailComponent,
+       
         
 
         
@@ -161,29 +168,34 @@ const routes = [
         MatListModule,
         MatStepperModule,       
         MatNativeDatetimeModule,
+        CommonModule,
+        FormsModule,
+        
 
 
         
     ],
     providers   : [
-        ProgramsService,,
         MatNativeDatetimeModule,
         ProgramDetailsService,
+        ProgramsService,
         
         {provide: LOCALE_ID, useValue: 'fr' }
 
        
     ],
     exports:[
-        ModuleListComponent,
-        ThemeDetailsListComponent,
-        ThematiqueComponent
+        ModuleComponent,
+        ThemeDetailComponent,
+        ThematiqueComponent,
+        CommonModule,
+        FormsModule
+       
         
     ],
     entryComponents: [
-        ModuleFormComponent,
-        ThemeDetailFormComponent,
-        ThematiqueFormComponent
+        ProgramsComponent,
+        ProgramFormComponent
     ]
 })
 export class AcademyModule

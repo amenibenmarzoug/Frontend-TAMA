@@ -125,8 +125,8 @@ export class ProgramsComponent implements OnInit, OnDestroy {
 
         //filter with cursusName and cursusCategory 
         else {
-            this.filteredPrograms = this.programsFilteredByCategory.filter((course) => {
-                return course.cursusName.toLowerCase().includes(searchTerm);
+            this.filteredPrograms = this.programsFilteredByCategory.filter((program) => {
+                return program.programName.toLowerCase().includes(searchTerm);
             });
         }
     }

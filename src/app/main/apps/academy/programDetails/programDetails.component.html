@@ -24,18 +24,18 @@
     <!-- CONTENT -->
     <div class="content">
 
-        <mat-tab-group dynamicHeight="true">
+        <mat-tab-group (selectedIndexChange)="selectTab($event)" dynamicHeight="true">
 
             <mat-tab label="Thématique">
-                <thematique></thematique>
+                <thematique *ngIf="selectedTab === 0"></thematique>
             </mat-tab>
 
             <mat-tab label="Module">
-                <module></module>
+                <module *ngIf="selectedTab === 1"></module>
             </mat-tab>
 
             <mat-tab label="Details du Thème">
-                <themeDetail></themeDetail>
+                <themeDetail *ngIf="selectedTab === 2"></themeDetail>
             </mat-tab>
 
         </mat-tab-group>

@@ -23,7 +23,7 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
     name:string;
     programId: any;
     private sub:any;
-
+    selectedTab = 0;
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -44,7 +44,9 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
-
+    selectTab(event) {
+        this.selectedTab = event;
+    }
     /**
      * On init
      */

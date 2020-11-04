@@ -129,21 +129,7 @@ export class ProgramDetailsService implements Resolve<any>
             }
         );
     }
-    /**
-     * Get categories
-     *
-     * @returns {Promise<any>}
-     */
-    getCategories(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this._httpClient.get('api/academy-categories')
-                .subscribe((response: any) => {
-                    this.onCategoriesChanged.next(response);
-                    resolve(response);
-                }, reject);
-        });
-    }
-
+    
     /**
      * Get courses
      *
