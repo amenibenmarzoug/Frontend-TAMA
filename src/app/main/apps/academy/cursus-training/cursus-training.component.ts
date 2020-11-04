@@ -16,7 +16,7 @@ import { MatListOption } from '@angular/material/list';
 import { FormBuilder, FormGroup, Validators,FormArray } from '@angular/forms';
 
 
-import { AcademyCoursesService } from 'app/main/apps/academy/courses.service';
+import { AcademyProgramsService } from 'app/main/apps/academy/programs.service';
 import { SelectorListContext } from '@angular/compiler';
 import { TrainingsService } from '../trainings.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -57,7 +57,7 @@ export class CursusTrainingComponent implements OnInit {
 
 
 constructor(  private _formBuilder: FormBuilder, 
-  private _academyCoursesService: AcademyCoursesService,
+  private _academyProgramsService: AcademyProgramsService,
   private _contactsService: TrainingsService,
   private _matDialog: MatDialog,
   private serv: CursusTrainingService
@@ -147,8 +147,8 @@ onGroupsChange(options: MatListOption[]){
           panelClass: 'training-form-dialog',
           data      : {
               action: 'new',
-              foreignKeyCursus:this._academyCoursesService.courseId,
-              course:this._academyCoursesService.course
+              foreignKeyCursus:this._academyProgramsService.courseId,
+              course:this._academyProgramsService.course
           }
       });
 
@@ -161,7 +161,7 @@ onGroupsChange(options: MatListOption[]){
                   return;
               }
               console.log("Dialog result after return");
-              console.log(this._academyCoursesService.course);
+              console.log(this._academyProgramsService.course);
 
 
              // this._contactsService.updateContact(response.getRawValue(),this._academyCoursesService.course);
@@ -188,7 +188,7 @@ onGroupsChange(options: MatListOption[]){
   }
 
   addCursusAndTrainings(): void{
-    this._academyCoursesService.saveCourse(this.horizontalStepperStep1.getRawValue(),this.createdTrainings);
+    this._academyProgramsService.saveCourse(this.horizontalStepperStep1.getRawValue(),this.createdTrainings);
 
   }
 

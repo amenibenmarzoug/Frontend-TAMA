@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, registerLocaleData } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
@@ -23,6 +23,10 @@ import { locale as navigationEnglish } from 'app/navigation/i18n/en';
 import { locale as navigationTurkish } from 'app/navigation/i18n/tr';
 import { TokenStorageService } from './main/pages/authentication/common-authentication/token-storage.service';
 import { Login2Service } from './main/pages/authentication/login-2/login-2.service';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr, 'fr');
+
+
 @Component({
     selector: 'app',
     templateUrl: './app.component.html',
@@ -82,16 +86,16 @@ export class AppComponent implements OnInit, OnDestroy {
          this._fuseNavigationService.setCurrentNavigation('test');
  
          // Add languages
-         this._translateService.addLangs(['en', 'tr']);
+         this._translateService.addLangs(['en', 'tr','fr']);
  
          // Set the default language
-         this._translateService.setDefaultLang('en');
+         this._translateService.setDefaultLang('fr');
  
          // Set the navigation translations
          this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
  
          // Use a language
-         this._translateService.use('en'); 
+         this._translateService.use('fr'); 
         //}, 1000);
 
 
@@ -141,16 +145,16 @@ export class AppComponent implements OnInit, OnDestroy {
             this._fuseNavigationService.setCurrentNavigation('entr');
 
             // Add languages
-            this._translateService.addLangs(['en', 'tr']);
+            this._translateService.addLangs(['en', 'tr','fr']);
 
             // Set the default language
-            this._translateService.setDefaultLang('en');
+            this._translateService.setDefaultLang('fr');
 
             // Set the navigation translations
             this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
 
             // Use a language
-            this._translateService.use('en');
+            this._translateService.use('fr'); 
         }
       
 
@@ -165,16 +169,16 @@ export class AppComponent implements OnInit, OnDestroy {
             this._fuseNavigationService.setCurrentNavigation('trainer');
 
             // Add languages
-            this._translateService.addLangs(['en', 'tr']);
+            this._translateService.addLangs(['en', 'tr','fr']);
 
             // Set the default language
-            this._translateService.setDefaultLang('en');
+            this._translateService.setDefaultLang('fr');
 
             // Set the navigation translations
             this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
 
             // Use a language
-            this._translateService.use('en');
+            this._translateService.use('fr'); 
         }
         else if (this.showPartBoard) {
 
@@ -188,16 +192,16 @@ export class AppComponent implements OnInit, OnDestroy {
             this._fuseNavigationService.setCurrentNavigation('participant');
 
             // Add languages
-            this._translateService.addLangs(['en', 'tr']);
+            this._translateService.addLangs(['en', 'tr','fr']);
 
             // Set the default language
-            this._translateService.setDefaultLang('en');
+            this._translateService.setDefaultLang('fr');
 
             // Set the navigation translations
             this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
 
             // Use a language
-            this._translateService.use('en');
+            this._translateService.use('fr'); 
         }
         else if (this.showAdminBoard) {
             console.log("manager")
@@ -211,16 +215,16 @@ export class AppComponent implements OnInit, OnDestroy {
             this._fuseNavigationService.setCurrentNavigation('main');
 
             // Add languages
-            this._translateService.addLangs(['en', 'tr']);
+            this._translateService.addLangs(['en', 'tr','fr']);
 
             // Set the default language
-            this._translateService.setDefaultLang('en');
+            this._translateService.setDefaultLang('fr');
 
             // Set the navigation translations
             this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
 
             // Use a language
-            this._translateService.use('en');
+            this._translateService.use('fr'); 
 
 
         }
@@ -236,16 +240,16 @@ export class AppComponent implements OnInit, OnDestroy {
             this._fuseNavigationService.setCurrentNavigation('institution');
 
             // Add languages
-            this._translateService.addLangs(['en', 'tr']);
+            this._translateService.addLangs(['en', 'tr','fr']);
 
             // Set the default language
-            this._translateService.setDefaultLang('en');
+            this._translateService.setDefaultLang('fr');
 
             // Set the navigation translations
             this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
 
             // Use a language
-            this._translateService.use('en');
+            this._translateService.use('fr'); 
         }
         /*switch (this.roles) {
        case ["PARTICIPANT"] :{
@@ -266,16 +270,16 @@ export class AppComponent implements OnInit, OnDestroy {
  this._fuseNavigationService.setCurrentNavigation('main');
 
  // Add languages
- this._translateService.addLangs(['en', 'tr']);
+ this._translateService.addLangs(['en', 'tr','fr']);
 
  // Set the default language
- this._translateService.setDefaultLang('en');
+ this._translateService.setDefaultLang('fr');
 
  // Set the navigation translations
  this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
 
  // Use a language
- this._translateService.use('en');}
+ this._translateService.use('fr'); }
 
 case ["TRAINER"] :{
  //this.showEntrepBoard = this.roles.includes('');
@@ -294,16 +298,16 @@ case ["TRAINER"] :{
  this._fuseNavigationService.setCurrentNavigation('main');
 
  // Add languages
- this._translateService.addLangs(['en', 'tr']);
+ this._translateService.addLangs(['en', 'tr','fr']);
 
  // Set the default language
- this._translateService.setDefaultLang('en');
+ this._translateService.setDefaultLang('fr');
 
  // Set the navigation translations
  this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
 
  // Use a language
- this._translateService.use('en');
+ this._translateService.use('fr'); 
 break ;
 }
 case ["ENTREPRISE"] :{
@@ -323,16 +327,16 @@ case ["ENTREPRISE"] :{
  this._fuseNavigationService.setCurrentNavigation('main');
 
  // Add languages
- this._translateService.addLangs(['en', 'tr']);
+ this._translateService.addLangs(['en', 'tr','fr']);
 
  // Set the default language
- this._translateService.setDefaultLang('en');
+ this._translateService.setDefaultLang('fr');
 
  // Set the navigation translations
  this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
 
  // Use a language
- this._translateService.use('en');
+ this._translateService.use('fr'); 
 break ;
 
 
@@ -354,16 +358,16 @@ case ["MANAGER"] :{
  this._fuseNavigationService.setCurrentNavigation('main');
 
  // Add languages
- this._translateService.addLangs(['en', 'tr']);
+ this._translateService.addLangs(['en', 'tr','fr']);
 
  // Set the default language
- this._translateService.setDefaultLang('en');
+ this._translateService.setDefaultLang('fr');
 
  // Set the navigation translations
  this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
 
  // Use a language
- this._translateService.use('en');
+ this._translateService.use('fr'); 
 break ;
 }
 default : { //this.showEntrepBoard = this.roles.includes('');
@@ -382,16 +386,16 @@ this._fuseNavigationService.register('main', this.navigation);
 this._fuseNavigationService.setCurrentNavigation('main');
 
 // Add languages
-this._translateService.addLangs(['en', 'tr']);
+this._translateService.addLangs(['en', 'tr','fr']);
 
 // Set the default language
-this._translateService.setDefaultLang('en');
+this._translateService.setDefaultLang('fr');
 
 // Set the navigation translations
 this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
 
 // Use a language
-this._translateService.use('en');
+this._translateService.use('fr'); 
 break ;}
 
         }*/
@@ -419,7 +423,7 @@ break ;}
         // the default language back and forth.
         /**
          * setTimeout(() => {
-         * this._translateService.setDefaultLang('en');
+         * this._translateService.setDefaultLang('fr');
          * this._translateService.setDefaultLang('tr');
          * });
          */

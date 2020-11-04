@@ -6,7 +6,7 @@ export class Contact
     firstName: string;
     lastName: string;
     avatar: string;
-    specification: string;
+    specifications: string[];
     email: string;
     password : string;
     phoneNumber: string;
@@ -15,6 +15,7 @@ export class Contact
     street: string;
     city: string;
     postalCode: string
+    disponibilityDays:any;
 
     /**
      * Constructor
@@ -28,7 +29,7 @@ export class Contact
             this.firstName = contact.firstName || '';
             this.lastName = contact.lastName || '';
             this.avatar = 'assets/images/avatars/profile.jpg';
-            this.specification = contact.specification || '';
+            this.specifications = contact.specifications || '';
             this.email = contact.email || '';
             this.password = contact.password ;
             this.phoneNumber = contact.phoneNumber || '';
@@ -37,6 +38,7 @@ export class Contact
             this.street = contact.street || '';
             this.city = contact.city || '';
             this.postalCode = contact.postalCode || '';
+            this.disponibilityDays=contact.disponibilityDays || '';
         }
     }
 }

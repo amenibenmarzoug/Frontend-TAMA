@@ -86,7 +86,7 @@ export class TrainerListComponent implements OnInit, OnDestroy
                 }
                 this.selectedContacts = selectedContacts;
             });
-
+            console.log(this.contacts);
         this._trainersService.onUserDataChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(user => {
@@ -143,7 +143,7 @@ export class TrainerListComponent implements OnInit, OnDestroy
                      * Save
                      */
                     case 'save':
-
+                        console.log(formData.getRawValue());
                         this._trainersService.updateContact1(formData.getRawValue());
 
                         break;

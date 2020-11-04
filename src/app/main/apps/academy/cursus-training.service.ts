@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import{Cursus} from 'app/main/apps/academy/cursus.model';
+import{Program} from 'app/main/apps/academy/program.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class CursusTrainingService {
   products: any[];
   onProductsChanged: BehaviorSubject<any>;
 
-  courses: Cursus[] ; 
+  programs: Program[] ; 
   constructor( private _httpClient: HttpClient) {
     // Set the defaults
     this.onProductsChanged = new BehaviorSubject({}); }
@@ -65,7 +65,7 @@ export class CursusTrainingService {
         return new Promise((resolve, reject) => {
             this._httpClient.get('api/academy-courses')
                 .subscribe((response: any) => {
-                    this.courses = response;
+                    this.programs = response;
                    // this.onCoursesChanged.next(response);
                     resolve(response);
                 }, reject);

@@ -22,7 +22,7 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
       event.start,
       'd/M/yy à HH:mm',
       this.localeFr
-    )}</b>  ${event.courseSession.course.courseName}-${event.title}`;
+    )}</b>  ${event.session.themeDetailInstance.themeDetail.themeDetailName}-${event.title}`;
   }
 
   week(event: MyEvent): string {
@@ -30,7 +30,7 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
       event.start,
       'HH:mm',
       this.localeFr
-    )}</b>  ${event.courseSession.course.courseName}-${event.title} `;
+    )}</b>  ${event.session.themeDetailInstance.themeDetail.themeDetailName}-${event.title} `;
   }
 
   day(event: MyEvent): string {
@@ -38,7 +38,7 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
       event.start,
       'HH:mm',
       this.localeFr
-    )}</b> ${event.courseSession.course.courseName}-${event.title}`;
+    )}</b> ${event.session.themeDetailInstance.themeDetail.themeDetailName}-${event.title}`;
   }
 }
 

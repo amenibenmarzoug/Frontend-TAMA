@@ -24,7 +24,13 @@ const routes = [
     {
         path     : 'auth/register-2',
         component: Register2Component
-    }
+    },
+    {
+        path     : 'auth/register_entreprise',
+        component: EntrepriseFormComponent
+    },
+   
+
 ];
 
 

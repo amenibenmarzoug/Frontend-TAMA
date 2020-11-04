@@ -4,18 +4,18 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { FuseUtils } from '@fuse/utils';
-import { Cursus } from 'app/main/apps/academy/cursus.model';
+import { Program } from 'app/main/apps/academy/program.model';
 
 //import { Contact } from 'app/main/apps/contacts/contact.model';
 import { Training } from 'app/main/apps/academy/trainings/training.model';
 import { CourseSession } from './course-session/courseSession.model';
 const AUTH_API = 'http://localhost:8080/api/';
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class CourseSessionService implements Resolve<any>  {
 
-  onContactsChanged: BehaviorSubject<any>;
+    onContactsChanged: BehaviorSubject<any>;
     onSelectedContactsChanged: BehaviorSubject<any>;
     onUserDataChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
@@ -24,36 +24,36 @@ export class CourseSessionService implements Resolve<any>  {
     contacts: CourseSession[];
     user: any;
     selectedContacts: string[] = [];
-    chosenCourse:any ;
-    institutions:any;
-    courses:any;
-    cursusa:any;
-    classRooms:any;
-    events:any;
+    chosenCourse: any;
+    institutions: any;
+    courses: any;
+    cursusa: any;
+    classRooms: any;
+    events: any;
     searchText: string;
     filterBy: string;
     id: number;
-    cursus: Cursus ; 
-    training : Training ; 
-    courseSession:any;
-    courseSessionId:any
+    program: Program;
+    training: Training;
+    courseSession: any;
+    courseSessionId: any
 
-    chosenCursus:any ; 
-    chosenCursusId:any;
-    chosenTrainingId:any; 
-    chosenInstitutionId: any ; 
+    chosenCursus: any;
+    chosenCursusId: any;
+    chosenTrainingId: any;
+    chosenInstitutionId: any;
     onEventsUpdated: Subject<any>;
-    chosenClassRoom:any ; 
+    chosenClassRoom: any;
 
-    courseDate: Date ; 
+    courseDate: Date;
 
     onCategoriesChanged: BehaviorSubject<any>;
     onCoursesChanged: BehaviorSubject<any>;
-    onCursusChanged:BehaviorSubject<any>;
-    onInstitutionsChanged:BehaviorSubject<any>;
-    onCoursesSessionsChanged:BehaviorSubject<any>;
-    onCoursesSessionSaved:Subject<any>;
-    onClassRoomsChanged:BehaviorSubject<any>;
+    onCursusChanged: BehaviorSubject<any>;
+    onInstitutionsChanged: BehaviorSubject<any>;
+    onCoursesSessionsChanged: BehaviorSubject<any>;
+    onCoursesSessionSaved: Subject<any>;
+    onClassRoomsChanged: BehaviorSubject<any>;
 
 
     /**
@@ -63,22 +63,21 @@ export class CourseSessionService implements Resolve<any>  {
      */
     constructor(
         private _httpClient: HttpClient
-    )
-    {
+    ) {
         // Set the defaults
         this.onContactsChanged = new BehaviorSubject([]);
         this.onSelectedContactsChanged = new BehaviorSubject([]);
         this.onEventsUpdated = new BehaviorSubject([]);
         this.onUserDataChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
-        this.onCoursesChanged= new BehaviorSubject([]);
-        this.onCursusChanged= new BehaviorSubject([]);
-        this.onCoursesSessionSaved= new Subject();
-        this.onCoursesSessionsChanged= new BehaviorSubject([]);
-        this.onInstitutionsChanged= new BehaviorSubject([]);
-        this.onClassRoomsChanged= new BehaviorSubject([]);
+        this.onCoursesChanged = new BehaviorSubject([]);
+        this.onCursusChanged = new BehaviorSubject([]);
+        this.onCoursesSessionSaved = new Subject();
+        this.onCoursesSessionsChanged = new BehaviorSubject([]);
+        this.onInstitutionsChanged = new BehaviorSubject([]);
+        this.onClassRoomsChanged = new BehaviorSubject([]);
         this.onFilterChanged = new Subject();
-        this.courseDate=new Date(2020, 0O1, 0O1, 0o0, 0o0, 0o0, 0o0); 
+        this.courseDate = new Date(2020, 0O1, 0O1, 0o0, 0o0, 0o0, 0o0);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -92,8 +91,7 @@ export class CourseSessionService implements Resolve<any>  {
      * @param {RouterStateSnapshot} state
      * @returns {Observable<any> | Promise<any> | any}
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
-    {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
         return new Promise((resolve, reject) => {
 
             Promise.all([
@@ -104,7 +102,7 @@ export class CourseSessionService implements Resolve<any>  {
                 this.getInstitutions(),
                 this.getEvents(),
                 this.getClassRooms(),
-               // this.getUserData()
+                // this.getUserData()
             ]).then(
                 ([files]) => {
 
@@ -131,49 +129,47 @@ export class CourseSessionService implements Resolve<any>  {
      *
      * @returns {Promise<any>}
      */
-    getContacts(): Promise<any>
-    {
+    getContacts(): Promise<any> {
         return new Promise((resolve, reject) => {
-                this._httpClient.get(AUTH_API + 'courseSession')
-                    .subscribe((response: any) => {
+            this._httpClient.get(AUTH_API + 'courseSession')
+                .subscribe((response: any) => {
 
-                        this.contacts = response;
-                        /*
+                    this.contacts = response;
+                    /*
 
-                        if ( this.filterBy === 'starred' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.starred.includes(_contact.id);
-                            });
-                        }
-
-                        if ( this.filterBy === 'frequent' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.frequentContacts.includes(_contact.id);
-                            });
-                        }
-                        if ( this.filterBy === 'NadiaFekih' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.cursus.cursusName.includes(_contact.id);
-                            });
-                        }*/
-                        
-
-                        if ( this.searchText && this.searchText !== '' )
-                        {
-                            this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
-                        }
-
-                        this.contacts = this.contacts.map(contact => {
-                            return new CourseSession(contact);
+                    if ( this.filterBy === 'starred' )
+                    {
+                        this.contacts = this.contacts.filter(_contact => {
+                            return this.user.starred.includes(_contact.id);
                         });
+                    }
 
-                        this.onContactsChanged.next(this.contacts);
-                        resolve(this.contacts);
-                    }, reject);
-            }
+                    if ( this.filterBy === 'frequent' )
+                    {
+                        this.contacts = this.contacts.filter(_contact => {
+                            return this.user.frequentContacts.includes(_contact.id);
+                        });
+                    }
+                    if ( this.filterBy === 'NadiaFekih' )
+                    {
+                        this.contacts = this.contacts.filter(_contact => {
+                            return this.user.cursus.cursusName.includes(_contact.id);
+                        });
+                    }*/
+
+
+                    if (this.searchText && this.searchText !== '') {
+                        this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
+                    }
+
+                    this.contacts = this.contacts.map(contact => {
+                        return new CourseSession(contact);
+                    });
+
+                    this.onContactsChanged.next(this.contacts);
+                    resolve(this.contacts);
+                }, reject);
+        }
         );
     }
 
@@ -182,16 +178,15 @@ export class CourseSessionService implements Resolve<any>  {
      *
      * @returns {Promise<any>}
      */
-    getUserData(): Promise<any>
-    {
+    getUserData(): Promise<any> {
         return new Promise((resolve, reject) => {
-                this._httpClient.get('api/contacts-user/5725a6802d10e277a0f35724')
-                    .subscribe((response: any) => {
-                        this.user = response;
-                        this.onUserDataChanged.next(this.user);
-                        resolve(this.user);
-                    }, reject);
-            }
+            this._httpClient.get('api/contacts-user/5725a6802d10e277a0f35724')
+                .subscribe((response: any) => {
+                    this.user = response;
+                    this.onUserDataChanged.next(this.user);
+                    resolve(this.user);
+                }, reject);
+        }
         );
     }
 
@@ -200,19 +195,15 @@ export class CourseSessionService implements Resolve<any>  {
      *
      * @param id
      */
-    toggleSelectedContact(id): void
+    toggleSelectedContact(id): void {
 
-    {
-        
         // First, check if we already have that contact as selected...
-        if ( this.selectedContacts.length > 0 )
-        {
-            
+        if (this.selectedContacts.length > 0) {
+
 
             const index = this.selectedContacts.indexOf(id);
 
-            if ( index !== -1 )
-            {
+            if (index !== -1) {
                 this.selectedContacts.splice(index, 1);
 
                 // Trigger the next event
@@ -223,30 +214,27 @@ export class CourseSessionService implements Resolve<any>  {
             }
         }
 
-        
+
         // If we don't have it, push as selected
         this.selectedContacts.push(id);
-        
+
 
         console.log(this.selectedContacts);
 
 
         // Trigger the next event
         this.onSelectedContactsChanged.next(this.selectedContacts);
-        
+
     }
 
     /**
      * Toggle select all
      */
-    toggleSelectAll(): void
-    {
-        if ( this.selectedContacts.length > 0 )
-        {
+    toggleSelectAll(): void {
+        if (this.selectedContacts.length > 0) {
             this.deselectContacts();
         }
-        else
-        {
+        else {
             this.selectContacts();
         }
     }
@@ -257,17 +245,15 @@ export class CourseSessionService implements Resolve<any>  {
      * @param filterParameter
      * @param filterValue
      */
-    selectContacts(filterParameter?, filterValue?): void
-    {
+    selectContacts(filterParameter?, filterValue?): void {
         this.selectedContacts = [];
 
         // If there is no filter, select all contacts
-        if ( filterParameter === undefined || filterValue === undefined )
-        {
+        if (filterParameter === undefined || filterValue === undefined) {
             this.selectedContacts = [];
             this.contacts.map(contact => {
                 this.selectedContacts.push((contact.id).toString());
-                
+
             });
         }
 
@@ -281,11 +267,10 @@ export class CourseSessionService implements Resolve<any>  {
      * @param contact
      * @returns {Promise<any>}
      */
-    updateContact(contact): Promise<any>
-    {
+    updateContact(contact): Promise<any> {
         //console.log("result");
         //console.log(contact);
-        
+
         //console.log(contact.courseSessionBeginDate);
         return new Promise((resolve, reject) => {
 
@@ -299,7 +284,7 @@ export class CourseSessionService implements Resolve<any>  {
         });
     }
 
-    
+
 
     /**
      * Update user data
@@ -307,24 +292,22 @@ export class CourseSessionService implements Resolve<any>  {
      * @param contact
      * @returns {Promise<any>}
      */
-    updateUserData(contact): Promise<any>
-    {
+    updateUserData(contact): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient.post(AUTH_API + 'courseSession', contact)
                 .subscribe(response => {
-                   // this.getUserData();
-                   
+                    // this.getUserData();
+
                     this.getContacts();
                     resolve(response);
                 });
         });
     }
-    updateContact1(contact): Promise<any>
-    {
+    updateContact1(contact): Promise<any> {
         return new Promise((resolve, reject) => {
             console.log("contactt wselt fe service")
-    console.log (contact) ;
-            this._httpClient.put(AUTH_API + 'courseSession'  , contact )
+            console.log(contact);
+            this._httpClient.put(AUTH_API + 'courseSession', contact)
                 .subscribe(response => {
                     this.getContacts();
                     resolve(response);
@@ -334,8 +317,7 @@ export class CourseSessionService implements Resolve<any>  {
     /**
      * Deselect contacts
      */
-    deselectContacts(): void
-    {
+    deselectContacts(): void {
         this.selectedContacts = [];
 
         // Trigger the next event
@@ -358,28 +340,26 @@ export class CourseSessionService implements Resolve<any>  {
      *
      * @param id
      */
-    deleteContact(id):Promise<any>
-    {   console.log(id)  ;
-        
-     
-       return new Promise((resolve, reject) => {
-        const contactIndex = this.contacts.indexOf(id);
-        this.contacts.splice(contactIndex, 1);
+    deleteContact(id): Promise<any> {
+        console.log(id);
+
+
+        return new Promise((resolve, reject) => {
+            const contactIndex = this.contacts.indexOf(id);
+            this.contacts.splice(contactIndex, 1);
             this.onContactsChanged.next(this.contacts);
-        this._httpClient.delete(`http://localhost:8080/api/courseSession/${id}`)
-            .subscribe(response => {
-               // this.getContacts();
-                resolve(response);
-            });
-    }); 
+            this._httpClient.delete(`http://localhost:8080/api/courseSession/${id}`)
+                .subscribe(response => {
+                    // this.getContacts();
+                    resolve(response);
+                });
+        });
     }
     /**
      * Delete selected contacts
      */
-    deleteSelectedContacts(): void
-    {
-        for ( const contactId of this.selectedContacts )
-        {
+    deleteSelectedContacts(): void {
+        for (const contactId of this.selectedContacts) {
             const contact = this.contacts.find(_contact => {
                 return (_contact.id).toString() === contactId;
             });
@@ -391,11 +371,11 @@ export class CourseSessionService implements Resolve<any>  {
     }
 
 
-  /**
-     * Get events
-     *
-     * @returns {Promise<any>}
-     */
+    /**
+       * Get events
+       *
+       * @returns {Promise<any>}
+       */
     getEvents(): Promise<any> {
 
 
@@ -405,9 +385,9 @@ export class CourseSessionService implements Resolve<any>  {
             this._httpClient.get(AUTH_API + 'event')
                 .subscribe((response: any) => {
 
-                  
+
                     this.events = response;
-                    
+
                     console.log("GET EVENTS");
                     console.log(this.events);
                     this.onEventsUpdated.next(this.events);
@@ -417,17 +397,17 @@ export class CourseSessionService implements Resolve<any>  {
     }
 
     addEvent(event): Promise<any> {
-       
+
         return new Promise((resolve, reject) => {
             console.log("courseSession in addevent");
-            console.log(event.courseSession); 
+            console.log(event.courseSession);
             console.log(event);
-           // event.courseSession=courseSession;
-           // event.courseSession=this.courseSession;
+            // event.courseSession=courseSession;
+            // event.courseSession=this.courseSession;
             this._httpClient.post(AUTH_API + 'event', event)
                 .subscribe(response => {
-                   
-                   
+
+
                     console.log(response);
                     this.getEvents();
                     resolve(response);
@@ -435,14 +415,14 @@ export class CourseSessionService implements Resolve<any>  {
         });
     }
 
-    
+
 
     updateEvent(event): Promise<any> {
         return new Promise((resolve, reject) => {
 
             this._httpClient.put(AUTH_API + 'event', event)
                 .subscribe(response => {
-                  
+
                     console.log(event);
                     this.getEvents();
                     resolve(event);
@@ -450,24 +430,23 @@ export class CourseSessionService implements Resolve<any>  {
         });
     }
 
-    saveCourseSessionAndEvent(courseSession,event): Promise<any>
-    {
+    saveCourseSessionAndEvent(courseSession, event): Promise<any> {
         //console.log("result");
         //console.log(contact);
-     
+
         console.log(courseSession);
         return new Promise((resolve, reject) => {
 
             this._httpClient.post(AUTH_API + 'courseSession', courseSession)
                 .subscribe(response => {
-                    
+
                     this.onCoursesSessionSaved.next(response);
                     console.log(response);
-                    this.courseSession=response;
-                    this.courseSessionId=this.courseSession.id;
-                    event.courseSession=this.courseSession;
+                    this.courseSession = response;
+                    this.courseSessionId = this.courseSession.id;
+                    event.courseSession = this.courseSession;
                     this.addEvent(event);
-                  
+
                     console.log("event in update");
                     console.log(event);
                     console.log(response);
@@ -476,11 +455,11 @@ export class CourseSessionService implements Resolve<any>  {
                     resolve(response);
                     this.getContacts();
                 });
-               // this.courseSession=new CourseSession(courseSession);
+            // this.courseSession=new CourseSession(courseSession);
         });
     }
 
-    
+
 
     getCoursesSessions(): Promise<any> {
         /* console.log(this._httpClient.get<any[]>(AUTH_API + 'courseSession'));
@@ -494,12 +473,11 @@ export class CourseSessionService implements Resolve<any>  {
                     console.log(response);
                     this.onCoursesSessionsChanged.next(response);
                     this.contacts = response;
-                    if ( this.filterBy === 'starred' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.starred.includes(_contact.id);
-                            });
-                        }
+                    if (this.filterBy === 'starred') {
+                        this.contacts = this.contacts.filter(_contact => {
+                            return this.user.starred.includes(_contact.id);
+                        });
+                    }
 
 
                     resolve(response);
@@ -520,12 +498,11 @@ export class CourseSessionService implements Resolve<any>  {
                     console.log(response);
                     this.onCoursesChanged.next(response);
                     this.courses = response;
-                    if ( this.filterBy === 'starred' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.starred.includes(_contact.id);
-                            });
-                        }
+                    if (this.filterBy === 'starred') {
+                        this.contacts = this.contacts.filter(_contact => {
+                            return this.user.starred.includes(_contact.id);
+                        });
+                    }
 
 
                     resolve(response);
@@ -565,7 +542,7 @@ export class CourseSessionService implements Resolve<any>  {
                     console.log(response);
                     this.onInstitutionsChanged.next(response);
                     this.institutions = response;
-                    
+
 
 
                     resolve(response);
@@ -586,7 +563,7 @@ export class CourseSessionService implements Resolve<any>  {
                     console.log(response);
                     this.onClassRoomsChanged.next(response);
                     this.classRooms = response;
-                    
+
 
 
                     resolve(response);
@@ -606,7 +583,7 @@ export class CourseSessionService implements Resolve<any>  {
                     //console.log("cursus séléctionnée");
                     //console.log(response);
                     //this.onCursusChanged.next(response);
-                    this.chosenCursus=response ; 
+                    this.chosenCursus = response;
                     this.contacts = response;
                     resolve(response);
                 }, reject);
@@ -621,7 +598,7 @@ export class CourseSessionService implements Resolve<any>  {
          .pipe(catchError(this.processHTTPMsgService.handleError));*/
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'course/'+Number(id))
+            this._httpClient.get(AUTH_API + 'course/' + Number(id))
                 .subscribe((response: any) => {
                     //console.log(" course selected");
                     //console.log(response);

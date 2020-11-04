@@ -59,7 +59,7 @@ export class ParticipantFormComponent{
       this._unsubscribeAll = new Subject();
      this.entreprises=this._ParticipantsService.entreprises;
      this.groups = this._ParticipantsService.groups;
-     this.courses=this._ParticipantsService.courses;
+     this.courses=this._ParticipantsService.programs;
      
      
   }

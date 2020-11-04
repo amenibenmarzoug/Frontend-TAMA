@@ -14,7 +14,7 @@ const AUTH_API = 'http://localhost:8080/api/';
 
 @Injectable({
     providedIn: 'root'
-  })
+})
 
 export class TrainerService implements Resolve<any>
 {
@@ -24,14 +24,16 @@ export class TrainerService implements Resolve<any>
     onUserDataChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
-
+    disponibilities: any[];
+    specifications: String[];
     contacts: Contact[];
     user: any;
     selectedContacts: string[] = [];
-
+    onModulesChanged: BehaviorSubject<any>;
+    modules: any[];
     searchText: string;
     filterBy: string;
-    id : number ;
+    id: number;
 
     /**
      * Constructor
@@ -40,12 +42,12 @@ export class TrainerService implements Resolve<any>
      */
     constructor(
         private _httpClient: HttpClient
-    )
-    {
+    ) {
         // Set the defaults
         this.onContactsChanged = new BehaviorSubject([]);
         this.onSelectedContactsChanged = new BehaviorSubject([]);
         this.onUserDataChanged = new BehaviorSubject([]);
+        this.onModulesChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
     }
@@ -61,13 +63,13 @@ export class TrainerService implements Resolve<any>
      * @param {RouterStateSnapshot} state
      * @returns {Observable<any> | Promise<any> | any}
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
-    {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
         return new Promise((resolve, reject) => {
 
             Promise.all([
                 this.getContacts(),
-                this.getUserData()
+                this.getUserData(),
+                this.getModules(),
             ]).then(
                 ([files]) => {
 
@@ -94,41 +96,37 @@ export class TrainerService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getContacts(): Promise<any>
-    {
+    getContacts(): Promise<any> {
         return new Promise((resolve, reject) => {
-                this._httpClient.get(AUTH_API + 'trainers')
-                    .subscribe((response: any) => {
+            this._httpClient.get(AUTH_API + 'trainers')
+                .subscribe((response: any) => {
 
-                        this.contacts = response;
+                    this.contacts = response;
 
-                        if ( this.filterBy === 'starred' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.starred.includes(_contact.id);
-                            });
-                        }
-
-                        if ( this.filterBy === 'frequent' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.frequentContacts.includes(_contact.id);
-                            });
-                        }
-
-                        if ( this.searchText && this.searchText !== '' )
-                        {
-                            this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
-                        }
-
-                        this.contacts = this.contacts.map(contact => {
-                            return new Contact(contact);
+                    if (this.filterBy === 'starred') {
+                        this.contacts = this.contacts.filter(_contact => {
+                            return this.user.starred.includes(_contact.id);
                         });
+                    }
 
-                        this.onContactsChanged.next(this.contacts);
-                        resolve(this.contacts);
-                    }, reject);
-            }
+                    if (this.filterBy === 'frequent') {
+                        this.contacts = this.contacts.filter(_contact => {
+                            return this.user.frequentContacts.includes(_contact.id);
+                        });
+                    }
+
+                    if (this.searchText && this.searchText !== '') {
+                        this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
+                    }
+
+                    this.contacts = this.contacts.map(contact => {
+                        return new Contact(contact);
+                    });
+
+                    this.onContactsChanged.next(this.contacts);
+                    resolve(this.contacts);
+                }, reject);
+        }
         );
     }
 
@@ -137,16 +135,31 @@ export class TrainerService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getUserData(): Promise<any>
-    {
+    getUserData(): Promise<any> {
         return new Promise((resolve, reject) => {
-                this._httpClient.get(AUTH_API + 'trainers')
-                    .subscribe((response: any) => {
-                        this.user = response;
-                        this.onUserDataChanged.next(this.user);
-                        resolve(this.user);
-                    }, reject);
-            }
+            this._httpClient.get(AUTH_API + 'trainers')
+                .subscribe((response: any) => {
+                    this.user = response;
+                    this.onUserDataChanged.next(this.user);
+                    resolve(this.user);
+                }, reject);
+        }
+        );
+    }
+
+    getModules(): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'module')
+                .subscribe((response: any) => {
+                    console.log("MODULES");
+                    console.log(response);
+                    this.onModulesChanged.next(response);
+                    this.modules = response;
+                    resolve(response);
+                }, reject);
+        }
         );
     }
 
@@ -155,15 +168,12 @@ export class TrainerService implements Resolve<any>
      *
      * @param id
      */
-    toggleSelectedContact(id): void
-    {
+    toggleSelectedContact(id): void {
         // First, check if we already have that contact as selected...
-        if ( this.selectedContacts.length > 0 )
-        {
+        if (this.selectedContacts.length > 0) {
             const index = this.selectedContacts.indexOf(id);
 
-            if ( index !== -1 )
-            {
+            if (index !== -1) {
                 this.selectedContacts.splice(index, 1);
 
                 // Trigger the next event
@@ -184,14 +194,11 @@ export class TrainerService implements Resolve<any>
     /**
      * Toggle select all
      */
-    toggleSelectAll(): void
-    {
-        if ( this.selectedContacts.length > 0 )
-        {
-           this.deselectContacts();
+    toggleSelectAll(): void {
+        if (this.selectedContacts.length > 0) {
+            this.deselectContacts();
         }
-        else
-        {
+        else {
             this.selectContacts();
         }
     }
@@ -202,13 +209,11 @@ export class TrainerService implements Resolve<any>
      * @param filterParameter
      * @param filterValue
      */
-    selectContacts(filterParameter?, filterValue?): void
-    {
-       this.selectedContacts = [];
+    selectContacts(filterParameter?, filterValue?): void {
+        this.selectedContacts = [];
 
         // If there is no filter, select all contacts
-        if ( filterParameter === undefined || filterValue === undefined )
-        {
+        if (filterParameter === undefined || filterValue === undefined) {
             this.selectedContacts = [];
             this.contacts.map(contact => {
                 this.selectedContacts.push(contact.id.toString());
@@ -226,39 +231,47 @@ export class TrainerService implements Resolve<any>
      * @param contact
      * @returns {Promise<any>}
      */
-    updateContact(contact): Promise<any>
-    {
+    updateContact(contact): Promise<any> {
         contact.password = contact.phoneNumber;
         return new Promise((resolve, reject) => {
 
-            this._httpClient.post(AUTH_API + 'auth/signup' , contact)
+            this._httpClient.post(AUTH_API + 'auth/signup', contact)
                 .subscribe(response => {
                     this.getContacts();
                     resolve(response);
                 });
         });
     }
-    updateContact1(contact): Promise<any>
-    {
+    updateContact1(contact): Promise<any> {
+        console.log(contact);
+        if (this.disponibilities != null) {
+            contact.disponibilityDays = this.disponibilities;
+
+        }
+        if (this.specifications != null) {
+            contact.specifications = this.specifications;
+        }
+
+        this.disponibilities = null;
+        this.specifications = null;
         return new Promise((resolve, reject) => {
-    console.log (contact) ;
-            this._httpClient.put(AUTH_API + 'trainers'  , contact )
+            console.log(contact);
+            this._httpClient.put(AUTH_API + 'trainers', contact)
                 .subscribe(response => {
                     this.getContacts();
                     resolve(response);
                 });
         });
     }
-     /**
-     * Update user data
-     *
-     * @param userData
-     * @returns {Promise<any>}
-     */
-    updateUserData(userData): Promise<any>
-    {
+    /**
+    * Update user data
+    *
+    * @param userData
+    * @returns {Promise<any>}
+    */
+    updateUserData(userData): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.post('api/contacts-user/' + this.user.id, {...userData})
+            this._httpClient.post('api/contacts-user/' + this.user.id, { ...userData })
                 .subscribe(response => {
                     this.getUserData();
                     this.getContacts();
@@ -270,8 +283,7 @@ export class TrainerService implements Resolve<any>
     /**
      * Deselect contacts
      */
-   deselectContacts(): void
-    {
+    deselectContacts(): void {
         this.selectedContacts = [];
 
         // Trigger the next event
@@ -283,43 +295,41 @@ export class TrainerService implements Resolve<any>
      *
      * @param id
      */
-    deleteContact(id):Promise<any>
-    {   console.log(id)  ;
-        
-     
-       return new Promise((resolve, reject) => {
-        const contactIndex = this.contacts.indexOf(id);
-        this.contacts.splice(contactIndex, 1);
+    deleteContact(id): Promise<any> {
+        console.log(id);
+
+
+        return new Promise((resolve, reject) => {
+            const contactIndex = this.contacts.indexOf(id);
+            this.contacts.splice(contactIndex, 1);
             this.onContactsChanged.next(this.contacts);
-        this._httpClient.delete(`http://localhost:8080/api/trainers/${id}`)
-            .subscribe(response => {
-               // this.getContacts();
-              
-                resolve(response);
-            });
-    }); 
+            this._httpClient.delete(`http://localhost:8080/api/trainers/${id}`)
+                .subscribe(response => {
+                    // this.getContacts();
+
+                    resolve(response);
+                });
+        });
     }
 
 
-   /**
-     * Delete selected contacts
-     */
-    deleteSelectedContacts(): void
-    {
-        for ( const contactId of this.selectedContacts )
-        {
+    /**
+      * Delete selected contacts
+      */
+    deleteSelectedContacts(): void {
+        for (const contactId of this.selectedContacts) {
             const contact = this.contacts.find(_contact => {
                 return _contact.id === Number(contactId);
-                 
+
             });
-            this.deleteContact(Number(contactId)) ;
+            this.deleteContact(Number(contactId));
             const contactIndex = this.contacts.indexOf(contact);
             this.contacts.splice(contactIndex, 1);
-           
+
         }
         this.onContactsChanged.next(this.contacts);
         this.deselectContacts();
     }
-  
+
 
 }

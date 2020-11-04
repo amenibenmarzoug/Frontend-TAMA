@@ -98,7 +98,7 @@ export class MainComponent implements OnInit,OnDestroy {
     changeFilter(filter): void
     {
         this.filterBy = filter.id;
-        this._contactsService.cursus=filter;
+        this._contactsService.program=filter;
         this._contactsService.onFilterChanged.next(this.filterBy);
     }
 
@@ -116,7 +116,7 @@ export class MainComponent implements OnInit,OnDestroy {
             this.coursesFilteredByCategory = this.courses.filter((course) => {
                 console.log("CURSUS");
                 console.log(course.cursus);
-                this._contactsService.cursus=course.cursus;
+                this._contactsService.program=course.cursus;
                 return course.cursus.cursusName === this.currentCategory;
             });
 

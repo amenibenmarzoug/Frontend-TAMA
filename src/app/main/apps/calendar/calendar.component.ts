@@ -100,7 +100,7 @@ export class CalendarComponent implements OnInit {
          * Get events from service/server
          */
       
-        //this.setEventsCustomized(2);
+        //this._calendarService.getEvents();
         this.setEvents();
     }
 
@@ -142,14 +142,14 @@ export class CalendarComponent implements OnInit {
      * Set events
      */
     setEvents(): void {
+      //  this._calendarService.getEvents();
         this.events = this._calendarService.events.map(item => {
             const date=new Date(item.start);
             this.eventsDates.push(date.toDateString());
             item.actions = this.actions;
             return new CalendarEventModel(item);
         });
-        console.log("DATES");
-        console.log(this.eventsDates);
+     
     }
 
 
@@ -173,7 +173,7 @@ export class CalendarComponent implements OnInit {
             return new CalendarEventModel(item);
         });
 
-        console.log(this.events);
+        
     }
 
     /**
@@ -204,9 +204,7 @@ export class CalendarComponent implements OnInit {
         renderEvent.body.forEach((day) => {
 
             const dayOfMonth = day.date.getDay();
-            console.log(day.date.toDateString());
             if (this.eventsDates.includes(day.date.toDateString()) && day.inMonth) {
-                console.log(day.date);
                 day.cssClass = 'bg-unclicked';
             }
         });
