@@ -6,7 +6,7 @@ export class Contact
     firstName: string;
     lastName: string;
     avatar: string;
-    specifications: string;
+    specifications: string[];
     email: string;
     password : string;
     phoneNumber: string;

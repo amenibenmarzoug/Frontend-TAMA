@@ -39,7 +39,11 @@ import { CursusTrainingComponent } from './cursus-training/cursus-training.compo
 import{CursusTrainingService} from './cursus-training.service';
 import { AddSessionService } from 'app/main/apps/academy/add-session/add-session.service';
 
-
+import {
+    MAT_MOMENT_DATE_FORMATS,
+    MomentDateAdapter,
+    MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+  } from '@angular/material-moment-adapter';
 import{CourseSessionComponent} from './course-session/course-session.component';
 import {CourseSessionService} from './course-session.service';
 import { CourseSessionFormComponent } from './course-session/course-session-form/course-session-form.component';
@@ -65,6 +69,7 @@ import { AddSessionComponent } from './add-session/add-session.component';
 import { TrainersListComponent } from './add-session/trainers-list/trainers-list.component';
 
 import { CursusParticipantService } from '../cursus/cursus-participants/cursus-participant.service';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 registerLocaleData(localeFr, 'fr');
 const routes = [
    
@@ -198,7 +203,13 @@ const routes = [
         ProgramDetailsService,
         CursusParticipantService,
         AddSessionService,
-        {provide: LOCALE_ID, useValue: 'fr' }
+        {provide: LOCALE_ID, useValue: 'fr' },
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+          },
+          {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
 
        
     ],

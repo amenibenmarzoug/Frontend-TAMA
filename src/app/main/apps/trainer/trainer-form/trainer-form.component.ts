@@ -37,7 +37,9 @@ export class TrainerFormComponent {
         this.specifications=this._serviceTrainer.modules;
         if (this.action === 'edit') {
             this.dialogTitle = 'Modifier Formateur';
+            
             this.contact = _data.contact;
+            console.log(this.contact);
         }
         else {
             this.dialogTitle = 'Nouveau Formateur';
@@ -49,12 +51,14 @@ export class TrainerFormComponent {
 
     changeFilter(filter): void {
         console.log(filter);
-        this._serviceTrainer.disponibilities = filter;
+        //this._serviceTrainer.specifications = filter.specifications;
+       this._serviceTrainer.disponibilities=filter.disponibilityDays;
     }
 
     sendSpecifications(spec): void {
         console.log(spec);
-        this._serviceTrainer.specifications = spec;
+        this._serviceTrainer.specifications = spec.specifications;
+       //this._serviceTrainer.disponibilities=spec.disponibilityDays;
     }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
