@@ -16,7 +16,7 @@ export class Thematique {
             this.id = theme.id;
             this.themeName = theme.themeName || '';
             this.nbDaysTheme = theme.nbDaysTheme || '';
-            this.program = theme.program || '';
+            this.program = theme.program || null;
 
 
         }

@@ -39,21 +39,22 @@ export const navigationAdmin: FuseNavigation[] = [
         //url      : '/apps/academy',
         children: [
 
-        {
-            id: 'programs',
-            title: 'Programme',
-            type : 'item',
-            url  : '/apps/academy/programs',
-            
-        },
-        {
-            id: 'programsD',
-            title: 'Programme Dédié',
-            type : 'item',
-            //url  : '/apps/academy/trainings',
-           
+            {
+                id: 'academy',
+                title: 'Programme',
+                translate: 'NAV.ACADEMY',
+                type: 'item',
+                url: '/apps/academy/programs',
+                
+            },
+            // {
+            //     id: 'programsD',
+            //     title: 'Programme Dédié',
+            //     type: 'item',
+            //     //url  : '/apps/academy/trainings',
 
-        },
+
+            // },
        
         {
             id: 'add',

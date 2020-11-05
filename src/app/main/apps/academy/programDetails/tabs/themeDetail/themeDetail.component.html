@@ -1,16 +1,67 @@
-<div id="photos-videos" class="p-24">
-    <div class="period" *ngFor="let period of photosVideos">
+<div id="contacts" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
 
-        <div class="period-title">
-            <span class="name">{{period.name}}</span>
-            <span class="info">{{period.info}}</span>
-        </div>
+    <!-- HEADER -->
+    <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-xs="row"
+        fxLayoutAlign.gt-xs="space-between center">
 
-        <div class="period-media" fxLayout="row wrap">
-            <div class="media" *ngFor="let media of period.media">
-                <img class="preview" [src]="media.preview" title="{{media.title}}">
-                <div class="title">{{media.title}}</div>
+
+        <!-- SEARCH -->
+        <div class="ml-sm-32" fxLayout="row" fxLayoutAlign="center center" fxFlex>
+
+            <div class="search-wrapper mt-16 mt-sm-0">
+
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input [formControl]="searchInput" placeholder="Chercher un Theme Detail">
+                </div>
+
             </div>
+
         </div>
+        <!-- / SEARCH -->
+
     </div>
+    <!-- / HEADER -->
+
+    <!-- SELECTED BAR -->
+    <app-selected-bar-theme-detail class="accent-600" *ngIf="hasSelectedThemeDetails" [@slideInTop]></app-selected-bar-theme-detail>
+    <!-- / SELECTED BAR -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <!-- SIDEBAR -->
+        <fuse-sidebar class="sidebar" name="theme-detail-main-sidebar" position="left" lockedOpen="gt-sm">
+
+            <!-- SIDEBAR CONTENT -->
+            <div class="content" fusePerfectScrollbar>
+                <app-main-theme-detail [@animate]="{value:'*'}"></app-main-theme-detail>
+            </div>
+            <!-- / SIDEBAR CONTENT -->
+
+        </fuse-sidebar>
+        <!-- / SIDEBAR -->
+
+        <!-- CENTER -->
+        <div class="center p-24 pb-56 pr-sm-92" fusePerfectScrollbar>
+
+            <!-- CONTENT -->
+            <div class="content">
+                <app-theme-detail-list></app-theme-detail-list>
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CENTER -->
+
+    </div>
+    <!-- / CONTENT-->
+
 </div>
+
+<!-- ADD CONTACT BUTTON -->
+<button mat-fab class="accent" id="add-contact-button" (click)="addNewThemeDetail()" aria-label="add contact"
+    [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+    <mat-icon>add</mat-icon>
+</button>
+<!-- / ADD CONTACT BUTTON -->

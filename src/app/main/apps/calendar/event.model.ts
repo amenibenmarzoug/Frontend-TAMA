@@ -2,7 +2,7 @@ import { CalendarEventAction } from 'angular-calendar';
 import { startOfDay, endOfDay } from 'date-fns';
 import { FuseUtils } from '@fuse/utils';
 
-import { CourseSession } from '../academy/course-session/courseSession.model';
+//import { CourseSession } from '../academy/course-session/courseSession.model';
 
 export class CalendarEventModel {
   id: number;

@@ -1,5 +1,4 @@
 import { FuseUtils } from '@fuse/utils';
-import { Training } from '../trainings/training.model';
 import { startOfDay, endOfDay } from 'date-fns';
 import { MyClasses } from '../../classrooms/classrooms.model';
 

@@ -8,7 +8,7 @@ import { Program } from 'app/main/apps/academy/program.model';
 
 const AUTH_API = 'http://localhost:8080/api/';
 @Injectable()
-export class AcademyProgramsService implements Resolve<any>
+export class ProgramsService implements Resolve<any>
 {
     onCategoriesChanged: BehaviorSubject<any>;
     onCoursesChanged: BehaviorSubject<any>;
@@ -49,7 +49,7 @@ export class AcademyProgramsService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getCategories(),
+                //this.getCategories(),
                 this.getPrograms()
             ]).then(
                 () => {
@@ -60,20 +60,7 @@ export class AcademyProgramsService implements Resolve<any>
         });
     }
 
-    /**
-     * Get categories
-     *
-     * @returns {Promise<any>}
-     */
-    getCategories(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this._httpClient.get('api/academy-categories')
-                .subscribe((response: any) => {
-                    this.onCategoriesChanged.next(response);
-                    resolve(response);
-                }, reject);
-        });
-    }
+    
 
 
 
@@ -145,7 +132,6 @@ export class AcademyProgramsService implements Resolve<any>
                     console.log(this.courseId);
                     for (var i = 0; i < createdTrainings.length; i++) {
                         createdTrainings[i].cursus = response;
-                        this.addTraining(createdTrainings[i]);
                     }
 
 
@@ -171,16 +157,7 @@ export class AcademyProgramsService implements Resolve<any>
     }
 
 
-    addTraining(contact): Promise<any> {
-        return new Promise((resolve, reject) => {
-            // contact.cursus=cursus;
-            this._httpClient.post(AUTH_API + 'course', contact)
-                .subscribe(response => {
-                    // this.getContacts();
-                    resolve(response);
-                });
-        });
-    }
+   
 
 
 

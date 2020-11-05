@@ -3,6 +3,8 @@ import { Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Thematique } from '../thematique.model';
+import { ProgramDetailsService } from '../../../programDetails.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-thematique-form',
@@ -15,11 +17,13 @@ export class ThematiqueFormComponent implements OnInit {
   theme: Thematique;
   themeForm: FormGroup;
   dialogTitle: string;
+  programs:any[] ;
+  private _unsubscribeAll: Subject<any>;
 
   constructor(
     public matDialogRef: MatDialogRef<ThematiqueFormComponent>,
     @Inject(MAT_DIALOG_DATA) private _data: any,
-
+    private _programDetailsService : ProgramDetailsService,
     private _formBuilder: FormBuilder
   ) {
     // Set the defaults
@@ -29,6 +33,7 @@ export class ThematiqueFormComponent implements OnInit {
     if (this.action === 'edit') {
       this.dialogTitle = 'Edit Thèmatique';
       this.theme = _data.theme;
+      this._programDetailsService.program=this.theme.program;
 
     }
     else {
@@ -38,6 +43,8 @@ export class ThematiqueFormComponent implements OnInit {
 
     }
     this.themeForm = this.createThemeForm();
+    this._unsubscribeAll = new Subject();
+    // this.programs=this._programDetailsService.programs;
   }
 
   ngOnInit(): void {
@@ -49,11 +56,14 @@ export class ThematiqueFormComponent implements OnInit {
     return this._formBuilder.group({
       id: [this.theme.id],
       themeName: [this.theme.themeName],
-      nbDaysTheme: [this.theme.nbDaysTheme]
+      nbDaysTheme: [this.theme.nbDaysTheme],
+     
 
 
     });
 
   }
+
+ 
 
 }
