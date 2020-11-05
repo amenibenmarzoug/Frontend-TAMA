@@ -242,8 +242,8 @@ export class AddSessionService implements Resolve<any>{
                             this.trainers = response.filter(trainer => {
                                 console.log(trainer);
                                 console.log(this.unavailableTrainersId.includes(trainer.id));
-                                console.log(this.selectedModule.moduleInstanceName);
-                                if ((trainer.disponibilityDays.includes(this.selectedDay)) && (!this.unavailableTrainersId.includes(trainer.id)) &&(trainer.specifications.includes(this.selectedModule.moduleInstanceName))) {
+                                console.log(this.selectedModule.module.moduleName);
+                                if ((trainer.disponibilityDays.includes(this.selectedDay)) && (!this.unavailableTrainersId.includes(trainer.id)) &&(trainer.specifications.includes(this.selectedModule.module.moduleName))) {
                                     //console.log("");
                                     return true;
                                 }
@@ -256,7 +256,7 @@ export class AddSessionService implements Resolve<any>{
                             this.trainers = response.filter(trainer => {
                                 console.log(trainer);
                                 
-                                if ((trainer.disponibilityDays.includes(this.selectedDay)) &&(trainer.specifications.includes(this.selectedModule.moduleInstanceName))) {
+                                if ((trainer.disponibilityDays.includes(this.selectedDay)) &&(trainer.specifications.includes(this.selectedModule.module.moduleName))) {
                                     //console.log("");
                                     return true;
                                 }
