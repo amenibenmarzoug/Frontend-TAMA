@@ -145,7 +145,7 @@ export class CalendarService implements Resolve<any>
 
                   
                     this.events = response;
-                    if (this.userRole.includes("PARTICIPANT")) {
+                 /*   if (this.userRole.includes("PARTICIPANT")) {
                         if (this.participant.cursus == null) {
                             this.events = [];
                         }
@@ -165,9 +165,7 @@ export class CalendarService implements Resolve<any>
 
 
                     }
-                    /*else {
-                        this.events = [];
-                    }*/
+                   
 
                     else if (this.userRole.includes("TRAINER")) {
                         this.events = this.events.filter(_event => {
@@ -207,7 +205,7 @@ export class CalendarService implements Resolve<any>
                         this.events = [];
                     }
                     console.log("GET EVENTS");
-                    console.log(this.events);
+                    console.log(this.events);*/
                     this.onEventsUpdated.next(this.events);
                     resolve(this.events);
                 }, reject);

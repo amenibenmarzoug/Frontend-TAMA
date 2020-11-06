@@ -118,7 +118,7 @@ export class AuthenticationService {
       //role: trainer.role,
       firstName: trainer.value.firstNameT,
       lastName: trainer.value.lastNameT,
-      specification: trainer.value.specification,
+      //specification: trainer.value.specification,
       gender: trainer.value.genderT,
     }, httpOptions);
    
