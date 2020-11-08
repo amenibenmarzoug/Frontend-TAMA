@@ -410,13 +410,10 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       this.alertDialog = this._matDialog.open(AlertDialogComponent, {
         disableClose: false
       });
-
       this.alertDialog.componentInstance.dialogMessage = 'Veuillez selectionner la formation et le formateur concernés';
-
       this.alertDialog.afterClosed().subscribe(result => {
         if (result) {
           console.log("selectionner");
-
         }
         this.alertDialog = null;
       });
