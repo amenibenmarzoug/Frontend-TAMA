@@ -67,6 +67,17 @@ import { TrainersListComponent } from './add-session/trainers-list/trainers-list
 import { CursusParticipantService } from '../cursus/cursus-participants/cursus-participant.service';
 import { AddSessionService } from './add-session/add-session.service';
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
+import { ProgramsInstComponent } from './programs-inst/programs-inst.component';
+import { ProgramInstFormComponent } from './programs-inst/program-inst-form/program-inst-form.component';
+import { ProgramInstDetailComponent } from './program-inst-detail/program-inst-detail.component';
+import { ModuleInstComponent } from './program-inst-detail/tabs/module-inst/module-inst.component';
+import { ThematiqueInstComponent } from './program-inst-detail/tabs/thematique-inst/thematique-inst.component';
+import { ThemeDetailInstComponent } from './program-inst-detail/tabs/theme-detail-inst/theme-detail-inst.component';
+
+import{ProgramsInstService} from './programs-inst.service';
+import{ProgramInstDetailService} from './program-inst-detail/program-inst-detail.service';
+import { ModuleInstListComponent } from './program-inst-detail/tabs/module-inst/module-inst-list/module-inst-list.component';
+import { ThemeDetailInstListComponent } from './program-inst-detail/tabs/theme-detail-inst/theme-detail-inst-list/theme-detail-inst-list.component';
 registerLocaleData(localeFr, 'fr');
 const routes = [
     {
@@ -77,10 +88,24 @@ const routes = [
         }
     },
     {
+        path     : 'programsD',
+        component: ProgramsInstComponent,
+        resolve  : {
+            academy: ProgramsInstService
+        }
+    },
+    {
         path     : 'programDetails/:id',
         component: ProgramDetailsComponent,
         resolve  : {
             academy: ProgramDetailsService,
+        }
+    },
+    {
+        path     : 'programInstDetails/:id',
+        component: ProgramInstDetailComponent,
+        resolve  : {
+            academy: ProgramInstDetailService,
         }
     },
     
@@ -154,7 +179,16 @@ const routes = [
 
         ThemeDetailComponent,
         AddSessionComponent,
-        TrainersListComponent
+        TrainersListComponent,
+        ProgramsInstComponent,
+        ProgramInstFormComponent,
+        ProgramInstDetailComponent,
+        ModuleInstComponent,
+        ThematiqueInstComponent,
+        ThemeDetailInstComponent,
+        ModuleInstListComponent,
+        ThemeDetailInstListComponent,
+        
         
 
         
@@ -201,7 +235,9 @@ const routes = [
     providers   : [
         MatNativeDatetimeModule,
         ProgramDetailsService,
-        ProgramsService,        
+        ProgramsService,  
+        ProgramsInstService,   
+        ProgramInstDetailService, 
         AddSessionService,
         {provide: LOCALE_ID, useValue: 'fr' },
         {
