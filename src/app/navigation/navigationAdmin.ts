@@ -42,19 +42,18 @@ export const navigationAdmin: FuseNavigation[] = [
             {
                 id: 'academy',
                 title: 'Programme',
-                translate: 'NAV.ACADEMY',
                 type: 'item',
                 url: '/apps/academy/programs',
                 
             },
-            // {
-            //     id: 'programsD',
-            //     title: 'Programme Dédié',
-            //     type: 'item',
-            //     //url  : '/apps/academy/trainings',
+             {
+                id: 'programsD',
+                 title: 'Programme Dédié',
+                 type: 'item',
+                 url  : '/apps/academy/programsD',
 
 
-            // },
+             },
        
         {
             id: 'add',

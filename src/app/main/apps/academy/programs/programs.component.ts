@@ -69,7 +69,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
             });
 
         // Subscribe to courses
-        this._academyProgramsService.onCoursesChanged
+        this._academyProgramsService.onProgramsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(courses => {
                 this.filteredPrograms = this.programsFilteredByCategory = this.programs = courses;
@@ -181,7 +181,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
                      */
                     case 'save':
 
-                        this._academyProgramsService.updateCourse1(formData.getRawValue());
+                        this._academyProgramsService.updateProgram(formData.getRawValue());
 
                         break;
                     /**
@@ -209,7 +209,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
 
         this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._academyProgramsService.deleteCursus(contact);
+                this._academyProgramsService.deleteProgram(contact);
             }
             this.dialogRef = null;
         });

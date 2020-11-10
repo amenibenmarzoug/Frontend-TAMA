@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { AddSessionService } from 'app/main/apps/academy/add-session/add-session.service';
@@ -17,6 +17,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { TranslateService } from '@ngx-translate/core';
 import { DateAdapter } from '@angular/material/core';
+import { MatStepper } from '@angular/material/stepper';
 
 
 registerLocaleData(localeFr, 'fr');
@@ -32,6 +33,9 @@ const USER_KEY = 'auth-user';
 export class AddSessionComponent implements OnInit, OnDestroy {
   form: FormGroup;
 
+  @ViewChild('stepper') stepper: MatStepper;
+ // @ViewChild('stepper2') stepper2: MatStepper;
+ // @ViewChild('stepper') stepper: MatStepper;
   // Horizontal Stepper
   horizontalStepperStep1: FormGroup;
   horizontalStepperStep2: FormGroup;
@@ -78,7 +82,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   alertDialog: MatDialogRef<AlertDialogComponent>;
   // Private
   private _unsubscribeAll: Subject<any>;
-  
+  currentStep:any;
 
   formErrorsStepper1 = {
 
@@ -403,21 +407,11 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     this.session.sessionEndDate = this.horizontalStepperStep1.value.courseSessionEndDate;
     this.session.trainer = this.selectedTrainer;
     this.session.themeDetailInstance = this.selectedThemeDet;
+    
+
   }
 
   sendDate(): void {
-   /* if ((this.selectedThemeDet == null) || (this.selectedThemeDet == null)) {
-      this.alertDialog = this._matDialog.open(AlertDialogComponent, {
-        disableClose: false
-      });
-      this.alertDialog.componentInstance.dialogMessage = 'Veuillez selectionner la formation et le formateur concernés';
-      this.alertDialog.afterClosed().subscribe(result => {
-        if (result) {
-          console.log("selectionner");
-        }
-        this.alertDialog = null;
-      });
-    }*/
 
     this._addSessionService.selectedDate = this.horizontalStepperStep1.value.courseSessionBeginDate;
     console.log(this._addSessionService.selectedDate);
@@ -434,6 +428,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     console.log(this._addSessionService.selectedDay);
     this._addSessionService.getTrainers();
     console.log(this._addSessionService.selectedModule);
+    
   }
   // -----------------------------------------------------------------------------------------------------
   // @ Public methods
@@ -448,6 +443,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   }
 
   sendClassroom(): void {
+
     this.session.classRoom = this.currentClassroom;
   }
 
@@ -467,10 +463,11 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     this.event.start = this.session.sessionBeginDate;
     this.event.end = this.session.sessionEndDate;
     console.log(this.event);
-    this._addSessionService.saveCourseSessionAndEvent(this.session, this.event);
-    /*this._addSessionService.saveCourseSessionAndEvent(this.session, this.event).then(() => {
+    setTimeout( () => {  this._addSessionService.saveCourseSessionAndEvent(this.session, this.event).then(() => {
       this._addSessionService.getEvents();
-    });*/
+      window.location.reload();
+    });},5);
+
     
     
   }

@@ -29,7 +29,7 @@ export class ModuleListComponent implements OnInit, OnDestroy {
     modules: any;
     user: any;
     dataSource: FilesDataSource | null;
-    displayedColumns = ['checkbox', 'moduleName', 'nbDaysModule', 'buttons'];
+    displayedColumns = ['checkbox', 'moduleName', 'nbDaysModule','theme', 'buttons'];
     selectedModules: any[];
     checkboxes: {};
     dialogRef: any;

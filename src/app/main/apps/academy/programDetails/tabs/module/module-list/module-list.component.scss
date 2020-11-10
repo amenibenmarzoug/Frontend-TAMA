@@ -27,9 +27,13 @@ app-training-list {
             position: relative;
             cursor: pointer;
             padding: 8px;
+            
 
             .mat-cell {
+                display: inline;
                 min-width: 0;
+                
+                
 
                 &.mat-column-detail-button {
                     flex: 0 1 auto;

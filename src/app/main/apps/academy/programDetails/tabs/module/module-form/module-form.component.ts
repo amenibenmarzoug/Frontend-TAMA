@@ -68,6 +68,7 @@ export class ModuleFormComponent  {
           id      : [this.module.id],
           moduleName   : [this.module.moduleName],
           nbDaysModule : [this.module.nbDaysModule],
+          theme:[this.module.theme]
         
          
       });

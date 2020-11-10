@@ -100,7 +100,7 @@ export class CalendarComponent implements OnInit {
          * Get events from service/server
          */
       
-        //this._calendarService.getEvents();
+      //  this._calendarService.getEvents();
         this.setEvents();
     }
 
@@ -117,7 +117,7 @@ export class CalendarComponent implements OnInit {
         /**
          * Watch re-render-refresh for updating db
          */
-        
+        //this._calendarService.getEvents();
         this.refresh.subscribe(updateDB => {
             
             if (updateDB) {
@@ -142,7 +142,7 @@ export class CalendarComponent implements OnInit {
      * Set events
      */
     setEvents(): void {
-      //  this._calendarService.getEvents();
+       // this._calendarService.getEvents();
         this.events = this._calendarService.events.map(item => {
             const date=new Date(item.start);
             this.eventsDates.push(date.toDateString());
