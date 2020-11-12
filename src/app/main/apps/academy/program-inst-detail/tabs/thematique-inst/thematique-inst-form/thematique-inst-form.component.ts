@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup,Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { ProgramInstDetailService } from '../../../program-inst-detail.service';
 import { ThematiqueInst } from '../thematiqueInst.model';
@@ -61,6 +61,8 @@ export class ThematiqueInstFormComponent implements OnInit {
       themeInstName: [this.themeInst.themeInstName],
       nbDaysthemeInst: [this.themeInst.nbDaysthemeInst],
       theme : [this.themeInst.theme],
+      /*themeInstBeginDate: ['', Validators.required],
+      themeInstEndDate: ['', Validators.required],*/
       
      
 

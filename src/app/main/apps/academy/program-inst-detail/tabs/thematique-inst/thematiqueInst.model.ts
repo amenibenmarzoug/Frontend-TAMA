@@ -4,8 +4,8 @@ export class ThematiqueInst {
     id: number;
     themeInstName:string;
     nbDaysthemeInst:number;
-    themeInstBeginDate:Date;
-    themeInstEndDate:Date;
+    //themeInstBeginDate:Date;
+    //themeInstEndDate:Date;
     theme:Thematique;
     programInstance:ProgramInst;
 
@@ -19,8 +19,8 @@ export class ThematiqueInst {
             this.id = theme.id;
             this.themeInstName = theme.themeInstName || '';
             this.nbDaysthemeInst = theme.nbDaysthemeInst || '';
-            this.themeInstBeginDate = theme.themeInstBeginDate || '';
-            this.themeInstEndDate = theme.themeInstEndDate || '';
+           // this.themeInstBeginDate = theme.themeInstBeginDate || '';
+            //this.themeInstEndDate = theme.themeInstEndDate || '';
             this.theme= theme.theme || '';
             this.programInstance= theme.programInstance || '';
 

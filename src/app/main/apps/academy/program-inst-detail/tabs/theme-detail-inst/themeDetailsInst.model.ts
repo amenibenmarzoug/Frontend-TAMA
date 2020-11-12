@@ -4,10 +4,13 @@ import{ModuleInst} from '../../../program-inst-detail/tabs/module-inst/moduleIns
 export class ThemeDetailInst
 {
     id: any;
+    themeDetailInstName:string;
+    nbDaysthemeDetailInst: number;
     themeDetail: ThemeDetail;
     moduleInstance: ModuleInst;
-    themeDetailInstBeginDate:Date;
-    themeDetailInstEndDate:Date;
+
+    //themeDetailInstBeginDate:Date;
+    //themeDetailInstEndDate:Date;
    
     
     /**
@@ -21,8 +24,8 @@ export class ThemeDetailInst
             this.id = themeDetail.id ;
             this.themeDetail = themeDetail.themeDetail || '';
             this.moduleInstance = themeDetail.moduleInstance || '';
-            this.themeDetailInstBeginDate = themeDetail.themeDetailInstBeginDate || '';
-            this.themeDetailInstEndDate=themeDetail.themeDetailInstEndDate || '';
+            this.themeDetailInstName = themeDetail.themeDetailInstName || '';
+            this.nbDaysthemeDetailInst=themeDetail.nbDaysthemeDetailInst || '';
         
         }
     }

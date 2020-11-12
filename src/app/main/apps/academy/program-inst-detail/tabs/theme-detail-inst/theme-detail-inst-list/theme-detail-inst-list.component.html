@@ -1,3 +1,4 @@
+
 <mat-table #table [dataSource]="dataSource"
            [@animateStagger]="{value:'50'}">
     <!-- Checkbox Column -->
@@ -12,44 +13,48 @@
 
 
     <!-- Name Column -->
-    <ng-container matColumnDef="themeDetail">
-        <mat-header-cell *matHeaderCellDef>Titre Theme Detail</mat-header-cell>
+    <ng-container matColumnDef="themeDetailName">
+        <mat-header-cell *matHeaderCellDef>Titre Theme Detail associé</mat-header-cell>
         <mat-cell *matCellDef="let themeDetail">
             <p class="text-truncate font-weight-600">{{themeDetail.themeDetail.themeDetailName}} </p>
         </mat-cell>
     </ng-container>
 
     <!-- Email Column -->
-    <ng-container matColumnDef="moduleInstance">
+    <ng-container matColumnDef="nbDaysThemeDetail">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Nombre de jours</mat-header-cell>
         <mat-cell *matCellDef="let themeDetail" fxHide fxShow.gt-sm>
             <p class="email text-truncate">
-                {{themeDetail.moduleInstance.moduleInstanceName}}
+                {{themeDetail.themeDetail.nbDaysThemeDetail}}
             </p>
         </mat-cell>
     </ng-container>
-    
-    <!-- Email Column -->
-    <ng-container matColumnDef="themeDetailInstBeginDate">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Nombre de jours</mat-header-cell>
-        <mat-cell *matCellDef="let themeDetail" fxHide fxShow.gt-sm>
-            <p class="email text-truncate">
-                {{themeDetail.themeDetailInstBeginDate}}
-            </p>
-        </mat-cell>
-    </ng-container>
-    <!-- Email Column -->
-    <ng-container matColumnDef="themeDetailInstEndDate">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Nombre de jours</mat-header-cell>
-        <mat-cell *matCellDef="let themeDetail" fxHide fxShow.gt-sm>
-            <p class="email text-truncate">
-                {{themeDetail.themeDetailInstEndDate}}
-            </p>
-        </mat-cell>
-    </ng-container>
-   
 
-  
+
+     <!-- Email Column -->
+     <ng-container matColumnDef="ThemeDetailInstName">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>nom ThemeDetail Dédié</mat-header-cell>
+        <mat-cell *matCellDef="let themeDetail" fxHide fxShow.gt-sm>
+            <p class="email text-truncate">
+                {{themeDetail.themeDetailInstName}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="nbDaysThemeDetailInst">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Nombre de jours du themeDetail dédié</mat-header-cell>
+        <mat-cell *matCellDef="let themeDetail" fxHide fxShow.gt-sm>
+            <p class="email text-truncate">
+                {{themeDetail.nbDaysthemeDetailInst}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+
+
+
+
 
     <!-- Buttons Column -->
     <ng-container matColumnDef="buttons">
@@ -86,5 +91,8 @@
              [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>
 </mat-table>
+
+
+
 
 

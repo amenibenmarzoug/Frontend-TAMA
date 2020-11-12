@@ -22,190 +22,191 @@ import{ProgramInstDetailService} from '../../../program-inst-detail.service';
 export class ThemeDetailInstListComponent implements OnInit {
 
   @ViewChild('dialogContent')
-  dialogContent: TemplateRef<any>;
+    dialogContent: TemplateRef<any>;
 
-  themeDetails: any;
-  user: any;
-  dataSource: FilesDataSource | null;
-  displayedColumns = ['checkbox', 'themeDetail','moduleInstance','themeDetailInstBeginDate','themeDetailInstEndDate', 'buttons'];
-  selectedThemeDetails: any[];
-  checkboxes: {};
-  dialogRef: any;
-  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  id: number;
+    themeDetails: any;
+    user: any;
+    dataSource: FilesDataSource | null;
+    displayedColumns = ['checkbox', 'themeDetailName', 'nbDaysThemeDetail','ThemeDetailInstName','nbDaysThemeDetailInst','buttons'];
+    selectedThemeDetails: any[];
+    checkboxes: {};
+    dialogRef: any;
+    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    id: number;
 
-  // Private
-  private _unsubscribeAll: Subject<any>;
+    // Private
+    private _unsubscribeAll: Subject<any>;
 
-  /**
-   * Constructor
-   *
-   * @param {ProgramDetailsService} _themeDetailsService
-   * @param {MatDialog} _matDialog
-   */
-  constructor(
-      private _themeDetailsService: ProgramDetailsService,
-      private _themeDetailsInstService:ProgramInstDetailService,
-      public _matDialog: MatDialog
-  ) {
-      // Set the private defaults
-      this._unsubscribeAll = new Subject();
-  }
+    /**
+     * Constructor
+     *
+     * @param {ProgramDetailsService} _themeDetailsService
+     * @param {MatDialog} _matDialog
+     */
+    constructor(
+        private _themeDetailsService: ProgramInstDetailService,
+        public _matDialog: MatDialog
+    ) {
+        // Set the private defaults
+        this._unsubscribeAll = new Subject();
+    }
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Lifecycle hooks
-  // -----------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
 
-  /**
-   * On init
-   */
-  ngOnInit(): void {
-      this.dataSource = new FilesDataSource(this._themeDetailsInstService);
+    /**
+     * On init
+     */
+    ngOnInit(): void {
+        this.dataSource = new FilesDataSource(this._themeDetailsService);
 
-      this._themeDetailsInstService.onThemeDetailInstChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(themeDetails => {
-              this.themeDetails = themeDetails;
-              console.log("themeDetailInst");
-              console.log(this.themeDetails);
+        this._themeDetailsService.onThemeDetailInstChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(themeDetails => {
+                this.themeDetails = themeDetails;
 
-              this.checkboxes = {};
-              themeDetails.map(themeDetail => {
-                  this.checkboxes[themeDetail.id] = false;
-              });
-          });
+                this.checkboxes = {};
+                themeDetails.map(themeDetail => {
+                    this.checkboxes[themeDetail.id] = false;
+                });
+            });
 
-      this._themeDetailsInstService.onSelectedThemeDetailChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(selectedThemeDetails => {
-              for (const id in this.checkboxes) {
-                  if (!this.checkboxes.hasOwnProperty(id)) {
-                      continue;
-                  }
+        this._themeDetailsService.onSelectedThemeDetailChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(selectedThemeDetails => {
+                for (const id in this.checkboxes) {
+                    if (!this.checkboxes.hasOwnProperty(id)) {
+                        continue;
+                    }
 
-                  this.checkboxes[id] = selectedThemeDetails.includes(id.toString());
-              }
-              this.selectedThemeDetails = selectedThemeDetails;
-          });
-      this._themeDetailsInstService.onFilterChangedThemeDetailInst
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(() => {
-              this._themeDetailsInstService.deselectThemeDetail();
-          });
+                    this.checkboxes[id] = selectedThemeDetails.includes(id.toString());
+                }
+                this.selectedThemeDetails = selectedThemeDetails;
+            });
+        this._themeDetailsService.onFilterChangedThemeDetailInst
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(() => {
+                this._themeDetailsService.deselectThemeDetail();
+            });
 
-  }
+    }
 
-  /**
-   * On destroy
-   */
-  ngOnDestroy(): void {
-      // Unsubscribe from all subscriptions
-      this._unsubscribeAll.next();
-      this._unsubscribeAll.complete();
-  }
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
-  /**
-   * Edit contact
-   *
-   * @param contact
-   */
-  editThemeDetail(themeDetail): void {
-      this.dialogRef = this._matDialog.open(ThemeDetailFormComponent, {
-          panelClass: 'theme-detail-form-dialog',
-          data: {
-              themeDetail: themeDetail,
-              action: 'edit'
-          }
-      });
+    /**
+     * Edit contact
+     *
+     * @param contact
+     */
+    editThemeDetail(themeDetail): void {
+        this.dialogRef = this._matDialog.open(ThemeDetailFormComponent, {
+            panelClass: 'theme-detail-form-dialog',
+            data: {
+                themeDetail: themeDetail,
+                action: 'edit'
+            }
+        });
 
-      this.dialogRef.afterClosed()
-          .subscribe(response => {
-              if (!response) {
-                  return;
-              }
-              const actionType: string = response[0];
-              const formData: FormGroup = response[1];
-              switch (actionType) {
-                  /**
-                   * Save
-                   */
-                  case 'save':
+        this.dialogRef.afterClosed()
+            .subscribe(response => {
+                if (!response) {
+                    return;
+                }
+                const actionType: string = response[0];
+                const formData: FormGroup = response[1];
+                switch (actionType) {
+                    /**
+                     * Save
+                     */
+                    case 'save':
 
-                      this._themeDetailsInstService.updateThemeDetail(formData.getRawValue(),this._themeDetailsInstService.moduleInst);
+                        this._themeDetailsService.updateThemeDetail(formData.getRawValue(),this._themeDetailsService.module);
 
-                      break;
-                  /**
-                   * Delete
-                   */
-                  case 'delete':
+                        break;
+                    /**
+                     * Delete
+                     */
+                    case 'delete':
 
-                      this.deleteThemeDetail(themeDetail.id);
+                        this.deleteThemeDetail(themeDetail.id);
 
-                      break;
-              }
-          });
-  }
+                        break;
+                }
+            });
+    }
 
-  /**
-   * Delete Module
-   */
-  deleteThemeDetail(themeDetail): void {
-      this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
-          disableClose: false
-      });
+    /**
+     * Delete Module
+     */
+    deleteThemeDetail(themeDetail): void {
+        this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
+            disableClose: false
+        });
 
-      this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
 
-      this.confirmDialogRef.afterClosed().subscribe(result => {
-          if (result) {
-              this._themeDetailsInstService.deleteThemeDetail(themeDetail);
-          }
-          this.confirmDialogRef = null;
-      });
+        this.confirmDialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this._themeDetailsService.deleteThemeDetail(themeDetail);
+            }
+            this.confirmDialogRef = null;
+        });
 
-  }
+    }
 
-  /**
-   * On selected change
-   *
-   * @param contactId
-   */
-  onSelectedChange(themeDetailId): void {
-      this._themeDetailsInstService.toggleSelectedThemeDetail(themeDetailId);
-  }
+    /**
+     * On selected change
+     *
+     * @param contactId
+     */
+    onSelectedChange(themeDetailId): void {
+        this._themeDetailsService.toggleSelectedThemeDetail(themeDetailId);
+    }
 
-  
+    
 }
 
 export class FilesDataSource extends DataSource<any>
 {
-  /**
-   * Constructor
-   *
-   * @param {ProgramDetailsService} _themeDetailsService
-   */
-  constructor(
-      private _themeDetailsInstService: ProgramInstDetailService
-  ) {
-      super();
-  }
+    /**
+     * Constructor
+     *
+     * @param {ProgramDetailsService} _themeDetailsService
+     */
+    constructor(
+        private _themeDetailsService: ProgramInstDetailService
+    ) {
+        super();
+    }
 
-  /**
-   * Connect function called by the table to retrieve one stream containing the data to render.
-   * @returns {Observable<any[]>}
-   */
-  connect(): Observable<any[]> {
-      return this._themeDetailsInstService.onThemeDetailInstChanged;
+    /**
+     * Connect function called by the table to retrieve one stream containing the data to render.
+     * @returns {Observable<any[]>}
+     */
+    connect(): Observable<any[]> {
+        return this._themeDetailsService.onThemeDetailInstChanged;
 
-  }
+    }
 
-  /**
-   * Disconnect
-   */
-  disconnect(): void {
-  }
+    /**
+     * Disconnect
+     */
+    disconnect(): void {
+    }
+
+
+
+
 }

@@ -24,11 +24,13 @@ export class ProgramInstDetailService {
     programInst:any;
     themeInstId: any;
     moduleId:any;
+    moduleInstId:any;
     modulesInst:ModuleInst[];
     themeDetailsInst: ThemeDetailInst[];
     moduleInst:Module;
     themeInst: ThematiqueInst;
-    themeDetailInst: ThemeDetail;
+    themeDetailInst: ThemeDetailInst; //changet by Donia
+    themeDetails: ThemeDetail[];
     onFilterChangedModuleInst: Subject<any>;
     onThemeDetailInstChanged: BehaviorSubject<any>;
     onFilterChangedThemeDetailInst: Subject<any>;
@@ -99,6 +101,7 @@ export class ProgramInstDetailService {
                this.getProgramInst(),
                this.getModules(),
               // this.getThemeDetail(),
+              this.getThemeDetail0(),
               this.getThemes()
                
                
@@ -382,7 +385,8 @@ export class ProgramInstDetailService {
         return new Promise((resolve, reject) => {
             moduleInst.themeInstance = themeInst;
             moduleInst.module = module;
-            this._httpClient.post(AUTH_API + 'moduleInstance', module)
+         
+            this._httpClient.post(AUTH_API +'moduleInstance', moduleInst)
                 .subscribe(response => {
                     this.getModulesInst();
                     resolve(response);
@@ -443,7 +447,18 @@ export class ProgramInstDetailService {
         this.deselectModules();
     }
     /*********************ThemeDetails***********************/
-
+    getThemeDetail0(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'themeDetail')
+                 .subscribe((response: any) => {
+                  
+                    this.onModuleChanged.next(response);
+                    this.themeDetails=response;
+                    resolve(response);
+                }, reject);
+        }
+        );
+    }
     /**
      * Get Modules
      *
@@ -460,16 +475,16 @@ export class ProgramInstDetailService {
                     if (this.moduleId != null) {
                         if (this.filterByThemeDetail === 'ThemeDetail') {
                         }
-                       /* else {
+                        else {
 
-                            this.themeDetails = this.themeDetails.filter(_themeDetail => {
+                            this.themeDetailsInst = this.themeDetailsInst.filter(_themeDetail => {
                                 // return this.user.frequentContacts.includes(_contact.id);
-                                if (_themeDetail.module.id == this.moduleId) {
+                                if (_themeDetail.moduleInstance.id == this.moduleId) {
                                     return true;
                                 }
                                 return false;
                             });
-                        }*/
+                        }
                     }
                     else {
                         this.themeDetailsInst = response;
@@ -565,8 +580,11 @@ export class ProgramInstDetailService {
      */
     addThemeDetail(themeDetail, module): Promise<any> {
         return new Promise((resolve, reject) => {
-            themeDetail.module = module;
-            this._httpClient.post(AUTH_API + 'themeDetail', themeDetail)
+            themeDetail.moduleInstance = module;
+            console.log("themeDetail inst fel service");
+            console.log(themeDetail);
+            //themeDetailInst.themeDetail=themeDetail;
+            this._httpClient.post(AUTH_API +'themeDetailInst', themeDetail)
                 .subscribe(response => {
                     this.getThemeDetail();
                     resolve(response);

@@ -92,7 +92,7 @@ export class ModuleInstComponent implements OnInit {
 
   addNewModule(): void {
       if ((this._moduleInstService.themeInst == null)) {
-          this.addModuleAlert("Veuillez choisir le thème");
+          this.addModuleAlert("Veuillez choisir le thèmeInst");
       }
 
       else {

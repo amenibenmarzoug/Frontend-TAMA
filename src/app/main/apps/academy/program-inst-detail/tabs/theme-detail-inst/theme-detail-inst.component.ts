@@ -9,8 +9,11 @@ import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
-import {ThemeDetailFormComponent} from '../../../programDetails/tabs/themeDetail/theme-detail-form/theme-detail-form.component';
+//import {ThemeDetailFormComponent} from '../../../programDetails/tabs/themeDetail/theme-detail-form/theme-detail-form.component';
 import { ProgramDetailsService } from '../../../programDetails/programDetails.service';
+import{ProgramInstDetailService} from '../../program-inst-detail.service';
+import {ThemeDetailInstFormComponent} from '../../tabs/theme-detail-inst/theme-detail-form/theme-detail-form.component';
+import { ModuleInst } from '../module-inst/moduleInst.model';
 
 @Component({
   selector: 'app-theme-detail-inst',
@@ -31,7 +34,7 @@ export class ThemeDetailInstComponent implements OnInit {
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   alertDialog: MatDialogRef<AlertDialogComponent>;
   themeDetail: any;
-
+  selectedModule:ModuleInst;
   /**
    * Constructor
    *
@@ -40,7 +43,7 @@ export class ThemeDetailInstComponent implements OnInit {
    * @param {MatDialog} _matDialog
    */
   constructor(
-      private _themeDetailsService: ProgramDetailsService,
+      private _themeDetailsService: ProgramInstDetailService,
       private _fuseSidebarService: FuseSidebarService,
       private _matDialog: MatDialog
   ) {
@@ -94,11 +97,16 @@ export class ThemeDetailInstComponent implements OnInit {
 
   addNewThemeDetail(): void {
       if ((this._themeDetailsService.module == null)) {
-          this.addThemeDetailAlert("Veuillez choisir le Module");
+          
+          console.log(this._themeDetailsService.module);
+          this.addThemeDetailAlert("Veuillez choisir le ModuleInst");
       }
 
       else {
-          this.dialogRef = this._matDialog.open(ThemeDetailFormComponent, {
+          console.log("moduleInst ki thalet dialog");
+          console.log(this._themeDetailsService.module);
+          this.selectedModule=this._themeDetailsService.module;
+          this.dialogRef = this._matDialog.open(ThemeDetailInstFormComponent, {
               panelClass: 'theme-detail-form-dialog',
               data: {
                   action: 'new',
@@ -113,6 +121,8 @@ export class ThemeDetailInstComponent implements OnInit {
                       return;
                   }
                   this.themeDetail = response.getRawValue();
+                  console.log("formulaaire de add progDetailInst");
+                  console.log(this.themeDetail);
 
                   this.confirmAddThemeDetail();
 
@@ -147,8 +157,11 @@ export class ThemeDetailInstComponent implements OnInit {
       this.confirmDialogRef.afterClosed().subscribe(result => {
           if (result) {
               console.log("ajout theme Detail avec succès");
-
-              this._themeDetailsService.addThemeDetail(this.themeDetail, this._themeDetailsService.module);
+              console.log(this.themeDetail);
+              console.log("moduleInsst");
+//console.log(this._themeDetailsService.module);
+console.log(this.selectedModule);
+              this._themeDetailsService.addThemeDetail(this.themeDetail,this.selectedModule);
 
           }
           this.confirmDialogRef = null;

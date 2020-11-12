@@ -25,6 +25,8 @@
 
     <!-- SELECTED BAR -->
     <!--app-selected-bar-theme-detail class="accent-600" *ngIf="hasSelectedThemeDetails" [@slideInTop]></app-selected-bar-theme-detail-->
+    
+    <app-selected-bar class="accent-600" *ngIf="hasSelectedThemeDetails" [@slideInTop]></app-selected-bar>
     <!-- / SELECTED BAR -->
 
     <!-- CONTENT -->
@@ -36,6 +38,7 @@
             <!-- SIDEBAR CONTENT -->
             <div class="content" fusePerfectScrollbar>
                 <!--app-main-theme-detail [@animate]="{value:'*'}"></app-main-theme-detail-->
+                <app-main [@animate]="{value:'*'}"></app-main>
             </div>
             <!-- / SIDEBAR CONTENT -->
 

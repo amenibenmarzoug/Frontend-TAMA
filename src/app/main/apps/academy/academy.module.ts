@@ -79,6 +79,9 @@ import{ProgramInstDetailService} from './program-inst-detail/program-inst-detail
 import { ModuleInstListComponent } from './program-inst-detail/tabs/module-inst/module-inst-list/module-inst-list.component';
 import { ThemeDetailInstListComponent } from './program-inst-detail/tabs/theme-detail-inst/theme-detail-inst-list/theme-detail-inst-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MainComponent } from './program-inst-detail/tabs/theme-detail-inst/main/main.component';
+import { SelectedBarComponent } from './program-inst-detail/tabs/theme-detail-inst/selected-bar/selected-bar.component';
+import{ThemeDetailInstFormComponent} from './../academy/program-inst-detail/tabs/theme-detail-inst/theme-detail-form/theme-detail-form.component'
 registerLocaleData(localeFr, 'fr');
 const routes = [
     {
@@ -170,6 +173,7 @@ const routes = [
 
         ThemeDetailComponent,  
         ThemeDetailFormComponent,
+        ThemeDetailInstFormComponent,
         ThemeDetailsListComponent,
         MainThemeDetailComponent,
         SelectedBarThemeDetailComponent,
@@ -198,6 +202,9 @@ const routes = [
 
         ThemeDetailInstComponent,
         ThemeDetailInstListComponent,
+        MainComponent,
+        SelectedBarComponent,
+       
         
         
 
