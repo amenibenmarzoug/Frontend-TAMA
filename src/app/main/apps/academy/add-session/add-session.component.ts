@@ -73,6 +73,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   selectedThemeDet: any;
   selectedTheme:any;
   selectedClassRoom:any
+  allTrainers: any[] = [];
   selectedTrainers: any[] = [];
   selectedTrainer: any;
   selectedModule:any;
@@ -427,6 +428,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     }
     console.log(this._addSessionService.selectedDay);
     this._addSessionService.getTrainers();
+    this.allTrainers=this._addSessionService.trainers;
     console.log(this._addSessionService.selectedModule);
     
   }

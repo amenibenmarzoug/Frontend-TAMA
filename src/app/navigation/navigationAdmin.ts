@@ -75,7 +75,7 @@ export const navigationAdmin: FuseNavigation[] = [
         icon: 'account_box',
         url: '/apps/trainer'
     },
-    {
+ /*   {
         id: 'disponibility-trainer',
         title: 'Disponibilités des formateurs',
 
@@ -92,7 +92,7 @@ export const navigationAdmin: FuseNavigation[] = [
         type: 'item',
         icon: 'account_box',
         url: '/apps/course-trainer'
-    },
+    },*/
     {
         id: 'participants',
         title: 'Participants',
