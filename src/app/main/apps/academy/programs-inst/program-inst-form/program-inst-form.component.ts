@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CalendarEvent } from 'angular-calendar';
 import { Subject } from 'rxjs';
@@ -67,7 +67,7 @@ export class ProgramInstFormComponent implements OnInit {
           programInstName: [this.programInst.programInstName],
           nbDaysProgInst: [this.programInst.nbDaysProgInst],
           location  : [this.programInst.location],
-          program  : [this.programInst.program],
+          program: [this.programInst.program,Validators.required],
 
 
           
@@ -78,7 +78,9 @@ export class ProgramInstFormComponent implements OnInit {
     }
     getProgramForm(event){
      
-      this._programInstService.program=event;          
+      this._programInstService.program=event;  
+      this.programInst.nbDaysProgInst = event.nbDaysProg;     
+      this.programInst.programInstName = event.programName; 
 }
 
 }

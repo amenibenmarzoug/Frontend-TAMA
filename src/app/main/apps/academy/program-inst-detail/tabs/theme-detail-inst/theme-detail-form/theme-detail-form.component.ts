@@ -82,5 +82,8 @@ createThemeDetailForm(): FormGroup
 
 getModuleForm(event){
   this._programDetailsService.module=event;
+  this.themeDetail.themeDetailInstName = event.themeDetailName;
+  this.themeDetail.nbDaysthemeDetailInst=event.nbDaysThemeDetail;
+  
 }
 }

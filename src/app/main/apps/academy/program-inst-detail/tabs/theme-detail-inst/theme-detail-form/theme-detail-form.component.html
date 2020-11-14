@@ -34,7 +34,7 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Titre du Theme Detail</mat-label>
                     <mat-icon matSuffix class="secondary-text">font_download</mat-icon>
-                    <input ngDefaultControl name="themeDetailInstName" formControlName="themeDetailInstName" matInput required>
+                    <input  name="themeDetailInstName" formControlName="themeDetailInstName" [(ngModel)]="themeDetail.themeDetailInstName" matInput required>
                 </mat-form-field>
             </div>
 
@@ -42,7 +42,7 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Nombre de jours</mat-label>
                     <mat-icon matSuffix class="secondary-text">assignment</mat-icon>
-                    <input ngDefaultControl name="nbDaysthemeDetailInst" formControlName="nbDaysthemeDetailInst" matInput required>
+                    <input  name="nbDaysthemeDetailInst" formControlName="nbDaysthemeDetailInst"  [(ngModel)]="themeDetail.nbDaysthemeDetailInst" matInput required>
                 </mat-form-field>
             </div>
 

@@ -13,25 +13,26 @@
         <form name="programInstForm" [formGroup]="programInstForm" class="event-form w-100-p" fxLayout="column" fxFlex >
             <mat-form-field appearance="outline" class="w-100-p">
                 <mat-label>Programme de Base</mat-label>
-                <!-- <input matInput name="program" formControlName="program" 
-                required  [(ngModel)]="programInst.program.programName"> -->
-                    <mat-select formControlName="program"   (selectionChange)="getProgramForm($event.value)">
+                    <mat-select formControlName="program" placeholder="Programme de Base" (selectionChange)="getProgramForm($event.value)">
                        
-                        <mat-option *ngFor="let program of programs" [value]="program">
+                        <mat-option *ngFor="let program of programs"  [value]="program">
                             {{ program.programName}} 
                         </mat-option>
                     </mat-select>
+                    <!-- <mat-error *ngIf="program.hasError('required')">
+                        Program required.
+                      </mat-error> -->
             </mat-form-field>
             <mat-form-field appearance="outline" class="w-100-p">
                 <mat-label>Location</mat-label>
                 <input matInput name="location" formControlName="location" 
-                required  [(ngModel)]="programInst.location">
+                required   [(ngModel)]="programInst.location">
             </mat-form-field>
            
             <mat-form-field appearance="outline" class="w-100-p">
                 <mat-label>Nom du Programme Dédié</mat-label>
                 <input matInput name="programInstName" formControlName="programInstName" 
-                required  [(ngModel)]="programInst.programInstName">
+                required [(ngModel)]="programInst.programInstName">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="w-100-p">

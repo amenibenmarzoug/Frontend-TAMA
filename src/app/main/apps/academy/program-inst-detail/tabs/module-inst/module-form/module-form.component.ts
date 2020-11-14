@@ -83,5 +83,7 @@ export class ModuleInstFormComponent  {
   }
   getModuleForm(event){
     this._programDetailsService.module=event;
+    this.moduleInst.moduleInstanceName=event.moduleName;
+    this.moduleInst.nbDaysModuleInstance=event.nbDaysModule;
   }
 }

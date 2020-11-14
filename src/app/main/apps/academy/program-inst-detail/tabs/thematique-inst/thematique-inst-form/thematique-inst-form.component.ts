@@ -72,7 +72,9 @@ export class ThematiqueInstFormComponent implements OnInit {
   }
   getThemeForm(event){
      
-    this._programDetailsService.theme=event;          
+    this._programDetailsService.theme=event;  
+    this.themeInst.themeInstName = event.themeName;
+    this.themeInst.nbDaysthemeInst=event.nbDaysTheme;        
 }
  
 
