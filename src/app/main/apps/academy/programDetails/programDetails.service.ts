@@ -86,6 +86,7 @@ export class ProgramDetailsService implements Resolve<any>
             Promise.all([
                // this.getThemes(),
                this.getPrograms(),
+               this.getModules(),
                
             ]).then(
                 ([files]) => {

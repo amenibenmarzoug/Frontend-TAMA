@@ -100,7 +100,7 @@ export class ProgramInstDetailService {
               // this.getThemeInst(),
                this.getProgramInst(),
                this.getModules(),
-              // this.getThemeDetail(),
+              this.getModulesInst(),
               this.getThemeDetail0(),
               this.getThemes()
                
