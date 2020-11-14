@@ -245,7 +245,16 @@ export class TrainerService implements Resolve<any>
         this.specifications = null;
         console.log(contact);
         return new Promise((resolve, reject) => {
-
+            if (this.disponibilities != null) {
+                contact.disponibilityDays = this.disponibilities;
+    
+            }
+            if (this.specifications != null) {
+                contact.specifications = this.specifications;
+            }
+    
+            this.disponibilities = null;
+            this.specifications = null;
             this._httpClient.post(AUTH_API + 'auth/signup', contact)
                 .subscribe(response => {
                     this.getContacts();

@@ -3,14 +3,10 @@
     <div class="card">
 
         <!-- SIDEBAR HEADER -->
-        <div class="header p-24" fxLayout="row" fxLayoutAlign="start center">
+        <!-- <div class="header p-24" fxLayout="row" fxLayoutAlign="start center">
 
-            <!-- USER -->
-            
-            <span class="h5">Filtrer</span>
-            <!-- / USER -->
-
-        </div>
+           
+        </div> -->
         <!-- / SIDEBAR HEADER -->
 
         <!-- SIDEBAR CONTENT -->
@@ -35,7 +31,7 @@
                                 Tous
                             </mat-option>
                             <mat-option *ngFor="let category of module" [value]="category">
-                                {{ category.moduleName }}
+                              {{ category.moduleName }}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>

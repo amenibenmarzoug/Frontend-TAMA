@@ -13,9 +13,9 @@
 
     <!-- Name Column -->
     <ng-container matColumnDef="moduleName">
-        <mat-header-cell *matHeaderCellDef>Titre Module</mat-header-cell>
-        <mat-cell *matCellDef="let module">
-            <p class="text-truncate font-weight-600">{{module.moduleName}} </p>
+        <mat-header-cell *matHeaderCellDef fxShow.gt-sm>Titre Module</mat-header-cell>
+       <mat-cell *matCellDef="let module" fxShow.gt-sm>
+        <p class="font-weight-600">{{module.moduleName}}</p>
         </mat-cell>
     </ng-container>
 
@@ -23,9 +23,18 @@
     <ng-container matColumnDef="nbDaysModule">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Nombre de jours</mat-header-cell>
         <mat-cell *matCellDef="let module" fxHide fxShow.gt-sm>
-            <p class="email text-truncate">
+            <p >
                 {{module.nbDaysModule}}
             </p>
+        </mat-cell>
+    </ng-container>
+    <!-- Company Column -->
+    <ng-container  matColumnDef="theme">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Theme</mat-header-cell>
+        <mat-cell *matCellDef="let module" fxHide fxShow.gt-md>
+           <span> <p *ngIf="module.theme!=null"  class="company">
+             {{module.theme.themeName}}
+            </p></span>
         </mat-cell>
     </ng-container>
 
