@@ -161,10 +161,15 @@
 
                     <ng-template matStepLabel>Choisir un formateur</ng-template>
 
+                    <div class="content mb-24"   *ngIf="allTrainers.length==0">
+                        <div class="message-box error">
+                            Pas de formateurs disponibles pour la date choisie.
+                        </div>
+                    </div>
+                   
 
 
-
-                    <div class="content" [hidden]="!horizontalStepperStep1.valid">
+                    <div class="content" [hidden]="allTrainers.length==0">
                         <app-trainers-list></app-trainers-list>
 
                     </div>
@@ -197,9 +202,7 @@
                                     <mat-label>Institutions</mat-label>
                                     <mat-select formControlName="institution"
                                         (selectionChange)="selectInstitution($event.value)" required>
-                                        <mat-option [value]="'all'">
-                                            Tous
-                                        </mat-option>
+                                        
                                         <mat-option *ngFor="let institution of institutions" [value]="institution.id">
 
                                             {{ institution.institutionName }}
@@ -212,9 +215,7 @@
                                     <mat-label>Institutions-Salle</mat-label>
                                     <mat-select formControlName="classroom"
                                         (selectionChange)="selectClassroom($event.value)" required>
-                                        <mat-option [value]="'all'">
-                                            Tous
-                                        </mat-option>
+                                       
                                         <mat-option *ngFor="let classRoom of filteredClassrooms" [value]="classRoom">
 
                                             {{ classRoom.institution.institutionName }}-{{ classRoom.classRoomName }}
