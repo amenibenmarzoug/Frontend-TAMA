@@ -66,6 +66,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   filteredModules: any[] = [];
   filteredThemeDetails: any[] = [];
   programs: any[];
+  currentCity:any;
   themes: any[];
   modules: any[];
   themeDetails: any[];
@@ -74,6 +75,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   selectedTheme:any;
   selectedClassRoom:any
   allTrainers: any[] = [];
+  selectedTrainerHere:any;
   selectedTrainers: any[] = [];
   selectedTrainer: any;
   selectedModule:any;
@@ -157,13 +159,14 @@ export class AddSessionComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
 
-    this._addSessionService.onInstitutionsChanged
+    /*this._addSessionService.onInstitutionsChanged
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(institutions => {
         this.institutions = institutions;
         console.log("institutions");
         console.log(this.institutions);
-      });
+      });*/
+      this.selectedTrainerHere=null;
     this._addSessionService.onClassRoomsChanged
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(classRooms => {
@@ -199,6 +202,8 @@ export class AddSessionComponent implements OnInit, OnDestroy {
         console.log("themeDetails");
         console.log(this.themeDetails);
       });
+      console.log("SELECTED TRAINERS IN INIT")
+     console.log(this._addSessionService.selectedContacts);
     // Reactive Form
     this.form = this._formBuilder.group({
       company: [
@@ -323,8 +328,12 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       }
 
     });
-
+    this.currentCity=program.location;
+    this._addSessionService.currentCity=this.currentCity;
+    console.log(program);
     console.log(this.filteredThemes);
+    this._addSessionService.getInstitutions();
+    this.institutions=this._addSessionService.institutions;
   }
 
   selectTheme(theme): void {
@@ -376,11 +385,12 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   }
 
   disableButton(): any {
-
+    this.selectedTrainerHere=null;
     if (this._addSessionService.selectedContacts.length == 0)
       return true;
-    else
-      return false;
+    else{
+      this.selectedTrainerHere=this._addSessionService.selectedContacts;
+      return false;}
   }
 
   selectedTrainerButton(): void {
@@ -409,7 +419,9 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     this.session.trainer = this.selectedTrainer;
     this.session.themeDetailInstance = this.selectedThemeDet;
     
-
+    this._addSessionService.getInstitutions();
+    this.institutions=this._addSessionService.institutions;
+    console.log(this.institutions);
   }
 
   sendDate(): void {
@@ -427,9 +439,10 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       case 6: this._addSessionService.selectedDay = "SAMEDI"; break;
     }
     console.log(this._addSessionService.selectedDay);
-    this._addSessionService.getTrainers();
-    this.allTrainers=this._addSessionService.trainers;
-    console.log(this._addSessionService.selectedModule);
+    setTimeout(() => {
+    this._addSessionService.getTrainers().then(()=>{this.allTrainers=this._addSessionService.trainers;});  });
+    //this.allTrainers=this._addSessionService.trainers;
+    //console.log(this._addSessionService.selectedModule);
     
   }
   // -----------------------------------------------------------------------------------------------------

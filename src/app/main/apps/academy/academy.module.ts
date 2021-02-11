@@ -81,7 +81,12 @@ import { ThemeDetailInstListComponent } from './program-inst-detail/tabs/theme-d
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './program-inst-detail/tabs/theme-detail-inst/main/main.component';
 import { SelectedBarComponent } from './program-inst-detail/tabs/theme-detail-inst/selected-bar/selected-bar.component';
-import{ThemeDetailInstFormComponent} from './../academy/program-inst-detail/tabs/theme-detail-inst/theme-detail-form/theme-detail-form.component'
+import{ThemeDetailInstFormComponent} from './../academy/program-inst-detail/tabs/theme-detail-inst/theme-detail-form/theme-detail-form.component';
+import { AllSessionsComponent } from './all-sessions/all-sessions.component';
+import { SessionsListComponent } from './all-sessions/sessions-list/sessions-list.component';
+import  { AllSessionsService } from 'app/main/apps/academy/all-sessions/all-sessions.service';
+import  { MainSessionsComponent } from 'app/main/apps/academy/all-sessions/sidebars/main/main.component';
+
 registerLocaleData(localeFr, 'fr');
 const routes = [
     {
@@ -140,6 +145,13 @@ const routes = [
         component: AddSessionComponent,
         resolve  : {
             academy: AddSessionService
+        }
+    },
+    {
+        path     : 'allSessions',
+        component: AllSessionsComponent,
+        resolve  : {
+            academy: AllSessionsService
         }
     },
     {
@@ -203,7 +215,10 @@ const routes = [
         ThemeDetailInstComponent,
         ThemeDetailInstListComponent,
         MainComponent,
+        MainSessionsComponent,
         SelectedBarComponent,
+        AllSessionsComponent,
+        SessionsListComponent,
        
         
         
@@ -256,6 +271,7 @@ const routes = [
         ProgramsInstService,   
         ProgramInstDetailService, 
         AddSessionService,
+        AllSessionsService,
         {provide: LOCALE_ID, useValue: 'fr' },
         {
             provide: DateAdapter,

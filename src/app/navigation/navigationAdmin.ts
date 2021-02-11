@@ -60,6 +60,12 @@ export const navigationAdmin: FuseNavigation[] = [
             title: 'Ajout Séance',
             type: 'item',
             url: '/apps/academy/addSession',
+        },
+        {
+            id: 'allSessions',
+            title: 'Toutes les séances',
+            type: 'item',
+            url: '/apps/academy/allSessions',
         }
         ]
 

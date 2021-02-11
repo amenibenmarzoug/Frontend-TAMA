@@ -4,7 +4,6 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { FuseUtils } from '@fuse/utils';
-import { ProcessHTTPMsgService } from './process-httpmsg.service';
 import { catchError } from 'rxjs/operators';
 
 import { CourseSession } from 'app/main/apps/disponibility-trainer/courseSession.model';
@@ -14,33 +13,40 @@ import { Contact } from 'app/main/apps/trainer/trainer.model';
 const AUTH_API = 'http://localhost:8080/api/';
 
 @Injectable()
-export class DisponibilityTrainerService implements Resolve<any>
+export class AllSessionsService implements Resolve<any>
 {
     onContactsChanged: BehaviorSubject<any>;
-    onTrainersChanged: BehaviorSubject<any>;
     onCoursesChanged: BehaviorSubject<any>;
     onDisponibilitiesChanged: BehaviorSubject<any[]>;
     onSpecificCourseSessionsChanged: BehaviorSubject<any>;
     onSelectedContactsChanged: BehaviorSubject<any>;
     onSelectedTrainerChanged: BehaviorSubject<any>;
     onUserDataChanged: BehaviorSubject<any>;
+    onProgramsChanged: BehaviorSubject<any>;
+    onThemesChanged: BehaviorSubject<any>;
+    onModulesChanged: BehaviorSubject<any>;
+    onThemeDetailsChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
 
-    trainers: Contact[];
+
     trainer: any;
     courses: any[];
     specificCourseSessions: CourseSession[];
-    contacts: CourseSession[];
+    contacts: any[];
     user: any;
     courseSessions: any[] = [];
+    programs: any[];
+    themes: any[];
+    modules: any[];
+    themeDetails: any[];
     selectedContacts: string[] = [];
     disponibilities: any[];
     trainerId: any;
     courseId: any;
     searchText: string;
-    filterBy: string;
-  
+    filterBy: any;
+
 
     /**
      * Constructor
@@ -48,12 +54,11 @@ export class DisponibilityTrainerService implements Resolve<any>
      * @param {HttpClient} _httpClient
      */
     constructor(
-        private _httpClient: HttpClient, private processHTTPMsgService: ProcessHTTPMsgService
+        private _httpClient: HttpClient
     ) {
         // Set the defaults
         this.onContactsChanged = new BehaviorSubject([]);
         this.onSelectedContactsChanged = new BehaviorSubject([]);
-        this.onTrainersChanged = new BehaviorSubject([]);
         this.onDisponibilitiesChanged = new BehaviorSubject([]);
         this.onCoursesChanged = new BehaviorSubject([]);
         this.onSpecificCourseSessionsChanged = new BehaviorSubject([]);
@@ -61,6 +66,10 @@ export class DisponibilityTrainerService implements Resolve<any>
         this.onUserDataChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
+        this.onProgramsChanged = new BehaviorSubject([]);
+        this.onThemesChanged = new BehaviorSubject([]);
+        this.onModulesChanged = new BehaviorSubject([]);
+        this.onThemeDetailsChanged = new BehaviorSubject([]);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -80,8 +89,11 @@ export class DisponibilityTrainerService implements Resolve<any>
             Promise.all([
                 this.getContacts(),
                 this.getUserData(),
-                this.getTrainers(),
                 this.getCourses(),
+                this.getModuleInst(),
+                this.getProgramInst(),
+                this.getThemeDetailInst(),
+                this.getThemeInst(),
                 this.getDisponibilities(),
 
             ]).then(
@@ -116,67 +128,31 @@ export class DisponibilityTrainerService implements Resolve<any>
          .pipe(catchError(this.processHTTPMsgService.handleError));*/
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'courseSession')
+            this._httpClient.get(AUTH_API + 'session')
                 .subscribe((response: any) => {
 
                     console.log(response);
-                    this.contacts = response;
-                    this.courseId = this.filterBy;
-                    //console.log(this.contacts[0].courseSessionName);
-                    /* if ( this.filterBy === 'starred' )
-                     {
-                         this.contacts = this.contacts.filter(_contact => {
-                             return this.user.starred.includes(_contact.id);
-                         });
-                     }*/
-                     console.log("courseId");
-                     console.log(this.courseId);
-                    //this.specificCourseSessions = response;
-                    if (this.courseId != null) {
-                        if (this.filterBy === 'Formations') {
-                                console.log("if formations");
-                        }
-                        else {
-                            console.log("else filter");
-                            console.log(this.courseId)
-                          /*  this.contacts.forEach(contact => {
-                                if (contact.course.id == this.courseId) {
-                                    if (!this.courseSessions.includes(contact))
-                                        this.courseSessions.push(contact);
-                                }
-
-                            });*/
+                    this.contacts = [];
+                    console.log("THIS FILTEREDBY");
+                    console.log(this.filterBy);
+                    if (this.filterBy != null) {
 
 
-                            this.contacts = this.contacts.filter(_courseSession => {
-                                // return this.user.frequentContacts.includes(_contact.id);
-                                if (_courseSession.course.id == this.courseId) {
-                                    console.log(_courseSession.course);
-                                    return true; }
-                                return false;
-                            });
-                        }
-                    }
-                    else {
-                        this.contacts = [];
-                    }
+                        this.contacts = response;
+                        this.contacts = this.contacts.filter(_courseSession => {
+                            if (_courseSession.themeDetailInstance.id == this.filterBy.id) {
 
-                    if (this.filterBy === 'frequent') {
-                        this.contacts = this.contacts.filter(_contact => {
-                            return this.user.frequentContacts.includes(_contact.id);
+                                return true;
+                            }
+                            return false;
                         });
-                    }
 
-                    if (this.searchText && this.searchText !== '') {
-                        this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
                     }
-
-                    /*this.contacts = this.contacts.map(contact => {
-                        return new CourseSession(contact);
-                    });*/
+                 
 
 
                     this.onSpecificCourseSessionsChanged.next(this.contacts);
+                    this.filterBy=null;
                     resolve(this.contacts);
                 }, reject);
         }
@@ -255,23 +231,73 @@ export class DisponibilityTrainerService implements Resolve<any>
        }*/
 
 
-    getTrainers(): Promise<any> {
-        /* console.log(this._httpClient.get<any[]>(AUTH_API + 'courseSession'));
-         return this._httpClient.get<any[]>(AUTH_API + 'courseSession')
-         .pipe(catchError(this.processHTTPMsgService.handleError));*/
+
+
+    getProgramInst(): Promise<any> {
+
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'trainers')
+            this._httpClient.get(AUTH_API + 'programsInst')
                 .subscribe((response: any) => {
                     console.log("response");
                     console.log(response);
-                    this.onTrainersChanged.next(response);
-                    this.trainers = response;
+                    this.onProgramsChanged.next(response);
+                    this.programs = response;
                     resolve(response);
                 }, reject);
         }
         );
     }
+
+    getThemeInst(): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'themesInst')
+                .subscribe((response: any) => {
+                    console.log("response");
+                    console.log(response);
+                    this.onThemesChanged.next(response);
+                    this.themes = response;
+                    resolve(response);
+                }, reject);
+        }
+        );
+    }
+
+    getModuleInst(): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'moduleInstance')
+                .subscribe((response: any) => {
+                    console.log("response");
+                    console.log(response);
+                    this.onModulesChanged.next(response);
+                    this.modules = response;
+                    resolve(response);
+                }, reject);
+        }
+        );
+    }
+
+    getThemeDetailInst(): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'themeDetailInst')
+                .subscribe((response: any) => {
+                    console.log("response");
+                    console.log(response);
+                    this.onThemeDetailsChanged.next(response);
+                    this.themeDetails = response;
+                    resolve(response);
+                }, reject);
+        }
+        );
+    }
+
+
 
     getCourses(): Promise<any> {
         /* console.log(this._httpClient.get<any[]>(AUTH_API + 'courseSession'));
@@ -279,36 +305,20 @@ export class DisponibilityTrainerService implements Resolve<any>
          .pipe(catchError(this.processHTTPMsgService.handleError));*/
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'course')
+            this._httpClient.get(AUTH_API + 'session')
                 .subscribe((response: any) => {
                     console.log("response course");
                     console.log(response);
                     this.courses = response;
                     this.onCoursesChanged.next(response);
-                    
+
                     resolve(response);
                 }, reject);
         }
         );
     }
 
-    getTrainerById(id): Promise<any> {
-        /* console.log(this._httpClient.get<any[]>(AUTH_API + 'courseSession'));
-         return this._httpClient.get<any[]>(AUTH_API + 'courseSession')
-         .pipe(catchError(this.processHTTPMsgService.handleError));*/
 
-        return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'trainers/' + id)
-                .subscribe((response: any) => {
-                    console.log("response trianer id");
-                    console.log(response);
-
-                    this.trainer = response;
-                    resolve(response);
-                }, reject);
-        }
-        );
-    }
 
     /**
      * Get user data
@@ -318,7 +328,7 @@ export class DisponibilityTrainerService implements Resolve<any>
     getUserData(): Promise<any> {
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'courseSession')
+            this._httpClient.get(AUTH_API + 'session')
                 .subscribe((response: any) => {
                     this.user = response;
                     this.onUserDataChanged.next(this.user);
