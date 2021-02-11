@@ -81,7 +81,18 @@ import { ThemeDetailInstListComponent } from './program-inst-detail/tabs/theme-d
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './program-inst-detail/tabs/theme-detail-inst/main/main.component';
 import { SelectedBarComponent } from './program-inst-detail/tabs/theme-detail-inst/selected-bar/selected-bar.component';
-import{ThemeDetailInstFormComponent} from './../academy/program-inst-detail/tabs/theme-detail-inst/theme-detail-form/theme-detail-form.component'
+import{ThemeDetailInstFormComponent} from './../academy/program-inst-detail/tabs/theme-detail-inst/theme-detail-form/theme-detail-form.component';
+import { ClassesComponent } from './classes/classes.component';
+import { ClassFormComponent } from './classes/class-form/class-form.component';
+import{ClassesService} from './classes.service';
+import { ModuleClasseComponent } from './classes-detail/tabs/module-classe/module-classe.component';
+import { ThematiqueClasseComponent } from './classes-detail/tabs/thematique-classe/thematique-classe.component';
+import { ThemeDetailClasseComponent } from './classes-detail/tabs/theme-detail-classe/theme-detail-classe.component';
+import{ClassesDetailComponent} from '../academy/classes-detail/classes-detail.component';
+import { ModulesInstListComponent } from './classes-detail/tabs/module-classe/modules-inst-list/modules-inst-list.component';
+import { SelectModuleComponent } from './classes-detail/tabs/module-classe/select-module/select-module.component';
+import { SelectedBarModuleClasseComponent } from './classes-detail/tabs/module-classe/selected-bar-module-classe/selected-bar-module-classe.component';
+import { ThemeDetailClassListComponent } from './classes-detail/tabs/theme-detail-classe/theme-detail-class-list/theme-detail-class-list.component'
 registerLocaleData(localeFr, 'fr');
 const routes = [
     {
@@ -98,6 +109,14 @@ const routes = [
             academy: ProgramsInstService
         }
     },
+
+    {
+        path     : 'class',
+        component: ClassesComponent,
+        resolve  : {
+            academy: ClassesService
+        }
+    },
     {
         path     : 'programDetails/:id',
         component: ProgramDetailsComponent,
@@ -112,6 +131,14 @@ const routes = [
             academy: ProgramInstDetailService,
         }
     },
+    {
+        path     : 'classeDetail/:id',
+        component: ClassesDetailComponent,
+        resolve  : {
+            academy: ClassesService,
+        }
+    },
+    
     
     {
         path     : 'module',
@@ -204,6 +231,16 @@ const routes = [
         ThemeDetailInstListComponent,
         MainComponent,
         SelectedBarComponent,
+        ClassesComponent,
+        ClassFormComponent,
+        ModuleClasseComponent,
+        ThematiqueClasseComponent,
+        ThemeDetailClasseComponent,
+        ClassesDetailComponent,
+        ModulesInstListComponent,
+        SelectModuleComponent,
+        SelectedBarModuleClasseComponent,
+        ThemeDetailClassListComponent
        
         
         
@@ -254,7 +291,8 @@ const routes = [
         ProgramDetailsService,
         ProgramsService,  
         ProgramsInstService,   
-        ProgramInstDetailService, 
+        ProgramInstDetailService,
+        ProgramDetailsService, 
         AddSessionService,
         {provide: LOCALE_ID, useValue: 'fr' },
         {

@@ -7,6 +7,7 @@ import { Program } from './program.model';
 
 
 
+
 const AUTH_API = 'http://localhost:8080/api/';
 
 @Injectable({
@@ -23,6 +24,7 @@ export class ProgramsInstService {
     programInstId: any;
     program:any;
     programs: Program[];
+    lastprogramInst:any;
 
 
     /**
@@ -99,9 +101,26 @@ export class ProgramsInstService {
                 .subscribe(response => {
                     this.getProgramsInst();
                     resolve(response);
+
+
+                    
                 });
         });
     }
+
+    addClass(programInst,program): Observable<any>{
+        programInst.program = program;
+
+
+       return this._httpClient.post(AUTH_API +'programsInst', programInst);
+       
+       
+    }
+
+
+  
+
+   
 
     /**
    * Delete cursus
@@ -138,6 +157,7 @@ export class ProgramsInstService {
 
     getPrograms(): Promise<any>
     {
+        
          return new Promise((resolve, reject) => {
                 this._httpClient.get('http://localhost:8080/api/programs')
                 .subscribe((response: any) => {

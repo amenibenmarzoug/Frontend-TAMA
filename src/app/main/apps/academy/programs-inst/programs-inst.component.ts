@@ -63,7 +63,7 @@ export class ProgramsInstComponent implements OnInit {
    */
   ngOnInit(): void {
       // Subscribe to categories
-      this._academyProgramsInstService.onCategoriesChanged
+     this._academyProgramsInstService.onCategoriesChanged
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(categories => {
               this.categories = categories;
@@ -74,6 +74,9 @@ export class ProgramsInstComponent implements OnInit {
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(courses => {
               this.filteredPrograms = this.programsFilteredByCategory = this.programs = courses;
+
+              console.log("programInst fel progInst");
+              console.log(courses);
           });
   }
 
