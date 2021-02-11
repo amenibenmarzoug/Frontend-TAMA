@@ -47,6 +47,13 @@ export class ProgramDetailsService implements Resolve<any>
     
     onFilterChangedT: BehaviorSubject<any>;
 
+    actualDaysNumberAffected = 0 ; 
+    oldDaysAffectedNumber=0 ; 
+
+    actualDaysAffectedPerModule=0;
+    actualDaysAffectedPerThemeDetail=0;
+
+
 
     /**
      * Constructor
@@ -71,6 +78,8 @@ export class ProgramDetailsService implements Resolve<any>
         this.onmoduleChanged = new BehaviorSubject([]);
         this.onSelectedModulesChanged = new BehaviorSubject([]);
 
+        
+
     }
 
     /**
@@ -82,10 +91,11 @@ export class ProgramDetailsService implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
 
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             Promise.all([
                // this.getThemes(),
                this.getPrograms(),
+             
                
             ]).then(
                 ([files]) => {
@@ -131,6 +141,19 @@ export class ProgramDetailsService implements Resolve<any>
             }
         );
     }
+     getProgramById(id): Promise<any>{
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API+'programs/'+id)
+            .subscribe((response: any) => {              
+                this.program=response;              
+                resolve(response);
+            }, reject);
+        }
+        
+        );
+    
+
+     }
     
     /**
      * Get courses
@@ -155,8 +178,9 @@ export class ProgramDetailsService implements Resolve<any>
             this._httpClient.get(AUTH_API + 'program/themes', { params: id })
                 .subscribe((response: any) => {
                     this.themes = response;
+                    
                     this.themes = this.themes.map(theme => {
-                        return new Thematique(theme);
+                            return new Thematique(theme);
                     });
                     this.onThemeChanged.next(this.themes);
                     resolve(this.themes);
@@ -164,7 +188,24 @@ export class ProgramDetailsService implements Resolve<any>
                 }, reject);
         });
 
+    }
+    getProgramDaysAffected(): Promise<any> {
 
+        let id = new HttpParams().set('id', this.programId);
+        
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'program/themes', { params: id })
+                .subscribe((response: any) => {
+                    this.themes = response;
+                    
+                    this.themes = this.themes.map(theme => {
+                        this.actualDaysNumberAffected=this.actualDaysNumberAffected+theme.nbDaysTheme ; 
+                        return new Thematique(theme);
+                    });
+                    resolve(this.actualDaysNumberAffected);
+
+                }, reject);
+        });
     }
     /**
     * Update contact
@@ -173,20 +214,26 @@ export class ProgramDetailsService implements Resolve<any>
     * @returns {Promise<any>}
     */
     addTheme(theme): Promise<any> {
+        this.actualDaysNumberAffected= this.actualDaysNumberAffected+Number(theme.nbDaysTheme)  ;
         return new Promise((resolve, reject) => {
             let id = new HttpParams().set('id', this.programId);
             this._httpClient.post(AUTH_API + 'themeProgram', theme, { params: id })
                 .subscribe(response => {
+                   
                     this.getThemesPerProgram();
                     resolve(response);
                 });
         });
     }
     updateTheme(theme,program): Promise<any> {
+        this.actualDaysNumberAffected= this.actualDaysNumberAffected - this.oldDaysAffectedNumber
+                                        +Number(theme.nbDaysTheme)  ;
+        
         theme.program = program;
         return new Promise((resolve, reject) => {
             this._httpClient.put(AUTH_API + 'theme', theme)
                 .subscribe(response => {
+                   
                     resolve(response);
                 });
         });
@@ -198,6 +245,10 @@ export class ProgramDetailsService implements Resolve<any>
    * @param id
    */
     deleteTheme(theme): Promise<any> {
+
+        this.actualDaysNumberAffected= this.actualDaysNumberAffected- Number(theme.nbDaysTheme)  ;  
+               
+                
         return new Promise((resolve, reject) => {
             const courseIndex = this.themes.indexOf(theme.id);
             this.themes.splice(courseIndex, 1);
@@ -256,6 +307,24 @@ export class ProgramDetailsService implements Resolve<any>
                 }, reject);
         }
         );
+    }
+
+    getModuleDaysAffected(): Promise<any> {
+
+        let id = new HttpParams().set('id', this.themeId);
+        this.actualDaysAffectedPerModule=0;
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'theme/modules', { params: id })
+                .subscribe((response: any) => {
+                    this.modules = response;
+                    this.modules = this.modules.map(module => {
+                        this.actualDaysAffectedPerModule=this.actualDaysAffectedPerModule+Number(module.nbDaysModule) ; 
+                        return new Module(module);
+                    });
+                    resolve(this.actualDaysAffectedPerModule);
+
+                }, reject);
+        });
     }
     /**
    * Toggle selected modules by id
@@ -376,6 +445,7 @@ export class ProgramDetailsService implements Resolve<any>
             this.onmoduleChanged.next(this.modules);
             this._httpClient.delete(`http://localhost:8080/api/module/${id}`)
                 .subscribe(response => {
+                    this.getModules();
                     resolve(response);
                 });
         });
@@ -439,6 +509,25 @@ export class ProgramDetailsService implements Resolve<any>
                 }, reject);
         }
         );
+    }
+
+    getThemeDetailDaysAffected(): Promise<any> {
+
+        let id = new HttpParams().set('id', this.moduleId);
+        this.actualDaysAffectedPerThemeDetail=0;
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'module/themesDetails', { params: id })
+                .subscribe((response: any) => {
+                    this.themeDetails = response;
+                    this.themeDetails = this.themeDetails.map(themeDetail => {
+                        this.actualDaysAffectedPerThemeDetail=this.actualDaysAffectedPerThemeDetail+
+                                                                Number(themeDetail.nbDaysThemeDetail) ; 
+                        return new ThemeDetail(themeDetail);
+                    });
+                    resolve(this.actualDaysAffectedPerThemeDetail);
+
+                }, reject);
+        });
     }
     /**
    * Toggle selected modules by id
@@ -559,6 +648,7 @@ export class ProgramDetailsService implements Resolve<any>
             this.onThemeDetailChanged.next(this.themeDetails);
             this._httpClient.delete(`http://localhost:8080/api/themeDetail/${id}`)
                 .subscribe(response => {
+                    this.getThemeDetail();
                     resolve(response);
                 });
         });
