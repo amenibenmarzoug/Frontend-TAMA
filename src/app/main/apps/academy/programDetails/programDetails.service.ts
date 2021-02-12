@@ -192,7 +192,7 @@ export class ProgramDetailsService implements Resolve<any>
     getProgramDaysAffected(): Promise<any> {
 
         let id = new HttpParams().set('id', this.programId);
-        
+        this.actualDaysNumberAffected=0; 
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'program/themes', { params: id })
                 .subscribe((response: any) => {
@@ -202,6 +202,7 @@ export class ProgramDetailsService implements Resolve<any>
                         this.actualDaysNumberAffected=this.actualDaysNumberAffected+theme.nbDaysTheme ; 
                         return new Thematique(theme);
                     });
+                    console.log("days affected in service l aady"+this.actualDaysNumberAffected); 
                     resolve(this.actualDaysNumberAffected);
 
                 }, reject);

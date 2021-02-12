@@ -59,6 +59,12 @@ export class ProgramInstDetailService {
     
     onFilterChangedT: BehaviorSubject<any>;
 
+    actualDaysNumberAffected = 0 ; 
+    oldDaysAffectedNumber=0 ; 
+
+    actualDaysAffectedPerModule=0;
+    actualDaysAffectedPerThemeDetail=0;
+
 
     /**
      * Constructor
@@ -178,6 +184,19 @@ export class ProgramInstDetailService {
             }
         );
     }
+    getProgramById(id): Promise<any>{
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API+'programsInst/'+id)
+            .subscribe((response: any) => { 
+                console.log("get program by id ")            
+                this.programInst=response;              
+                resolve(response);
+            }, reject);
+        }        
+        );
+    
+     }
+    
     
     /**
      * Get courses
@@ -213,6 +232,25 @@ export class ProgramInstDetailService {
 
 
     }
+    getProgramDaysAffected(): Promise<any> {
+
+        let id = new HttpParams().set('id', this.programInstId);
+        this.actualDaysNumberAffected=0; 
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'program/themesInst', { params: id })
+                .subscribe((response: any) => {
+                    this.themesInst = response;
+                    
+                    this.themesInst = this.themesInst.map(theme => {
+                        this.actualDaysNumberAffected=this.actualDaysNumberAffected+theme.nbDaysthemeInst ; 
+                        return new ThematiqueInst(theme);
+                    });
+                    console.log("days affected in service"+this.actualDaysNumberAffected); 
+                    resolve(this.actualDaysNumberAffected);
+
+                }, reject);
+        });
+    }
   
     /**
     * Update contact
@@ -221,6 +259,7 @@ export class ProgramInstDetailService {
     * @returns {Promise<any>}
     */
     addThemeInst(themeInst,theme): Promise<any> {
+        this.actualDaysNumberAffected= this.actualDaysNumberAffected+Number(themeInst.nbDaysthemeInst)  ;
         return new Promise((resolve, reject) => {
             themeInst.theme = theme;
             let id = new HttpParams().set('id', this.programInstId);
@@ -232,6 +271,8 @@ export class ProgramInstDetailService {
         });
     }
     updateThemeInst(theme,program): Promise<any> {
+        this.actualDaysNumberAffected= this.actualDaysNumberAffected - this.oldDaysAffectedNumber
+                                        +Number(theme.nbDaysthemeInst)  ;
         theme.program = program;
         return new Promise((resolve, reject) => {
             this._httpClient.put(AUTH_API + 'themeInst', theme)
@@ -247,11 +288,12 @@ export class ProgramInstDetailService {
    * @param id
    */
     deleteThemeInst(theme): Promise<any> {
+        this.actualDaysNumberAffected= this.actualDaysNumberAffected- Number(theme.nbDaysthemeInst)  ;  
         return new Promise((resolve, reject) => {
             const courseIndex = this.themesInst.indexOf(theme.id);
             this.themesInst.splice(courseIndex, 1);
             this.onThemeInstChanged.next(this.themesInst);
-            this._httpClient.delete(AUTH_API + `theme/${theme.id}`)
+            this._httpClient.delete(AUTH_API + `themeInst/${theme.id}`)
                 .subscribe(response => {
                     this.getThemeInst();
                     resolve(response);
@@ -305,6 +347,23 @@ export class ProgramInstDetailService {
                 }, reject);
         }
         );
+    }
+    getModuleDaysAffected(): Promise<any> {
+
+        let id = new HttpParams().set('id', this.themeInstId);
+        this.actualDaysAffectedPerModule=0;
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'themeInst/modulesInst', { params: id })
+                .subscribe((response: any) => {
+                    this.modulesInst = response;
+                    this.modulesInst = this.modulesInst.map(module => {
+                        this.actualDaysAffectedPerModule=this.actualDaysAffectedPerModule+Number(module.nbDaysModuleInstance) ; 
+                        return new ModuleInst(module);
+                    });
+                    resolve(this.actualDaysAffectedPerModule);
+
+                }, reject);
+        });
     }
     /**
    * Toggle selected modules by id
@@ -451,7 +510,7 @@ export class ProgramInstDetailService {
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'themeDetail')
                  .subscribe((response: any) => {
-                  
+                    this.moduleId = this.filterByThemeDetail;
                     this.onModuleChanged.next(response);
                     this.themeDetails=response;
                     resolve(response);
@@ -502,6 +561,25 @@ export class ProgramInstDetailService {
                 }, reject);
         }
         );
+    }
+    getThemeDetailDaysAffected(): Promise<any> {
+
+        let id = new HttpParams().set('id', this.moduleId);
+        console.log("track the module id  "+ this.moduleId)
+        this.actualDaysAffectedPerThemeDetail=0;
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'moduleInst/themesDetailsInst', { params: id })
+                .subscribe((response: any) => {
+                    this.themeDetailsInst = response;
+                    this.themeDetailsInst = this.themeDetailsInst.map(themeDetail => {
+                        this.actualDaysAffectedPerThemeDetail=this.actualDaysAffectedPerThemeDetail+
+                                                                Number(themeDetail.nbDaysthemeDetailInst) ; 
+                        return new ThemeDetailInst(themeDetail);
+                    });
+                    resolve(this.actualDaysAffectedPerThemeDetail);
+
+                }, reject);
+        });
     }
     /**
    * Toggle selected modules by id
