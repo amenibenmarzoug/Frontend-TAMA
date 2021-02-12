@@ -35,6 +35,8 @@ export class ThemeDetailInstComponent implements OnInit {
   alertDialog: MatDialogRef<AlertDialogComponent>;
   themeDetail: any;
   selectedModule:ModuleInst;
+
+  actualDaysNumberAffected : number ; 
   /**
    * Constructor
    *
@@ -103,6 +105,7 @@ export class ThemeDetailInstComponent implements OnInit {
       }
 
       else {
+        this._themeDetailsService.getThemeDetailDaysAffected();
           console.log("moduleInst ki thalet dialog");
           console.log(this._themeDetailsService.module);
           this.selectedModule=this._themeDetailsService.module;
@@ -123,6 +126,15 @@ export class ThemeDetailInstComponent implements OnInit {
                   this.themeDetail = response.getRawValue();
                   console.log("formulaaire de add progDetailInst");
                   console.log(this.themeDetail);
+
+                  this.actualDaysNumberAffected = this._themeDetailsService.actualDaysAffectedPerThemeDetail+ Number(this.themeDetail.nbDaysthemeDetailInst)  ; 
+                  console.log("this.actualDaysNumberAffected  from serviice"+ this.actualDaysNumberAffected)
+                  console.log("this._themeDetailsService.module.nbDaysModuleInstance "+ this._themeDetailsService.module.nbDaysModuleInstance)
+                    if (this.actualDaysNumberAffected > Number(this._themeDetailsService.module.nbDaysModuleInstance)) {
+                        this.addThemeDetailAlert("Vous avez dépassé le nombre des jours du Module concerné");
+                        console.log(`Exceeded`);
+                        return; 
+                    }
 
                   this.confirmAddThemeDetail();
 

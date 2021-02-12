@@ -196,7 +196,8 @@ export class ParticipantsService implements Resolve<any>
     }
     getCursus():Promise<any>{
         return new Promise((resolve, reject) => {
-            this._httpClient.get('http://localhost:8080/api/cursus')
+            this._httpClient.get('http://localhost:8080/api/programs/')
+          //  this._httpClient.get('http://localhost:8080/api/cursus')
             .subscribe((response: any) => {
                 this.onCursusChanged.next(response);
                 this.programs=response;
