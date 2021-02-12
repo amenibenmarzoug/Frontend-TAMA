@@ -71,6 +71,8 @@ export class ProgramDetailsService implements Resolve<any>
         this.onmoduleChanged = new BehaviorSubject([]);
         this.onSelectedModulesChanged = new BehaviorSubject([]);
 
+
+      
     }
 
     /**
@@ -84,8 +86,9 @@ export class ProgramDetailsService implements Resolve<any>
 
         return new Promise((resolve, reject) => {
             Promise.all([
-               // this.getThemes(),
+               this.getThemes(),
                this.getPrograms(),
+               this.getModules(),
                
             ]).then(
                 ([files]) => {
@@ -107,6 +110,9 @@ export class ProgramDetailsService implements Resolve<any>
                         this.filterByModule = filter;
                         this.getModules();
                     });
+
+
+                   
 
                     resolve();
 
@@ -139,7 +145,7 @@ export class ProgramDetailsService implements Resolve<any>
      */
     getThemes(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'themes')
+            this._httpClient.get(AUTH_API +'themes')
                 .subscribe((response: any) => {
                     this.themes = response;
                     this.onThemeChanged.next(response);
@@ -256,7 +262,10 @@ export class ProgramDetailsService implements Resolve<any>
                 }, reject);
         }
         );
+    
     }
+
+    
     /**
    * Toggle selected modules by id
    *

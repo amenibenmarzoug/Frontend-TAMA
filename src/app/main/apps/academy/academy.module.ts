@@ -87,6 +87,17 @@ import { SessionsListComponent } from './all-sessions/sessions-list/sessions-lis
 import  { AllSessionsService } from 'app/main/apps/academy/all-sessions/all-sessions.service';
 import  { MainSessionsComponent } from 'app/main/apps/academy/all-sessions/sidebars/main/main.component';
 
+import { ClassesComponent } from './classes/classes.component';
+import { ClassFormComponent } from './classes/class-form/class-form.component';
+import{ClassesService} from './classes.service';
+import { ModuleClasseComponent } from './classes-detail/tabs/module-classe/module-classe.component';
+import { ThematiqueClasseComponent } from './classes-detail/tabs/thematique-classe/thematique-classe.component';
+import { ThemeDetailClasseComponent } from './classes-detail/tabs/theme-detail-classe/theme-detail-classe.component';
+import{ClassesDetailComponent} from '../academy/classes-detail/classes-detail.component';
+import { ModulesInstListComponent } from './classes-detail/tabs/module-classe/modules-inst-list/modules-inst-list.component';
+import { SelectModuleComponent } from './classes-detail/tabs/module-classe/select-module/select-module.component';
+import { SelectedBarModuleClasseComponent } from './classes-detail/tabs/module-classe/selected-bar-module-classe/selected-bar-module-classe.component';
+import { ThemeDetailClassListComponent } from './classes-detail/tabs/theme-detail-classe/theme-detail-class-list/theme-detail-class-list.component'
 registerLocaleData(localeFr, 'fr');
 const routes = [
     {
@@ -103,6 +114,14 @@ const routes = [
             academy: ProgramsInstService
         }
     },
+
+    {
+        path     : 'class',
+        component: ClassesComponent,
+        resolve  : {
+            academy: ClassesService
+        }
+    },
     {
         path     : 'programDetails/:id',
         component: ProgramDetailsComponent,
@@ -117,6 +136,14 @@ const routes = [
             academy: ProgramInstDetailService,
         }
     },
+    {
+        path     : 'classeDetail/:id',
+        component: ClassesDetailComponent,
+        resolve  : {
+            academy: ClassesService,
+        }
+    },
+    
     
     {
         path     : 'module',
@@ -219,6 +246,16 @@ const routes = [
         SelectedBarComponent,
         AllSessionsComponent,
         SessionsListComponent,
+        ClassesComponent,
+        ClassFormComponent,
+        ModuleClasseComponent,
+        ThematiqueClasseComponent,
+        ThemeDetailClasseComponent,
+        ClassesDetailComponent,
+        ModulesInstListComponent,
+        SelectModuleComponent,
+        SelectedBarModuleClasseComponent,
+        ThemeDetailClassListComponent
        
         
         
@@ -269,7 +306,8 @@ const routes = [
         ProgramDetailsService,
         ProgramsService,  
         ProgramsInstService,   
-        ProgramInstDetailService, 
+        ProgramInstDetailService,
+        ProgramDetailsService, 
         AddSessionService,
         AllSessionsService,
         {provide: LOCALE_ID, useValue: 'fr' },

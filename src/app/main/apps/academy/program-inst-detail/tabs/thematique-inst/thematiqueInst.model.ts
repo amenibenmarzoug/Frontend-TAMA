@@ -14,10 +14,11 @@ export class ThematiqueInst {
      *
      * @param training
      */
+
     constructor(theme) {
         {
             this.id = theme.id;
-            this.themeInstName = theme.themeInstName || '';
+            this.themeInstName = theme.themeInstName ||'';
             this.nbDaysthemeInst = theme.nbDaysthemeInst || '';
            // this.themeInstBeginDate = theme.themeInstBeginDate || '';
             //this.themeInstEndDate = theme.themeInstEndDate || '';
@@ -28,4 +29,5 @@ export class ThematiqueInst {
 
         }
     }
+
 }
