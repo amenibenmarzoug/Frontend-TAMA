@@ -155,13 +155,13 @@
 
                 </mat-step>
 
-                <mat-step #matStep [stepControl]="horizontalStepperStep2" [completed]="selectedTrainer!=null" >
+                <mat-step #matStep [stepControl]="horizontalStepperStep2" [completed]="!disableButton()" >
 
                     <form fxLayout="column" [formGroup]="horizontalStepperStep2">
 
                     <ng-template matStepLabel>Choisir un formateur</ng-template>
 
-                    <div class="content mb-24"   *ngIf="allTrainers.length==0">
+                    <div class="content mb-24"   *ngIf="allTrainers.length==0"  [hidden]="allTrainers.length!=0">
                         <div class="message-box error">
                             Pas de formateurs disponibles pour la date choisie.
                         </div>

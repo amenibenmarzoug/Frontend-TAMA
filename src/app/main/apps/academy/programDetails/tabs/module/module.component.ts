@@ -72,6 +72,10 @@ export class ModuleComponent implements OnInit, OnDestroy {
                 this._moduleService.onSearchTextChangedModule.next(searchText);
             });
 
+
+
+
+           
     }
 
     /**

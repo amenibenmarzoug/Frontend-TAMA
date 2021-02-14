@@ -39,6 +39,7 @@ export class AddSessionService implements Resolve<any>{
     classRooms: any;
     sessions: Session[];
     institutions: any[];
+    currentCity:any;
     chosenInstitutionId: any;
     onEventsUpdated: Subject<any>;
     chosenClassRoom: any;
@@ -79,7 +80,7 @@ export class AddSessionService implements Resolve<any>{
    * @returns {Observable<any> | Promise<any> | any}
    */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
 
             Promise.all([
                 this.getInstitutions(),
@@ -126,9 +127,22 @@ export class AddSessionService implements Resolve<any>{
                     this.onInstitutionsChanged.next(response);
                     this.institutions = response;
 
-
-
-                    resolve(response);
+                    if(this.currentCity!=null){
+                        console.log("INSTITUTIONS");
+                        this.institutions = response.filter(institution => {
+                            
+                            if (institution.city==this.currentCity) {
+                                //console.log("");
+                                return true;
+                            }
+                            return false;
+                        });
+                    }
+                    else{
+                        this.institutions=[]
+                    }
+                    console.log(this.institutions);
+                    resolve(this.institutions);
                 }, reject);
         }
         );

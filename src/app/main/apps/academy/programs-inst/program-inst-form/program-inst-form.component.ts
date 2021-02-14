@@ -51,6 +51,13 @@ export class ProgramInstFormComponent implements OnInit {
     this.programInstForm = this.createProgramInstForm();
     this._unsubscribeAll = new Subject();
     this.programs=this._programInstService.programs;
+
+        
+
+    
+
+    console.log("prograams fel progInst add form");
+    console.log(this.programs);
    }
 
   ngOnInit(): void {
