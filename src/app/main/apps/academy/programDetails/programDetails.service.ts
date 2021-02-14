@@ -87,6 +87,7 @@ export class ProgramDetailsService implements Resolve<any>
                // this.getThemes(),
                this.getPrograms(),
                this.getModules(),
+               this.getThemeDetail(),
                
             ]).then(
                 ([files]) => {

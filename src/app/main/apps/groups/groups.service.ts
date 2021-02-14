@@ -82,7 +82,7 @@ export class GroupsService implements Resolve<any>
         return new Promise((resolve, reject) => {
             
             Promise.all([
-                this.getContacts(),
+                //this.getContacts(),
               
             ]).then(
                 ([files]) => {
