@@ -28,6 +28,9 @@ export class AddSessionService implements Resolve<any>{
     onThemeDetailsChanged: BehaviorSubject<any>;
     onSessionsChanged: BehaviorSubject<any>;
     selectedContacts: string[] = [];
+    sessionsByThemeDetail:any[];
+    sessionsByProgram:any[];
+    checkboxes:{};
     events: any[];
     unavailableTrainersId: any[];
     unavailableClassroomsId: any[];
@@ -409,6 +412,37 @@ export class AddSessionService implements Resolve<any>{
         });
     }
 
+    getSessionsByProgram(id): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'session/programInst/?programId=' +id)
+                .subscribe((response: any) => {
+
+
+                    this.sessionsByProgram = response;
+                    console.log(this.sessionsByProgram);
+                    resolve(response);
+                }, reject);
+        }
+        );
+    }
+
+    getSessionsByThemeDetail(id): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'session/themeDetail/?themeDetailId=' +id)
+                .subscribe((response: any) => {
+
+
+                    this.sessionsByThemeDetail = response;
+                    console.log(this.sessionsByThemeDetail);
+                    resolve(response);
+                }, reject);
+        }
+        );
+    }
 
     addEvent(event): Promise<any> {
 
@@ -435,7 +469,9 @@ export class AddSessionService implements Resolve<any>{
     toggleSelectedContact(id): void {
         // First, check if we already have that contact as selected...
         if (this.selectedContacts.length > 0) {
-            const index = this.selectedContacts.indexOf(id);
+            console.log("SELECTED CONTACTS IN SERVICE");
+            console.log(this.selectedContacts);
+            const index = this.selectedContacts.indexOf(id.toString());
 
             if (index !== -1) {
                 this.selectedContacts.splice(index, 1);
@@ -451,7 +487,7 @@ export class AddSessionService implements Resolve<any>{
 
 
         // If we don't have it, push as selected
-        this.selectedContacts.push(id);
+        this.selectedContacts.push(id.toString());
 
         // Trigger the next event
         this.onSelectedContactsChanged.next(this.selectedContacts);
