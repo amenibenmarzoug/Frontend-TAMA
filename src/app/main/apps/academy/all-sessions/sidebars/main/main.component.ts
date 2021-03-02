@@ -191,60 +191,7 @@ export class MainSessionsComponent implements OnInit {
     }
    
 
-    getTrainerId(event): void {
-
-        console.log("trainer id");
-
-        console.log(event);
-        this.trainerId = event;
-        this._disponibilityTrainerService.trainer = event;
-
-
-    }
-
-    getCourseIdAndTrainer(event): void {
-
-
-        this.courseId = event;
-        this._disponibilityTrainerService.courseId = event;
-
-        this._disponibilityTrainerService.contacts.forEach(contact => {
-            if (contact.course.id == event) {
-                if (!this.courseSessions.includes(contact))
-                    this.courseSessions.push(contact);
-            }
-
-        });
-
-     
-
-    }
-
-    /* getCourseId(event): void {
-   
-        
-         this.courseId = event;
-         this._disponibilityTrainerService.courseId = event;
-    
-         this._disponibilityTrainerService.contacts.forEach(contact => {
-             if (contact.course.id == event) {
-                 if (!this.courseSessions.includes(contact))
-                     this.courseSessions.push(contact);
-             }
-   
-         });
-        
-    
-         this._disponibilityTrainerService.onSpecificCourseSessionsChanged.next(this.courseSessions);
-      
-         this.courseSessions = []
-   
-     }*/
-
-    /*  getCourseSessions(event): void {
-          console.log("Course in MAIN");
-          //this._disponibilityTrainerService.getSpecificCourseSessions(event);
-      }*/
+  
     /**
    * Connect function called by the table to retrieve one stream containing the data to render.
    * @returns {Observable<any[]>}

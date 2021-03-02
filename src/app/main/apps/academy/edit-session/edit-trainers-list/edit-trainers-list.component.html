@@ -53,7 +53,7 @@
 
     <!-- Buttons Column -->
 
-
+    
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let contact; columns: displayedColumns;" class="contact"
         [ngClass]="{'accent-50':checkboxes[contact.id]}" [@animate]="{value:'*',params:{y:'100%'}}">

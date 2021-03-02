@@ -43,12 +43,12 @@ export class AllSessionsComponent implements OnInit, OnDestroy {
   /**
    * Constructor
    *
-   * @param {DisponibilityTrainerService} _disponibilityTrainerService
+   * @param {AllSessionsService} _allSessionsService
    * @param {FuseSidebarService} _fuseSidebarService
    * @param {MatDialog} _matDialog
    */
   constructor(
-      private _disponibilityTrainerService: AllSessionsService,
+      private _allSessionsService: AllSessionsService,
       private _fuseSidebarService: FuseSidebarService,
       private _matDialog: MatDialog
   ) {
@@ -67,7 +67,7 @@ export class AllSessionsComponent implements OnInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
-      this._disponibilityTrainerService.onSelectedContactsChanged
+      this._allSessionsService.onSelectedContactsChanged
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(selectedContacts => {
               this.hasSelectedContacts = selectedContacts.length > 0;
@@ -80,12 +80,12 @@ export class AllSessionsComponent implements OnInit, OnDestroy {
               distinctUntilChanged()
           )
           .subscribe(searchText => {
-              this._disponibilityTrainerService.onSearchTextChanged.next(searchText);
+              this._allSessionsService.onSearchTextChanged.next(searchText);
           });
   }
 
   bringList(): any {
-      if ((this._disponibilityTrainerService.trainerId == null) || (this._disponibilityTrainerService.courseId == null))
+      if ((this._allSessionsService.trainerId == null) || (this._allSessionsService.courseId == null))
           return false;
       else
           return true;
@@ -97,13 +97,14 @@ export class AllSessionsComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy(): void {
       // Reset the search
-    /*  this._disponibilityTrainerService.onSearchTextChanged.next('');
-      this._disponibilityTrainerService.deselectContacts();
-      this._disponibilityTrainerService.courseId = null;
-      this._disponibilityTrainerService.trainer = null;
-      this._disponibilityTrainerService.filterBy = null;
-      this._disponibilityTrainerService.contacts = [];*/
+    /*  this._allSessionsService.onSearchTextChanged.next('');
+      this._allSessionsService.deselectContacts();
+      this._allSessionsService.courseId = null;
+      this._allSessionsService.trainer = null;
+      this._allSessionsService.filterBy = null;
+      this._allSessionsService.contacts = [];*/
       // Unsubscribe from all subscriptions
+      this._allSessionsService.filterBy = null;
       this._unsubscribeAll.next();
       this._unsubscribeAll.complete();
   }
@@ -117,13 +118,13 @@ export class AllSessionsComponent implements OnInit, OnDestroy {
    */
 
   buttonSee() {
-      this._disponibilityTrainerService.getDisponibilities();
+      this._allSessionsService.getDisponibilities();
 
-      this._disponibilityTrainerService.selectedContacts.forEach(select => {
+      this._allSessionsService.selectedContacts.forEach(select => {
           this.selectedContacts.push(select.toString());
 
       });
-      this.disponibilities = this._disponibilityTrainerService.disponibilities;
+      this.disponibilities = this._allSessionsService.disponibilities;
       this.disponibilities.forEach(disponibility => {
           this.courseSessionsDispon.push(disponibility.courseSession);
           //  this.courseSessions.push(disponibility.courseSession);
@@ -131,7 +132,7 @@ export class AllSessionsComponent implements OnInit, OnDestroy {
 
       });
 
-      if ((this._disponibilityTrainerService.trainer == null) || (this._disponibilityTrainerService.courseId == null)) {
+      if ((this._allSessionsService.trainer == null) || (this._allSessionsService.courseId == null)) {
           this.chooseDispo("Veuillez choisir le formateur et la formation");
       }
       else {
@@ -142,21 +143,21 @@ export class AllSessionsComponent implements OnInit, OnDestroy {
               //Adding Trainer's Disponibilities
               console.log(this.disponibilities);
 
-              this._disponibilityTrainerService.contacts.forEach(courseSession => {
+              this._allSessionsService.contacts.forEach(courseSession => {
                   this.test = false;
                   console.log("selected dispo in for");
                   console.log(this.selectedContacts);
                   if (this.disponibilities.length != 0) {
                       if (this.selectedContacts.includes(courseSession.id.toString())) {
                           if ((!this.courseSessions.includes(courseSession))) {// || (this.courseSessions.length == 0)) {
-                              this.disponibility = new Disponibility(this._disponibilityTrainerService.trainer, courseSession);
+                              this.disponibility = new Disponibility(this._allSessionsService.trainer, courseSession);
                               console.log("avant dispo button");
                               console.log(this.disponibilities);
 
                               for (let i = 0; i < this.disponibilities.length; i++) {
-                                  console.log(courseSession.id + " " + this._disponibilityTrainerService.trainer.id);
+                                  console.log(courseSession.id + " " + this._allSessionsService.trainer.id);
                                   console.log(this.courseSessionsDispon[i].id + " " + this.trainersDispo[i].id);
-                                  if ((this.courseSessionsDispon[i].id.toString() == courseSession.id.toString()) && (this.trainersDispo[i].id.toString() == this._disponibilityTrainerService.trainer.id.toString())) {
+                                  if ((this.courseSessionsDispon[i].id.toString() == courseSession.id.toString()) && (this.trainersDispo[i].id.toString() == this._allSessionsService.trainer.id.toString())) {
                                       console.log("IN DISPONIBILITIES!!!");
                                       this.courseSessions = [];
                                       this.disponibilitiesAdded = [];
@@ -190,7 +191,7 @@ export class AllSessionsComponent implements OnInit, OnDestroy {
                           }
                       }
                   } else {
-                      this.disponibility = new Disponibility(this._disponibilityTrainerService.trainer, courseSession);
+                      this.disponibility = new Disponibility(this._allSessionsService.trainer, courseSession);
                       this.disponibilitiesAdded.push(this.disponibility);
                   }
 
@@ -210,8 +211,8 @@ export class AllSessionsComponent implements OnInit, OnDestroy {
       this.courseSessionsDispon = [];
       this.trainersDispo = [];
       this.disponibilitiesAdded = [];
-      this._disponibilityTrainerService.getDisponibilities();
-      // this._disponibilityTrainerService.selectedContacts=[];
+      this._allSessionsService.getDisponibilities();
+      // this._allSessionsService.selectedContacts=[];
 
   }
 
@@ -249,7 +250,7 @@ export class AllSessionsComponent implements OnInit, OnDestroy {
   }
 
   confirmDispo(disponibilities): void {
-      this._disponibilityTrainerService.getDisponibilities();
+      this._allSessionsService.getDisponibilities();
       this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
           disableClose: false
       });
@@ -260,7 +261,7 @@ export class AllSessionsComponent implements OnInit, OnDestroy {
           if (result) {
               console.log("ajouter dispo");
               disponibilities.forEach(disponibility => {
-                  this._disponibilityTrainerService.saveDisponibility(disponibility);
+                  this._allSessionsService.saveDisponibility(disponibility);
               });
 
 

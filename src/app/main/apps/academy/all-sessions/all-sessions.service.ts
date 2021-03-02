@@ -46,6 +46,7 @@ export class AllSessionsService implements Resolve<any>
     courseId: any;
     searchText: string;
     filterBy: any;
+    session:any;
 
 
     /**
@@ -148,12 +149,13 @@ export class AllSessionsService implements Resolve<any>
                         });
 
                     }
-                 
+
 
 
                     this.onSpecificCourseSessionsChanged.next(this.contacts);
-                    this.filterBy=null;
+
                     resolve(this.contacts);
+                  
                 }, reject);
         }
         );
@@ -231,7 +233,21 @@ export class AllSessionsService implements Resolve<any>
        }*/
 
 
+    getSessionsById(id): Promise<any> {
 
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'session/' + id)
+                .subscribe((response: any) => {
+
+
+                    this.session = response;
+                    console.log(this.session);
+                    resolve(response);
+                }, reject);
+        }
+        );
+    }
 
     getProgramInst(): Promise<any> {
 
