@@ -285,6 +285,8 @@ filterThemesByTerm(): void {
               if (!response) {
                   return;
               }
+              console.log(this._academyProgramsInstService.program);
+
             this._academyProgramsInstService.addClass(response.getRawValue(),this._academyProgramsInstService.program);
 
           });
