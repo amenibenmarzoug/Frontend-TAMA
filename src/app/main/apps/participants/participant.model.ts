@@ -20,6 +20,7 @@ export class Contact
     validated :boolean ; 
     entreprise : any ; 
     groupe: any;
+    programInstance : any ;
     educationLevel:string;
     cursus:any;
     notes : string 
@@ -53,7 +54,7 @@ export class Contact
             this.gender=contact.gender || '' ;
             this.level=contact.level || '' ;
             this.validated=contact.validated || '' ;
-
+            this.programInstance=contact.programInstance || '' ;
             //this.password = contact.password;
         }
     }

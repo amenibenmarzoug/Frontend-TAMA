@@ -70,16 +70,16 @@ export class ParticipantsService implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
 
             Promise.all([
                 this.getContacts(),
                 
               // console.log(JSON.parse(window.sessionStorage.getItem(USER_KEY))),
                 this.getUserData(),
-               this.getEntreprises(),
-               this.getGroups(),
-               this.getCursus(),
+               //this.getEntreprises(),
+              // this.getGroups(),
+               //this.getCursus(),
             ]).then(
                 ([files]) => {
 

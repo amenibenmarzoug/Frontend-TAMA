@@ -11,7 +11,7 @@
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef>Nom et Prénom </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Nom et Prénom </mat-header-cell>
         <mat-cell *matCellDef="let contact">
             <p class="text-truncate font-weight-600">{{contact.firstNameP}} {{contact.lastNameP}}</p>
         </mat-cell>
@@ -30,7 +30,7 @@
 
     <!-- Phone Column -->
     <ng-container matColumnDef="phone">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Numéro</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Numéro </mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
             <p class="phone text-truncate">
                 {{contact.phoneNumber}}
@@ -41,21 +41,21 @@
     <!-- Job Title Column -->
     <ng-container matColumnDef="currentPosition" >
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>
-            Position Actuelle</mat-header-cell>
+             Position</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
             <p class="job-title text-truncate">
                 {{contact.currentPosition}}
             </p>
         </mat-cell>
     </ng-container>
-    <ng-container matColumnDef="abandon">
+   <!--  <ng-container matColumnDef="abandon">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Abandonner</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
             <p class="job-title text-truncate">
                 {{contact.abandon}}
             </p>
         </mat-cell>
-    </ng-container>
+    </ng-container> -->
 
     <!-- Company Column -->
     <ng-container  matColumnDef="company">
@@ -76,10 +76,10 @@
         </mat-cell>
     </ng-container>
     <ng-container matColumnDef="cursus">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Cursus</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Programme</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
             <p *ngIf="contact.cursus!=null" class="company text-truncate">
-                {{contact.cursus.cursusName}}
+                {{contact.programInstance.programInstName}}
             </p>
         </mat-cell>
     </ng-container>
@@ -115,7 +115,7 @@
                     <button mat-menu-item aria-label="check" (click)="ValidateContact(contact)">
                         <mat-icon *ngIf="contact.validated ">check</mat-icon>
                         <mat-icon *ngIf="!contact.validated ">close</mat-icon>
-                        <span>Valider</span>
+                        <span>Créer un compte</span>
                     </button>
                 </mat-menu>
 
