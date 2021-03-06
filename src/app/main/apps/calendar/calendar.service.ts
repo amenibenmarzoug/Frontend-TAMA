@@ -64,7 +64,7 @@ export class CalendarService implements Resolve<any>
      * @returns {Observable<any> | Promise<any> | any}
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             Promise.all([
 
                 //this.getCourseSessions(),
@@ -146,7 +146,7 @@ export class CalendarService implements Resolve<any>
                   
                     this.events = response;
                     if (this.userRole.includes("PARTICIPANT")) {
-                        if (this.participant.cursus == null) {
+                       /* if (this.participant.cursus == null) {
                             this.events = [];
                         }
                         else {
@@ -159,20 +159,18 @@ export class CalendarService implements Resolve<any>
                                 }
                                 return false;
                             });
-                        }
+                        }*/
 
 
 
 
                     }
-                    /*else {
-                        this.events = [];
-                    }*/
+                   
 
                     else if (this.userRole.includes("TRAINER")) {
                         this.events = this.events.filter(_event => {
-                            if (_event.courseSession.course.trainer != null) {
-                                if (_event.courseSession.course.trainer.id == this.userId) {
+                            if (_event.session.trainer != null) {
+                                if (_event.session.trainer.id == this.userId) {
                                     //console.log("user trainer");
                                     return true;
                                 }
@@ -185,7 +183,7 @@ export class CalendarService implements Resolve<any>
                         this.events = [];
                     }
                     else if ((this.userRole.includes("ENTREPRISE")) ) {
-                        if (this.entreprise.cursus == null) {
+                       /* if (this.entreprise.cursus == null) {
                             this.events = [];
                         }
                         else {
@@ -198,7 +196,7 @@ export class CalendarService implements Resolve<any>
                                 }
                                 return false;
                             });
-                        }
+                        }*/
                     }
                     else if (this.userRole.includes("MANAGER")) {
                         this.events = response;

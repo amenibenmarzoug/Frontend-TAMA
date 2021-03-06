@@ -1,51 +1,41 @@
 @import "src/@fuse/scss/fuse";
 
-profile-photos-videos {
+#contacts {
 
-    #photos-videos {
+    .header {
+        .search-wrapper {
+            width: 100%;
+            max-width: 480px;
+            border-radius: 28px;
+            overflow: hidden;
+            @include mat-elevation(1);
 
-        .period {
+            .search {
+                width: 100%;
+                height: 48px;
+                line-height: 48px;
+                padding: 0 18px;
 
-            .period-title {
-                margin-bottom: 24px;
-
-                .name {
-                    font-size: 20px;
-                }
-
-                .info {
-                    margin-left: 16px;
-                    font-size: 15px;
+                input {
+                    width: 100%;
+                    height: 48px;
+                    min-height: 48px;
+                    max-height: 48px;
+                    padding: 0 16px;
+                    border: none;
+                    outline: none;
                 }
             }
+        }
+    }
 
-            .period-media {
-                margin-bottom: 16px;
+    .content {
+        overflow: hidden;
 
-                .media {
-                    position: relative;
-                    margin: 0 16px 16px 0;
-                    border-radius: 4px;
-                    overflow: hidden;
+        .sidebar {
 
-                    .preview {
-                        display: block;
-                        width: 256px;
-                        height: 256px;
-                    }
-
-                    .title {
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        right: 0;
-                        z-index: 10;
-                        padding: 0 16px;
-                        height: 48px;
-                        line-height: 48px;
-                        font-size: 15px;
-                    }
-                }
+            &:not(.locked-open) {
+                background: white;
             }
         }
     }

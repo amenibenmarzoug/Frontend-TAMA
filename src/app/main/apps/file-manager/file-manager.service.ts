@@ -5,7 +5,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { Observable, BehaviorSubject } from 'rxjs';
 import{ Document} from 'app/main/apps/file-manager/file.model';
 import { HttpRequest, HttpEvent } from '@angular/common/http';
-import { Training } from '../academy/trainings/training.model';
+//import { Training } from '../academy/trainings/training.model';
 
 
 const AUTH_API = 'http://localhost:8080/api/';

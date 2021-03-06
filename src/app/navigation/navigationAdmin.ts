@@ -39,27 +39,42 @@ export const navigationAdmin: FuseNavigation[] = [
         //url      : '/apps/academy',
         children: [
 
-        {
-            id: 'programs',
-            title: 'Programme',
-            type : 'item',
-            url  : '/apps/academy/programs',
-            
-        },
-        {
-            id: 'programsD',
-            title: 'Programme Dédié',
-            type : 'item',
-            //url  : '/apps/academy/trainings',
-           
+            {
+                id: 'academy',
+                title: 'Programme',
+                type: 'item',
+                url: '/apps/academy/programs',
+                
+            },
+             {
+                id: 'programsD',
+                 title: 'Programme Dédié',
+                 type: 'item',
+                 url  : '/apps/academy/programsD',
 
-        },
+
+             },
+             {
+                id: 'class',
+                 title: 'Classes',
+                 type: 'item',
+                 url  : '/apps/academy/class',
+
+
+             },
        
         {
             id: 'add',
             title: 'Ajout Séance',
             type: 'item',
             url: '/apps/academy/addSession',
+        },
+        
+        {
+            id: 'allSessions',
+            title: 'Toutes les séances',
+            type: 'item',
+            url: '/apps/academy/allSessions',
         }
         ]
 
@@ -75,7 +90,7 @@ export const navigationAdmin: FuseNavigation[] = [
         icon: 'account_box',
         url: '/apps/trainer'
     },
-    {
+ /*   {
         id: 'disponibility-trainer',
         title: 'Disponibilités des formateurs',
 
@@ -92,7 +107,7 @@ export const navigationAdmin: FuseNavigation[] = [
         type: 'item',
         icon: 'account_box',
         url: '/apps/course-trainer'
-    },
+    },*/
     {
         id: 'participants',
         title: 'Participants',

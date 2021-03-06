@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { AcademyProgramsService } from 'app/main/apps/academy/programs.service';
+import { ProgramsService } from 'app/main/apps/academy/programs.service';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CalendarEventFormDialogComponent } from 'app/main/apps/calendar/event-form/event-form.component';
@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
     styleUrls: ['./programs.component.scss'],
     animations: fuseAnimations
 })
-export class AcademyProgramsComponent implements OnInit, OnDestroy {
+export class ProgramsComponent implements OnInit, OnDestroy {
     categories: any[];
     programs: any[];
     programsFilteredByCategory: any[];
@@ -38,10 +38,10 @@ export class AcademyProgramsComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      *
-     * @param {AcademyProgramsService} _academyCoursesService
+     * @param {ProgramsService} _academyCoursesService
      */
     constructor(
-        private _academyProgramsService: AcademyProgramsService,
+        private _academyProgramsService: ProgramsService,
         public dialog: MatDialog,
         private router: Router,
     ) {
@@ -69,7 +69,7 @@ export class AcademyProgramsComponent implements OnInit, OnDestroy {
             });
 
         // Subscribe to courses
-        this._academyProgramsService.onCoursesChanged
+        this._academyProgramsService.onProgramsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(courses => {
                 this.filteredPrograms = this.programsFilteredByCategory = this.programs = courses;
@@ -125,8 +125,8 @@ export class AcademyProgramsComponent implements OnInit, OnDestroy {
 
         //filter with cursusName and cursusCategory 
         else {
-            this.filteredPrograms = this.programsFilteredByCategory.filter((course) => {
-                return course.cursusName.toLowerCase().includes(searchTerm);
+            this.filteredPrograms = this.programsFilteredByCategory.filter((program) => {
+                return program.programName.toLowerCase().includes(searchTerm);
             });
         }
     }
@@ -181,7 +181,7 @@ export class AcademyProgramsComponent implements OnInit, OnDestroy {
                      */
                     case 'save':
 
-                        this._academyProgramsService.updateCourse1(formData.getRawValue());
+                        this._academyProgramsService.updateProgram(formData.getRawValue());
 
                         break;
                     /**
@@ -196,8 +196,8 @@ export class AcademyProgramsComponent implements OnInit, OnDestroy {
             });
     }
     goToProgramModule(id) {
-
-        this.router.navigate(['./apps/academy/programDetails', id]);
+        this.router.navigate(['/apps/academy/programDetails', id]);
+        console.log("program id" + id)
     }
 
     deleteCursus(contact): void {
@@ -209,7 +209,7 @@ export class AcademyProgramsComponent implements OnInit, OnDestroy {
 
         this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._academyProgramsService.deleteCursus(contact);
+                this._academyProgramsService.deleteProgram(contact);
             }
             this.dialogRef = null;
         });

@@ -8,15 +8,15 @@ import { Program } from 'app/main/apps/academy/program.model';
 
 const AUTH_API = 'http://localhost:8080/api/';
 @Injectable()
-export class AcademyProgramsService implements Resolve<any>
+export class ProgramsService implements Resolve<any>
 {
     onCategoriesChanged: BehaviorSubject<any>;
-    onCoursesChanged: BehaviorSubject<any>;
+    onProgramsChanged: BehaviorSubject<any>;
 
     programs: Program[];
     id: number;
-    course: any;
-    courseId: any;
+    program: any;
+    programId: any;
 
 
 
@@ -30,7 +30,7 @@ export class AcademyProgramsService implements Resolve<any>
     ) {
         // Set the defaults
         this.onCategoriesChanged = new BehaviorSubject({});
-        this.onCoursesChanged = new BehaviorSubject({});
+        this.onProgramsChanged = new BehaviorSubject({});
 
     }
 
@@ -49,7 +49,7 @@ export class AcademyProgramsService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getCategories(),
+                //this.getCategories(),
                 this.getPrograms()
             ]).then(
                 () => {
@@ -60,20 +60,7 @@ export class AcademyProgramsService implements Resolve<any>
         });
     }
 
-    /**
-     * Get categories
-     *
-     * @returns {Promise<any>}
-     */
-    getCategories(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this._httpClient.get('api/academy-categories')
-                .subscribe((response: any) => {
-                    this.onCategoriesChanged.next(response);
-                    resolve(response);
-                }, reject);
-        });
-    }
+    
 
 
 
@@ -87,7 +74,7 @@ export class AcademyProgramsService implements Resolve<any>
             this._httpClient.get(AUTH_API + 'programs')
                 .subscribe((response: any) => {
                     this.programs = response;
-                    this.onCoursesChanged.next(response);
+                    this.onProgramsChanged.next(response);
                     resolve(response);
                 }, reject);
         });
@@ -114,15 +101,14 @@ export class AcademyProgramsService implements Resolve<any>
    *
    * @param id
    */
-    deleteCursus(program): Promise<any> {
+    deleteProgram(program): Promise<any> {
         return new Promise((resolve, reject) => {
             const courseIndex = this.programs.indexOf(program.id);
             this.programs.splice(courseIndex, 1);
-            this.onCoursesChanged.next(this.programs);
+            this.onProgramsChanged.next(this.programs);
             this._httpClient.delete(AUTH_API + `programs/${program.id}`)
                 .subscribe(response => {
                     this.getPrograms();
-                    console.log("function 2");
 
                     resolve(response);
                 });
@@ -130,39 +116,9 @@ export class AcademyProgramsService implements Resolve<any>
     }
 
 
-
-    saveCourse(course, createdTrainings): Promise<any> {
+    updateProgram(program): Promise<any> {
         return new Promise((resolve, reject) => {
-
-            this._httpClient.post(AUTH_API + 'program', course)
-                .subscribe(response => {
-                    this.getPrograms();
-                    this.course = response;
-                    resolve(response);
-                    console.log("enii fel poooost");
-                    // console.log(this.course.id) ;
-                    //this.courseId = this.course.id; 
-                    console.log(this.courseId);
-                    for (var i = 0; i < createdTrainings.length; i++) {
-                        createdTrainings[i].cursus = response;
-                        this.addTraining(createdTrainings[i]);
-                    }
-
-
-
-
-
-
-                });
-        });
-    }
-
-
-
-    updateCourse1(course): Promise<any> {
-        return new Promise((resolve, reject) => {
-            console.log(course);
-            this._httpClient.put(AUTH_API + 'programEdit', course)
+            this._httpClient.put(AUTH_API + 'programEdit', program)
                 .subscribe(response => {
                     //this.getCourses();
                     resolve(response);
@@ -171,16 +127,7 @@ export class AcademyProgramsService implements Resolve<any>
     }
 
 
-    addTraining(contact): Promise<any> {
-        return new Promise((resolve, reject) => {
-            // contact.cursus=cursus;
-            this._httpClient.post(AUTH_API + 'course', contact)
-                .subscribe(response => {
-                    // this.getContacts();
-                    resolve(response);
-                });
-        });
-    }
+   
 
 
 

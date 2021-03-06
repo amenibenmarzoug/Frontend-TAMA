@@ -10,9 +10,9 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { FileManagerService } from 'app/main/apps/file-manager/file-manager.service';
 import { Observable } from 'rxjs';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { Training } from '../academy/trainings/training.model';
+//import { Training } from '../academy/trainings/training.model';
 
-import { TrainingsService } from 'app/main/apps/academy/trainings.service';
+//import { TrainingsService } from 'app/main/apps/academy/trainings.service';
 
 @Component({
     selector     : 'file-manager',
@@ -38,12 +38,12 @@ export class FileManagerComponent implements OnInit,OnDestroy
   fileInfos: Observable<any>;
 
 
-   formation: Training;
+   //formation: Training;
  
    filterBy: string;
    currentCategory: string;
    courses: any[];
-   selectedTraining :Training;
+   //selectedTraining :Training;
 
   //fileInfos: any;
 
@@ -117,24 +117,24 @@ export class FileManagerComponent implements OnInit,OnDestroy
   
     this.currentFile = this.selectedFiles.item(0);
     console.log("selecteeeeed Training");
-    console.log(this.selectedTraining.id);
-    this._fileManagerService.upload(this.currentFile,this.selectedTraining.id).subscribe(
-      event => {
-        if (event.type === HttpEventType.UploadProgress) {
-          this.progress = Math.round(100 * event.loaded / event.total);
-        } else if (event instanceof HttpResponse) {
-          this.message = event.body.message;
-          this.fileInfos = this._fileManagerService.getFiles();
+    //console.log(this.selectedTraining.id);
+    // this._fileManagerService.upload(this.currentFile,this.selectedTraining.id).subscribe(
+    //   event => {
+    //     if (event.type === HttpEventType.UploadProgress) {
+    //       this.progress = Math.round(100 * event.loaded / event.total);
+    //     } else if (event instanceof HttpResponse) {
+    //       this.message = event.body.message;
+    //       this.fileInfos = this._fileManagerService.getFiles();
 
           
-        }
-      },
-      err => {
-        this.progress = 0;
-        this.message = 'Impossible de télécharger le fichier!';
-        this.currentFile = undefined;
-      });
-    this.selectedFiles = undefined;
+    //     }
+    //   },
+    //   err => {
+    //     this.progress = 0;
+    //     this.message = 'Impossible de télécharger le fichier!';
+    //     this.currentFile = undefined;
+    //   });
+    // this.selectedFiles = undefined;
   }
 
   changeFilter(filter): void
@@ -147,7 +147,7 @@ export class FileManagerComponent implements OnInit,OnDestroy
     
     /*console.log("hiiiiiiiiii");*/
     console.log(formation.value);
-    this.selectedTraining=formation.value;
+   // this.selectedTraining=formation.value;
   }
 
 

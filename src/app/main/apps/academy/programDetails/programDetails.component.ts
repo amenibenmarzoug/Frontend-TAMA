@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { ProgramDetailsService } from './programDetails.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -20,17 +21,21 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
     institution: any;
     entreprise: any;
     name:string;
-
+    programId: any;
+    private sub:any;
+    selectedTab = 0;
     // Private
     private _unsubscribeAll: Subject<any>;
 
     /**
      * Constructor
      *
-     * @param {ProgramDetailsService} _profileService
+     * @param {ProgramDetailsService} _programDetailsService
      */
     constructor(
-        private _programDetailsService: ProgramDetailsService
+        private _programDetailsService: ProgramDetailsService,
+        private route: ActivatedRoute
+
     ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -39,12 +44,18 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
-
+    selectTab(event) {
+        this.selectedTab = event;
+    }
     /**
      * On init
      */
     ngOnInit(): void {
-      
+        this.sub = this.route.params.subscribe(params =>{
+            this.programId = +params['id'];           
+        });
+        this._programDetailsService.programId = this.programId;
+        this._programDetailsService.getThemesPerProgram();
        
     }
 
@@ -55,6 +66,5 @@ export class ProgramDetailsComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
-       // this._profileService.data=null;
     }
 }

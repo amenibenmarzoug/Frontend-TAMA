@@ -24,18 +24,18 @@
     <!-- CONTENT -->
     <div class="content">
 
-        <mat-tab-group dynamicHeight="true">
+        <mat-tab-group  dynamicHeight="true">
 
             <mat-tab label="Thématique">
-                <thematique></thematique>
+                <thematique *matTabContent></thematique>
             </mat-tab>
 
             <mat-tab label="Module">
-                <module></module>
+                <module *matTabContent></module>
             </mat-tab>
 
             <mat-tab label="Details du Thème">
-                <themeDetail></themeDetail>
+                <themeDetail *matTabContent></themeDetail>
             </mat-tab>
 
         </mat-tab-group>

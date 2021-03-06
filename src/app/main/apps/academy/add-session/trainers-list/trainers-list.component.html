@@ -17,7 +17,7 @@
 
     <!-- Place Column -->
     <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>Nom et Prénom</mat-header-cell>
         <mat-cell *matCellDef="let contact">
             <p class="text-truncate font-weight-600">{{contact.firstName}} {{contact.lastName}}</p>
         </mat-cell>
@@ -35,7 +35,7 @@
 
     <!-- Phone Column -->
     <ng-container matColumnDef="phone">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Phone</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Numéro Téléphone</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
             <p class="phone text-truncate">
                 {{contact.phoneNumber}}
