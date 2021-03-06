@@ -13,6 +13,7 @@ export class Entreprise
     enterpriseName: string;
     website : string ;
     notes : string ;
+    validated : boolean ;
     /**
      * Constructor
      *
@@ -31,6 +32,7 @@ export class Entreprise
             this.city = contact.city || '';
             this.postalCode = contact.postalCode || '';
             this.roles = contact.roles || '';
+            this.validated = contact.validated || '';
 
            
         }

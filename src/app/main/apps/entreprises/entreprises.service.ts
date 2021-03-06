@@ -24,7 +24,7 @@ export class EntreprisesService implements Resolve<any>
     contact: Entreprise[];
     user: any;
     selectedContacts: Number[] = [];
-
+    
     searchText: string;
     filterBy: string;
      id : number ;
@@ -65,7 +65,7 @@ export class EntreprisesService implements Resolve<any>
                 this.getContacts(),
                 
               // console.log(JSON.parse(window.sessionStorage.getItem(USER_KEY))),
-                this.getUserData(),
+              //  this.getUserData(),
               //  this.getEntreprises()
             ]).then(
                 ([files]) => {
@@ -80,7 +80,7 @@ export class EntreprisesService implements Resolve<any>
                         this.getContacts();
                     });
 
-                    resolve();
+                    //resolve();
 
                 },
                 reject
@@ -96,25 +96,31 @@ export class EntreprisesService implements Resolve<any>
     getContacts(): Promise<any>
     {
         return new Promise((resolve, reject) => {
-                this._httpClient.get(AUTH_API+'entreprises')
+                this._httpClient.get('http://localhost:8080/api/participants')
                     .subscribe((response: any) => {
 
                         this.contacts = response;
-                  
+                       // console.log(response) ; 
 
-                        if ( this.filterBy === 'starred' )
+                        if ( this.filterBy === 'with')
                         {
                             this.contacts = this.contacts.filter(_contact => {
-                                return this.user.starred.includes(_contact.id);
-                            });
-                        }
+                                if (_contact.validated) { return true; }
+                                return false;
+                               // this._httpClient.get('http://localhost:8080/api/participants/pilier1')                                   
+                            
+                            }) ;
+                    }
 
-                        if ( this.filterBy === 'frequent' )
+                        if ( this.filterBy === 'without' )
                         {
                             this.contacts = this.contacts.filter(_contact => {
-                                return this.user.frequentContacts.includes(_contact.id);
+                               // return this.user.frequentContacts.includes(_contact.id);
+                               if (!_contact.validated) { return true; }
+                                return false;
                             });
                         }
+                        
 
                         if ( this.searchText && this.searchText !== '' )
                         {
@@ -127,28 +133,6 @@ export class EntreprisesService implements Resolve<any>
 
                         this.onContactsChanged.next(this.contacts);
                         resolve(this.contacts);
-                    }, reject);
-            }
-        );
-    }
-
-
-
-
-
-    /**
-     * Get user data
-     *
-     * @returns {Promise<any>}
-     */
-    getUserData(): Promise<any>
-    {
-        return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API+'entreprises')
-                    .subscribe((response: any) => {
-                        this.user = response;
-                        this.onUserDataChanged.next(this.user);
-                        resolve(this.user);
                     }, reject);
             }
         );
@@ -286,7 +270,7 @@ ValidateContact(contact): Promise<any>
         return new Promise((resolve, reject) => {
             this._httpClient.post('api/contacts-user/' + this.user.id, {...userData})
                 .subscribe(response => {
-                    this.getUserData();
+                    //this.getUserData();
                     this.getContacts();
                     resolve(response);
                 });
