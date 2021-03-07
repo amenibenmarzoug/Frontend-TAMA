@@ -94,8 +94,9 @@ export class ThemeDetailComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
 
     addNewThemeDetail(): void {
-        if ((this._themeDetailsService.module == null)) {
-            this.addThemeDetailAlert("Veuillez choisir le Module");
+        if ((this._themeDetailsService.module == null )) {
+            console.log(this._themeDetailsService.module);
+            this.addThemeDetailAlert("Veuillez choisir un Module");
         }
 
         else {

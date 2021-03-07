@@ -67,22 +67,15 @@
         </mat-cell>
     </ng-container>
     <!-- Company Column -->
-    <ng-container matColumnDef="groupe">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Groupe</mat-header-cell>
+    <ng-container matColumnDef="classe">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Classe</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
-            <p *ngIf="contact.groupe!=null" class="company text-truncate">
-                {{contact.groupe.groupName}}
+            <p *ngIf="contact.programInstance!=null" class="company text-truncate">
+                {{contact.programInstance.programInstName}}
             </p>
         </mat-cell>
     </ng-container>
-    <ng-container matColumnDef="cursus">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Cursus</mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
-            <p *ngIf="contact.cursus!=null" class="company text-truncate">
-                {{contact.cursus.cursusName}}
-            </p>
-        </mat-cell>
-    </ng-container>
+    
     <ng-container matColumnDef="level">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Niveau</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>

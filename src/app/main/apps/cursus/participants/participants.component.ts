@@ -44,7 +44,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _MyParticipantsService: ParticipantsService,
-        //private _ParticipantFormComponent: ParticipantFormComponent,
+        // private _ParticipantFormComponent: ParticipantFormComponent,
         private _fuseSidebarService: FuseSidebarService,
         private _matDialog: MatDialog
     )

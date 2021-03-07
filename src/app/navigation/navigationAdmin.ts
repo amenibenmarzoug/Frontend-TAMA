@@ -133,13 +133,13 @@ export const navigationAdmin: FuseNavigation[] = [
         url: '/apps/institution'
     },
 
-    {
-        id: 'groups',
-        title: 'Groupes',
-        type: 'item',
-        icon: 'account_box',
-        url: '/apps/groups'
-    },
+    // {
+    //     id: 'groups',
+    //     title: 'Groupes',
+    //     type: 'item',
+    //     icon: 'account_box',
+    //     url: '/apps/groups'
+    // },
 
   /*  {
         id       : 'file-manager',
