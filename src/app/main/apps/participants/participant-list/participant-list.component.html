@@ -78,7 +78,7 @@
     <ng-container matColumnDef="cursus">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Programme</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
-            <p *ngIf="contact.cursus!=null" class="company text-truncate">
+            <p *ngIf="contact.programInstance!=null" class="company text-truncate">
                 {{contact.programInstance.programInstName}}
             </p>
         </mat-cell>

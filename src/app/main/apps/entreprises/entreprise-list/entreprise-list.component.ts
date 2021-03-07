@@ -186,7 +186,7 @@ id : number ;
 
   ValidateContact(contact){
    
-    //this._entreprisesService.ValidateContact(contact)
+    this._entreprisesService.ValidateContact(contact)
   }
 
   /**

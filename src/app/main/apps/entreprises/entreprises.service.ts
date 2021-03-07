@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
@@ -21,10 +21,10 @@ export class EntreprisesService implements Resolve<any>
     onFilterChanged: Subject<any>;
 
     contacts: Entreprise[];
-    contact: Entreprise[];
+    contact: Entreprise;
     user: any;
     selectedContacts: Number[] = [];
-    
+
     searchText: string;
     filterBy: string;
      id : number ;
@@ -59,13 +59,13 @@ export class EntreprisesService implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
 
             Promise.all([
                 this.getContacts(),
                 
               // console.log(JSON.parse(window.sessionStorage.getItem(USER_KEY))),
-              //  this.getUserData(),
+                this.getUserData(),
               //  this.getEntreprises()
             ]).then(
                 ([files]) => {
@@ -80,7 +80,7 @@ export class EntreprisesService implements Resolve<any>
                         this.getContacts();
                     });
 
-                    //resolve();
+                    resolve();
 
                 },
                 reject
@@ -96,11 +96,12 @@ export class EntreprisesService implements Resolve<any>
     getContacts(): Promise<any>
     {
         return new Promise((resolve, reject) => {
-                this._httpClient.get('http://localhost:8080/api/participants')
+                this._httpClient.get(AUTH_API+'entreprises')
                     .subscribe((response: any) => {
-
+                        console.log('entreprises :') ;
+                        console.log(this.contacts) ;
                         this.contacts = response;
-                       // console.log(response) ; 
+                  
 
                         if ( this.filterBy === 'with')
                         {
@@ -120,7 +121,6 @@ export class EntreprisesService implements Resolve<any>
                                 return false;
                             });
                         }
-                        
 
                         if ( this.searchText && this.searchText !== '' )
                         {
@@ -133,6 +133,30 @@ export class EntreprisesService implements Resolve<any>
 
                         this.onContactsChanged.next(this.contacts);
                         resolve(this.contacts);
+                    }, reject);
+            }
+        );
+    }
+
+
+
+
+
+    /**
+     * Get user data
+     *
+     * @returns {Promise<any>}
+     */
+    getUserData(): Promise<any>
+    {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API+'entreprises')
+                    .subscribe((response: any) => { 
+                        this.user = response;
+                        console.log('entreprises :') ;
+                        console.log(response) ;
+                        this.onUserDataChanged.next(this.user);
+                        resolve(this.user);
                     }, reject);
             }
         );
@@ -236,6 +260,7 @@ export class EntreprisesService implements Resolve<any>
 updateContact1(contact): Promise<any>
 {
     return new Promise((resolve, reject) => {
+       
         this._httpClient.put(AUTH_API+'entreprises', contact )
             .subscribe(response => {
                 this.getContacts();
@@ -246,9 +271,13 @@ updateContact1(contact): Promise<any>
 ValidateContact(contact): Promise<any>
 {
     return new Promise((resolve, reject) => {
-    contact.validated=true ; 
+    contact.validated=true ;
+    console.log("entreprise à valider :") 
      console.log(contact)
-        this._httpClient.put(AUTH_API+'entreprises/validate' , contact )
+     const params = new HttpParams().set('id',contact.id);
+
+     console.log(params);
+        this._httpClient.get(AUTH_API+'sendMailToEntrep' ,{ params: params } )
             .subscribe(response => {
                
                 this.getContacts();
@@ -270,7 +299,7 @@ ValidateContact(contact): Promise<any>
         return new Promise((resolve, reject) => {
             this._httpClient.post('api/contacts-user/' + this.user.id, {...userData})
                 .subscribe(response => {
-                    //this.getUserData();
+                    this.getUserData();
                     this.getContacts();
                     resolve(response);
                 });

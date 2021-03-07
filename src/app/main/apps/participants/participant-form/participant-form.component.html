@@ -86,12 +86,12 @@
             </div>
             <div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
                 <mat-form-field appearance="outline" fxFlex class="pr-4">
-                    <mat-label>Cursus</mat-label>
+                    <mat-label>Classe</mat-label>
                     <mat-icon matSuffix class="secondary-text">school</mat-icon>
                     <mat-select (selectionChange)="getCursusForm($event.value)">
                        
                         <mat-option *ngFor="let cursus of courses" [value]="cursus">
-                            {{ cursus.cursusName}} 
+                            {{ cursus.programInstName}} 
                         </mat-option>
                     </mat-select>
 

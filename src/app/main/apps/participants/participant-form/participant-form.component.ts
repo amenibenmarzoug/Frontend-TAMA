@@ -43,15 +43,15 @@ export class ParticipantFormComponent{
 
       if ( this.action === 'edit' )
       {
-          this.dialogTitle = 'Modifier Participant';
+          this.dialogTitle = 'Edit Participant';
           this.contact = _data.contact;
           this._ParticipantsService.entreprise=this.contact.entreprise;
           this._ParticipantsService.groupe=this.contact.groupe;
-          this._ParticipantsService.cursus=this.contact.cursus;
+          //this._ParticipantsService.programInstance=this.contact.cursus;
       }
       else
       {
-          this.dialogTitle = 'Nouveau Participant';
+          this.dialogTitle = 'New Participant';
           this.contact = new Contact({});
       }
 
@@ -109,8 +109,8 @@ export class ParticipantFormComponent{
           birthday: [this.contact.birthday],
           //password :[this.contact.phoneNumber],
           notes   : [this.contact.notes] ,
-          educationLevel : [this.contact.educationLevel]
-
+          educationLevel : [this.contact.educationLevel],
+          programInstance : [this.contact.programInstance]
       });
 
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
@@ -64,7 +64,7 @@ export class TrainerService implements Resolve<any>
      * @returns {Observable<any> | Promise<any> | any}
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
 
             Promise.all([
                 this.getContacts(),
@@ -101,19 +101,30 @@ export class TrainerService implements Resolve<any>
             this._httpClient.get(AUTH_API + 'trainers')
                 .subscribe((response: any) => {
 
+                    console.log('trainers :') ;
+                    console.log(this.contacts) ;
                     this.contacts = response;
+              
 
-                    if (this.filterBy === 'starred') {
+                    if ( this.filterBy === 'with')
+                    {
                         this.contacts = this.contacts.filter(_contact => {
-                            return this.user.starred.includes(_contact.id);
+                            if (_contact.validated) { return true; }
+                            return false;
+                                                             
+                        
+                        }) ;
+                }
+
+                    if ( this.filterBy === 'without' )
+                    {
+                        this.contacts = this.contacts.filter(_contact => {
+                           // return this.user.frequentContacts.includes(_contact.id);
+                           if (!_contact.validated) { return true; }
+                            return false;
                         });
                     }
 
-                    if (this.filterBy === 'frequent') {
-                        this.contacts = this.contacts.filter(_contact => {
-                            return this.user.frequentContacts.includes(_contact.id);
-                        });
-                    }
 
                     if (this.searchText && this.searchText !== '') {
                         this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
@@ -300,6 +311,25 @@ export class TrainerService implements Resolve<any>
         });
     }
 
+    ValidateContact(contact): Promise<any>
+    {
+        return new Promise((resolve, reject) => {
+        contact.validated=true ;
+        console.log("trainer à valider :") 
+         console.log(contact)
+         const params = new HttpParams().set('id',contact.id);
+    
+         console.log(params);
+            this._httpClient.get(AUTH_API+'sendMailToTrainer' ,{ params: params } )
+                .subscribe(response => {
+                   
+                    this.getContacts();
+                    resolve(response);
+                });
+        });
+    }
+
+
     /**
      * Deselect contacts
      */
@@ -350,6 +380,5 @@ export class TrainerService implements Resolve<any>
         this.onContactsChanged.next(this.contacts);
         this.deselectContacts();
     }
-
 
 }
