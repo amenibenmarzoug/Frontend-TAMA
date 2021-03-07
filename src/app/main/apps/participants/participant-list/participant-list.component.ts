@@ -148,7 +148,7 @@ id : number ;
                    * Save
                    */
                   case 'save':
-                      this._participantsService.updateContact1(formData.getRawValue(),this._participantsService.entreprise,this._participantsService.groupe,this._participantsService.cursus);
+                      this._participantsService.updateContact1(formData.getRawValue(),this._participantsService.entreprise,this._participantsService.classe);
                       break;
                   /**
                    * Delete

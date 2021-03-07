@@ -34,8 +34,8 @@
                 </button>
                 <mat-menu #appMenu="matMenu">
                   
-                        <mat-option *ngFor="let groupe of groups" [value]="groupe" (click)="addToGroup(groupe.id)">
-                            {{ groupe.groupName}} 
+                        <mat-option *ngFor="let classe of classes" [value]="classe" (click)="addToClasse(classe.id)">
+                            {{ classe.programInstName}} 
                         </mat-option>
                   
                 </mat-menu>
