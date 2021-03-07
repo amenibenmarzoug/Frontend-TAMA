@@ -16,6 +16,7 @@ export class Entreprise
     managerLastName:string;
     notes : string ;
     programInstance:any;
+    validated : boolean ;
     /**
      * Constructor
      *
@@ -37,6 +38,7 @@ export class Entreprise
             this.postalCode = contact.postalCode || '';
             this.roles = contact.roles || '';
             this.programInstance=contact.programInstance || '';
+            this.validated = contact.validated || '';
 
            
         }

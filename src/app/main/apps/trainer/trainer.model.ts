@@ -16,6 +16,7 @@ export class Contact
     city: string;
     postalCode: string
     disponibilityDays:any;
+    validated : any
 
     /**
      * Constructor
@@ -33,7 +34,7 @@ export class Contact
             this.email = contact.email || '';
             this.password = contact.password ;
             this.phoneNumber = contact.phoneNumber || '';
-            //this.address = contact.address || '';
+            this.validated = contact.validated || '';
             this.gender = contact.gender || '';
             this.street = contact.street || '';
             this.city = contact.city || '';

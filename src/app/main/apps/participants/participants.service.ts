@@ -7,6 +7,7 @@ import { FuseUtils } from '@fuse/utils';
 
 import { Participant } from './participant.model';
 import { Program } from '../academy/program.model';
+import { ProgramInst } from '../academy/programInst.model';
 const USER_KEY = 'auth-user';
 
 @Injectable()

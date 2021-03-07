@@ -78,8 +78,7 @@
                     <mat-icon *ngIf="contact.validated " class="amber-fg" >star</mat-icon>
                     <mat-icon *ngIf="!contact.validated"class="secondary-text" >star_border</mat-icon>
                 </button>
-                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
-                        (click)="$event.stopPropagation();">
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More" (click)="$event.stopPropagation();">
                     <mat-icon class="secondary-text">more_vert</mat-icon>
                 </button>
 
@@ -88,10 +87,10 @@
                         <mat-icon>delete</mat-icon>
                         <span>Supprimer</span>
                     </button>
-                    <button mat-menu-item aria-label="check" (click)="ValidateContact(contact)">
+                    <button mat-menu-item aria-label="check" [disabled]="disabled" (click)="ValidateContact(contact)">
                         <mat-icon *ngIf="contact.validated ">check</mat-icon>
                         <mat-icon *ngIf="!contact.validated ">close</mat-icon>
-                        <span>Valider</span>
+                        <span>Créer un compte</span>
                     </button>
                 </mat-menu>
 

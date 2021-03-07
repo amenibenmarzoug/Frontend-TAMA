@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
@@ -23,7 +23,7 @@ export class EntreprisesService implements Resolve<any>
     classes: any[];
     classe: any;
     contacts: Entreprise[];
-    contact: Entreprise[];
+    contact: Entreprise;
     user: any;
     selectedContacts: Number[] = [];
 
@@ -59,7 +59,8 @@ export class EntreprisesService implements Resolve<any>
      * @param {RouterStateSnapshot} state
      * @returns {Observable<any> | Promise<any> | any}
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
+    {
         return new Promise<void>((resolve, reject) => {
 
             Promise.all([
@@ -94,38 +95,48 @@ export class EntreprisesService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getContacts(): Promise<any> {
+    getContacts(): Promise<any>
+    {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'entreprises')
-                .subscribe((response: any) => {
+                this._httpClient.get(AUTH_API+'entreprises')
+                    .subscribe((response: any) => {
+                        console.log('entreprises :') ;
+                        console.log(this.contacts) ;
+                        this.contacts = response;
+                  
 
-                    this.contacts = response;
+                        if ( this.filterBy === 'with')
+                        {
+                            this.contacts = this.contacts.filter(_contact => {
+                                if (_contact.validated) { return true; }
+                                return false;
+                               // this._httpClient.get('http://localhost:8080/api/participants/pilier1')                                   
+                            
+                            }) ;
+                    }
 
+                        if ( this.filterBy === 'without' )
+                        {
+                            this.contacts = this.contacts.filter(_contact => {
+                               // return this.user.frequentContacts.includes(_contact.id);
+                               if (!_contact.validated) { return true; }
+                                return false;
+                            });
+                        }
 
-                    if (this.filterBy === 'starred') {
-                        this.contacts = this.contacts.filter(_contact => {
-                            return this.user.starred.includes(_contact.id);
+                        if ( this.searchText && this.searchText !== '' )
+                        {
+                            this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
+                        }
+
+                        this.contacts = this.contacts.map(contact => {
+                            return new Entreprise(contact);
                         });
-                    }
 
-                    if (this.filterBy === 'frequent') {
-                        this.contacts = this.contacts.filter(_contact => {
-                            return this.user.frequentContacts.includes(_contact.id);
-                        });
-                    }
-
-                    if (this.searchText && this.searchText !== '') {
-                        this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
-                    }
-
-                    this.contacts = this.contacts.map(contact => {
-                        return new Entreprise(contact);
-                    });
-
-                    this.onContactsChanged.next(this.contacts);
-                    resolve(this.contacts);
-                }, reject);
-        }
+                        this.onContactsChanged.next(this.contacts);
+                        resolve(this.contacts);
+                    }, reject);
+            }
         );
     }
 

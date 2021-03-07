@@ -2,15 +2,7 @@
 
     <div class="card">
 
-        <!-- SIDEBAR HEADER -->
-        <div class="header p-24" fxLayout="row" fxLayoutAlign="start center">
 
-            <!-- USER -->
-            <img [src]="user.avatar" class="avatar mr-16" [alt]="user.name" />
-            <span class="h5">{{user.name}}</span>
-            <!-- / USER -->
-
-        </div>
         <!-- / SIDEBAR HEADER -->
 
         <!-- SIDEBAR CONTENT -->
@@ -18,23 +10,29 @@
 
             <div class="nav material2">
 
-                <div class="nav-item" aria-label="inbox">
-                    <a class="nav-link" matRipple (click)="changeFilter('all')" [ngClass]="{'active accent':filterBy ==='all'}">
-                        <span class="title">All Contacts</span>
+               <!--  <div class="nav-item" aria-label="inbox">
+                    <a class="nav-link" matRipple (click)="changeFilter('all')"
+                       [ngClass]="{'active accent':filterBy ==='all'}">
+                        <span class="title">Tous les Participants</span>
+                    </a>
+                </div> -->
+
+                <div class="nav-item" aria-label="Pilier 1" (click)="changeFilter('with')">
+                    <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy ==='with'}">
+                        <div class="title">Avec Comptes</div>
+                    </a>
+                </div>
+                <div class="nav-item" aria-label="Pilier 2" (click)="changeFilter('without')">
+                    <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy ==='without'}">
+                        <div class="title">Sans comptes</div>
                     </a>
                 </div>
 
-                <div class="nav-item" aria-label="frequently contacted" (click)="changeFilter('frequent')">
-                    <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy ==='frequent'}">
-                        <div class="title">Freequently contacted</div>
+                <!-- <div class="nav-item" aria-label="Abandon" (click)="changeFilter('abandon')">
+                    <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy ==='abandon'}">
+                        <div class="title">Abandonné</div>
                     </a>
-                </div>
-
-                <div class="nav-item" aria-label="starred" (click)="changeFilter('starred')">
-                    <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy ==='starred'}">
-                        <div class="title">Starred Contacts</div>
-                    </a>
-                </div>
+                </div> -->
             </div>
 
         </div>

@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { TrainerService } from 'app/main/apps/trainer/trainer.service';
 
 @Component({
-    selector   : 'contacts-main-sidebar',
+    selector   : 'app-main',
     templateUrl: './main.component.html',
     styleUrls  : ['./main.component.scss']
 })
