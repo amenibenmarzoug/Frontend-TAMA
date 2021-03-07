@@ -253,7 +253,7 @@ export class EntreprisesService implements Resolve<any>
     }
 
     /** */
-    updateContact1(contact,classe): Promise<any> {
+     updateContact1(contact,classe): Promise<any> {
         if(this.classe!=null){
             contact.programInstance=classe;
         }
@@ -266,7 +266,20 @@ export class EntreprisesService implements Resolve<any>
                     resolve(response);
                 });
         });
-    }
+    } 
+
+ /*   updateContact1(contact,classe): Observable<any> {
+        console.log(this.classe.location);
+        if(this.classe!=null){
+            contact.programInstance=classe;
+        }
+        this.classe=null;
+        console.log(contact);
+        this.getContacts();
+        return this._httpClient.put(AUTH_API + 'entreprises', contact);
+               
+        
+    }*/
     ValidateContact(contact): Promise<any> {
         return new Promise((resolve, reject) => {
             contact.validated = true;

@@ -146,20 +146,20 @@ export class CalendarService implements Resolve<any>
                   
                     this.events = response;
                     if (this.userRole.includes("PARTICIPANT")) {
-                       /* if (this.participant.cursus == null) {
+                        if (this.participant.programInstance == null) {
                             this.events = [];
                         }
                         else {
-                            this.cursusId = this.participant.cursus.id;
-                          
                             this.events = this.events.filter(_event => {
-                                if ((_event.courseSession.course.cursus.id == this.cursusId)&&(_event.courseSession.course.trainer!= null)) {
-                                    //console.log("");
-                                    return true;
+                                if (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance!= null) {
+                                    if (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == this.participant.programInstance.id) {
+                                        //console.log("user trainer");
+                                        return true;
+                                    }
                                 }
                                 return false;
                             });
-                        }*/
+                        }
 
 
 
@@ -183,20 +183,20 @@ export class CalendarService implements Resolve<any>
                         this.events = [];
                     }
                     else if ((this.userRole.includes("ENTREPRISE")) ) {
-                       /* if (this.entreprise.cursus == null) {
+                        if (this.entreprise.programInstance == null) {
                             this.events = [];
                         }
                         else {
-                            this.cursusId = this.entreprise.cursus.id;
-                          
                             this.events = this.events.filter(_event => {
-                                if ((_event.courseSession.course.cursus.id == this.cursusId)&&(_event.courseSession.course.trainer!= null)) {
-                                    //console.log("");
-                                    return true;
+                                if (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance!= null) {
+                                    if (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == this.entreprise.programInstance.id) {
+                                        //console.log("user trainer");
+                                        return true;
+                                    }
                                 }
                                 return false;
                             });
-                        }*/
+                        }
                     }
                     else if (this.userRole.includes("MANAGER")) {
                         this.events = response;

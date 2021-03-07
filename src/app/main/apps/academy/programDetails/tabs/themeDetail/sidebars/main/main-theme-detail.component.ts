@@ -84,9 +84,13 @@ export class MainThemeDetailComponent implements OnInit, OnDestroy {
      */
     changeFilter(filter): void {
         this.filterBy = filter.id;
+        console.log(filter.id);
+     
         this._themeDetailsService.module=filter;
+        //console.log(this._themeDetailsService.module);
+  
         this._themeDetailsService.onFilterChangedThemeDetail.next(this.filterBy);
-
+    
     }
 
     filterThemeDetailsByCategory(): void {

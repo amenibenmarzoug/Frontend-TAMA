@@ -52,38 +52,22 @@
 
                 </mat-form-field>
             </div>
-            <!--div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
+
+
+            <div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
                 <mat-form-field appearance="outline" fxFlex class="pr-4">
-                    <mat-label>Entreprise</mat-label>
+                    <mat-label>Classe</mat-label>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <mat-select (selectionChange)="getEntrepriseForm($event.value)">
+                    <mat-select (selectionChange)="getClasseForm($event.value)">
                        
-                        <mat-option *ngFor="let entreprise of entreprises" [value]="entreprise">
-                            {{ entreprise.enterpriseName}} 
-                        </mat-option>
-                    </mat-select>
-
-                    <mat-error *ngIf="formErrorsP.gender">{{formErrorsP.gender}}</mat-error>
-
-
-
-                </mat-form-field>
-            </div-->
-
-            <!--div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
-                <mat-form-field appearance="outline" fxFlex class="pr-4">
-                    <mat-label>Groupe</mat-label>
-                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <mat-select (selectionChange)="getGroupForm($event.value)">
-                       
-                        <mat-option *ngFor="let groupe of groups" [value]="groupe">
-                            {{ groupe.groupName}} 
+                        <mat-option *ngFor="let classe of classes" [value]="classe">
+                            {{ classe.programInstName}} 
                         </mat-option>
                     </mat-select>
 
                     
                 </mat-form-field>
-            </div-->
+            </div>
             
 
             
@@ -112,13 +96,7 @@
                 </mat-form-field>
             </div>
 
-            <!-- <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Adresse</mat-label>
-                    <mat-icon matSuffix class="secondary-text">home</mat-icon>
-                    <input name="address" formControlName="address" matInput>
-                </mat-form-field>
-            </div> -->
+            
             <div fxLayout="row" fxLayoutAlign="start center">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Rue</mat-label>
@@ -152,28 +130,7 @@
                 </mat-form-field>
 
             </div>
-            <!-- <div fxLayout="row" fxLayoutAlign="start start" style="display:none !important;">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Mot de passe</mat-label>
-                    <mat-icon matSuffix class="secondary-text">work</mat-icon>
-                    <input name="password" formControlName="password" matInput>
-                </mat-form-field>
-            </div> -->
-            <!--div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Entreprise</mat-label>
-                    <mat-icon matSuffix class="secondary-text">domain</mat-icon>
-                    <input name="company" formControlName="company" matInput>
-                </mat-form-field>
-            </div-->
-
-            <!--div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Current Position</mat-label>
-                    <mat-icon matSuffix class="secondary-text">work</mat-icon>
-                    <input name="jobTitle" formControlName="jobTitle" matInput>
-                </mat-form-field>
-            </div-->
+           
             <div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
                 <mat-form-field appearance="outline" fxFlex class="pr-4">
                     <mat-label>Niveau Management </mat-label>

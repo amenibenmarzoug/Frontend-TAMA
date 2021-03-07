@@ -72,7 +72,7 @@ export class Login2Service implements Resolve<any> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
         console.log(this.userId);
         if (this.userRole.includes("PARTICIPANT")) {
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 Promise.all([
 
                     this.getParticipantById(this.userId)
@@ -85,7 +85,7 @@ export class Login2Service implements Resolve<any> {
             });
         }
         if (this.userRole.includes("TRAINER")) {
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 Promise.all([
                     this.getTrainerById(this.userId),
                 ]).then(
@@ -97,7 +97,7 @@ export class Login2Service implements Resolve<any> {
             });
         }
         if (this.userRole.includes("ENTREPRISE")) {
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 Promise.all([
                     this.getEntrepriseById(this.userId),
                 ]).then(
@@ -109,7 +109,7 @@ export class Login2Service implements Resolve<any> {
             });
         }
         if (this.userRole.includes("INSTITUTION")) {
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 Promise.all([
                     this.getInstitutionById(this.userId),
                 ]).then(
@@ -121,7 +121,7 @@ export class Login2Service implements Resolve<any> {
             });
         }
 
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             Promise.all([
             ]).then(
                 () => {

@@ -93,7 +93,7 @@ export class EntrepriseFormComponent {
             managerLastName: [ this.contact.managerLastName , [Validators.required, Validators.minLength(2)]],
             street: [ this.contact.street , Validators.required],
             city: [this.contact.city , Validators.required],
-            classe: [this.contact.programInstance , Validators.required],
+            classe: ['' , Validators.required],
             postalCode: [ this.contact.postalCode , [Validators.required, Validators.pattern(code)]],
             website: [ this.contact.website , [Validators.required, Validators.pattern(url)]],
             //password :[this.contact.phoneNumber],

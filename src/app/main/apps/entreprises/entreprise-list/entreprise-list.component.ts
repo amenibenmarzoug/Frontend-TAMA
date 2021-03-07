@@ -5,6 +5,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
@@ -23,7 +24,7 @@ export class EntrepriseListComponent implements OnInit, OnDestroy {
 
   @ViewChild('dialogContent')
   dialogContent: TemplateRef<any>;
-
+  alertDialog: MatDialogRef<AlertDialogComponent>;
   contacts: any;
   user: any;
   dataSource: FilesDataSource | null;
@@ -146,8 +147,24 @@ id : number ;
                    * Save
                    */
                   case 'save':
+                       this._entreprisesService.updateContact1(formData.getRawValue(),this._entreprisesService.classe);
 
-                      this._entreprisesService.updateContact1(formData.getRawValue(),this._entreprisesService.classe);
+                    /*   this._entreprisesService.updateContact1(formData.getRawValue(),this._entreprisesService.classe).subscribe(
+                        data => {
+                          console.log("data on submit");
+                         // console.log(data);
+                         // this.isSuccessful = true;
+                         // this.isFailed = false;
+                        
+                  
+                        },
+                        err => {
+                          console.log("LOGIN FAILED");
+                          this.addAlert( err.error.message);
+                         // this.errorMessage = err.error.message;
+                         // this.isSuccessful = false;
+                        //  this.isFailed = true;
+                        }); */
 
                       break;
                   /**
@@ -162,6 +179,20 @@ id : number ;
           });
   }
 
+  addAlert(message): void {
+    this.alertDialog = this._matDialog.open(AlertDialogComponent, {
+        disableClose: false
+    });
+
+    this.alertDialog.componentInstance.dialogMessage = message;
+
+    this.alertDialog.afterClosed().subscribe(result => {
+        if (result) {
+
+        }
+        this.alertDialog = null;
+    });
+}
   /**
    * Delete Contact
    */
