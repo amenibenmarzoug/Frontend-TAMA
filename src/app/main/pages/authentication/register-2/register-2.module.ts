@@ -19,6 +19,7 @@ import { TrainerFormComponent } from './trainer-form/trainer-form.component';
 import { EntrepriseFormComponent } from './entreprise-form/entreprise-form.component';
 import { InstitutionFormComponent } from './institution-form/institution-form.component';
 import { UserFormComponent } from './user-form/user-form.component';
+import { Register2Service } from 'app/main/pages/authentication/register-2/register-2.service'
 
 const routes = [
     {
@@ -57,7 +58,10 @@ const routes = [
         MatStepperModule,
         MatDatepickerModule,
         FuseSharedModule
-    ]
+    ],
+    providers      : [
+        Register2Service
+    ],
 })
 export class Register2Module
 {

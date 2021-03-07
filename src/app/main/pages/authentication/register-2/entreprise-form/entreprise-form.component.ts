@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
 import { AuthenticationService } from 'app/main/pages/authentication/common-authentication/authentication.service'
+import { Register2Service } from 'app/main/pages/authentication/register-2/register-2.service'
 
 
 @Component({
@@ -23,6 +24,9 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
   ];
   registerForm: FormGroup;
   rForm: FormGroup;
+  errorMessage = '';
+  isSuccessful = false;
+  isFailed = false;
   ParticipantForm: FormGroup;
   TrainerForm: FormGroup;
   EntrepriseForm: FormGroup;
@@ -36,6 +40,7 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
   visibInstitution: boolean;
   visibTrainer: boolean;
   selectedOption: any;
+  classes: any[];
 
   formErrors = {
     'firstNameP': '',
@@ -43,7 +48,7 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
     'phoneNumber': '',
     'email': '',
     'name': '',
-    
+    'classe':'',
     'password': '',
     'passwordConfirm': '',
     'city': '',
@@ -88,7 +93,7 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
       'email': 'Veuillez donner un format valide'
     },
 
-  
+
     'password': {
       'required': 'Le mot de passe est requis.',
       'minlength': 'Le mot de passe doit contenir au moins six caractères.',
@@ -110,7 +115,9 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
       'required': 'Le code postal est requis.',
       'pattern': 'Le code postal ne doit contenir que des chiffres.'
     },
-
+    'classe': {
+      'required': 'La classe est requise.',
+    },
 
   };
 
@@ -119,7 +126,8 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private _fuseConfigService: FuseConfigService,
-    private _formBuilder: FormBuilder, private authService: AuthenticationService
+    private _formBuilder: FormBuilder, private authService: AuthenticationService, 
+    private registerService:Register2Service
   ) {
     // Configure the layout
     this._fuseConfigService.config = {
@@ -152,6 +160,7 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
+   this.registerService.getClasses();
     this.registerForm = new FormGroup({
 
       // Create skills form group
@@ -161,7 +170,7 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
         phoneNumber: new FormControl(),
         email: new FormControl(),
         name: new FormControl(),
-
+        classe: new FormControl(),
         password: new FormControl(),
         passwordConfirm: new FormControl(),
         city: new FormControl(),
@@ -171,7 +180,13 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
         nameE: new FormControl(),
         webSite: new FormControl(),
       }),
-      
+
+    });
+
+    this.registerService.onClassesChanged
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe(classes => {
+        this.classes = classes;
     });
   }
 
@@ -193,6 +208,7 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
       postalCode: ['', [Validators.required, Validators.pattern(code)]],
       nameE: ['', [Validators.required, Validators.minLength(2)]],
       webSite: ['', [Validators.required, Validators.pattern(url)]],
+      classe: ['',Validators.required],
 
     });
 
@@ -211,6 +227,8 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
 
   }
 
+  sendClasse(event) { }
+
   onSubmit() {
     /*this.feedback = this.feedbackForm.value;
     console.log(this.feedback);
@@ -223,35 +241,44 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
         console.log(this.TrainerForm);*/
     console.log("data USER FORM");
     console.log(this.rForm);
- 
-          this.authService.registerEnterprise(this.EntrepriseForm, this.rForm).subscribe(
-            data => {
-              console.log("data on submit");
-              console.log(data);
+
+    this.authService.registerEnterprise(this.rForm, this.rForm).subscribe(
+      data => {
+        console.log("data on submit");
+        console.log(data);
+        this.isSuccessful = true;
+        this.isFailed = false;
+        this.rForm.reset({
+          phoneNumber: '',
+          email: '',
+          name: '',
+          password: '',
+          passwordConfirm: '',
+          street: '',
+          city: '',
+          postalCode: '',
+          firstNameP: '',
+          lastNameP: '',
+          nameE: '',
+          webSite: '',
+          classe: ''
+        });
+
+      },
+      err => {
+        console.log("LOGIN FAILED");
+        this.errorMessage = err.error.message;
+        this.isSuccessful = false;
+        this.isFailed = true;
+      });
 
 
-            });
-        
-        
-          
 
 
 
-    this.rForm.reset({
-      phoneNumber: '',
-      email: '',
-      name: '',
-      password: '',
-      passwordConfirm: '',
-      street: '',
-      city: '',
-      postalCode: '',
-      firstNameP: '',
-      lastNameP: '',
-      nameE: '',
-      webSite: '',
-    });
-   
+
+
+
 
 
   }
@@ -265,11 +292,11 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
     this._unsubscribeAll.complete();
   }
 
- 
+
 
   formValidation(): any {
 
-    if (this.rForm.valid ) {
+    if (this.rForm.valid) {
       return true;
     }
 

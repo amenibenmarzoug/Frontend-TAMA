@@ -9,9 +9,9 @@
         <div class="title" [@animate]="{value:'*',params:{delay:'50ms',y:'25px'}}">
         </div>
 
-         <div class="description" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
+        <div class="description" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
             Si vous êtes une entreprise et vous êtes intéressée par nos programmes, veuillez remplir le formulaire !
-        </div> 
+        </div>
 
     </div>
 
@@ -52,7 +52,7 @@
                         </div>
                         <div fxLayout="row " fxLayoutAlign="start center" fxFlex="1 0 auto">
                             <mat-form-field appearance="outline">
-                                <mat-label>Email</mat-label>
+                                <mat-label>Email du représentant</mat-label>
                                 <input matInput formControlName="email" required (blur)="onValueChanged()">
                                 <mat-icon matSuffix class="secondary-text">mail</mat-icon>
                                 <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
@@ -160,6 +160,27 @@
                         </div>
 
 
+                        <div fxLayout="row" fxLayoutAlign="start center">
+                            <mat-form-field appearance="outline" fxFlex >
+                                <mat-label>Classe</mat-label>
+                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-select formControlName="classe" (selectionChange)="sendClasse($event.value)"  required (blur)="onValueChanged()">
+                                   
+                                    <mat-option *ngFor="let classe of classes" [value]="classe">
+                                        {{ classe.programInstName}}    {{ classe.location}} 
+                                    </mat-option>
+                                </mat-select>
+            
+                                <mat-error *ngIf="formErrors.classe">{{formErrors.classe}}</mat-error>
+
+                            </mat-form-field>
+                        </div>
+
+                        <div class="alert alert-danger" fxLayout="column" fxLayoutAlign="center center" role="alert"
+                            *ngIf="isFailed">
+
+                          <h4>{{errorMessage}}</h4>  
+                        </div>
 
                     </form>
 
@@ -170,7 +191,7 @@
 
 
                     <div class="terms" fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
-                        <mat-checkbox name="terms" aria-label="Accept" >
+                        <mat-checkbox name="terms" aria-label="Accept">
                             <span>Accepter</span>
                         </mat-checkbox>
                         <a href="#">les conditions</a>
@@ -180,9 +201,13 @@
                         [disabled]="!formValidation()">
                         VALIDER
                     </button>
+                    <div class="alert alert-success"  fxLayoutAlign="center center" *ngIf="isSuccessful">
+                        <h4>Vos données sont bien enregistrées.</h4>
+                    </div>
                     <div class="register mb-24" fxLayout="row" fxLayoutAlign="center center" fxFlex="1 0 auto">
-                        <span class="text">Vous avez déjà un compte?</span>
-                        <a class="link" [routerLink]="'/pages/auth/login-2'">Login</a>
+                        <span class="text">Vous avez déjà un compte? </span>
+                        <br>
+                        <a class="link" [routerLink]="'/pages/auth/login-2'"> Login</a>
                     </div>
                 </form>
 

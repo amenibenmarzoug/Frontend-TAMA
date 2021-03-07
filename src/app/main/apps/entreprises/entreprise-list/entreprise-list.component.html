@@ -18,6 +18,12 @@
             <p class="text-truncate font-weight-600">{{contact.enterpriseName}} </p>
         </mat-cell>
     </ng-container>
+    <ng-container matColumnDef="nameP">
+        <mat-header-cell *matHeaderCellDef>Représentant</mat-header-cell>
+        <mat-cell *matCellDef="let contact">
+            <p class="text-truncate font-weight-600">{{contact.managerFirstName}} {{contact.managerLastName}}  </p>
+        </mat-cell>
+    </ng-container>
     
 
     <!-- Email Column -->
@@ -51,7 +57,15 @@
         </mat-cell>
     </ng-container>
   
-
+    <ng-container matColumnDef="classe" >
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>
+            Inscrite dans </mat-header-cell>
+        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
+            <p class="job-title text-truncate">
+              {{ contact.programInstance.programInstName}}    {{ contact.programInstance.location}} 
+            </p>
+        </mat-cell>
+    </ng-container>
 
 
 

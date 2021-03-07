@@ -19,7 +19,9 @@ export class EntreprisesService implements Resolve<any>
     onUserDataChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
-
+    onClassesChanged: BehaviorSubject<any>;
+    classes: any[];
+    classe: any;
     contacts: Entreprise[];
     contact: Entreprise[];
     user: any;
@@ -27,7 +29,7 @@ export class EntreprisesService implements Resolve<any>
 
     searchText: string;
     filterBy: string;
-     id : number ;
+    id: number;
     /**
      * Constructor
      *
@@ -35,13 +37,13 @@ export class EntreprisesService implements Resolve<any>
      */
     constructor(
         private _httpClient: HttpClient
-    )
-    {
+    ) {
         // Set the defaults
         this.onContactsChanged = new BehaviorSubject([]);
         this.onEntrpriseChanged = new BehaviorSubject([]);
         this.onSelectedContactsChanged = new BehaviorSubject([]);
         this.onUserDataChanged = new BehaviorSubject([]);
+        this.onClassesChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
     }
@@ -57,16 +59,15 @@ export class EntreprisesService implements Resolve<any>
      * @param {RouterStateSnapshot} state
      * @returns {Observable<any> | Promise<any> | any}
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
-    {
-        return new Promise((resolve, reject) => {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
+        return new Promise<void>((resolve, reject) => {
 
             Promise.all([
                 this.getContacts(),
-                
-              // console.log(JSON.parse(window.sessionStorage.getItem(USER_KEY))),
+                this.getClasses(),
+                // console.log(JSON.parse(window.sessionStorage.getItem(USER_KEY))),
                 this.getUserData(),
-              //  this.getEntreprises()
+                //  this.getEntreprises()
             ]).then(
                 ([files]) => {
 
@@ -93,42 +94,38 @@ export class EntreprisesService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getContacts(): Promise<any>
-    {
+    getContacts(): Promise<any> {
         return new Promise((resolve, reject) => {
-                this._httpClient.get(AUTH_API+'entreprises')
-                    .subscribe((response: any) => {
+            this._httpClient.get(AUTH_API + 'entreprises')
+                .subscribe((response: any) => {
 
-                        this.contacts = response;
-                  
+                    this.contacts = response;
 
-                        if ( this.filterBy === 'starred' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.starred.includes(_contact.id);
-                            });
-                        }
 
-                        if ( this.filterBy === 'frequent' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.frequentContacts.includes(_contact.id);
-                            });
-                        }
-
-                        if ( this.searchText && this.searchText !== '' )
-                        {
-                            this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
-                        }
-
-                        this.contacts = this.contacts.map(contact => {
-                            return new Entreprise(contact);
+                    if (this.filterBy === 'starred') {
+                        this.contacts = this.contacts.filter(_contact => {
+                            return this.user.starred.includes(_contact.id);
                         });
+                    }
 
-                        this.onContactsChanged.next(this.contacts);
-                        resolve(this.contacts);
-                    }, reject);
-            }
+                    if (this.filterBy === 'frequent') {
+                        this.contacts = this.contacts.filter(_contact => {
+                            return this.user.frequentContacts.includes(_contact.id);
+                        });
+                    }
+
+                    if (this.searchText && this.searchText !== '') {
+                        this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
+                    }
+
+                    this.contacts = this.contacts.map(contact => {
+                        return new Entreprise(contact);
+                    });
+
+                    this.onContactsChanged.next(this.contacts);
+                    resolve(this.contacts);
+                }, reject);
+        }
         );
     }
 
@@ -141,16 +138,15 @@ export class EntreprisesService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getUserData(): Promise<any>
-    {
+    getUserData(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API+'entreprises')
-                    .subscribe((response: any) => {
-                        this.user = response;
-                        this.onUserDataChanged.next(this.user);
-                        resolve(this.user);
-                    }, reject);
-            }
+            this._httpClient.get(AUTH_API + 'entreprises')
+                .subscribe((response: any) => {
+                    this.user = response;
+                    this.onUserDataChanged.next(this.user);
+                    resolve(this.user);
+                }, reject);
+        }
         );
     }
 
@@ -159,15 +155,12 @@ export class EntreprisesService implements Resolve<any>
      *
      * @param id
      */
-    toggleSelectedContact(id): void
-    {
+    toggleSelectedContact(id): void {
         // First, check if we already have that contact as selected...
-        if ( this.selectedContacts.length > 0 )
-        {
+        if (this.selectedContacts.length > 0) {
             const index = this.selectedContacts.indexOf(id);
 
-            if ( index !== -1 )
-            {
+            if (index !== -1) {
                 this.selectedContacts.splice(index, 1);
 
                 // Trigger the next event
@@ -180,7 +173,7 @@ export class EntreprisesService implements Resolve<any>
         }
 
         // If we don't have it, push as selected
-        
+
         this.selectedContacts.push(id);
 
         // Trigger the next event
@@ -191,14 +184,11 @@ export class EntreprisesService implements Resolve<any>
     /**
      * Toggle select all
      */
-    toggleSelectAll(): void
-    {
-        if ( this.selectedContacts.length > 0 )
-        {
+    toggleSelectAll(): void {
+        if (this.selectedContacts.length > 0) {
             this.deselectContacts();
         }
-        else
-        {
+        else {
             this.selectContacts();
         }
     }
@@ -209,13 +199,11 @@ export class EntreprisesService implements Resolve<any>
      * @param filterParameter
      * @param filterValue
      */
-    selectContacts(filterParameter?, filterValue?): void
-    {
+    selectContacts(filterParameter?, filterValue?): void {
         this.selectedContacts = [];
 
         // If there is no filter, select all contacts
-        if ( filterParameter === undefined || filterValue === undefined )
-        {
+        if (filterParameter === undefined || filterValue === undefined) {
             this.selectedContacts = [];
             this.contacts.map(contact => {
                 this.selectedContacts.push(contact.id);
@@ -226,7 +214,7 @@ export class EntreprisesService implements Resolve<any>
 
         // Trigger the next event
         this.onSelectedContactsChanged.next(this.selectedContacts);
-       // console.log(this.selectedContacts.length)
+        // console.log(this.selectedContacts.length)
     }
 
     /**
@@ -235,12 +223,11 @@ export class EntreprisesService implements Resolve<any>
      * @param contact
      * @returns {Promise<any>}
      */
-    updateContact(contact): Promise<any>
-    {
+    updateContact(contact): Promise<any> {
         return new Promise((resolve, reject) => {
-         contact.password=contact.phoneNumber ; 
-         console.log(contact) ;
-            this._httpClient.post(AUTH_API+'auth/signupEnterprise', contact )
+            contact.password = contact.phoneNumber;
+            console.log(contact);
+            this._httpClient.post(AUTH_API + 'auth/signupEnterprise', contact)
                 .subscribe(response => {
                     this.getContacts();
                     resolve(response);
@@ -248,43 +235,76 @@ export class EntreprisesService implements Resolve<any>
         });
     }
 
-/** */
-updateContact1(contact): Promise<any>
-{
-    return new Promise((resolve, reject) => {
-        this._httpClient.put(AUTH_API+'entreprises', contact )
-            .subscribe(response => {
-                this.getContacts();
-                resolve(response);
-            });
-    });
-}
-ValidateContact(contact): Promise<any>
-{
-    return new Promise((resolve, reject) => {
-    contact.validated=true ; 
-     console.log(contact)
-        this._httpClient.put(AUTH_API+'entreprises/validate' , contact )
-            .subscribe(response => {
-               
-                this.getContacts();
-                resolve(response);
-            });
-    });
-}
+    addEntreprise(entreprise, classe): Promise<any> {
+        return new Promise((resolve, reject) => {
+            entreprise.password = entreprise.phoneNumber;
+            if(this.classe!=null){
+                entreprise.programInstance=classe;
+            }
+            this.classe=null;
+          
+            console.log(entreprise);
+            this._httpClient.post(AUTH_API + 'auth/signupEnterprise', entreprise)
+                .subscribe(response => {
+                    this.getContacts();
+                    resolve(response);
+                });
+        });
+    }
+
+    /** */
+    updateContact1(contact,classe): Promise<any> {
+        if(this.classe!=null){
+            contact.programInstance=classe;
+        }
+        this.classe=null;
+        console.log(contact);
+        return new Promise((resolve, reject) => {
+            this._httpClient.put(AUTH_API + 'entreprises', contact)
+                .subscribe(response => {
+                    this.getContacts();
+                    resolve(response);
+                });
+        });
+    }
+    ValidateContact(contact): Promise<any> {
+        return new Promise((resolve, reject) => {
+            contact.validated = true;
+            console.log(contact)
+            this._httpClient.put(AUTH_API + 'entreprises/validate', contact)
+                .subscribe(response => {
+
+                    this.getContacts();
+                    resolve(response);
+                });
+        });
+    }
 
 
-  
+    getClasses(): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'programsInst')
+                .subscribe((response: any) => {
+                    this.onClassesChanged.next(response);
+                    this.classes = response;
+                    console.log("CLASSES");
+                    console.log(response);
+                    resolve(response);
+                }, reject);
+        }
+        );
+    }
     /**
      * Update user data
      *
      * @param userData
      * @returns {Promise<any>}
      */
-    updateUserData(userData): Promise<any>
-    {
+    updateUserData(userData): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.post('api/contacts-user/' + this.user.id, {...userData})
+            this._httpClient.post('api/contacts-user/' + this.user.id, { ...userData })
                 .subscribe(response => {
                     this.getUserData();
                     this.getContacts();
@@ -296,13 +316,12 @@ ValidateContact(contact): Promise<any>
     /**
      * Deselect contacts
      */
-    deselectContacts(): void
-    {
+    deselectContacts(): void {
         this.selectedContacts = [];
 
         // Trigger the next event
         this.onSelectedContactsChanged.next(this.selectedContacts);
-       
+
     }
 
     /**
@@ -310,38 +329,35 @@ ValidateContact(contact): Promise<any>
      *
      *@param id
      */
-    deleteContact(id):Promise<any>
-    {   //console.log(id)  ;
-        
-     
-       return new Promise((resolve, reject) => {
-        const contactIndex = this.contacts.indexOf(id);
-        this.contacts.splice(contactIndex, 1);
+    deleteContact(id): Promise<any> {   //console.log(id)  ;
+
+
+        return new Promise((resolve, reject) => {
+            const contactIndex = this.contacts.indexOf(id);
+            this.contacts.splice(contactIndex, 1);
             this.onContactsChanged.next(this.contacts);
-        this._httpClient.delete(`http://localhost:8080/api/entreprises/${id}`)
-            .subscribe(response => {
-               // this.getContacts();
-              
-                resolve(response);
-            });
-    }); 
+            this._httpClient.delete(`http://localhost:8080/api/entreprises/${id}`)
+                .subscribe(response => {
+                    // this.getContacts();
+
+                    resolve(response);
+                });
+        });
     }
 
     /**
      * Delete selected contacts
      */
-    deleteSelectedContacts(): void
-    {
-        for ( const contactId of this.selectedContacts )
-        {
+    deleteSelectedContacts(): void {
+        for (const contactId of this.selectedContacts) {
             const contact = this.contacts.find(_contact => {
                 return _contact.id === contactId;
-                 
+
             });
-            this.deleteContact(contactId) ;
+            this.deleteContact(contactId);
             const contactIndex = this.contacts.indexOf(contact);
             this.contacts.splice(contactIndex, 1);
-           
+
         }
         this.onContactsChanged.next(this.contacts);
         this.deselectContacts();

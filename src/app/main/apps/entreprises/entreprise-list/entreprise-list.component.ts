@@ -27,7 +27,7 @@ export class EntrepriseListComponent implements OnInit, OnDestroy {
   contacts: any;
   user: any;
   dataSource: FilesDataSource | null;
-  displayedColumns = ['checkbox', 'name', 'email', 'phone', 'website','phone' , 'buttons'];
+  displayedColumns = ['checkbox', 'name','nameP', 'email', 'phone', 'website','classe', 'buttons'];
   selectedContacts: any[];
   checkboxes: {};
   dialogRef: any;
@@ -147,7 +147,7 @@ id : number ;
                    */
                   case 'save':
 
-                      this._entreprisesService.updateContact1(formData.getRawValue());
+                      this._entreprisesService.updateContact1(formData.getRawValue(),this._entreprisesService.classe);
 
                       break;
                   /**

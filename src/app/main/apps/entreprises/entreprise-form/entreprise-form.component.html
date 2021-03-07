@@ -19,17 +19,41 @@
 
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Nom</mat-label>
+                    <mat-label>Nom de l'entreprise</mat-label>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <input name="enterpriseName" formControlName="enterpriseName" matInput required>
+                    <input name="enterpriseName" formControlName="enterpriseName" matInput required (blur)="onValueChanged()">
+                    <mat-error *ngIf="formErrors.enterpriseName">{{formErrors.enterpriseName}}</mat-error>
+
                 </mat-form-field>
             </div>
 
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Prénom du représentant</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="managerFirstName" formControlName="managerFirstName" matInput required (blur)="onValueChanged()">
+                    <mat-error *ngIf="formErrors.managerFirstName">{{formErrors.managerFirstName}}</mat-error>
+
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Nom du représentant</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="managerLastName" formControlName="managerLastName" matInput required (blur)="onValueChanged()">
+                    <mat-error *ngIf="formErrors.managerLastName">{{formErrors.managerLastName}}</mat-error>
+                </mat-form-field>
+            </div>
+
+            
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Email</mat-label>
                     <mat-icon matSuffix class="secondary-text">email</mat-icon>
-                    <input name="email" formControlName="email" matInput required>
+                    <input name="email" formControlName="email" matInput required (blur)="onValueChanged()">
+                    <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
+
                 </mat-form-field>
             </div>
 
@@ -37,7 +61,9 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Numéro</mat-label>
                     <mat-icon matSuffix class="secondary-text">phone</mat-icon>
-                    <input formControlName="phoneNumber" matInput>
+                    <input formControlName="phoneNumber" matInput required (blur)="onValueChanged()">
+                    <mat-error *ngIf="formErrors.phoneNumber">{{formErrors.phoneNumber}}</mat-error>
+
                 </mat-form-field>
             </div>
 
@@ -45,15 +71,18 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Site Web</mat-label>
                     <mat-icon matSuffix class="secondary-text">language</mat-icon>
-                    <input name="website" formControlName="website" matInput required>
+                    <input name="website" formControlName="website" matInput required (blur)="onValueChanged()">
+                    <mat-error *ngIf="formErrors.webSite">{{formErrors.webSite}}</mat-error>
+
                 </mat-form-field>
             </div>
             <div fxLayout="row" fxLayoutAlign="start center">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Rue</mat-label>
                     <mat-icon matSuffix class="secondary-text">home</mat-icon>
-                    <input name="street" formControlName="street" matInput >
-                  
+                    <input name="street" formControlName="street" matInput required (blur)="onValueChanged()">
+                    <mat-error *ngIf="formErrors.street">{{formErrors.street}}</mat-error>
+
                 </mat-form-field>
             </div>
 
@@ -61,27 +90,43 @@
 
                 <mat-form-field appearance="outline" fxFlex="100">
                     <mat-label>Ville</mat-label>
-                    <mat-select formControlName="city" ngDefaultControl >
+                    <mat-select formControlName="city" ngDefaultControl required (blur)="onValueChanged()" >
                         <mat-option *ngFor="let city of cities" [value]="city">
                             {{city}}
                         </mat-option>
 
                     </mat-select>
                     <mat-icon matSuffix class="secondary-text">outlined_flag</mat-icon>
-                    
+                    <mat-error *ngIf="formErrors.city">{{formErrors.city}}</mat-error>
+
                 </mat-form-field>
 
                
                 <mat-form-field appearance="outline" fxFlex="33">
                     <mat-label>Code Postal</mat-label>
-                    <input matInput #postalCode formControlName="postalCode" maxlength="5 " >
+                    <input matInput #postalCode formControlName="postalCode" maxlength="5 " required (blur)="onValueChanged()" >
                     <mat-icon matSuffix class="secondary-text ">markunread_mailbox</mat-icon>
 
-                   
+                    <mat-error *ngIf="formErrors.postalCode">{{formErrors.postalCode}}</mat-error>
+
                 </mat-form-field>
 
             </div>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-form-field appearance="outline" fxFlex >
+                    <mat-label>Classe</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <mat-select formControlName="classe" (selectionChange)="sendClasse($event.value)"  required (blur)="onValueChanged()">
+                       
+                        <mat-option *ngFor="let classe of classes" [value]="classe">
+                            {{ classe.programInstName}}    {{ classe.location}} 
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formErrors.classe">{{formErrors.classe}}</mat-error>
 
+                    
+                </mat-form-field>
+            </div>
 
         </form>
 
