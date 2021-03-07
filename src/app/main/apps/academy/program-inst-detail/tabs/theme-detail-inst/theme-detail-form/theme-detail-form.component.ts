@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit,ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import {Module} from 'app/main/apps/academy/programDetails/tabs/module/module.model'
 import { ProgramInstDetailService } from '../../../program-inst-detail.service';
 import {ThemeDetailInst} from '../themeDetailsInst.model';
 import{ProgramDetailsService} from'../../../../programDetails/programDetails.service';
+import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'app-theme-detail-form',
@@ -19,6 +20,9 @@ export class ThemeDetailInstFormComponent  {
   dialogTitle: string;
 
   themedetails:any[];
+  actualDaysNumberAffected: number;
+  oldDaysAffectedValue: number;
+  alertDialog: any;
 
 /**
    * Constructor
@@ -31,7 +35,9 @@ export class ThemeDetailInstFormComponent  {
     public matDialogRef: MatDialogRef<ThemeDetailInstFormComponent >,
     @Inject(MAT_DIALOG_DATA) private _data: any,
     private _formBuilder: FormBuilder,
-    private _programDetailsService : ProgramInstDetailService ,
+    private _themeDetailsService : ProgramInstDetailService ,
+    private _matDialog: MatDialog  
+
 
 )
 {
@@ -43,7 +49,8 @@ export class ThemeDetailInstFormComponent  {
         this.dialogTitle = 'Modifier Module';
         this.themeDetail = _data.themeDetail;
         this.themeDetail.moduleInstance=_data.themeDetail.module ; 
-        this._programDetailsService.module = this.themeDetail.moduleInstance;
+        this._themeDetailsService.module = this.themeDetail.moduleInstance;
+        
     }
     else
     {
@@ -55,7 +62,7 @@ export class ThemeDetailInstFormComponent  {
     }
 
     this.themeDetailForm = this.createThemeDetailForm();
-    this.themedetails = this._programDetailsService.themeDetails;
+    this.themedetails = this._themeDetailsService.themeDetails;
     console.log(this.themedetails);
 }
 
@@ -69,11 +76,11 @@ export class ThemeDetailInstFormComponent  {
  * @returns {FormGroup}
  */
 createThemeDetailForm(): FormGroup
-{
+{ const nbrPattern= '^[0-9]*$';
     return this._formBuilder.group({
         id      : [this.themeDetail.id],
         themeDetailInstName   : [this.themeDetail.themeDetailInstName],
-        nbDaysthemeDetailInst : [this.themeDetail.nbDaysthemeDetailInst],
+        nbDaysthemeDetailInst : [this.themeDetail.nbDaysthemeDetailInst,[Validators.required, Validators.pattern(nbrPattern)]],
       //  moduleInstance : [this.themeDetail.moduleInstance],
         themeDetail: [this.themeDetail.themeDetail]
        
@@ -81,9 +88,58 @@ createThemeDetailForm(): FormGroup
 }
 
 getModuleForm(event){
-  this._programDetailsService.module=event;
+  this._themeDetailsService.module=event;
   this.themeDetail.themeDetailInstName = event.themeDetailName;
   this.themeDetail.nbDaysthemeDetailInst=event.nbDaysThemeDetail;
   
 }
+
+closeNewThemeDetailForm(){
+  this.actualDaysNumberAffected = this._themeDetailsService.actualDaysAffectedPerThemeDetail+ Number(this.themeDetail.nbDaysthemeDetailInst)  ; 
+
+  if (this.actualDaysNumberAffected > Number(this._themeDetailsService.module.nbDaysModuleInstance)) {
+    this.themeDetailAlert("Vous avez dépassé le nombre des jours du Module concerné");
+    console.log(`Exceeded`);
+    
+  }
+  else {
+    this.matDialogRef.close(this.themeDetailForm)
+  }
+
+}
+
+closeEditThemeDetailForm(){
+  this.oldDaysAffectedValue=this._themeDetailsService.oldDaysAffectedNumber
+  this.actualDaysNumberAffected=this._themeDetailsService.actualDaysAffectedPerThemeDetail -this.oldDaysAffectedValue+ Number(this.themeDetail.nbDaysthemeDetailInst)  ; 
+  // case where the modified days number exceeded the limit
+  if(this.actualDaysNumberAffected > Number(this._themeDetailsService.module.nbDaysModuleInstance)) {
+                          
+    this.themeDetailAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du module");
+    console.log(`Exceeded`);
+
+  }
+  else {
+    this.matDialogRef.close(['save',this.themeDetailForm])
+  }
+}
+
+
+ 
+
+
+themeDetailAlert(message): void {
+  this.alertDialog = this._matDialog.open(AlertDialogComponent, {
+      disableClose: false
+  });
+
+  this.alertDialog.componentInstance.dialogMessage = message;
+
+  this.alertDialog.afterClosed().subscribe(result => {
+      if (result) {
+
+      }
+      this.alertDialog = null;
+  });
+}
+
 }

@@ -178,18 +178,17 @@ export class ThematiqueInstComponent implements OnInit {
       this.dialogRef.afterClosed()
           .subscribe((response: FormGroup) => {
             this.themeInst=response.getRawValue() ; 
-            this.actualDaysNumberAffected = this._programInstDetailsService.actualDaysNumberAffected
-                                            + Number(this.themeInst.nbDaysthemeInst)  ; 
+           // this.actualDaysNumberAffected = this._programInstDetailsService.actualDaysNumberAffected + Number(this.themeInst.nbDaysthemeInst)  ; 
               if (!response) {
                   console.log(`Dialog result before return: ${response}`);
 
                   return;
               }
-              if (this.actualDaysNumberAffected > this.programTotalDaysNumber) {
+              /*if (this.actualDaysNumberAffected > this.programTotalDaysNumber) {
                 this.addThematiqueAlert("Vous avez dépassé le nombre des jours du Programme");
                 console.log(`Exceeded`);
                 return; 
-            }
+                }*/
           this._programInstDetailsService.addThemeInst(response.getRawValue(),this._programInstDetailsService.theme);
 
 

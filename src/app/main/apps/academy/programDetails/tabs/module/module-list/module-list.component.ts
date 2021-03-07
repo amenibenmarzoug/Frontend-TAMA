@@ -128,6 +128,7 @@ export class ModuleListComponent implements OnInit, OnDestroy {
 
         this._moduleService.getModuleDaysAffected();
         this.oldDaysAffectedValue=module.nbDaysModule;
+        this._moduleService.oldDaysAffectedNumber=this.oldDaysAffectedValue;
 
         this.dialogRef.afterClosed()
             .subscribe(response => {
@@ -141,7 +142,7 @@ export class ModuleListComponent implements OnInit, OnDestroy {
                      * Save
                      */
                     case 'save':
-                        this.actualDaysNumberAffected=this._moduleService.actualDaysAffectedPerModule
+                       /*this.actualDaysNumberAffected=this._moduleService.actualDaysAffectedPerModule
                                                     -this.oldDaysAffectedValue+ Number(formData.getRawValue().nbDaysModule)  ; 
                         // case where the modified days number exceeded the limit
                         if(this.actualDaysNumberAffected > this._moduleService.theme.nbDaysTheme) {
@@ -151,7 +152,7 @@ export class ModuleListComponent implements OnInit, OnDestroy {
                             this._moduleService.getModules(); 
                             
                             break; 
-                        }
+                        }*/
                         this._moduleService.updateModule(formData.getRawValue(),this._moduleService.theme);
 
                         break;

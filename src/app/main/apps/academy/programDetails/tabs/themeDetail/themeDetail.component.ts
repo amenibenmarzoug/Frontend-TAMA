@@ -116,13 +116,13 @@ export class ThemeDetailComponent implements OnInit, OnDestroy
                         return;
                     }
                     this.themeDetail = response.getRawValue();
-                    this.actualDaysNumberAffected = this._themeDetailsService.actualDaysAffectedPerThemeDetail+ Number(this.themeDetail.nbDaysThemeDetail)  ; 
+                    /*this.actualDaysNumberAffected = this._themeDetailsService.actualDaysAffectedPerThemeDetail+ Number(this.themeDetail.nbDaysThemeDetail)  ; 
 
                     if (this.actualDaysNumberAffected > Number(this._themeDetailsService.module.nbDaysModule)) {
                         this.addThemeDetailAlert("Vous avez dépassé le nombre des jours du Module concerné");
                         console.log(`Exceeded`);
                         return; 
-                    }
+                    }*/
 
                     this.confirmAddThemeDetail();
 

@@ -114,13 +114,13 @@ export class ModuleInstComponent implements OnInit {
                       return;
                   }
                   this.module = response.getRawValue();
-                  this.actualDaysNumberAffected = this._moduleInstService.actualDaysAffectedPerModule+ Number(this.module.nbDaysModuleInstance)  ; 
+                  /*this.actualDaysNumberAffected = this._moduleInstService.actualDaysAffectedPerModule+ Number(this.module.nbDaysModuleInstance)  ; 
 
                     if (this.actualDaysNumberAffected > this._moduleInstService.themeInst.nbDaysthemeInst) {
                         this.addModuleAlert("Vous avez dépassé le nombre des jours de la thématique");
                         console.log(`Exceeded`);
                         return; 
-                    }
+                    }*/
 
                   this.confirmAddModule();
 

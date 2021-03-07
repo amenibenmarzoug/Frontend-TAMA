@@ -64,13 +64,13 @@
             DELETE
         </button>
 
-        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(themeInstForm)"
+        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="closeNewThemeForm()"
             [disabled]="themeInstForm.invalid" aria-label="SAVE">
             ADD
         </button>
 
         <button *ngIf="action === 'edit'" mat-button class="save-button"
-            (click)="matDialogRef.close(['save',themeInstForm])" [disabled]="themeInstForm.invalid" aria-label="SAVE">
+            (click)="closeEditThemeForm()" [disabled]="themeInstForm.invalid" aria-label="SAVE">
             SAVE
         </button>
 
