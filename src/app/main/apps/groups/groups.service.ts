@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FuseUtils } from '@fuse/utils';
 
 import { Group } from 'app/main/apps/groups/group.model';
-import { Contact } from '../participants/participant.model';
+import { Participant } from '../participants/participant.model';
 
 const AUTH_API = 'http://localhost:8080/api/';
 
@@ -24,7 +24,7 @@ export class GroupsService implements Resolve<any>
     onSearchTextChangedP: Subject<any>;
     onFilterChanged: Subject<any>;
     onFilterChangedP: Subject<any>;
-    participant: Contact[];
+    participant: Participant[];
     contacts: Group[];
     user: any;
     selectedContacts: string[] = [];
@@ -124,7 +124,7 @@ export class GroupsService implements Resolve<any>
             .subscribe((response:any)=>{
                 this.participant = response;
                 this.participant = this.participant.map(contact =>{
-                    return new Contact(contact);
+                    return new Participant(contact);
                 });
                this.onContactsChangedP.next(this.participant);
                 resolve(this.participant);

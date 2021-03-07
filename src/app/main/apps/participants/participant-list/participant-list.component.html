@@ -67,11 +67,11 @@
         </mat-cell>
     </ng-container>
     <!-- Company Column -->
-    <ng-container matColumnDef="groupe">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Groupe</mat-header-cell>
+    <ng-container matColumnDef="classe">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Classe</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
-            <p *ngIf="contact.classe!=null" class="company text-truncate">
-                {{contact.classe.programInstName}}
+            <p *ngIf="contact.programInstance!=null" class="company text-truncate">
+                {{contact.programInstance.programInstName}}
             </p>
         </mat-cell>
     </ng-container>

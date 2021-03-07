@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { FuseUtils } from '@fuse/utils';
 
-import { Contact } from './participant.model';
+import { Participant } from './participant.model';
 import { Program } from '../academy/program.model';
 const USER_KEY = 'auth-user';
 
@@ -21,7 +21,7 @@ export class ParticipantsService implements Resolve<any>
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
 
-    contacts: Contact[];
+    participants: Participant[];
     selectedContactsList: object[] = [];;
     user: any;
     selectedContacts: string[] = [];
@@ -29,10 +29,10 @@ export class ParticipantsService implements Resolve<any>
     classe: any;
     // cursus: any;
     groupeId: number;
-    entreprises: Contact[];
-    classes: Contact[];
+    entreprises: Participant[];
+    classes: Participant[];
     programs: Program[];
-    contactSelected: Contact[];
+    contactSelected: Participant[];
     searchText: string;
     filterBy: string;
     id: number;
@@ -73,6 +73,7 @@ export class ParticipantsService implements Resolve<any>
                 this.getContacts(),
                 this.getUserData(),
                 this.getEntreprises(),
+                this.getClasses(),
                 //  this.getGroups(),
                 // this.getCursus(),
             ]).then(
@@ -106,43 +107,40 @@ export class ParticipantsService implements Resolve<any>
             this._httpClient.get('http://localhost:8080/api/participants')
                 .subscribe((response: any) => {
 
-                    this.contacts = response;
-                    // console.log(response) ; 
+                    this.participants = response;
 
                     if (this.filterBy === 'pilier1') {
-                        this.contacts = this.contacts.filter(_contact => {
+                        this.participants = this.participants.filter(_contact => {
                             if (_contact.entreprise) { return true; }
                             return false;
-                            // this._httpClient.get('http://localhost:8080/api/participants/pilier1')                                   
 
                         });
                     }
 
                     if (this.filterBy === 'pilier2') {
-                        this.contacts = this.contacts.filter(_contact => {
+                        this.participants = this.participants.filter(_contact => {
                             // return this.user.frequentContacts.includes(_contact.id);
                             if (!_contact.entreprise) { return true; }
                             return false;
                         });
                     }
                     if (this.filterBy === 'abandon') {
-                        this.contacts = this.contacts.filter(_contact => {
-                            // return this.user.frequentContacts.includes(_contact.id);
+                        this.participants = this.participants.filter(_contact => {
                             if (_contact.abandon) { return true; }
                             return false;
                         });
                     }
 
                     if (this.searchText && this.searchText !== '') {
-                        this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
+                        this.participants = FuseUtils.filterArrayByString(this.participants, this.searchText);
                     }
 
-                    this.contacts = this.contacts.map(contact => {
-                        return new Contact(contact);
+                    this.participants = this.participants.map(contact => {
+                        return new Participant(contact);
                     });
 
-                    this.onContactsChanged.next(this.contacts);
-                    resolve(this.contacts);
+                    this.onContactsChanged.next(this.participants);
+                    resolve(this.participants);
                 }, reject);
         }
         );
@@ -167,21 +165,7 @@ export class ParticipantsService implements Resolve<any>
         }
         );
     }
-    // getGroups(): Promise<any> {
 
-
-    //     return new Promise((resolve, reject) => {
-    //         this._httpClient.get('http://localhost:8080/api/groups')
-    //             .subscribe((response: any) => {
-    //                 //  console.log("response");
-    //                 // console.log(response);
-    //                 this.onGroupsChanged.next(response);
-    //                 this.groups = response;
-    //                 resolve(response);
-    //             }, reject);
-    //     }
-    //     );
-    // }
     getClasses(): Promise<any> {
 
 
@@ -190,28 +174,14 @@ export class ParticipantsService implements Resolve<any>
                 .subscribe((response: any) => {
                     this.onClassesChanged.next(response);
                     this.classes = response;
+                    // console.log(response);
                     resolve(response);
                 }, reject);
         }
         );
     }
-    // getCursus(): Promise<any> {
-    //     return new Promise((resolve, reject) => {
-    //         this._httpClient.get('http://localhost:8080/api/cursus')
-    //             .subscribe((response: any) => {
-    //                 this.onCursusChanged.next(response);
-    //                 this.programs = response;
-    //                 resolve(response);
-    //             }, reject);
-    //     }
-    //     );
-    // }
 
-    /**
-    * Get user data
-    *
-    * @returns {Promise<any>}
-    */
+
     getUserData(): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient.get('http://localhost:8080/api/participants')
@@ -281,7 +251,7 @@ export class ParticipantsService implements Resolve<any>
         if (filterParameter === undefined || filterValue === undefined) {
             this.selectedContacts = [];
             this.selectedContactsList = [];
-            this.contacts.map(contact => {
+            this.participants.map(contact => {
 
                 this.selectedContacts.push(contact.id.toString());
 
@@ -301,10 +271,11 @@ export class ParticipantsService implements Resolve<any>
      * @param contact
      * @returns {Promise<any>}
      */
-    updateContact(contact, entreprise): Promise<any> {
+    addParticipant(contact, entreprise, classe): Promise<any> {
         return new Promise((resolve, reject) => {
             contact.password = contact.phoneNumber;
             contact.entreprise = entreprise;
+            contact.programInstance = classe;
             this._httpClient.post('http://localhost:8080/api/signupParticipantManag', contact)
 
                 .subscribe(response => {
@@ -318,10 +289,10 @@ export class ParticipantsService implements Resolve<any>
      *
      * @param id
      */
-    updateGroupe(contact): Promise<any> {
+    updateClasse(contact): Promise<any> {
 
         return new Promise((resolve, reject) => {
-            this._httpClient.put('http://localhost:8080/api/groupParticipant/' + this.id, contact)
+            this._httpClient.put('http://localhost:8080/api/classeParticipant/' + this.id, contact)
                 .subscribe(response => {
                     this.getContacts();
                     resolve(response);
@@ -396,9 +367,9 @@ export class ParticipantsService implements Resolve<any>
 
 
         return new Promise((resolve, reject) => {
-            const contactIndex = this.contacts.indexOf(id);
-            this.contacts.splice(contactIndex, 1);
-            this.onContactsChanged.next(this.contacts);
+            const contactIndex = this.participants.indexOf(id);
+            this.participants.splice(contactIndex, 1);
+            this.onContactsChanged.next(this.participants);
             this._httpClient.delete(`http://localhost:8080/api/participants/${id}`)
                 .subscribe(response => {
                     // this.getContacts();
@@ -413,17 +384,17 @@ export class ParticipantsService implements Resolve<any>
      */
     deleteSelectedContacts(): void {
         for (const contactId of this.selectedContacts) {
-            let contact = this.contacts.find(_contact => {
+            let contact = this.participants.find(_contact => {
                 console.log("write true or false" + _contact.id.toString() === contactId);
                 return _contact.id === Number(contactId);
 
             });
             this.deleteContact(Number(contactId));
-            const contactIndex = this.contacts.indexOf(contact);
-            this.contacts.splice(contactIndex, 1);
+            const contactIndex = this.participants.indexOf(contact);
+            this.participants.splice(contactIndex, 1);
 
         }
-        this.onContactsChanged.next(this.contacts);
+        this.onContactsChanged.next(this.participants);
         this.deselectContacts();
     }
 

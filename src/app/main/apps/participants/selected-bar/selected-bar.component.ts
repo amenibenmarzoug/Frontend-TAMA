@@ -52,7 +52,7 @@ export class SelectedBarComponent implements OnInit, OnDestroy {
                 this.selectedContacts = selectedContacts;
                 setTimeout(() => {
                     this.hasSelectedContacts = selectedContacts.length > 0;
-                    this.isIndeterminate = (selectedContacts.length !== this._participantsService.contacts.length && selectedContacts.length > 0);
+                    this.isIndeterminate = (selectedContacts.length !== this._participantsService.participants.length && selectedContacts.length > 0);
                 }, 0);
             });
     }
@@ -77,15 +77,15 @@ export class SelectedBarComponent implements OnInit, OnDestroy {
         this._participantsService.selectContacts();
     }
 
-    addToGroup(id): void {
+    addToClasse(id): void {
 
         this._participantsService.id = +id;
-        this._participantsService.contacts.map(contact => {
+        this._participantsService.participants.map(contact => {
             for (let index = 0; index < this.selectedContacts.length; index++) {
                 if (contact.id == Number(this.selectedContacts[index])) {
                     this._participantsService.selectedContactsList.push(contact);
 
-                    this._participantsService.updateGroupe(contact);
+                    this._participantsService.updateClasse(contact);
 
                 }
             }

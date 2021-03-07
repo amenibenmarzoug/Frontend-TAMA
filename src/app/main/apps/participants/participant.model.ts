@@ -1,6 +1,6 @@
 import { FuseUtils } from '@fuse/utils';
 
-export class Contact {
+export class Participant {
     id: number;
     email: string;
     password: string;

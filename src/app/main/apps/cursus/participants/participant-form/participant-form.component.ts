@@ -2,7 +2,7 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ParticipantsService } from 'app/main/apps/participants/participants.service';
-import { Contact } from 'app/main/apps/participants/participant.model';
+import { Participant } from 'app/main/apps/participants/participant.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -14,9 +14,31 @@ import { takeUntil } from 'rxjs/operators';
 
 })
 export class ParticipantFormComponent {
+    formErrorsP = {
+        'firstNameP': '',
+        'lastNameP': '',
+        'level': '',
+        'gender': '',
+        'birthdateP': '',
+        'educationLevel': ''
+    };
+
+    validationMessagesP = {
+
+        'genderP': {
+            'required': 'Sexe est obligatoire !',
+
+        }
+
+    }
+    cities: string[] = [
+        'Tunis', 'Ariana', 'Ben Arous', 'Manouba', 'Nabeul', 'Zaghouan', 'Bizerte', 'Béja', 'Jendouba', 'Kef', 'Siliana',
+        'Sousse', 'Monastir', 'Mahdia', 'Sfax', 'Kairouan', 'Kasserine', 'Sidi Bouzid', 'Gabès', 'Mednine', 'Tataouine', 'Gafsa', 'Tozeur', 'Kebili'
+
+    ];
 
     action: string;
-    contact: Contact;
+    contact: Participant;
     contactForm: FormGroup;
     dialogTitle: string;
     entreprises: any[];
@@ -45,11 +67,11 @@ export class ParticipantFormComponent {
             this.contact = _data.contact;
             this._ParticipantsService.entreprise = this.contact.entreprise;
             this._ParticipantsService.classe = this.contact.programInstance;
-          //  this._ParticipantsService.cursus = this.contact.cursus;
+            //  this._ParticipantsService.cursus = this.contact.cursus;
         }
         else {
             this.dialogTitle = 'Nouveau Participant';
-            this.contact = new Contact({});
+            this.contact = new Participant({});
         }
 
         this.contactForm = this.createContactForm();
@@ -61,7 +83,7 @@ export class ParticipantFormComponent {
 
     }
 
-   
+
 
 
 
@@ -87,22 +109,16 @@ export class ParticipantFormComponent {
             postalCode: [this.contact.postalCode],
             birthday: [this.contact.birthday],
             notes: [this.contact.notes],
-            educationLevel: [this.contact.educationLevel]
+            educationLevel: [this.contact.educationLevel],
 
         });
 
 
 
     }
-    formErrorsP = {
-        'firstNameP': '',
-        'lastNameP': '',
-        'level': '',
-        'gender': '',
-        'birthdateP': '',
-        'educationLevel': ''
-    };
 
+
+    // tslint:disable-next-line:typedef
     onValueChangedP(data?: any) {
         if (!this.contactForm) { return; }
         const form = this.contactForm;
@@ -123,37 +139,20 @@ export class ParticipantFormComponent {
             }
         }
     }
-    validationMessagesP = {
+   
 
-        'genderP': {
-            'required': 'Sexe est obligatoire !',
-
-        }
-
-    }
-    cities: String[] = [
-        'Tunis', 'Ariana', 'Ben Arous', 'Manouba', 'Nabeul', 'Zaghouan', 'Bizerte', 'Béja', 'Jendouba', 'Kef', 'Siliana',
-        'Sousse', 'Monastir', 'Mahdia', 'Sfax', 'Kairouan', 'Kasserine', 'Sidi Bouzid', 'Gabès', 'Mednine', 'Tataouine', 'Gafsa', 'Tozeur', 'Kebili'
-
-    ];
-
-
+    // tslint:disable-next-line:typedef
     getEntrepriseForm(event) {
 
         this._ParticipantsService.entreprise = event;
     }
-    // getGroupForm(event) {
-
-    //     this._ParticipantsService.groupe = event;
-    // }
+   
+    // tslint:disable-next-line:typedef
     getClasseForm(event) {
 
         this._ParticipantsService.classe = event;
     }
-    // getCursusForm(event) {
-
-    //     this._ParticipantsService.cursus = event;
-    // }
+   
 
 
 

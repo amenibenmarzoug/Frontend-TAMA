@@ -2,7 +2,7 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ParticipantsService } from 'app/main/apps/participants/participants.service';
-import { Contact } from 'app/main/apps/participants/participant.model';
+import { Participant } from 'app/main/apps/participants/participant.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -39,7 +39,7 @@ export class ParticipantFormComponent {
 
 
     action: string;
-    contact: Contact;
+    contact: Participant;
     contactForm: FormGroup;
     dialogTitle: string;
     entreprises: any[];
@@ -71,7 +71,7 @@ export class ParticipantFormComponent {
         }
         else {
             this.dialogTitle = 'Nouveau Participant';
-            this.contact = new Contact({});
+            this.contact = new Participant({});
         }
 
         this.contactForm = this.createContactForm();
