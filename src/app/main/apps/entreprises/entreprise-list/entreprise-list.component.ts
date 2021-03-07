@@ -34,7 +34,7 @@ export class EntrepriseListComponent implements OnInit, OnDestroy {
   contact : Entreprise
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
 id : number ;
-
+disabled:boolean=false
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -185,6 +185,7 @@ id : number ;
   }
 
   ValidateContact(contact){
+      this.disabled=true;
    
     this._entreprisesService.ValidateContact(contact)
   }

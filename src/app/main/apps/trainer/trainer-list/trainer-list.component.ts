@@ -31,7 +31,8 @@ export class TrainerListComponent implements OnInit, OnDestroy
     checkboxes: {};
     dialogRef: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-    id:number
+    id:number ;
+    disabled:boolean=false
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -159,8 +160,11 @@ export class TrainerListComponent implements OnInit, OnDestroy
             });
     }
     ValidateContact(contact){
-   
+        this.disabled=true ;
         this._trainersService.ValidateContact(contact) ;
+       // document.getElementById('botton').disabled = 'disabled';
+      
+    
       }
     /**
      * Delete Contact
