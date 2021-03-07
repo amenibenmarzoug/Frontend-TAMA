@@ -126,6 +126,7 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
         });
         this._themeDetailsService.getThemeDetailDaysAffected();
         this.oldDaysAffectedValue=themeDetail.nbDaysThemeDetail;
+        this._themeDetailsService.oldDaysAffectedNumber=this.oldDaysAffectedValue;
 
         this.dialogRef.afterClosed()
             .subscribe(response => {
@@ -139,7 +140,7 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
                      * Save
                      */
                     case 'save':
-
+                    /*
                     this.actualDaysNumberAffected=this._themeDetailsService.actualDaysAffectedPerThemeDetail
                                                     -this.oldDaysAffectedValue+ Number(formData.getRawValue().nbDaysThemeDetail)  ; 
                         // case where the modified days number exceeded the limit
@@ -150,7 +151,7 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
                             this._themeDetailsService.getThemeDetail(); 
                             
                             break; 
-                        }
+                        } */
 
                         this._themeDetailsService.updateThemeDetail(formData.getRawValue(),this._themeDetailsService.module);
 

@@ -127,8 +127,10 @@ export class ModuleInstListComponent implements OnInit {
               action: 'edit'
           }
       });
-      this._moduleInstService.getModuleDaysAffected();
-        this.oldDaysAffectedValue=module.nbDaysModuleInstance;
+    this._moduleInstService.getModuleDaysAffected();
+    this.oldDaysAffectedValue=module.nbDaysModuleInstance;
+    this._moduleInstService.oldDaysAffectedNumber=this.oldDaysAffectedValue;
+
       this.dialogRef.afterClosed()
           .subscribe(response => {
               if (!response) {
@@ -141,7 +143,7 @@ export class ModuleInstListComponent implements OnInit {
                    * Save
                    */
                   case 'save':
-                        this.actualDaysNumberAffected=this._moduleInstService.actualDaysAffectedPerModule
+                        /*this.actualDaysNumberAffected=this._moduleInstService.actualDaysAffectedPerModule
                                                     -this.oldDaysAffectedValue+ Number(formData.getRawValue().nbDaysModuleInstance)  ; 
                         // case where the modified days number exceeded the limit
                         if(this.actualDaysNumberAffected > this._moduleInstService.themeInst.nbDaysthemeInst) {
@@ -151,7 +153,7 @@ export class ModuleInstListComponent implements OnInit {
                             this._moduleInstService.getModulesInst(); 
                             
                             break; 
-                        }
+                        }*/
                       this._moduleInstService.updateModuleInst(formData.getRawValue(),this._moduleInstService.themeInst,this._moduleInstService.module);
 
                       break;

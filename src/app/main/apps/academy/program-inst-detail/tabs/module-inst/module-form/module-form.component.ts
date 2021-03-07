@@ -1,6 +1,7 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 import {Module} from 'app/main/apps/academy/programDetails/tabs/module/module.model'
 import { Subject } from 'rxjs';
 import { ProgramInstDetailService } from '../../../program-inst-detail.service';
@@ -19,6 +20,9 @@ export class ModuleInstFormComponent  {
     dialogTitle: string;
     modules:any[];
     private _unsubscribeAll: Subject<any>;
+  actualDaysNumberAffected: any;
+  oldDaysAffectedValue: number;
+  alertDialog: any;
 
   /**
      * Constructor
@@ -31,7 +35,9 @@ export class ModuleInstFormComponent  {
       public matDialogRef: MatDialogRef<ModuleInstFormComponent >,
       @Inject(MAT_DIALOG_DATA) private _data: any,
       private _formBuilder: FormBuilder,
-      private _programDetailsService : ProgramInstDetailService 
+      private _moduleService : ProgramInstDetailService,
+      private _matDialog: MatDialog 
+ 
 
   )
   {
@@ -43,8 +49,8 @@ export class ModuleInstFormComponent  {
           this.dialogTitle = 'Modifier Module';
           this.moduleInst = _data.module;
           this.moduleInst.themeInstance=_data.module.themeInstance ; 
-          this._programDetailsService.themeInst = this.moduleInst.themeInstance;
-          this._programDetailsService.module = this.moduleInst.module;
+          this._moduleService.themeInst = this.moduleInst.themeInstance;
+          this._moduleService.module = this.moduleInst.module;
       }
       else
       {
@@ -57,7 +63,7 @@ export class ModuleInstFormComponent  {
 
       this.moduleInstForm = this.createModuleInstForm();
       this._unsubscribeAll = new Subject();
-      this.modules = this._programDetailsService.modules;
+      this.modules = this._moduleService.modules;
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -71,10 +77,11 @@ export class ModuleInstFormComponent  {
    */
   createModuleInstForm(): FormGroup
   {
+    const nbrPattern= '^[0-9]*$';
       return this._formBuilder.group({
           id      : [this.moduleInst.id],
           moduleInstanceName   : [this.moduleInst.moduleInstanceName],
-          nbDaysModuleInstance : [this.moduleInst.nbDaysModuleInstance],
+          nbDaysModuleInstance : [this.moduleInst.nbDaysModuleInstance,[Validators.required, Validators.pattern(nbrPattern)]],
           themeInstance:[this.moduleInst.themeInstance],
           module : [this.moduleInst.module]
         
@@ -82,8 +89,60 @@ export class ModuleInstFormComponent  {
       });
   }
   getModuleForm(event){
-    this._programDetailsService.module=event;
+    this._moduleService.module=event;
     this.moduleInst.moduleInstanceName=event.moduleName;
     this.moduleInst.nbDaysModuleInstance=event.nbDaysModule;
   }
+
+  closeNewModuleForm(){
+   
+
+    this.actualDaysNumberAffected = this._moduleService.actualDaysAffectedPerModule+ Number(this.moduleInst.nbDaysModuleInstance)  ; 
+    /*console.log("actual days number affected ")
+    console.log(this.actualDaysNumberAffected)
+    console.log("module days in the new form ")
+    console.log(this.module.nbDaysModule)*/
+
+    if (this.actualDaysNumberAffected > this._moduleService.themeInst.nbDaysthemeInst) {
+      this.moduleAlert("Vous avez dépassé le nombre des jours de la thématique");
+      console.log(`Exceeded`);
+     // return; 
+     }
+     else {
+      this.matDialogRef.close(this.moduleInstForm)
+     }
+
+  }
+
+  closeEditModuleForm(){
+    
+    this.oldDaysAffectedValue= this._moduleService.oldDaysAffectedNumber
+    this.actualDaysNumberAffected=this._moduleService.actualDaysAffectedPerModule -this.oldDaysAffectedValue+ Number(this.moduleInst.nbDaysModuleInstance)  ; 
+    // case where the modified days number exceeded the limit
+    if(this.actualDaysNumberAffected > this._moduleService.themeInst.nbDaysthemeInst) {
+                            
+      this.moduleAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
+      console.log(`Exceeded`);
+
+    }
+    else 
+    {
+      this.matDialogRef.close(['save',this.moduleInstForm])
+    }
+  }
+
+  moduleAlert(message): void {
+    this.alertDialog = this._matDialog.open(AlertDialogComponent, {
+        disableClose: false
+    });
+
+    this.alertDialog.componentInstance.dialogMessage = message;
+
+    this.alertDialog.afterClosed().subscribe(result => {
+        if (result) {
+
+        }
+        this.alertDialog = null;
+    });
+}
 }

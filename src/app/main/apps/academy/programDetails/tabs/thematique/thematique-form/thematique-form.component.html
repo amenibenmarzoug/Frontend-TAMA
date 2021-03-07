@@ -14,13 +14,16 @@
 
             <mat-form-field appearance="outline" class="w-100-p">
                 <mat-label>Nom du Thème</mat-label>
+                <mat-icon matSuffix class="secondary-text">font_download</mat-icon>
                 <input matInput name="themeName" formControlName="themeName" required [(ngModel)]="theme.themeName">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="w-100-p">
                 <mat-label>Nombre du jours</mat-label>
+                <mat-icon matSuffix class="secondary-text">looks_one</mat-icon>
                 <input matInput name="nbDaysTheme" formControlName="nbDaysTheme" required
                     [(ngModel)]="theme.nbDaysTheme">
+                    <mat-error *ngIf="themeForm.get('nbDaysTheme').hasError('pattern')">Entrer un numéro</mat-error>
             </mat-form-field>
 
 
@@ -36,13 +39,13 @@
             DELETE
         </button>
 
-        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(themeForm)"
+        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)=" closeNewThemeForm()"
             [disabled]="themeForm.invalid" aria-label="SAVE">
             ADD
         </button>
 
         <button *ngIf="action === 'edit'" mat-button class="save-button"
-            (click)="matDialogRef.close(['save',themeForm])" [disabled]="themeForm.invalid" aria-label="SAVE">
+            (click)="closeEditThemeForm()" [disabled]="themeForm.invalid" aria-label="SAVE">
             SAVE
         </button>
 

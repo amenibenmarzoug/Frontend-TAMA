@@ -129,7 +129,7 @@ export class ThemeDetailInstComponent implements OnInit {
 
                   this.actualDaysNumberAffected = this._themeDetailsService.actualDaysAffectedPerThemeDetail+ Number(this.themeDetail.nbDaysthemeDetailInst)  ; 
                   console.log("this.actualDaysNumberAffected  from serviice"+ this.actualDaysNumberAffected)
-                  console.log("this._themeDetailsService.module.nbDaysModuleInstance "+ this._themeDetailsService.module.nbDaysModuleInstance)
+                  console.log("this._themeDetailsService.module.nbDaysModuleInstance "+ this._themeDetailsService.module)
                     if (this.actualDaysNumberAffected > Number(this._themeDetailsService.module.nbDaysModuleInstance)) {
                         this.addThemeDetailAlert("Vous avez dépassé le nombre des jours du Module concerné");
                         console.log(`Exceeded`);

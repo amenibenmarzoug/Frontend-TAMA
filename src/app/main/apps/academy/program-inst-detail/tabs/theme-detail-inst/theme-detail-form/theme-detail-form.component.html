@@ -43,6 +43,7 @@
                     <mat-label>Nombre de jours</mat-label>
                     <mat-icon matSuffix class="secondary-text">assignment</mat-icon>
                     <input  name="nbDaysthemeDetailInst" formControlName="nbDaysthemeDetailInst"  [(ngModel)]="themeDetail.nbDaysthemeDetailInst" matInput required>
+                    <mat-error *ngIf="themeDetailForm.get('nbDaysthemeDetailInst').hasError('pattern')">Entrer un numéro</mat-error>
                 </mat-form-field>
             </div>
 
@@ -64,7 +65,7 @@
         <button *ngIf="action !== 'edit'"
                 mat-button
                 class="save-button"
-                (click)="matDialogRef.close(themeDetailForm)"
+                (click)="closeNewThemeDetailForm()"
                 [disabled]="themeDetailForm.invalid"
                 aria-label="SAVE">
             Ajouter
@@ -73,7 +74,7 @@
         <button *ngIf="action === 'edit'"
                 mat-button
                 class="save-button"
-                (click)="matDialogRef.close(['save',themeDetailForm])"
+                (click)="closeEditThemeDetailForm()"
                 [disabled]="themeDetailForm.invalid"
                 aria-label="SAVE">
             Enregistrer

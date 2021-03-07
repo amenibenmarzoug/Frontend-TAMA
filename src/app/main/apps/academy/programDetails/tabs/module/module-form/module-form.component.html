@@ -28,8 +28,11 @@
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Nombre de jours</mat-label>
-                    <mat-icon matSuffix class="secondary-text">assignment</mat-icon>
-                    <input ngDefaultControl name="nbDaysModule" formControlName="nbDaysModule" matInput required>
+                    <mat-icon matSuffix class="secondary-text">looks_one</mat-icon>
+                    <input ngDefaultControl name="nbDaysModule" formControlName="nbDaysModule" matInput 
+                    [(ngModel)]="module.nbDaysModule" required>
+                    <mat-error *ngIf="moduleForm.get('nbDaysModule').hasError('pattern')">Entrer un numéro</mat-error>
+
                 </mat-form-field>
             </div>
 
@@ -51,7 +54,7 @@
         <button *ngIf="action !== 'edit'"
                 mat-button
                 class="save-button"
-                (click)="matDialogRef.close(moduleForm)"
+                (click)="closeNewModuleForm()"
                 [disabled]="moduleForm.invalid"
                 aria-label="SAVE">
             Ajouter
@@ -60,7 +63,7 @@
         <button *ngIf="action === 'edit'"
                 mat-button
                 class="save-button"
-                (click)="matDialogRef.close(['save',moduleForm])"
+                (click)="closeEditModuleForm()"
                 [disabled]="moduleForm.invalid"
                 aria-label="SAVE">
             Enregistrer

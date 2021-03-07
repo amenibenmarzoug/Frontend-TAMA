@@ -125,12 +125,12 @@ export class ModuleComponent implements OnInit, OnDestroy {
                     }
                     this.module = response.getRawValue();
                     this.actualDaysNumberAffected = this._moduleService.actualDaysAffectedPerModule+ Number(this.module.nbDaysModule)  ; 
-
+                    /*
                     if (this.actualDaysNumberAffected > this._moduleService.theme.nbDaysTheme) {
                         this.addModuleAlert("Vous avez dépassé le nombre des jours de la thématique");
                         console.log(`Exceeded`);
                         return; 
-                    }
+                    }*/
                     this.confirmAddModule();
 
                 });
