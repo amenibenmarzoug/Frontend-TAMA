@@ -97,7 +97,12 @@ import{ClassesDetailComponent} from '../academy/classes-detail/classes-detail.co
 import { ModulesInstListComponent } from './classes-detail/tabs/module-classe/modules-inst-list/modules-inst-list.component';
 import { SelectModuleComponent } from './classes-detail/tabs/module-classe/select-module/select-module.component';
 import { SelectedBarModuleClasseComponent } from './classes-detail/tabs/module-classe/selected-bar-module-classe/selected-bar-module-classe.component';
-import { ThemeDetailClassListComponent } from './classes-detail/tabs/theme-detail-classe/theme-detail-class-list/theme-detail-class-list.component'
+import { ThemeDetailClassListComponent } from './classes-detail/tabs/theme-detail-classe/theme-detail-class-list/theme-detail-class-list.component';
+import { EditSessionComponent } from './edit-session/edit-session.component';
+import { EditTrainersListComponent } from './edit-session/edit-trainers-list/edit-trainers-list.component'
+import { EditSessionService } from 'app/main/apps/academy/edit-session/edit-session.service';
+
+
 registerLocaleData(localeFr, 'fr');
 const routes = [
     {
@@ -172,6 +177,13 @@ const routes = [
         component: AddSessionComponent,
         resolve  : {
             academy: AddSessionService
+        }
+    },
+    {
+        path     : 'editSession/:id',
+        component: EditSessionComponent,
+        resolve  : {
+            academy: EditSessionService
         }
     },
     {
@@ -255,7 +267,9 @@ const routes = [
         ModulesInstListComponent,
         SelectModuleComponent,
         SelectedBarModuleClasseComponent,
-        ThemeDetailClassListComponent
+        ThemeDetailClassListComponent,
+        EditSessionComponent,
+        EditTrainersListComponent
        
         
         
@@ -310,6 +324,7 @@ const routes = [
         ProgramDetailsService, 
         AddSessionService,
         AllSessionsService,
+        EditSessionService,
         {provide: LOCALE_ID, useValue: 'fr' },
         {
             provide: DateAdapter,

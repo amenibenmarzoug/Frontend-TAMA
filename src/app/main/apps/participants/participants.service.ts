@@ -220,6 +220,7 @@ export class ParticipantsService implements Resolve<any>
                     this.onUserDataChanged.next(this.user);
                     resolve(this.user);
                 }, reject);
+
         }
         );
     }

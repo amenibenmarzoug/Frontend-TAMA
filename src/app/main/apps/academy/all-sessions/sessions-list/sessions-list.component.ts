@@ -12,167 +12,175 @@ import { AllSessionsService } from 'app/main/apps/academy/all-sessions/all-sessi
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { CourseSession } from 'app/main/apps/disponibility-trainer/courseSession.model';
+import { Router } from '@angular/router';
+import { EditSessionService } from 'app/main/apps/academy/edit-session/edit-session.service';
+
+
 @Component({
-  selector: 'app-sessions-list',
-  templateUrl: './sessions-list.component.html',
-  styleUrls: ['./sessions-list.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  animations: fuseAnimations
+    selector: 'app-sessions-list',
+    templateUrl: './sessions-list.component.html',
+    styleUrls: ['./sessions-list.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    animations: fuseAnimations
 })
 export class SessionsListComponent implements OnInit, OnDestroy {
 
-  @ViewChild('dialogContent')
-  dialogContent: TemplateRef<any>;
-  courseSessions:any[]=[];
-  contacts: CourseSession[];
-  user: any;
-  dataSource: FilesDataSource | null;
-  displayedColumns = ['seance','date','time','timeFin','institution'];
-  selectedContacts: any[];
-  coursesId: any[] = [];
-  checkboxes: {};
-  dialogRef: any;
-  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    @ViewChild('dialogContent')
+    dialogContent: TemplateRef<any>;
+    courseSessions: any[] = [];
+    contacts: CourseSession[];
+    user: any;
+    dataSource: FilesDataSource | null;
+    displayedColumns = ['seance', 'date', 'time', 'timeFin', 'institution', 'buttons'];
+    selectedContacts: any[];
+    coursesId: any[] = [];
+    checkboxes: {};
+    dialogRef: any;
+    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
 
-  // Private
-  private _unsubscribeAll: Subject<any>;
+    // Private
+    private _unsubscribeAll: Subject<any>;
 
-  /**
-   * Constructor
-   *
-   * @param {DisponibilityTrainerService} _disponibilityTrainerService
-   * @param {MatDialog} _matDialog
-   */
-  constructor(
-      private _disponibilityTrainerService: AllSessionsService,
-      public _matDialog: MatDialog
-  ) {
-      // Set the private defaults
-      this._unsubscribeAll = new Subject();
-  }
+    /**
+     * Constructor
+     *
+     * @param {AllSessionsService} _allSessionsService
+     * @param {MatDialog} _matDialog
+     */
+    constructor(
+        private _allSessionsService: AllSessionsService,
+        private editService:EditSessionService,
+        public _matDialog: MatDialog,
+        private router: Router,
+    ) {
+        // Set the private defaults
+        this._unsubscribeAll = new Subject();
+    }
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Lifecycle hooks
-  // -----------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
 
-  /**
-   * On init
-   */
-  ngOnInit(): void {
-      //this.dataSource = new FilesDataSource(this._disponibilityTrainerService);
-      this.dataSource = null;
-     this._disponibilityTrainerService.onSpecificCourseSessionsChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(contacts => {
+    /**
+     * On init
+     */
+    ngOnInit(): void {
+        //this.dataSource = new FilesDataSource(this._allSessionsService);
+        this.dataSource = null;
+        this._allSessionsService.onSpecificCourseSessionsChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(contacts => {
 
-              this.contacts = contacts;
-              
-            
-            this.checkboxes = {};
-              this.contacts.map(contact => {
-                  this.checkboxes[contact.id] = false;
-              });
-          });
-          
-          this.dataSource = new FilesDataSource(this._disponibilityTrainerService);
+                this.contacts = contacts;
 
-        
 
- 
-      this._disponibilityTrainerService.onSelectedContactsChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(selectedContacts => {
-              for (const id in this.checkboxes) {
-                  if (!this.checkboxes.hasOwnProperty(id)) {
-                      continue;
-                  }
+                this.checkboxes = {};
+                this.contacts.map(contact => {
+                    this.checkboxes[contact.id] = false;
+                });
+            });
 
-                  console.log("id id id");
-                  console.log(id);
-                  this.checkboxes[id] = selectedContacts.includes(id.toString());
-                  console.log("checkbox");
-                  console.log(this.checkboxes);
-              }
-              this.selectedContacts = selectedContacts;
-             // this.checkboxes={};
-
-              console.log(this.selectedContacts);
-          });
+        this.dataSource = new FilesDataSource(this._allSessionsService);
 
 
 
-      this._disponibilityTrainerService.onUserDataChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(user => {
-              this.user = user;
-          });
 
-      this._disponibilityTrainerService.onFilterChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(() => {
-              this._disponibilityTrainerService.deselectContacts();
-          });
-  }
+        this._allSessionsService.onSelectedContactsChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(selectedContacts => {
+                for (const id in this.checkboxes) {
+                    if (!this.checkboxes.hasOwnProperty(id)) {
+                        continue;
+                    }
 
+                   
+                    this.checkboxes[id] = selectedContacts.includes(id.toString());
+                    
+                }
+                this.selectedContacts = selectedContacts;
+                // this.checkboxes={};
 
-  /**
-   * On destroy
-   */
-  ngOnDestroy(): void {
-      // Unsubscribe from all subscriptions
-      this._unsubscribeAll.next();
-      this._unsubscribeAll.complete();
-  }
-
-  // -----------------------------------------------------------------------------------------------------
-  // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
-
-  /**
-   * Edit contact
-   *
-   * @param contact
-   */
+                console.log(this.selectedContacts);
+            });
 
 
-  /**
-   * On selected change
-   *
-   * @param contactId
-   */
-  onSelectedChange(contactId): void {
-      this._disponibilityTrainerService.toggleSelectedContact(contactId);
-  }
+
+        this._allSessionsService.onUserDataChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(user => {
+                this.user = user;
+            });
+
+        this._allSessionsService.onFilterChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(() => {
+                this._allSessionsService.deselectContacts();
+            });
+    }
 
 
- 
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Edit contact
+     *
+     * @param contact
+     */
+
+
+    /**
+     * On selected change
+     *
+     * @param contactId
+     */
+    onSelectedChange(contactId): void {
+        this._allSessionsService.toggleSelectedContact(contactId);
+    }
+
+    goToSession(id) {
+        this.router.navigate(['/apps/academy/editSession', id]);
+        console.log("SESSION id" + id);
+        this.editService.getSessionsById(id);
+    }
+
 }
 
 export class FilesDataSource extends DataSource<any>
 {
-  /**
-   * Constructor
-   *
-   * @param {DisponibilityTrainerService} _disponibilityTrainerService
-   */
-  constructor(
-      private _disponibilityTrainerService: AllSessionsService
-  ) {
-      super();
-  }
+    /**
+     * Constructor
+     *
+     * @param {DisponibilityTrainerService} _allSessionsService
+     */
+    constructor(
+        private _allSessionsService: AllSessionsService
+    ) {
+        super();
+    }
 
-  /**
-   * Connect function called by the table to retrieve one stream containing the data to render.
-   * @returns {Observable<any[]>}
-   */
-  connect(): Observable<any[]> {
-      return this._disponibilityTrainerService.onSpecificCourseSessionsChanged;
-  }
+    /**
+     * Connect function called by the table to retrieve one stream containing the data to render.
+     * @returns {Observable<any[]>}
+     */
+    connect(): Observable<any[]> {
+        return this._allSessionsService.onSpecificCourseSessionsChanged;
+    }
 
-  /**
-   * Disconnect
-   */
-  disconnect(): void {
-  }
+    /**
+     * Disconnect
+     */
+    disconnect(): void {
+    }
 
 }

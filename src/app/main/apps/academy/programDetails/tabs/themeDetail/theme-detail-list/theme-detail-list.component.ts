@@ -11,6 +11,7 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 
 import { ThemeDetailFormComponent } from '../theme-detail-form/theme-detail-form.component';
 import { ProgramDetailsService } from '../../../programDetails.service';
+import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 
 @Component({
     selector: 'app-theme-detail-list',
@@ -32,8 +33,12 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
     selectedThemeDetails: any[];
     checkboxes: {};
     dialogRef: any;
+    alertDialog: MatDialogRef<AlertDialogComponent>;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     id: number;
+
+    actualDaysNumberAffected : number ; 
+    oldDaysAffectedValue: number ; 
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -119,6 +124,8 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
                 action: 'edit'
             }
         });
+        this._themeDetailsService.getThemeDetailDaysAffected();
+        this.oldDaysAffectedValue=themeDetail.nbDaysThemeDetail;
 
         this.dialogRef.afterClosed()
             .subscribe(response => {
@@ -132,6 +139,18 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
                      * Save
                      */
                     case 'save':
+
+                    this.actualDaysNumberAffected=this._themeDetailsService.actualDaysAffectedPerThemeDetail
+                                                    -this.oldDaysAffectedValue+ Number(formData.getRawValue().nbDaysThemeDetail)  ; 
+                        // case where the modified days number exceeded the limit
+                        if(this.actualDaysNumberAffected > Number(this._themeDetailsService.module.nbDaysModule)) {
+                            
+                            this.updateThemeDetailAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du module");
+                            console.log(`Exceeded`);
+                            this._themeDetailsService.getThemeDetail(); 
+                            
+                            break; 
+                        }
 
                         this._themeDetailsService.updateThemeDetail(formData.getRawValue(),this._themeDetailsService.module);
 
@@ -147,6 +166,7 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
                 }
             });
     }
+
 
     /**
      * Delete Module
@@ -165,6 +185,20 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
             this.confirmDialogRef = null;
         });
 
+    }
+    updateThemeDetailAlert(message): void {
+        this.alertDialog = this._matDialog.open(AlertDialogComponent, {
+            disableClose: false
+        });
+
+        this.alertDialog.componentInstance.dialogMessage = message;
+
+        this.alertDialog.afterClosed().subscribe(result => {
+            if (result) {
+
+            }
+            this.alertDialog = null;
+        });
     }
 
     /**

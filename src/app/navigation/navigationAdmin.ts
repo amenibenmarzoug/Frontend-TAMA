@@ -69,6 +69,7 @@ export const navigationAdmin: FuseNavigation[] = [
             type: 'item',
             url: '/apps/academy/addSession',
         },
+        
         {
             id: 'allSessions',
             title: 'Toutes les séances',

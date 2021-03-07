@@ -6,9 +6,9 @@
             <div fxLayout="row" fxLayoutAlign="start center">
                 <mat-icon class="secondary-text s-18">home</mat-icon>
                 <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
-                <span class="secondary-text">Ajout Séance</span>
+                <span class="secondary-text">Modifier Séance</span>
             </div>
-            <div class="h1 mt-16">Ajout Séance</div>
+            <div class="h1 mt-16">Modifier Séance</div>
         </div>
     </div>
     <!-- / HEADER -->
@@ -38,15 +38,10 @@
                             <div class="nav-item" aria-label="Formations">
                                 <mat-form-field appearance="outline" class="w-100-p">
                                     <mat-label>Programme</mat-label>
-                                    <mat-select formControlName="program"
-                                        (selectionChange)="selectProgram($event.value)" required
+                                    <input matInput formControlName="program" required
                                         (blur)="onValueChangedStepper1()">
 
-                                        <mat-option *ngFor="let program of programs" [value]="program">
 
-                                            {{ program.program.programName}} - {{ program.location}}
-                                        </mat-option>
-                                    </mat-select>
                                     <mat-error *ngIf="formErrorsStepper1.program">{{formErrorsStepper1.program}}
                                     </mat-error>
 
@@ -55,14 +50,11 @@
                             <div class="nav-item" aria-label="Thème">
                                 <mat-form-field appearance="outline" class="w-100-p">
                                     <mat-label>Thème</mat-label>
-                                    <mat-select formControlName="theme" (selectionChange)="selectTheme($event.value)"
-                                        required (blur)="onValueChangedStepper1()">
+                                    <input matInput formControlName="theme"
+                                       required
+                                        (blur)="onValueChangedStepper1()">
 
-                                        <mat-option *ngFor="let theme of filteredThemes" [value]="theme">
 
-                                            {{ theme.theme.themeName }}
-                                        </mat-option>
-                                    </mat-select>
                                     <mat-error *ngIf="formErrorsStepper1.theme">{{formErrorsStepper1.theme}}</mat-error>
 
                                 </mat-form-field>
@@ -77,14 +69,11 @@
                             <div class="nav-item" aria-label="Module">
                                 <mat-form-field appearance="outline" class="w-100-p">
                                     <mat-label>Module</mat-label>
-                                    <mat-select formControlName="module" (selectionChange)="selectModule($event.value)"
-                                        required (blur)="onValueChangedStepper1()">
+                                    <input matInput formControlName="module"
+                                        required
+                                        (blur)="onValueChangedStepper1()">
 
-                                        <mat-option *ngFor="let module of filteredModules" [value]="module">
 
-                                            {{ module.moduleInstanceName}}
-                                        </mat-option>
-                                    </mat-select>
                                     <mat-error *ngIf="formErrorsStepper1.module">{{formErrorsStepper1.module}}
                                     </mat-error>
 
@@ -93,15 +82,11 @@
                             <div class="nav-item" aria-label="Thème de la journée">
                                 <mat-form-field appearance="outline" class="w-100-p">
                                     <mat-label>Thème de la journée</mat-label>
-                                    <mat-select formControlName="themeDet"
-                                        (selectionChange)="selectThemeDetail($event.value)"
+                                    <input matInput formControlName="themeDet"
+                                       
                                         (blur)="onValueChangedStepper1()" required>
 
-                                        <mat-option *ngFor="let themeDet of filteredThemeDetails" [value]="themeDet">
 
-                                            {{ themeDet.themeDetail.themeDetailName }}
-                                        </mat-option>
-                                    </mat-select>
                                     <mat-error *ngIf="formErrorsStepper1.themeDet">{{formErrorsStepper1.themeDet}}
                                     </mat-error>
 
@@ -112,21 +97,23 @@
 
                         </div>
 
-                        <div class="content mb-24" *ngIf="sessionsByThemeDetail!=null && selectedThemeDet!=null && sessionsByThemeDetail.length>=selectedThemeDet.nbDaysthemeDetailInst"
+                        <!-- <div class="content mb-24" *ngIf="sessionsByThemeDetail!=null && selectedThemeDet!=null && sessionsByThemeDetail.length>=selectedThemeDet.nbDaysthemeDetailInst"
                             [hidden]="sessionsByThemeDetail!=null && selectedThemeDet!=null &&  sessionsByThemeDetail.length<selectedThemeDet.nbDaysthemeDetailInst">
                             <div class="message-box error">
                                 Vous avez atteint la limite des séances.
                             </div>
                         </div>
-                       
-                        <div class="content mb-24" *ngIf="sessionsByThemeDetail!=null && selectedThemeDet!=null && sessionsByThemeDetail.length<selectedThemeDet.nbDaysthemeDetailInst"
+                        -->
+                        <div class="content mb-24"
+                            *ngIf="sessionsByThemeDetail!=null && selectedThemeDet!=null && sessionsByThemeDetail.length<selectedThemeDet.nbDaysthemeDetailInst"
                             [hidden]="sessionsByThemeDetail!=null && selectedThemeDet!=null &&  sessionsByThemeDetail.length>=selectedThemeDet.nbDaysthemeDetailInst">
                             <div class="message-box warning">
-                                Vous avez {{sessionsByThemeDetail.length }} séance(s) pour la thèmatique "{{selectedThemeDet.themeDetailInstName}}"
+                                Vous avez {{sessionsByThemeDetail.length }} séance(s) pour la thèmatique
+                                "{{selectedThemeDet.themeDetailInstName}}"
                             </div>
                         </div>
-                        <div  *ngIf="sessionsByThemeDetail!=null && selectedThemeDet!=null &&  sessionsByThemeDetail.length<selectedThemeDet.nbDaysthemeDetailInst" [hidden]="sessionsByThemeDetail!=null && selectedThemeDet!=null && sessionsByThemeDetail.length>=selectedThemeDet.nbDaysthemeDetailInst">
-                            <div fxFlex="1 0 auto" fxLayout="column"   >
+                        <div>
+                            <div fxFlex="1 0 auto" fxLayout="column">
 
                                 <mat-form-field appearance="outline" class="w-100-p">
                                     <mat-label>Titre Scéance</mat-label>
@@ -152,8 +139,7 @@
                                         {{formErrorsStepper1.courseSessionBeginDate}}</mat-error>
 
                                 </mat-form-field>
-                                <div class="content mb-24" *ngIf="testDate"
-                                    [hidden]="!testDate">
+                                <div class="content mb-24" *ngIf="testDate" [hidden]="!testDate">
                                     <div class="message-box error">
                                         Ce groupe a déjà une séance pour cette date.
                                     </div>
@@ -164,9 +150,9 @@
                                     </mat-datetimepicker-toggle>
                                     <mat-datetimepicker #datetimePickerEnd type="datetime" timeInterval="5">
                                     </mat-datetimepicker>
-                                    <input matInput [min]="courseDate" [max]="courseDateMaxHour"
-                                        formControlName="courseSessionEndDate" [matDatetimepicker]="datetimePickerEnd"
-                                        required (blur)="onValueChangedStepper1()" autocomplete="false">
+                                    <input matInput formControlName="courseSessionEndDate"
+                                        [matDatetimepicker]="datetimePickerEnd" required
+                                        (blur)="onValueChangedStepper1()" autocomplete="false">
                                     <mat-error *ngIf="formErrorsStepper1.courseSessionEndDate">
                                         {{formErrorsStepper1.courseSessionEndDate}}</mat-error>
 
@@ -176,7 +162,7 @@
                         </div>
                         <div fxLayout="row" fxLayoutAlign="center center">
                             <button mat-raised-button matStepperNext type="button" color="accent" (click)="sendDate()"
-                                [disabled]="!horizontalStepperStep1.valid ||selectedThemeDet==null|| selectedModule==null || selectedTheme==null ">
+                                [disabled]="!horizontalStepperStep1.valid ">
                                 Suivant
                             </button>
                         </div>
@@ -187,37 +173,43 @@
 
                 <mat-step #matStep [stepControl]="horizontalStepperStep2" [completed]="!disableButton()">
 
-                    <form fxLayout="column" [formGroup]="horizontalStepperStep2">
 
-                        <ng-template matStepLabel>Choisir un formateur</ng-template>
 
-                        <div class="content mb-24" *ngIf="allTrainers.length==0" [hidden]="allTrainers.length!=0">
-                            <div class="message-box error">
-                                Pas de formateurs disponibles pour la date choisie.
-                            </div>
+                    <ng-template matStepLabel>Choisir un formateur</ng-template>
+
+                    <div class="content mb-24" *ngIf="allTrainers.length==0" [hidden]="allTrainers.length!=0">
+                        <div class="message-box error">
+                            Pas de formateurs disponibles pour la date choisie.
                         </div>
+                    </div>
 
-
-
-                        <div class="content" [hidden]="allTrainers.length==0">
-                            <app-trainers-list></app-trainers-list>
-
+                    <div class="content mb-24">
+                        <div class="message-box warning">
+                            Le formateur actuel de cette séance est {{session.trainer.firstName }} {{session.trainer.lastName
+                            }}.
+                            Si vous voulez le modifier, veuillez choisir de la liste suivante :
                         </div>
+                    </div>
+
+                    <div class="content" [hidden]="allTrainers.length==0">
+                        <app-edit-trainers-list></app-edit-trainers-list>
+
+                    </div>
 
 
 
-                        <div fxLayout="row" fxLayoutAlign="center center">
-                            <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent"
-                                (click)="onValueChangedStepper1()">
-                                Précédent
-                            </button>
-                            <button mat-raised-button matStepperNext type="button" color="accent"
-                                (click)="selectedTrainerButton()" [disabled]="disableButton()">
-                                Suivant
-                            </button>
-                        </div>
+                    <div fxLayout="row" fxLayoutAlign="center center">
+                        <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent"
+                            (click)="onValueChangedStepper1()">
+                            Précédent
+                        </button>
+                        <button mat-raised-button matStepperNext type="button" color="accent"
+                            (click)="selectedTrainerButton()" [disabled]="disableButton()">
+                            Suivant
+                        </button>
+                    </div>
 
-                    </form>
+
                 </mat-step>
 
                 <mat-step #matstep [stepControl]="horizontalStepperStep3" [completed]="matStep.selected">
@@ -226,6 +218,12 @@
 
                         <ng-template matStepLabel>Choisir une salle</ng-template>
 
+                        <div class="content mb-24">
+                            <div class="message-box warning">
+                                La salle actuelle de cette séance est {{ session.classRoom.classRoomName }} à {{ session.classRoom.institution.institutionName }}.
+                                Si vous voulez la modifier, veuillez choisir de la liste suivante :
+                            </div>
+                        </div>
                         <div fxFlex="1 0 auto" fxLayout="column">
 
                             <div class="nav-item" aria-label="Formations">

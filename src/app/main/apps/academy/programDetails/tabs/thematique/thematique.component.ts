@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 
 import { fuseAnimations } from '@fuse/animations';
+import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 
 import { Subject } from 'rxjs';
@@ -19,6 +20,7 @@ import { ThematiqueFormComponent } from './thematique-form/thematique-form.compo
     animations: fuseAnimations
 })
 export class ThematiqueComponent implements OnInit, OnDestroy {
+    [x: string]: any;
     categories: any[];
     themes: any[];
     themesFilteredByCategory: any[];
@@ -30,6 +32,12 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
     duration: any;
     programId: any;
     private sub:any;
+
+    programTotalDaysNumber: number; 
+    actualDaysNumberAffected : number ; 
+    oldDaysAffectedValue: number ; 
+    theme:any ; 
+
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -47,9 +55,12 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
         // Set the defaults
         this.currentCategory = 'all';
         this.searchTerm = '';
+       // this.programTotalDaysNumber=this._programDetailsService.program.nbDaysProg; 
+   
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+     
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -75,7 +86,15 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(themes => {
                 this.filteredThemes = this.themesFilteredByCategory = this.themes = themes;
-            });
+            }); 
+            console.log("fel init") 
+            this.programId=this._programDetailsService.programId;
+            console.log(this.programId) ;  
+            this._programDetailsService.getProgramById(this.programId) ; 
+            this._programDetailsService.getProgramDaysAffected() 
+            
+
+
     }
 
     /**
@@ -146,9 +165,7 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
 
     }
 
-
-
-    //open the dialog of cursus add (not used now)
+    //open the dialog of cursus add 
     newTheme() {
         this.dialogRef = this.dialog.open(ThematiqueFormComponent, {
             panelClass: 'theme-form-dialog',
@@ -156,19 +173,31 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
                 action: 'new'
             }
         });
-
+        
+        this.actualDaysNumberAffected=this._programDetailsService.actualDaysNumberAffected ; 
+        this.programTotalDaysNumber=this._programDetailsService.program.nbDaysProg;           
+        
         this.dialogRef.afterClosed()
             .subscribe((response: FormGroup) => {
+                this.theme=response.getRawValue() ; 
+                //console.log(this.theme) ; 
+               // console.log(this.theme.nbDaysTheme) ;
+         
+                this.actualDaysNumberAffected = this._programDetailsService.actualDaysNumberAffected
+                                                + Number(this.theme.nbDaysTheme)  ; 
                 if (!response) {
                     console.log(`Dialog result before return: ${response}`);
 
                     return;
                 }
+                if (this.actualDaysNumberAffected > this.programTotalDaysNumber) {
+                    this.addThematiqueAlert("Vous avez dépassé le nombre des jours du Programme");
+                    console.log(`Exceeded`);
+                    return; 
+                }
+                //if (response)
             this._programDetailsService.addTheme(response.getRawValue());
-
-
             });
-
     }
 
 
@@ -185,6 +214,11 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
                 action: 'edit'
             }
         });
+        this.programTotalDaysNumber=this._programDetailsService.program.nbDaysProg; 
+        this.oldDaysAffectedValue=theme.nbDaysTheme;
+        this._programDetailsService.oldDaysAffectedNumber=this.oldDaysAffectedValue;
+                        
+        console.log(this.oldDaysAffectedValue) ;
 
         this.dialogRef.afterClosed()
             .subscribe(response => {
@@ -193,13 +227,28 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
                 }
                 const actionType: string = response[0];
                 const formData: FormGroup = response[1];
+             
                 switch (actionType) {
                     /**
                      * Save
                      */
                     case 'save':
+                        
+                        this.actualDaysNumberAffected=this._programDetailsService.actualDaysNumberAffected
+                                                    -this.oldDaysAffectedValue+ Number(formData.getRawValue().nbDaysTheme)  ; 
+                        
+                        // case where the modified days number exceeded the limit
+                        if(this.actualDaysNumberAffected >= this.programTotalDaysNumber) {
+                            
+                            this.addThematiqueAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
+                            console.log(`Exceeded`);
+                            this._programDetailsService.getThemes(); 
+                            
+                            break; 
+                        }
+                        // case where the modified days number is valid
                         this._programDetailsService.updateTheme(formData.getRawValue(),this._programDetailsService.program);
-
+                        
                         break;
                     /**
                      * Delete
@@ -213,12 +262,19 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
             });
     }
 
+
+
     deleteTheme(theme): void {
         this.dialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
 
         this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+
+        this.actualDaysNumberAffected=this._programDetailsService.actualDaysNumberAffected ;        
+        this.programTotalDaysNumber=this._programDetailsService.program.nbDaysProg; 
+        //console.log(this.programTotalDaysNumber)    ; 
+
 
         this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
@@ -227,5 +283,21 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
             this.dialogRef = null;
         });
 
+    }
+
+
+    addThematiqueAlert(message): void {
+        this.alertDialog = this.dialog.open(AlertDialogComponent, {
+            disableClose: false
+        });
+
+        this.alertDialog.componentInstance.dialogMessage = message;
+
+        this.alertDialog.afterClosed().subscribe(result => {
+            if (result) {
+
+            }
+            this.alertDialog = null;
+        });
     }
 }
