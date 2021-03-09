@@ -26,7 +26,7 @@ export class EntreprisesService implements Resolve<any>
     contact: Entreprise;
     user: any;
     selectedContacts: Number[] = [];
-
+    closeForm = false;
     searchText: string;
     filterBy: string;
     id: number;
@@ -59,8 +59,7 @@ export class EntreprisesService implements Resolve<any>
      * @param {RouterStateSnapshot} state
      * @returns {Observable<any> | Promise<any> | any}
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
-    {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
         return new Promise<void>((resolve, reject) => {
 
             Promise.all([
@@ -95,48 +94,44 @@ export class EntreprisesService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getContacts(): Promise<any>
-    {
+    getContacts(): Promise<any> {
         return new Promise((resolve, reject) => {
-                this._httpClient.get(AUTH_API+'entreprises')
-                    .subscribe((response: any) => {
-                        console.log('entreprises :') ;
-                        console.log(this.contacts) ;
-                        this.contacts = response;
-                  
+            this._httpClient.get(AUTH_API + 'entreprises')
+                .subscribe((response: any) => {
+                    console.log('entreprises :');
+                    console.log(this.contacts);
+                    this.contacts = response;
 
-                        if ( this.filterBy === 'with')
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                if (_contact.validated) { return true; }
-                                return false;
-                               // this._httpClient.get('http://localhost:8080/api/participants/pilier1')                                   
-                            
-                            }) ;
+
+                    if (this.filterBy === 'with') {
+                        this.contacts = this.contacts.filter(_contact => {
+                            if (_contact.validated) { return true; }
+                            return false;
+                            // this._httpClient.get('http://localhost:8080/api/participants/pilier1')                                   
+
+                        });
                     }
 
-                        if ( this.filterBy === 'without' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                               // return this.user.frequentContacts.includes(_contact.id);
-                               if (!_contact.validated) { return true; }
-                                return false;
-                            });
-                        }
-
-                        if ( this.searchText && this.searchText !== '' )
-                        {
-                            this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
-                        }
-
-                        this.contacts = this.contacts.map(contact => {
-                            return new Entreprise(contact);
+                    if (this.filterBy === 'without') {
+                        this.contacts = this.contacts.filter(_contact => {
+                            // return this.user.frequentContacts.includes(_contact.id);
+                            if (!_contact.validated) { return true; }
+                            return false;
                         });
+                    }
 
-                        this.onContactsChanged.next(this.contacts);
-                        resolve(this.contacts);
-                    }, reject);
-            }
+                    if (this.searchText && this.searchText !== '') {
+                        this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
+                    }
+
+                    this.contacts = this.contacts.map(contact => {
+                        return new Entreprise(contact);
+                    });
+
+                    this.onContactsChanged.next(this.contacts);
+                    resolve(this.contacts);
+                }, reject);
+        }
         );
     }
 
@@ -249,11 +244,11 @@ export class EntreprisesService implements Resolve<any>
     addEntreprise(entreprise, classe): Promise<any> {
         return new Promise((resolve, reject) => {
             entreprise.password = entreprise.phoneNumber;
-            if(this.classe!=null){
-                entreprise.programInstance=classe;
+            if (this.classe != null) {
+                entreprise.programInstance = classe;
             }
-            this.classe=null;
-          
+            this.classe = null;
+
             console.log(entreprise);
             this._httpClient.post(AUTH_API + 'auth/signupEnterprise', entreprise)
                 .subscribe(response => {
@@ -264,7 +259,7 @@ export class EntreprisesService implements Resolve<any>
     }
 
     /** */
-     updateContact1(contact,classe): Promise<any> {
+    /* updateContact1(contact,classe): Promise<any> {
         if(this.classe!=null){
             contact.programInstance=classe;
         }
@@ -277,20 +272,21 @@ export class EntreprisesService implements Resolve<any>
                     resolve(response);
                 });
         });
-    } 
 
- /*   updateContact1(contact,classe): Observable<any> {
+    } */
+
+    updateContact1(contact, classe): Observable<any> {
         console.log(this.classe.location);
-        if(this.classe!=null){
-            contact.programInstance=classe;
+        if (this.classe != null) {
+            contact.programInstance = classe;
         }
-        this.classe=null;
+        this.classe = null;
         console.log(contact);
         this.getContacts();
         return this._httpClient.put(AUTH_API + 'entreprises', contact);
-               
-        
-    }*/
+
+
+    }
     ValidateContact(contact): Promise<any> {
         return new Promise((resolve, reject) => {
             contact.validated = true;

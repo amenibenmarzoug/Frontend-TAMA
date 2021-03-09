@@ -4,6 +4,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EntreprisesService } from 'app/main/apps/entreprises/entreprises.service';
 import { Entreprise } from 'app/main/apps/entreprises/entreprise.model';
 import { Subject } from 'rxjs';
+import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
+
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -14,7 +16,7 @@ import { takeUntil } from 'rxjs/operators';
 
 })
 export class EntrepriseFormComponent {
-
+    alertDialog: MatDialogRef<AlertDialogComponent>;
     action: string;
     contact: Entreprise;
     contactForm: FormGroup;
@@ -34,7 +36,9 @@ export class EntrepriseFormComponent {
         public matDialogRef: MatDialogRef<EntrepriseFormComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder,
-        private _ParticipantsService: EntreprisesService
+        private _ParticipantsService: EntreprisesService,
+       
+
     ) {
         this.classes = this._ParticipantsService.classes;
         // Set the defaults
@@ -79,39 +83,40 @@ export class EntrepriseFormComponent {
      * @returns {FormGroup}
      */
     createContactForm(): FormGroup {
+
         const url = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
         const regx = '[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)';
         const phone = '^[0-9]*$';
         const code = '^[0-9]*$';
         return this._formBuilder.group({
-             id: [ this.contact.id ],
-            enterpriseName: [ this.contact.enterpriseName , [Validators.required, Validators.minLength(2)]],
-            email: [this.contact.email , [Validators.required, Validators.email]],
-            phoneNumber: [ this.contact.phoneNumber , [Validators.required, Validators.pattern(phone)]],
+            id: [this.contact.id],
+            enterpriseName: [this.contact.enterpriseName, [Validators.required, Validators.minLength(2)]],
+            email: [this.contact.email, [Validators.required, Validators.email]],
+            phoneNumber: [this.contact.phoneNumber, [Validators.required, Validators.pattern(phone)]],
             //   address : [this.contact.address],
-            managerFirstName: [this.contact.managerFirstName , [Validators.required, Validators.minLength(2)]],
-            managerLastName: [ this.contact.managerLastName , [Validators.required, Validators.minLength(2)]],
-            street: [ this.contact.street , Validators.required],
-            city: [this.contact.city , Validators.required],
-            classe: ['' , Validators.required],
-            postalCode: [ this.contact.postalCode , [Validators.required, Validators.pattern(code)]],
-            website: [ this.contact.website , [Validators.required, Validators.pattern(url)]],
+            managerFirstName: [this.contact.managerFirstName, [Validators.required, Validators.minLength(2)]],
+            managerLastName: [this.contact.managerLastName, [Validators.required, Validators.minLength(2)]],
+            street: [this.contact.street, Validators.required],
+            city: [this.contact.city, Validators.required],
+            classe: ['', Validators.required],
+            postalCode: [this.contact.postalCode, [Validators.required, Validators.pattern(code)]],
+            website: [this.contact.website, [Validators.required, Validators.pattern(url)]],
             //password :[this.contact.phoneNumber],
-            notes: [this.contact.notes ], 
-             /*   id: [this.contact.id],
-              enterpriseName: [this.contact.enterpriseName, [Validators.required, Validators.minLength(2)]],
-              email: [this.contact.email],
-              phoneNumber: [this.contact.phoneNumber],
-              //   address : [this.contact.address],
-              managerFirstName: [this.contact.managerFirstName],
-              managerLastName: [this.contact.managerLastName],
-              street: [this.contact.street],
-              city: [this.contact.city],
-              classe:[this.contact.programInstance],
-              postalCode: [this.contact.postalCode],
-              website: [this.contact.website],
-              //password :[this.contact.phoneNumber],
-              notes: [this.contact.notes]  */
+            notes: [this.contact.notes],
+            /*   id: [this.contact.id],
+             enterpriseName: [this.contact.enterpriseName, [Validators.required, Validators.minLength(2)]],
+             email: [this.contact.email],
+             phoneNumber: [this.contact.phoneNumber],
+             //   address : [this.contact.address],
+             managerFirstName: [this.contact.managerFirstName],
+             managerLastName: [this.contact.managerLastName],
+             street: [this.contact.street],
+             city: [this.contact.city],
+             classe:[this.contact.programInstance],
+             postalCode: [this.contact.postalCode],
+             website: [this.contact.website],
+             //password :[this.contact.phoneNumber],
+             notes: [this.contact.notes]  */
 
 
         });
@@ -137,6 +142,7 @@ export class EntrepriseFormComponent {
 
     };
 
+  
 
     validationMessages = {
         'managerFirstName': {
