@@ -11,6 +11,7 @@ import { takeUntil } from 'rxjs/operators';
 import { ThematiqueFormComponent } from '../../../programDetails/tabs/thematique/thematique-form/thematique-form.component';
 import{ProgramInstDetailService} from '../../../program-inst-detail/program-inst-detail.service';
 import { ThematiqueInstFormComponent } from './thematique-inst-form/thematique-inst-form.component';
+import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 @Component({
   selector: 'app-thematique-inst',
   templateUrl: './thematique-inst.component.html',
@@ -27,13 +28,20 @@ export class ThematiqueInstComponent implements OnInit {
   currentCategory: string;
   searchTerm: string;
   dialogRef: any;
+  alertDialog:MatDialogRef<AlertDialogComponent>;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   duration: any;
   programId: any;
   private sub:any;
 
+    themeInst: any ; 
+  programTotalDaysNumber: number; 
+    actualDaysNumberAffected : number ; 
+    oldDaysAffectedValue: number ; 
+
   // Private
   private _unsubscribeAll: Subject<any>;
+   
 
   /**
    * Constructor
@@ -78,6 +86,11 @@ export class ThematiqueInstComponent implements OnInit {
               this.filteredThemes = this.themesFilteredByCategory = this.themes = themes;
               console.log(this.themes);
           });
+
+          this._programInstDetailsService.getProgramById(this._programInstDetailsService.programInstId) ; 
+          this._programInstDetailsService.getProgramDaysAffected() ;
+          
+
   }
 
   /**
@@ -159,13 +172,24 @@ export class ThematiqueInstComponent implements OnInit {
           }
       });
 
+        this.actualDaysNumberAffected=this._programInstDetailsService.actualDaysNumberAffected ; 
+        this.programTotalDaysNumber=this._programInstDetailsService.programInst.nbDaysProgInst;
+
       this.dialogRef.afterClosed()
           .subscribe((response: FormGroup) => {
+            this.themeInst=response.getRawValue() ; 
+            this.actualDaysNumberAffected = this._programInstDetailsService.actualDaysNumberAffected
+                                            + Number(this.themeInst.nbDaysthemeInst)  ; 
               if (!response) {
                   console.log(`Dialog result before return: ${response}`);
 
                   return;
               }
+              if (this.actualDaysNumberAffected > this.programTotalDaysNumber) {
+                this.addThematiqueAlert("Vous avez dépassé le nombre des jours du Programme");
+                console.log(`Exceeded`);
+                return; 
+            }
           this._programInstDetailsService.addThemeInst(response.getRawValue(),this._programInstDetailsService.theme);
 
 
@@ -187,6 +211,10 @@ export class ThematiqueInstComponent implements OnInit {
               action: 'edit'
           }
       });
+      this.programTotalDaysNumber=this._programInstDetailsService.programInst.nbDaysProgInst; 
+      this.oldDaysAffectedValue=themeInst.nbDaysthemeInst;
+      console.log("this.oldDaysAffectedValue "+ this.oldDaysAffectedValue)
+      this._programInstDetailsService.oldDaysAffectedNumber=this.oldDaysAffectedValue;
 
       this.dialogRef.afterClosed()
           .subscribe(response => {
@@ -200,6 +228,20 @@ export class ThematiqueInstComponent implements OnInit {
                    * Save
                    */
                   case 'save':
+                    this.actualDaysNumberAffected=this._programInstDetailsService.actualDaysNumberAffected
+                                                    -this.oldDaysAffectedValue+ Number(formData.getRawValue().nbDaysthemeInst)  ; 
+                    console.log("this.actualDaysNumberAffected "+this.actualDaysNumberAffected )
+                    console.log("this.programTotalDaysNumber  "+ this.programTotalDaysNumber)
+                    // case where the modified days number exceeded the limit
+                    if(this.actualDaysNumberAffected > this.programTotalDaysNumber) {
+
+                        this.addThematiqueAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
+                        console.log(`Exceeded`);
+                        this._programInstDetailsService.getThemeInst(); 
+
+                    break; 
+                    }
+                    // case where the modified days number is valid
                       this._programInstDetailsService.updateThemeInst(formData.getRawValue(),this._programInstDetailsService.programInst);
 
                       break;
@@ -220,7 +262,9 @@ export class ThematiqueInstComponent implements OnInit {
           disableClose: false
       });
 
-      this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        this.actualDaysNumberAffected=this._programInstDetailsService.actualDaysNumberAffected ;        
+        this.programTotalDaysNumber=this._programInstDetailsService.programInst.nbDaysProgInst; 
+        this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
 
       this.dialogRef.afterClosed().subscribe(result => {
           if (result) {
@@ -230,4 +274,19 @@ export class ThematiqueInstComponent implements OnInit {
       });
 
   }
+
+  addThematiqueAlert(message): void {
+    this.alertDialog = this.dialog.open(AlertDialogComponent, {
+        disableClose: false
+    });
+
+    this.alertDialog.componentInstance.dialogMessage = message;
+
+    this.alertDialog.afterClosed().subscribe(result => {
+        if (result) {
+
+        }
+        this.alertDialog = null;
+    });
+}
 }

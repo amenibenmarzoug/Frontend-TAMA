@@ -29,6 +29,10 @@ export class ModuleComponent implements OnInit, OnDestroy {
     alertDialog: MatDialogRef<AlertDialogComponent>;
     module: any;
 
+
+    actualDaysNumberAffected : number ; 
+   
+
     /**
      * Constructor
      *
@@ -71,6 +75,9 @@ export class ModuleComponent implements OnInit, OnDestroy {
             .subscribe(searchText => {
                 this._moduleService.onSearchTextChangedModule.next(searchText);
             });
+            
+           
+
 
 
 
@@ -94,11 +101,14 @@ export class ModuleComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     addNewModule(): void {
+        
+
         if ((this._moduleService.theme == null)) {
             this.addModuleAlert("Veuillez choisir le thème");
         }
 
         else {
+            this._moduleService.getModuleDaysAffected();
             this.dialogRef = this._matDialog.open(ModuleFormComponent, {
                 panelClass: 'module-form-dialog',
                 data: {
@@ -114,7 +124,13 @@ export class ModuleComponent implements OnInit, OnDestroy {
                         return;
                     }
                     this.module = response.getRawValue();
+                    this.actualDaysNumberAffected = this._moduleService.actualDaysAffectedPerModule+ Number(this.module.nbDaysModule)  ; 
 
+                    if (this.actualDaysNumberAffected > this._moduleService.theme.nbDaysTheme) {
+                        this.addModuleAlert("Vous avez dépassé le nombre des jours de la thématique");
+                        console.log(`Exceeded`);
+                        return; 
+                    }
                     this.confirmAddModule();
 
                 });

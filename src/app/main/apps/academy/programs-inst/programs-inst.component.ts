@@ -33,6 +33,12 @@ export class ProgramsInstComponent implements OnInit {
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   duration: any;
 
+  cities: String[] = [
+    'Tunis', 'Ariana', 'Ben Arous', 'Manouba','Nabeul', 'Zaghouan', 'Bizerte', 'Béja', 'Jendouba', 'Kef', 'Siliana',
+    'Sousse', 'Monastir', 'Mahdia', 'Sfax', 'Kairouan','Kasserine','Sidi Bouzid', 'Gabès', 'Mednine','Tataouine','Gafsa','Tozeur','Kebili'
+    
+  ];
+
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -185,6 +191,8 @@ export class ProgramsInstComponent implements OnInit {
                    */
                   case 'save':
 
+                  console.log("programmm fel saave");
+                  console.log(this._academyProgramsInstService.program);
                       this._academyProgramsInstService.updateProgramInst(formData.getRawValue(),this._academyProgramsInstService.program);
 
                       break;

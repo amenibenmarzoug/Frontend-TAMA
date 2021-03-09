@@ -12,6 +12,7 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 
 import { ModuleFormComponent } from '../../../../programDetails/tabs/module/module-form/module-form.component';
 import{ProgramInstDetailService} from '../../../program-inst-detail.service';
+import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'app-module-inst-list',
@@ -32,8 +33,13 @@ export class ModuleInstListComponent implements OnInit {
   selectedModules: any[];
   checkboxes: {};
   dialogRef: any;
+  alertDialog: MatDialogRef<AlertDialogComponent>;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   id: number;
+
+
+  actualDaysNumberAffected : number ; 
+  oldDaysAffectedValue: number ; 
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -121,7 +127,8 @@ export class ModuleInstListComponent implements OnInit {
               action: 'edit'
           }
       });
-
+      this._moduleInstService.getModuleDaysAffected();
+        this.oldDaysAffectedValue=module.nbDaysModuleInstance;
       this.dialogRef.afterClosed()
           .subscribe(response => {
               if (!response) {
@@ -134,7 +141,17 @@ export class ModuleInstListComponent implements OnInit {
                    * Save
                    */
                   case 'save':
-
+                        this.actualDaysNumberAffected=this._moduleInstService.actualDaysAffectedPerModule
+                                                    -this.oldDaysAffectedValue+ Number(formData.getRawValue().nbDaysModuleInstance)  ; 
+                        // case where the modified days number exceeded the limit
+                        if(this.actualDaysNumberAffected > this._moduleInstService.themeInst.nbDaysthemeInst) {
+                            
+                            this.updateModuleAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
+                            console.log(`Exceeded`);
+                            this._moduleInstService.getModulesInst(); 
+                            
+                            break; 
+                        }
                       this._moduleInstService.updateModuleInst(formData.getRawValue(),this._moduleInstService.themeInst,this._moduleInstService.module);
 
                       break;
@@ -149,6 +166,20 @@ export class ModuleInstListComponent implements OnInit {
               }
           });
   }
+  updateModuleAlert(message): void {
+    this.alertDialog = this._matDialog.open(AlertDialogComponent, {
+        disableClose: false
+    });
+
+    this.alertDialog.componentInstance.dialogMessage = message;
+
+    this.alertDialog.afterClosed().subscribe(result => {
+        if (result) {
+
+        }
+        this.alertDialog = null;
+    });
+}
 
   /**
    * Delete Module

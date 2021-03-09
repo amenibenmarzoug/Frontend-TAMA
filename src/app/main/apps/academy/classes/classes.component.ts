@@ -55,7 +55,11 @@ export class ClassesComponent implements OnInit {
   hasSelectedModules: boolean;
   modulesOfTheme : Module[];
   lastThemeInst:ThematiqueInst;
-  
+  cities: String[] = [
+    'Tunis', 'Ariana', 'Ben Arous', 'Manouba','Nabeul', 'Zaghouan', 'Bizerte', 'Béja', 'Jendouba', 'Kef', 'Siliana',
+    'Sousse', 'Monastir', 'Mahdia', 'Sfax', 'Kairouan','Kasserine','Sidi Bouzid', 'Gabès', 'Mednine','Tataouine','Gafsa','Tozeur','Kebili'
+    
+  ];
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -303,7 +307,7 @@ filterThemesByTerm(): void {
     * @param contact
     */
   editProgramInst(programInst): void {
-      this.dialogRef = this.dialog.open(ProgramInstFormComponent, {
+      this.dialogRef = this.dialog.open(ClassFormComponent, {
           panelClass: 'cursus-form-dialog',
           data: {
               programInst: programInst,
@@ -323,7 +327,8 @@ filterThemesByTerm(): void {
                    * Save
                    */
                   case 'save':
-
+                console.log("tesssst");
+                  console.log(programInst);
                       this._academyProgramsInstService.updateProgramInst(formData.getRawValue(),this._academyProgramsInstService.program);
 
                       break;

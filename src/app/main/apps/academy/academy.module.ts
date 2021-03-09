@@ -82,6 +82,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './program-inst-detail/tabs/theme-detail-inst/main/main.component';
 import { SelectedBarComponent } from './program-inst-detail/tabs/theme-detail-inst/selected-bar/selected-bar.component';
 import{ThemeDetailInstFormComponent} from './../academy/program-inst-detail/tabs/theme-detail-inst/theme-detail-form/theme-detail-form.component';
+import { AllSessionsComponent } from './all-sessions/all-sessions.component';
+import { SessionsListComponent } from './all-sessions/sessions-list/sessions-list.component';
+import  { AllSessionsService } from 'app/main/apps/academy/all-sessions/all-sessions.service';
+import  { MainSessionsComponent } from 'app/main/apps/academy/all-sessions/sidebars/main/main.component';
+
 import { ClassesComponent } from './classes/classes.component';
 import { ClassFormComponent } from './classes/class-form/class-form.component';
 import{ClassesService} from './classes.service';
@@ -92,7 +97,12 @@ import{ClassesDetailComponent} from '../academy/classes-detail/classes-detail.co
 import { ModulesInstListComponent } from './classes-detail/tabs/module-classe/modules-inst-list/modules-inst-list.component';
 import { SelectModuleComponent } from './classes-detail/tabs/module-classe/select-module/select-module.component';
 import { SelectedBarModuleClasseComponent } from './classes-detail/tabs/module-classe/selected-bar-module-classe/selected-bar-module-classe.component';
-import { ThemeDetailClassListComponent } from './classes-detail/tabs/theme-detail-classe/theme-detail-class-list/theme-detail-class-list.component'
+import { ThemeDetailClassListComponent } from './classes-detail/tabs/theme-detail-classe/theme-detail-class-list/theme-detail-class-list.component';
+import { EditSessionComponent } from './edit-session/edit-session.component';
+import { EditTrainersListComponent } from './edit-session/edit-trainers-list/edit-trainers-list.component'
+import { EditSessionService } from 'app/main/apps/academy/edit-session/edit-session.service';
+
+
 registerLocaleData(localeFr, 'fr');
 const routes = [
     {
@@ -170,6 +180,20 @@ const routes = [
         }
     },
     {
+        path     : 'editSession/:id',
+        component: EditSessionComponent,
+        resolve  : {
+            academy: EditSessionService
+        }
+    },
+    {
+        path     : 'allSessions',
+        component: AllSessionsComponent,
+        resolve  : {
+            academy: AllSessionsService
+        }
+    },
+    {
         path     : 'programDetails/:id',
         component: ProgramDetailsComponent,
         resolve  : {
@@ -230,7 +254,10 @@ const routes = [
         ThemeDetailInstComponent,
         ThemeDetailInstListComponent,
         MainComponent,
+        MainSessionsComponent,
         SelectedBarComponent,
+        AllSessionsComponent,
+        SessionsListComponent,
         ClassesComponent,
         ClassFormComponent,
         ModuleClasseComponent,
@@ -240,7 +267,9 @@ const routes = [
         ModulesInstListComponent,
         SelectModuleComponent,
         SelectedBarModuleClasseComponent,
-        ThemeDetailClassListComponent
+        ThemeDetailClassListComponent,
+        EditSessionComponent,
+        EditTrainersListComponent
        
         
         
@@ -294,6 +323,8 @@ const routes = [
         ProgramInstDetailService,
         ProgramDetailsService, 
         AddSessionService,
+        AllSessionsService,
+        EditSessionService,
         {provide: LOCALE_ID, useValue: 'fr' },
         {
             provide: DateAdapter,

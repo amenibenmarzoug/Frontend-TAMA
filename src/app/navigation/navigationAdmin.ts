@@ -68,6 +68,13 @@ export const navigationAdmin: FuseNavigation[] = [
             title: 'Ajout Séance',
             type: 'item',
             url: '/apps/academy/addSession',
+        },
+        
+        {
+            id: 'allSessions',
+            title: 'Toutes les séances',
+            type: 'item',
+            url: '/apps/academy/allSessions',
         }
         ]
 
@@ -83,7 +90,7 @@ export const navigationAdmin: FuseNavigation[] = [
         icon: 'account_box',
         url: '/apps/trainer'
     },
-    {
+ /*   {
         id: 'disponibility-trainer',
         title: 'Disponibilités des formateurs',
 
@@ -100,7 +107,7 @@ export const navigationAdmin: FuseNavigation[] = [
         type: 'item',
         icon: 'account_box',
         url: '/apps/course-trainer'
-    },
+    },*/
     {
         id: 'participants',
         title: 'Participants',

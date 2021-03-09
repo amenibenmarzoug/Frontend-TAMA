@@ -85,7 +85,7 @@ onCategoriesChanged: BehaviorSubject<any>;
      * @returns {Observable<any> | Promise<any> | any}
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
 
             Promise.all([
                 //this.getCategories(),
@@ -429,7 +429,9 @@ console.log(themeInst);
        
         return new Promise((resolve, reject) => {
             programInst.program = program;
-            console.log(programInst);
+            console.log("program on the update");
+            console.log(program);
+          //  console.log(programInst);
             this._httpClient.put(AUTH_API + 'programsInst', programInst)
                 .subscribe(response => {
                     this.getProgramsInst();

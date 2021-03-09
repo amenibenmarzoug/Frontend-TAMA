@@ -21,7 +21,11 @@ export class ProgramInstFormComponent implements OnInit {
     dialogTitle: string;
     programs:any[] ;
     private _unsubscribeAll: Subject<any>;
-    
+    cities: String[] = [
+      'Tunis', 'Ariana', 'Ben Arous', 'Manouba','Nabeul', 'Zaghouan', 'Bizerte', 'Béja', 'Jendouba', 'Kef', 'Siliana',
+      'Sousse', 'Monastir', 'Mahdia', 'Sfax', 'Kairouan','Kasserine','Sidi Bouzid', 'Gabès', 'Mednine','Tataouine','Gafsa','Tozeur','Kebili'
+      
+    ];
 
   constructor(
     public matDialogRef: MatDialogRef<ProgramInstFormComponent>,
