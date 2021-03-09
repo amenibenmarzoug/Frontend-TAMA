@@ -193,11 +193,10 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       this._addSessionService.getSessionsById(this.sessionId).then(() => {
         this.session = new Session(this._addSessionService.session);
         this._addSessionService.getEventBySessionId(this.sessionId).then(() => {
-          this.event = new CalendarEventModel(this._addSessionService.event);
+          
         });
 
-        console.log("THIS SESSION");
-        console.log(this.session);
+        
         this.selectedTrainerHere = this.session.trainer;
         this.selectedThemeDet = this.session.themeDetailInstance;
         this.selectedModule = this.session.themeDetailInstance.moduleInstance;
@@ -440,9 +439,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this._addSessionService.getTrainers().then(() => { this.allTrainers = this._addSessionService.trainers; });
     });
-    //this.allTrainers=this._addSessionService.trainers;
-
-    //console.log(this._addSessionService.selectedModule);
+   
 
   }
   // -----------------------------------------------------------------------------------------------------
@@ -464,25 +461,16 @@ export class EditSessionComponent implements OnInit, OnDestroy {
 
   finishHorizontalStepper(): void {
 
-    console.log(this.selectedTrainer);
-    console.log(this.currentClassroom);
-    console.log(this.horizontalStepperStep1);
+   
 
 
-    console.log(this.session);
-    console.log(this.selectedThemeDet);
-
-
-    this.event.title = this.session.sessionName;
-    this.event.start = this.session.sessionBeginDate;
-    this.event.end = this.session.sessionEndDate;
-    console.log(this.event);
+   
     setTimeout(() => {
-      this._addSessionService.updateCourseSessionAndEvent(this.session, this.event).then(() => {
+      this._addSessionService.updateCourseSessionAndEvent(this.session).then(() => {
         this._addSessionService.getEvents();
         window.location.reload();
       });
-    }, 5);
+    });
 
 
 

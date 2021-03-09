@@ -382,9 +382,8 @@ export class AddSessionService implements Resolve<any>{
         });
     }
 
-    saveCourseSessionAndEvent(session, event): Promise<any> {
-        //console.log("result");
-        //console.log(contact);
+    saveCourseSessionAndEvent(session): Promise<any> {
+      
 
         console.log(session);
         return new Promise((resolve, reject) => {
@@ -392,15 +391,8 @@ export class AddSessionService implements Resolve<any>{
             this._httpClient.post(AUTH_API + 'session', session)
                 .subscribe(response => {
 
-                    //  this.onCoursesSessionSaved.next(response);
-                    console.log(response);
-                    //  this.courseSession = response;
-                    //  this.courseSessionId = this.courseSession.id;
-                    event.session = response;
-                    this.addEvent(event);
-
-                    console.log("event in update");
-                    console.log(event);
+                   
+                
                     console.log(response);
                   
 

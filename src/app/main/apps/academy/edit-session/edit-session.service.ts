@@ -383,7 +383,7 @@ export class EditSessionService implements Resolve<any>{
         });
     }
 
-    updateCourseSessionAndEvent(session, event): Promise<any> {
+    updateCourseSessionAndEvent(session): Promise<any> {
         //console.log("result");
         //console.log(contact);
 
@@ -393,16 +393,9 @@ export class EditSessionService implements Resolve<any>{
             this._httpClient.put(AUTH_API + 'session', session)
                 .subscribe(response => {
 
-                    //  this.onCoursesSessionSaved.next(response);
+                    
                     console.log(response);
-                    //  this.courseSession = response;
-                    //  this.courseSessionId = this.courseSession.id;
-                    event.session = response;
-                    this.updateEvent(event);
-
-                    console.log("event in update");
-                    console.log(event);
-                    console.log(response);
+                  
                   
 
                     resolve(response);

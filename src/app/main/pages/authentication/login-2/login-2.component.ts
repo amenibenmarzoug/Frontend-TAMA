@@ -216,11 +216,12 @@ export class Login2Component implements OnInit {
 
 
   onSubmit() {
-    console.log(this.loginForm);
+  
     this.authenticationService.login(this.loginForm).subscribe(
       data => {
 
         console.log("LOGIN IS OKAY");
+        
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
 
@@ -232,6 +233,7 @@ export class Login2Component implements OnInit {
         console.log(this.serviceLogin.data);
         this.serviceLogin.userId = this.serviceLogin.data.id;
         this.serviceLogin.userRole = this.serviceLogin.data.roles;
+        
         if (this.serviceLogin.userRole.includes("PARTICIPANT"))
           this.serviceLogin.getParticipantById(this.serviceLogin.userId);
         if (this.serviceLogin.userRole.includes("TRAINER"))

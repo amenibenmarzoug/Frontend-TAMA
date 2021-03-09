@@ -496,15 +496,9 @@ export class AddSessionComponent implements OnInit, OnDestroy {
 
     console.log(this.session);
     console.log(this.selectedThemeDet);
-    this.event = new CalendarEventModel(null);
-
-
-    this.event.title = this.session.sessionName;
-    this.event.start = this.session.sessionBeginDate;
-    this.event.end = this.session.sessionEndDate;
-    console.log(this.event);
+    
     setTimeout(() => {
-      this._addSessionService.saveCourseSessionAndEvent(this.session, this.event).then(() => {
+      this._addSessionService.saveCourseSessionAndEvent(this.session).then(() => {
         this._addSessionService.getEvents();
         window.location.reload();
       });
