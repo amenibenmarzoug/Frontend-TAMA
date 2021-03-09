@@ -12,13 +12,13 @@ const AUTH_API = 'http://localhost:8080/api/';
 @Injectable()
 export class ProgramDetailsService implements Resolve<any>
 {
-    
-    program:any;
+
+    program: any;
     themeId: any;
-    moduleId:any;
-    modules:Module[];
+    moduleId: any;
+    modules: Module[];
     themeDetails: ThemeDetail[];
-    module:Module;
+    module: Module;
     theme: Thematique;
     themeDetail: ThemeDetail;
     onFilterChangedModule: Subject<any>;
@@ -42,16 +42,16 @@ export class ProgramDetailsService implements Resolve<any>
     filterByThemeDetail: any;
     courseSessionsSpec: any[] = [];
     selectedModules: string[] = [];
-    selectedThemeDetail: string[]=[];
+    selectedThemeDetail: string[] = [];
     courseSessions: any;
-    
+
     onFilterChangedT: BehaviorSubject<any>;
 
-    actualDaysNumberAffected = 0 ; 
-    oldDaysAffectedNumber=0 ; 
+    actualDaysNumberAffected = 0;
+    oldDaysAffectedNumber = 0;
 
-    actualDaysAffectedPerModule=0;
-    actualDaysAffectedPerThemeDetail=0;
+    actualDaysAffectedPerModule = 0;
+    actualDaysAffectedPerThemeDetail = 0;
 
 
 
@@ -64,7 +64,7 @@ export class ProgramDetailsService implements Resolve<any>
         private _httpClient: HttpClient
     ) {
         // Set the defaults
-        
+
         this.onThemeChanged = new BehaviorSubject({});
         this.onThemeDetailChanged = new BehaviorSubject([]);
         this.onSelectedThemeDetailChanged = new BehaviorSubject([]);
@@ -72,16 +72,16 @@ export class ProgramDetailsService implements Resolve<any>
         this.onSearchTextChangedModule = new Subject();
         this.onSearchTextChangedThemeDetail = new Subject();
         this.onCategoriesChanged = new BehaviorSubject({});
-        this.onThemeChanged= new BehaviorSubject({});
-        this.onProgramChanged= new BehaviorSubject({});
-        this.onFilterChangedThemeDetail= new BehaviorSubject({});
+        this.onThemeChanged = new BehaviorSubject({});
+        this.onProgramChanged = new BehaviorSubject({});
+        this.onFilterChangedThemeDetail = new BehaviorSubject({});
         this.onmoduleChanged = new BehaviorSubject([]);
         this.onSelectedModulesChanged = new BehaviorSubject([]);
 
-        
 
 
-      
+
+
     }
 
     /**
@@ -95,12 +95,12 @@ export class ProgramDetailsService implements Resolve<any>
 
         return new Promise<void>((resolve, reject) => {
             Promise.all([
-               this.getThemes(),
-               this.getPrograms(),
-             
-               this.getModules(),
-               this.getThemeDetail(),
-               
+                this.getThemes(),
+                this.getPrograms(),
+
+                this.getModules(),
+                this.getThemeDetail(),
+
             ]).then(
                 ([files]) => {
                     this.onSearchTextChangedThemeDetail.subscribe(searchText => {
@@ -123,7 +123,7 @@ export class ProgramDetailsService implements Resolve<any>
                     });
 
 
-                   
+
 
                     resolve();
 
@@ -133,35 +133,34 @@ export class ProgramDetailsService implements Resolve<any>
         });
     }
 
-    getPrograms(): Promise<any>
-    {
-      
-       
-         return new Promise((resolve, reject) => {
-                this._httpClient.get('http://localhost:8080/api/programs')
+    getPrograms(): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get('http://localhost:8080/api/programs')
                 .subscribe((response: any) => {
                     this.onProgramChanged.next(response);
-                    this.programs=response;
+                    this.programs = response;
                     console.log(this.programs);
                     resolve(response);
                 }, reject);
-            }
+        }
         );
     }
-     getProgramById(id): Promise<any>{
+    getProgramById(id): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API+'programs/'+id)
-            .subscribe((response: any) => {              
-                this.program=response;              
-                resolve(response);
-            }, reject);
+            this._httpClient.get(AUTH_API + 'programs/' + id)
+                .subscribe((response: any) => {
+                    this.program = response;
+                    resolve(response);
+                }, reject);
         }
-        
-        );
-    
 
-     }
-    
+        );
+
+
+    }
+
     /**
      * Get courses
      *
@@ -169,7 +168,7 @@ export class ProgramDetailsService implements Resolve<any>
      */
     getThemes(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API +'themes')
+            this._httpClient.get(AUTH_API + 'themes')
                 .subscribe((response: any) => {
                     this.themes = response;
                     this.onThemeChanged.next(response);
@@ -185,9 +184,9 @@ export class ProgramDetailsService implements Resolve<any>
             this._httpClient.get(AUTH_API + 'program/themes', { params: id })
                 .subscribe((response: any) => {
                     this.themes = response;
-                    
+
                     this.themes = this.themes.map(theme => {
-                            return new Thematique(theme);
+                        return new Thematique(theme);
                     });
                     this.onThemeChanged.next(this.themes);
                     resolve(this.themes);
@@ -199,17 +198,17 @@ export class ProgramDetailsService implements Resolve<any>
     getProgramDaysAffected(): Promise<any> {
 
         let id = new HttpParams().set('id', this.programId);
-        this.actualDaysNumberAffected=0; 
+        this.actualDaysNumberAffected = 0;
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'program/themes', { params: id })
                 .subscribe((response: any) => {
                     this.themes = response;
-                    
+
                     this.themes = this.themes.map(theme => {
-                        this.actualDaysNumberAffected=this.actualDaysNumberAffected+theme.nbDaysTheme ; 
+                        this.actualDaysNumberAffected = this.actualDaysNumberAffected + theme.nbDaysTheme;
                         return new Thematique(theme);
                     });
-                    console.log("days affected in service l aady"+this.actualDaysNumberAffected); 
+                    console.log("days affected in service l aady" + this.actualDaysNumberAffected);
                     resolve(this.actualDaysNumberAffected);
 
                 }, reject);
@@ -222,26 +221,26 @@ export class ProgramDetailsService implements Resolve<any>
     * @returns {Promise<any>}
     */
     addTheme(theme): Promise<any> {
-        this.actualDaysNumberAffected= this.actualDaysNumberAffected+Number(theme.nbDaysTheme)  ;
+        this.actualDaysNumberAffected = this.actualDaysNumberAffected + Number(theme.nbDaysTheme);
         return new Promise((resolve, reject) => {
             let id = new HttpParams().set('id', this.programId);
             this._httpClient.post(AUTH_API + 'themeProgram', theme, { params: id })
                 .subscribe(response => {
-                   
+
                     this.getThemesPerProgram();
                     resolve(response);
                 });
         });
     }
-    updateTheme(theme,program): Promise<any> {
-        this.actualDaysNumberAffected= this.actualDaysNumberAffected - this.oldDaysAffectedNumber
-                                        +Number(theme.nbDaysTheme)  ;
-        
+    updateTheme(theme, program): Promise<any> {
+        this.actualDaysNumberAffected = this.actualDaysNumberAffected - this.oldDaysAffectedNumber
+            + Number(theme.nbDaysTheme);
+
         theme.program = program;
         return new Promise((resolve, reject) => {
             this._httpClient.put(AUTH_API + 'theme', theme)
                 .subscribe(response => {
-                   
+                    this.getThemes();
                     resolve(response);
                 });
         });
@@ -254,9 +253,9 @@ export class ProgramDetailsService implements Resolve<any>
    */
     deleteTheme(theme): Promise<any> {
 
-        this.actualDaysNumberAffected= this.actualDaysNumberAffected- Number(theme.nbDaysTheme)  ;  
-               
-                
+        this.actualDaysNumberAffected = this.actualDaysNumberAffected - Number(theme.nbDaysTheme);
+
+
         return new Promise((resolve, reject) => {
             const courseIndex = this.themes.indexOf(theme.id);
             this.themes.splice(courseIndex, 1);
@@ -315,19 +314,19 @@ export class ProgramDetailsService implements Resolve<any>
                 }, reject);
         }
         );
-    
+
     }
 
     getModuleDaysAffected(): Promise<any> {
 
         let id = new HttpParams().set('id', this.themeId);
-        this.actualDaysAffectedPerModule=0;
+        this.actualDaysAffectedPerModule = 0;
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'theme/modules', { params: id })
                 .subscribe((response: any) => {
                     this.modules = response;
                     this.modules = this.modules.map(module => {
-                        this.actualDaysAffectedPerModule=this.actualDaysAffectedPerModule+Number(module.nbDaysModule) ; 
+                        this.actualDaysAffectedPerModule = this.actualDaysAffectedPerModule + Number(module.nbDaysModule);
                         return new Module(module);
                     });
                     resolve(this.actualDaysAffectedPerModule);
@@ -335,7 +334,7 @@ export class ProgramDetailsService implements Resolve<any>
                 }, reject);
         });
     }
-    
+
     /**
    * Toggle selected modules by id
    *
@@ -422,8 +421,8 @@ export class ProgramDetailsService implements Resolve<any>
         });
     }
 
-    updateModule(module,theme): Promise<any> {
-        module.theme=theme;
+    updateModule(module, theme): Promise<any> {
+        module.theme = theme;
         return new Promise((resolve, reject) => {
             this._httpClient.put(AUTH_API + 'module', module)
                 .subscribe(response => {
@@ -524,14 +523,14 @@ export class ProgramDetailsService implements Resolve<any>
     getThemeDetailDaysAffected(): Promise<any> {
 
         let id = new HttpParams().set('id', this.moduleId);
-        this.actualDaysAffectedPerThemeDetail=0;
+        this.actualDaysAffectedPerThemeDetail = 0;
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'module/themesDetails', { params: id })
                 .subscribe((response: any) => {
                     this.themeDetails = response;
                     this.themeDetails = this.themeDetails.map(themeDetail => {
-                        this.actualDaysAffectedPerThemeDetail=this.actualDaysAffectedPerThemeDetail+
-                                                                Number(themeDetail.nbDaysThemeDetail) ; 
+                        this.actualDaysAffectedPerThemeDetail = this.actualDaysAffectedPerThemeDetail +
+                            Number(themeDetail.nbDaysThemeDetail);
                         return new ThemeDetail(themeDetail);
                     });
                     resolve(this.actualDaysAffectedPerThemeDetail);
@@ -625,8 +624,8 @@ export class ProgramDetailsService implements Resolve<any>
         });
     }
 
-    updateThemeDetail(themeDetail,module): Promise<any> {
-        themeDetail.module=module;
+    updateThemeDetail(themeDetail, module): Promise<any> {
+        themeDetail.module = module;
         return new Promise((resolve, reject) => {
             this._httpClient.put(AUTH_API + 'themeDetail', themeDetail)
                 .subscribe(response => {
@@ -678,6 +677,6 @@ export class ProgramDetailsService implements Resolve<any>
         this.deselectThemeDetail();
     }
 
-    
+
 
 }

@@ -81,7 +81,7 @@ export class ThemeDetailFormComponent  {
 
 
   closeNewThemeDetailForm(){
-    this.actualDaysNumberAffected = this._themeDetailsService.actualDaysAffectedPerThemeDetail+ Number(this.themeDetail.nbDaysThemeDetail)  ; 
+    this.actualDaysNumberAffected = this._themeDetailsService.actualDaysAffectedPerThemeDetail+ Number(this.themeDetailForm.value.nbDaysThemeDetail)  ; 
 
     if (this.actualDaysNumberAffected > Number(this._themeDetailsService.module.nbDaysModule)) {
       this.themeDetailAlert("Vous avez dépassé le nombre des jours du Module concerné");
@@ -96,7 +96,7 @@ export class ThemeDetailFormComponent  {
 
   closeEditThemeDetailForm(){
     this.oldDaysAffectedValue=this._themeDetailsService.oldDaysAffectedNumber
-    this.actualDaysNumberAffected=this._themeDetailsService.actualDaysAffectedPerThemeDetail -this.oldDaysAffectedValue+ Number(this.themeDetail.nbDaysThemeDetail)  ; 
+    this.actualDaysNumberAffected=this._themeDetailsService.actualDaysAffectedPerThemeDetail -this.oldDaysAffectedValue+ Number(this.themeDetailForm.value.nbDaysThemeDetail)  ; 
     // case where the modified days number exceeded the limit
     if(this.actualDaysNumberAffected > Number(this._themeDetailsService.module.nbDaysModule)) {
                             

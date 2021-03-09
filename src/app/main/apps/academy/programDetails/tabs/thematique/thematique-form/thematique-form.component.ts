@@ -18,7 +18,7 @@ export class ThematiqueFormComponent implements OnInit {
   theme: Thematique;
   themeForm: FormGroup;
   dialogTitle: string;
-  programs:any[] ;
+  programs: any[];
   private _unsubscribeAll: Subject<any>;
 
   programTotalDaysNumber: any;
@@ -31,7 +31,7 @@ export class ThematiqueFormComponent implements OnInit {
 
     public matDialogRef: MatDialogRef<ThematiqueFormComponent>,
     @Inject(MAT_DIALOG_DATA) private _data: any,
-    private _programDetailsService : ProgramDetailsService,
+    private _programDetailsService: ProgramDetailsService,
     private _formBuilder: FormBuilder
   ) {
     // Set the defaults
@@ -41,7 +41,7 @@ export class ThematiqueFormComponent implements OnInit {
     if (this.action === 'edit') {
       this.dialogTitle = 'Edit Thèmatique';
       this.theme = _data.theme;
-      this._programDetailsService.program=this.theme.program;
+      this._programDetailsService.program = this.theme.program;
 
     }
     else {
@@ -60,71 +60,73 @@ export class ThematiqueFormComponent implements OnInit {
 
 
   createThemeForm(): FormGroup {
-    const nbrPattern= '^[0-9]*$';
+    const nbrPattern = '^[0-9]*$';
     return this._formBuilder.group({
       id: [this.theme.id],
       themeName: [this.theme.themeName],
-      nbDaysTheme: [this.theme.nbDaysTheme,[Validators.required, Validators.pattern(nbrPattern)]],
-     
+      nbDaysTheme: [this.theme.nbDaysTheme, [Validators.required, Validators.pattern(nbrPattern)]],
+
 
 
     });
 
   }
 
-  closeNewThemeForm(){
-  
-    this.actualDaysNumberAffected=this._programDetailsService.actualDaysNumberAffected ; 
-    this.programTotalDaysNumber=this._programDetailsService.program.nbDaysProg;   
-    this.actualDaysNumberAffected = this._programDetailsService.actualDaysNumberAffected + Number(this.theme.nbDaysTheme)  ; 
-    console.log("this.theme.nbDaysTheme") ; console.log(this.theme.nbDaysTheme)
+  closeNewThemeForm() {
+    console.log("ACTUAL DAYS");
+    console.log(this.actualDaysNumberAffected);
+    this.actualDaysNumberAffected = this._programDetailsService.actualDaysNumberAffected;
+    this.programTotalDaysNumber = this._programDetailsService.program.nbDaysProg;
+    this.actualDaysNumberAffected = this._programDetailsService.actualDaysNumberAffected + Number(this.themeForm.value.nbDaysTheme);
+    console.log("this.theme.nbDaysTheme"); console.log(this.theme.nbDaysTheme)
     if (this.actualDaysNumberAffected > this.programTotalDaysNumber) {
       this.addThematiqueAlert("Vous avez dépassé le nombre des jours du Programme");
       console.log(`Exceeded`);
-      
+
       //return; 
     }
-    else{
+    else {
 
-      this.matDialogRef.close(this.themeForm) 
+      this.matDialogRef.close(this.themeForm)
     }
   }
 
-  closeEditThemeForm(message){
-
-    this.programTotalDaysNumber=this._programDetailsService.program.nbDaysProg; 
-    this.oldDaysAffectedValue= this._programDetailsService.oldDaysAffectedNumber
+  closeEditThemeForm(message) {
     
-    console.log("this.oldDaysAffectedValue in the close") ;console.log(this.oldDaysAffectedValue) ;
+    this.programTotalDaysNumber = this._programDetailsService.program.nbDaysProg;
+    this.oldDaysAffectedValue = this._programDetailsService.oldDaysAffectedNumber
 
-    this.actualDaysNumberAffected=this._programDetailsService.actualDaysNumberAffected -this.oldDaysAffectedValue+ Number(this.theme.nbDaysTheme)  ; 
-                        
+    console.log("this.oldDaysAffectedValue in the close"); 
+    console.log(this.oldDaysAffectedValue);
+
+    this.actualDaysNumberAffected = this._programDetailsService.actualDaysNumberAffected - this.oldDaysAffectedValue + Number(this.themeForm.value.nbDaysTheme);
+   
     // case where the modified days number exceeded the limit
-    if(this.actualDaysNumberAffected >= this.programTotalDaysNumber) {
-                            
+    if (this.actualDaysNumberAffected > this.programTotalDaysNumber) {
+
       this.addThematiqueAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
-      console.log(`Exceeded`);                    
+      console.log(`Exceeded`);
+    }
+    else {
+      this.matDialogRef.close(['save', this.themeForm])
+    }
   }
-  else {
-    this.matDialogRef.close(['save',this.themeForm])
-  }
-}
 
   addThematiqueAlert(message): void {
     this.alertDialog = this.dialog.open(AlertDialogComponent, {
-        disableClose: false
+      disableClose: false
     });
 
     this.alertDialog.componentInstance.dialogMessage = message;
 
     this.alertDialog.afterClosed().subscribe(result => {
-        if (result) {
+      if (result) {
 
-        }
-        this.alertDialog = null;
+      }
+      this.alertDialog = null;
     });
-}
+  }
 
- 
+
 
 }

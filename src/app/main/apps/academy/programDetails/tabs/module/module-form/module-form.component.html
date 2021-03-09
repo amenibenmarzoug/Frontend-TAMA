@@ -30,7 +30,7 @@
                     <mat-label>Nombre de jours</mat-label>
                     <mat-icon matSuffix class="secondary-text">looks_one</mat-icon>
                     <input ngDefaultControl name="nbDaysModule" formControlName="nbDaysModule" matInput 
-                    [(ngModel)]="module.nbDaysModule" required>
+                   required>
                     <mat-error *ngIf="moduleForm.get('nbDaysModule').hasError('pattern')">Entrer un numéro</mat-error>
 
                 </mat-form-field>

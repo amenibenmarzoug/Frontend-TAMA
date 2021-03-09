@@ -305,6 +305,7 @@ export class Login2Component implements OnInit {
       err => {
         console.log("LOGIN FAILED");
         this.errorMessage = err.error.message;
+        console.log(this.errorMessage);
         this.isLoginFailed = true;
       }
     );

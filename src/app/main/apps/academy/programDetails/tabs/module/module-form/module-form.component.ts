@@ -82,8 +82,8 @@ export class ModuleFormComponent  {
 
   closeNewModuleForm(){
    
-
-    this.actualDaysNumberAffected = this._moduleService.actualDaysAffectedPerModule+ Number(this.module.nbDaysModule)  ; 
+   
+    this.actualDaysNumberAffected = this._moduleService.actualDaysAffectedPerModule+ Number(this.moduleForm.value.nbDaysModule)  ; 
     /*console.log("actual days number affected ")
     console.log(this.actualDaysNumberAffected)
     console.log("module days in the new form ")
@@ -103,7 +103,7 @@ export class ModuleFormComponent  {
   closeEditModuleForm(){
     
     this.oldDaysAffectedValue= this._moduleService.oldDaysAffectedNumber
-    this.actualDaysNumberAffected=this._moduleService.actualDaysAffectedPerModule -this.oldDaysAffectedValue+ Number(this.module.nbDaysModule)  ; 
+    this.actualDaysNumberAffected=this._moduleService.actualDaysAffectedPerModule -this.oldDaysAffectedValue+ Number(this.moduleForm.value.nbDaysModule)  ; 
     // case where the modified days number exceeded the limit
     if(this.actualDaysNumberAffected > this._moduleService.theme.nbDaysTheme) {
                             
