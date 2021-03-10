@@ -110,6 +110,23 @@ export class ParticipantsService implements Resolve<any>
 
                     this.participants = response;
 
+                    if (this.filterBy === 'with') {
+                        this.participants = this.participants.filter(_contact => {
+                            if (_contact.validated) { return true; }
+                            return false;
+
+
+                        });
+                    }
+
+                    if (this.filterBy === 'without') {
+                        this.participants = this.participants.filter(_contact => {
+                            // return this.user.frequentContacts.includes(_contact.id);
+                            if (!_contact.validated) { return true; }
+                            return false;
+                        });
+                    }
+
                     if (this.filterBy === 'pilier1') {
                         this.participants = this.participants.filter(_contact => {
                             if (_contact.entreprise) { return true; }

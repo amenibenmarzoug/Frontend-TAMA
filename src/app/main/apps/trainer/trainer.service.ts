@@ -101,26 +101,24 @@ export class TrainerService implements Resolve<any>
             this._httpClient.get(AUTH_API + 'trainers')
                 .subscribe((response: any) => {
 
-                    console.log('trainers :') ;
-                    console.log(this.contacts) ;
+                    console.log('trainers :');
+                    console.log(this.contacts);
                     this.contacts = response;
-              
 
-                    if ( this.filterBy === 'with')
-                    {
+
+                    if (this.filterBy === 'with') {
                         this.contacts = this.contacts.filter(_contact => {
                             if (_contact.validated) { return true; }
                             return false;
-                                                             
-                        
-                        }) ;
-                }
 
-                    if ( this.filterBy === 'without' )
-                    {
+
+                        });
+                    }
+
+                    if (this.filterBy === 'without') {
                         this.contacts = this.contacts.filter(_contact => {
-                           // return this.user.frequentContacts.includes(_contact.id);
-                           if (!_contact.validated) { return true; }
+                            // return this.user.frequentContacts.includes(_contact.id);
+                            if (!_contact.validated) { return true; }
                             return false;
                         });
                     }
@@ -258,12 +256,12 @@ export class TrainerService implements Resolve<any>
         return new Promise((resolve, reject) => {
             if (this.disponibilities != null) {
                 contact.disponibilityDays = this.disponibilities;
-    
+
             }
             if (this.specifications != null) {
                 contact.specifications = this.specifications;
             }
-    
+
             this.disponibilities = null;
             this.specifications = null;
             this._httpClient.post(AUTH_API + 'auth/signup', contact)
@@ -311,18 +309,17 @@ export class TrainerService implements Resolve<any>
         });
     }
 
-    ValidateContact(contact): Promise<any>
-    {
+    ValidateContact(contact): Promise<any> {
         return new Promise((resolve, reject) => {
-        //contact.validated=true ;
-        console.log("trainer à valider :") 
-         console.log(contact)
-         const params = new HttpParams().set('id',contact.id);
-    
-         console.log(params);
-            this._httpClient.get(AUTH_API+'sendMailToTrainer' ,{ params: params } )
+            //contact.validated=true ;
+            console.log("trainer à valider :")
+            console.log(contact)
+            const params = new HttpParams().set('id', contact.id);
+
+            console.log(params);
+            this._httpClient.get(AUTH_API + 'sendMailToTrainer', { params: params })
                 .subscribe(response => {
-                   
+
                     this.getContacts();
                     resolve(response);
                 });

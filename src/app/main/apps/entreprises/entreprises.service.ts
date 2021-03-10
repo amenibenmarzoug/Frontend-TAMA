@@ -287,13 +287,18 @@ export class EntreprisesService implements Resolve<any>
 
 
     }
-    ValidateContact(contact): Promise<any> {
+    ValidateContact(contact): Promise<any>
+    {
         return new Promise((resolve, reject) => {
-            contact.validated = true;
-            console.log(contact)
-            this._httpClient.put(AUTH_API + 'entreprises/validate', contact)
+        contact.validated=true ;
+        console.log("entreprise à valider :") 
+         console.log(contact)
+         const params = new HttpParams().set('id',contact.id);
+    
+         console.log(params);
+            this._httpClient.get(AUTH_API+'sendMailToEntrep' ,{ params: params } )
                 .subscribe(response => {
-
+                   
                     this.getContacts();
                     resolve(response);
                 });

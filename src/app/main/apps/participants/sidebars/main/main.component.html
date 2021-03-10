@@ -33,6 +33,17 @@
                         <div class="title">Abandonné</div>
                     </a>
                 </div>
+
+                <div class="nav-item" aria-label="Pilier 1" (click)="changeFilter('with')">
+                    <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy ==='with'}">
+                        <div class="title">Avec Comptes</div>
+                    </a>
+                </div>
+                <div class="nav-item" aria-label="Pilier 2" (click)="changeFilter('without')">
+                    <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy ==='without'}">
+                        <div class="title">Sans comptes</div>
+                    </a>
+                </div>
             </div>
 
         </div>
