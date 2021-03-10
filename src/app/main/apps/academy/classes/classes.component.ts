@@ -31,34 +31,40 @@ import { ThematiqueInst } from '../program-inst-detail/tabs/thematique-inst/them
 })
 export class ClassesComponent implements OnInit {
 
-    categories: any[];
-    programs: any[];
-    programsFilteredByCategory: any[];
-    programId: any;
-    filteredPrograms: any[];
-    currentCategory: string;
-    searchTerm: string;
-    dialogRef: any;
-    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-    duration: any;
+  categories: any[];
+  programs: any[];
+  programsFilteredByCategory: any[];
+  programId: any;
+  filteredPrograms: any[];
+  currentCategory: string;
+  searchTerm: string;
+  dialogRef: any;
+  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+  duration: any;
 
-    themes: any[];
-    lastprogInst: any;
-
-
-    themesFilteredByCategory: any[];
-    filteredThemes: any[];
-
-    modulesInst: ModuleInst[];
-
-    modules: Module[];
-    hasSelectedModules: boolean;
-    modulesOfTheme: Module[];
-    lastThemeInst: ThematiqueInst;
+  themes : any [];
+  lastprogInst: any;
 
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
+  themesFilteredByCategory: any[];
+  filteredThemes: any[];
+
+  modulesInst:ModuleInst[];
+
+  modules:Module[];
+  hasSelectedModules: boolean;
+  modulesOfTheme : Module[];
+  lastThemeInst:ThematiqueInst;
+  cities: String[] = [
+    'Tunis', 'Ariana', 'Ben Arous', 'Manouba','Nabeul', 'Zaghouan', 'Bizerte', 'Béja', 'Jendouba', 'Kef', 'Siliana',
+    'Sousse', 'Monastir', 'Mahdia', 'Sfax', 'Kairouan','Kasserine','Sidi Bouzid', 'Gabès', 'Mednine','Tataouine','Gafsa','Tozeur','Kebili'
+    
+  ];
+
+  // Private
+  private _unsubscribeAll: Subject<any>;
+
+
 
     /**
      * Constructor
@@ -269,92 +275,95 @@ export class ClassesComponent implements OnInit {
     }
 
 
-    /**
-     * New contact
-     */
-    newProgram(): void {
-        this.dialogRef = this.dialog.open(ClassFormComponent, {
-            panelClass: 'classe-form-dialog',
-            data: {
-                action: 'new',
-            }
-        });
+  /**
+   * New contact
+   */
+  newProgram(): void {
+      this.dialogRef = this.dialog.open(ClassFormComponent, {
+          panelClass: 'classe-form-dialog',
+          data: {
+              action: 'new',
+          }
+      });
 
-        this.dialogRef.afterClosed()
-            .subscribe((response: FormGroup) => {
-                if (!response) {
-                    return;
-                }
-                this._academyProgramsInstService.addClass(response.getRawValue(), this._academyProgramsInstService.program);
+      this.dialogRef.afterClosed()
+          .subscribe((response: FormGroup) => {
+              if (!response) {
+                  return;
+              }
+              console.log(this._academyProgramsInstService.program);
 
-            });
-    }
+            this._academyProgramsInstService.addClass(response.getRawValue(),this._academyProgramsInstService.program);
 
-
-
-
+          });
+  }
 
 
-    /**
-      * Edit contact
-      *
-      * @param contact
-      */
-    editProgramInst(programInst): void {
-        this.dialogRef = this.dialog.open(ProgramInstFormComponent, {
-            panelClass: 'cursus-form-dialog',
-            data: {
-                programInst: programInst,
-                action: 'edit'
-            }
-        });
+  
 
-        this.dialogRef.afterClosed()
-            .subscribe(response => {
-                if (!response) {
-                    return;
-                }
-                const actionType: string = response[0];
-                const formData: FormGroup = response[1];
-                switch (actionType) {
-                    /**
-                     * Save
-                     */
-                    case 'save':
+ 
+  
+  /**
+    * Edit contact
+    *
+    * @param contact
+    */
+  editProgramInst(programInst): void {
+      this.dialogRef = this.dialog.open(ClassFormComponent, {
+          panelClass: 'cursus-form-dialog',
+          data: {
+              programInst: programInst,
+              action: 'edit'
+          }
+      });
 
-                        this._academyProgramsInstService.updateProgramInst(formData.getRawValue(), this._academyProgramsInstService.program);
+      this.dialogRef.afterClosed()
+          .subscribe(response => {
+              if (!response) {
+                  return;
+              }
+              const actionType: string = response[0];
+              const formData: FormGroup = response[1];
+              switch (actionType) {
+                  /**
+                   * Save
+                   */
+                  case 'save':
+                console.log("tesssst");
+                  console.log(programInst);
+                      this._academyProgramsInstService.updateProgramInst(formData.getRawValue(),this._academyProgramsInstService.program);
 
-                        break;
-                    /**
-                     * Delete
-                     */
-                    case 'delete':
+                      break;
+                  /**
+                   * Delete
+                   */
+                  case 'delete':
 
-                        this.deleteCursus(programInst.id);
+                      this.deleteCursus(programInst.id);
 
-                        break;
-                }
-            });
-    }
-    goToProgramModuleInst(id) {
-        this.router.navigate(['/apps/academy/classeDetail', id]);
-        console.log("programInst id" + id)
-    }
+                      break;
+              }
+          });
+  }
+  goToProgramModuleInst(id) {
+      this.router.navigate(['/apps/academy/classeDetail', id]);
+      console.log("programInst id" + id)
+  }
 
-    deleteCursus(contact): void {
-        this.dialogRef = this.dialog.open(FuseConfirmDialogComponent, {
-            disableClose: false
-        });
+  deleteCursus(contact): void {
+      this.dialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+          disableClose: false
+      });
 
-        this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+      this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
 
-        this.dialogRef.afterClosed().subscribe(result => {
-            if (result) {
-                this._academyProgramsInstService.deleteProgramInst(contact);
-            }
-            this.dialogRef = null;
-        });
+      this.dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+              this._academyProgramsInstService.deleteProgramInst(contact);
+          }
+          this.dialogRef = null;
+      });
 
-    }
+  }
 
 }

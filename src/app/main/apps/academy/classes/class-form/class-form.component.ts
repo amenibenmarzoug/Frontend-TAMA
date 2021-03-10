@@ -22,14 +22,18 @@ export class ClassFormComponent implements OnInit {
     dialogTitle: string;
     programs:any[] ;
     private _unsubscribeAll: Subject<any>;
-    
+    cities: String[] = [
+      'Tunis', 'Ariana', 'Ben Arous', 'Manouba','Nabeul', 'Zaghouan', 'Bizerte', 'Béja', 'Jendouba', 'Kef', 'Siliana',
+      'Sousse', 'Monastir', 'Mahdia', 'Sfax', 'Kairouan','Kasserine','Sidi Bouzid', 'Gabès', 'Mednine','Tataouine','Gafsa','Tozeur','Kebili'
+      
+    ];
 
   constructor(
     public matDialogRef: MatDialogRef<ClassFormComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         
         private _formBuilder: FormBuilder,
-        private _programInstService1: ProgramsInstService,
+        //private _programInstService1: ProgramsInstService,
        private _programInstService: ClassesService
   ) {
     // Set the defaults
@@ -39,6 +43,8 @@ export class ClassFormComponent implements OnInit {
   if ( this.action === 'edit' )
   {
       this.dialogTitle = 'Modifier le Programme Dédié';
+      //console.log("_data.programInst");
+      //console.log(_data.programInst);
       this.programInst = _data.programInst;
       this._programInstService.program = this.programInst.program;
      
@@ -55,8 +61,8 @@ export class ClassFormComponent implements OnInit {
     this._unsubscribeAll = new Subject();
     this.programs=this._programInstService.programs;
  
-    console.log("prograams fel class add form");
-    console.log(this.programs);
+    //console.log("prograams fel class add form");
+    //console.log(this.programs);
 
     
    }

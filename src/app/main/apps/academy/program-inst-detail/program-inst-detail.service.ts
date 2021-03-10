@@ -301,7 +301,7 @@ export class ProgramInstDetailService {
         });
     }
 
-    addClass(programInst,program): Observable<any>{
+   /* addClass(programInst,program): Observable<any>{
         this.program=program;
         programInst.program = program;
         this.getThemes();
@@ -310,7 +310,7 @@ export class ProgramInstDetailService {
        return this._httpClient.post(AUTH_API +'programsInst', programInst);
        
        
-    }
+    }*/
 
     getThemes(): Promise<any> {
         return new Promise((resolve, reject) => {

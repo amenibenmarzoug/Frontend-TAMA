@@ -424,6 +424,9 @@ export class ClassesService {
 
         return new Promise((resolve, reject) => {
             programInst.program = program;
+            console.log("program on the update");
+            console.log(program);
+          //  console.log(programInst);
             this._httpClient.put(AUTH_API + 'programsInst', programInst)
                 .subscribe(response => {
                     this.getProgramsInst();
