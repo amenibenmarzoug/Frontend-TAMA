@@ -52,42 +52,7 @@
 
                 </mat-form-field>
             </div>
-            <div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
-                <mat-form-field appearance="outline" fxFlex class="pr-4">
-                    <mat-label>Entreprise</mat-label>
-                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <mat-select (selectionChange)="getEntrepriseForm($event.value)">
-                       
-                        <mat-option *ngFor="let entreprise of entreprises" [value]="entreprise">
-                            {{ entreprise.enterpriseName}} 
-                        </mat-option>
-                    </mat-select>
 
-                    <mat-error *ngIf="formErrorsP.gender">{{formErrorsP.gender}}</mat-error>
-
-
-
-                </mat-form-field>
-            </div>
-
-            <div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
-                <mat-form-field appearance="outline" fxFlex class="pr-4">
-                    <mat-label>Classe</mat-label>
-                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <mat-select (selectionChange)="getClasseForm($event.value)">
-                       
-                        <mat-option *ngFor="let classe of classes" [value]="classe">
-                            {{ classe.programInstName}} {{ classe.location}} 
-                        </mat-option>
-                    </mat-select>
-
-                    
-                </mat-form-field>
-            </div>
-           
-            
-
-            
 
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
@@ -124,8 +89,8 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Rue</mat-label>
                     <mat-icon matSuffix class="secondary-text">home</mat-icon>
-                    <input name="street" formControlName="street" matInput >
-                  
+                    <input name="street" formControlName="street" matInput>
+
                 </mat-form-field>
             </div>
 
@@ -133,25 +98,90 @@
 
                 <mat-form-field appearance="outline" fxFlex="100">
                     <mat-label>Ville</mat-label>
-                    <mat-select formControlName="city" >
+                    <mat-select formControlName="city">
                         <mat-option *ngFor="let city of cities" [value]="city">
                             {{city}}
                         </mat-option>
 
                     </mat-select>
                     <mat-icon matSuffix class="secondary-text">outlined_flag</mat-icon>
-                    
+
                 </mat-form-field>
 
-               
+
                 <mat-form-field appearance="outline" fxFlex="33">
                     <mat-label>Code Postal </mat-label>
-                    <input matInput #postalCode formControlName="postalCode" maxlength="5 " >
+                    <input matInput #postalCode formControlName="postalCode" maxlength="5 ">
                     <mat-icon matSuffix class="secondary-text ">markunread_mailbox</mat-icon>
 
-                   
+
                 </mat-form-field>
 
+            </div>
+       <!--      <div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
+                <mat-form-field appearance="outline" fxFlex class="pr-4">
+                <mat-radio-group aria-label="Choisir" fxFlex class="pr-4" >
+                    <mat-radio-button  formControlName="particType" value="1">Employé</mat-radio-button>
+                    <mat-radio-button value="2">Etudiant</mat-radio-button>
+                </mat-radio-group>
+            </mat-form-field>
+            </div> -->
+            <div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
+                <mat-form-field appearance="outline" fxFlex class="pr-4">
+                    <mat-label>Employé ou Etudiant/Nouveau recruté </mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <mat-select formControlName="particType" required (selectionChange)="sendType($event.value)">
+                       
+                        <mat-option [value]="'Employé'">
+                            Employé
+                        </mat-option>
+                        <mat-option [value]="'Etudiant/Nouveau recruté'">
+                            Etudiant/Nouveau recruté
+                        </mat-option>
+                       
+
+                    </mat-select>
+
+
+
+
+                    <mat-error *ngIf="formErrorsP.gender">{{formErrorsP.level}}</mat-error>
+
+
+                </mat-form-field>
+            </div>
+   
+            <div fxLayout="row" fxLayoutAlign="start center" class="pr-4" *ngIf="particpantType=='Employé'">
+                <mat-form-field appearance="outline" fxFlex class="pr-4">
+                    <mat-label>Entreprise</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <mat-select (selectionChange)="getEntrepriseForm($event.value)">
+
+                        <mat-option *ngFor="let entreprise of entreprises" [value]="entreprise">
+                            {{ entreprise.enterpriseName}}
+                        </mat-option>
+                    </mat-select>
+
+                    <mat-error *ngIf="formErrorsP.gender">{{formErrorsP.gender}}</mat-error>
+
+
+
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center" class="pr-4"  *ngIf="particpantType=='Etudiant/Nouveau recruté'">
+                <mat-form-field appearance="outline" fxFlex class="pr-4">
+                    <mat-label>Classe</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <mat-select (selectionChange)="getClasseForm($event.value)">
+
+                        <mat-option *ngFor="let classe of classes" [value]="classe">
+                            {{ classe.programInstName}} {{ classe.location}}
+                        </mat-option>
+                    </mat-select>
+
+
+                </mat-form-field>
             </div>
             <!-- <div fxLayout="row" fxLayoutAlign="start start" style="display:none !important;">
                 <mat-form-field appearance="outline" fxFlex>
@@ -207,7 +237,7 @@
 
             <div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
                 <mat-form-field appearance="outline" fxFlex class="pr-4">
-                    <mat-label>Niveau Éducation  </mat-label>
+                    <mat-label>Niveau Éducation </mat-label>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
                     <mat-select formControlName="educationLevel" required>
                         <mat-option [value]="'Bac'">
@@ -258,15 +288,18 @@
 
     <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
 
-        <button *ngIf="action === 'edit'" mat-button class="mr-8" (click)="matDialogRef.close(['delete',contactForm])" aria-label="Delete" matTooltip="Delete">
+        <button *ngIf="action === 'edit'" mat-button class="mr-8" (click)="matDialogRef.close(['delete',contactForm])"
+            aria-label="Delete" matTooltip="Delete">
             Supprimer
         </button>
 
-        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(contactForm)"  aria-label="SAVE">
+        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(contactForm)"
+            aria-label="SAVE">
             Ajouter
         </button>
 
-        <button *ngIf="action === 'edit'" mat-button class="save-button" (click)="matDialogRef.close(['save',contactForm])" aria-label="SAVE">
+        <button *ngIf="action === 'edit'" mat-button class="save-button"
+            (click)="matDialogRef.close(['save',contactForm])" aria-label="SAVE">
             Enregistrer
         </button>
 

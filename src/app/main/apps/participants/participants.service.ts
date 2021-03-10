@@ -21,7 +21,7 @@ export class ParticipantsService implements Resolve<any>
     onUserDataChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
-
+    participantType: string;
     participants: Participant[];
     selectedContactsList: object[] = [];;
     user: any;
@@ -292,8 +292,17 @@ export class ParticipantsService implements Resolve<any>
     addParticipant(contact, entreprise, classe): Promise<any> {
         return new Promise((resolve, reject) => {
             contact.password = contact.phoneNumber;
-            contact.entreprise = entreprise;
-            contact.programInstance = classe;
+            console.log(" PARTICIPANT ENTREPISE")
+            console.log(contact.entreprise)
+            if (entreprise == null) {
+                contact.programInstance = classe;
+            }
+            else {
+                contact.entreprise = entreprise;
+                contact.programInstance = entreprise.programInstance;
+            }
+            //contact.entreprise = entreprise;
+           // contact.programInstance = classe;
             this._httpClient.post('http://localhost:8080/api/signupParticipantManag', contact)
 
                 .subscribe(response => {

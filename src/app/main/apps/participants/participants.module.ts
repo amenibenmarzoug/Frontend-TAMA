@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatRadioModule} from '@angular/material/radio';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
@@ -52,7 +53,7 @@ const routes: Routes = [
     MatTableModule,
     MatSelectModule ,
     MatToolbarModule,
-
+    MatRadioModule,
     FuseSharedModule,
     FuseConfirmDialogModule,
     FuseSidebarModule

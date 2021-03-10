@@ -6,6 +6,7 @@ import { Participant } from 'app/main/apps/participants/participant.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+
 @Component({
     selector: 'app-participant-form',
     templateUrl: './participant-form.component.html',
@@ -45,6 +46,7 @@ export class ParticipantFormComponent {
     entreprises: any[];
     classes: any[];
     courses: any[];
+    particpantType:string;
     private _unsubscribeAll: Subject<any>;
     /**
      * Constructor
@@ -78,6 +80,8 @@ export class ParticipantFormComponent {
         this._unsubscribeAll = new Subject();
         this.entreprises = this._ParticipantsService.entreprises;
         this.classes = this._ParticipantsService.classes;
+        console.log("FORM");
+        console.log(this.contactForm.value)
         // this.courses = this._ParticipantsService.programs;
 
 
@@ -108,7 +112,8 @@ export class ParticipantFormComponent {
             postalCode: [this.contact.postalCode],
             birthday: [this.contact.birthday],
             notes: [this.contact.notes],
-            educationLevel: [this.contact.educationLevel]
+            educationLevel: [this.contact.educationLevel],
+            particType:[''],
 
         });
 
@@ -151,6 +156,13 @@ export class ParticipantFormComponent {
     getClasseForm(event) {
 
         this._ParticipantsService.classe = event;
+    }
+
+    sendType(event){
+        this.contactForm.value.particType;
+        this.particpantType=event;
+        console.log( this.particpantType);
+        this._ParticipantsService.participantType=event;
     }
     // getCursusForm(event) {
 
