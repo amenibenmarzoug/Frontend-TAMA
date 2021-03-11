@@ -51,11 +51,16 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   beginHour: any;
   endHour: any;
   datetotry: Date;
+  
   courseDate: Date;
   courseDateMaxHour: Date;
+  courseDateMinHour: Date ; 
   events: any[] = [];
   cursusBeginDate: Date;
   cursusEndDate: Date;
+  minSessionDuration: number = 45 ; 
+
+
   classRooms: any[];
   institutions: any[];
   currentInstitution: string;
@@ -284,6 +289,9 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     this.testDate=false;
     this.events.push(event.value);
     this.courseDate = this.events[this.events.length - 1];
+    this.courseDateMinHour=this.events[this.events.length - 1];
+    this.courseDateMinHour.setHours(this.courseDate.getHours(), this.courseDate.getMinutes()+this.minSessionDuration); 
+    console.log("couerse min dateeee") ; console.log(this.courseDateMinHour); 
     this.courseDateMaxHour.setFullYear(this.courseDate.getFullYear(), this.courseDate.getMonth(), this.courseDate.getDate())
 
     

@@ -150,7 +150,8 @@
                                     </mat-datetimepicker-toggle>
                                     <mat-datetimepicker #datetimePickerEnd type="datetime" timeInterval="5">
                                     </mat-datetimepicker>
-                                    <input matInput formControlName="courseSessionEndDate"
+                                    <input matInput [min]="courseDateMinHour" [max]="courseDateMaxHour"
+                                        formControlName="courseSessionEndDate"
                                         [matDatetimepicker]="datetimePickerEnd" required
                                         (blur)="onValueChangedStepper1()" autocomplete="false">
                                     <mat-error *ngIf="formErrorsStepper1.courseSessionEndDate">
