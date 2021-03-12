@@ -354,7 +354,7 @@ export class ClassesService {
     }
 
 
-    getModulesInst(): Promise<any> {
+  /*  getModulesInst(): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'moduleInstance')
                 .subscribe((response: any) => {
@@ -391,6 +391,49 @@ export class ClassesService {
 
 
 
+                    resolve(this.modulesInst);
+                }, reject);
+        }
+        );
+    }*/
+
+
+
+
+    getModulesInst(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API +'moduleInstance')
+                .subscribe((response: any) => {
+
+                    this.modulesInst = response;
+                    this.themeInstId = this.filterByModule;
+
+                    if (this.themeInstId != null) {
+                        if (this.filterByModule === 'Modules') {
+                        }
+                       else {
+
+                            this.modulesInst = this.modulesInst.filter(_module => {
+                                // return this.user.frequentContacts.includes(_contact.id);
+                                if (_module.themeInstance.id == this.themeInstId) {
+                                    return true;
+                                }
+                                return false;
+                            });
+                        }
+                    }
+                    else {
+                        this.modulesInst = response;
+                    }
+                    if (this.searchTextModule && this.searchTextModule !== '') {
+                        this.modulesInst = FuseUtils.filterArrayByString(this.modulesInst, this.searchTextModule);
+                    }
+
+                    this.modulesInst = this.modulesInst.map(module => {
+                        return new ModuleInst(module);
+                    });
+
+                    this.onmoduleInstChanged.next(this.modulesInst);
                     resolve(this.modulesInst);
                 }, reject);
         }

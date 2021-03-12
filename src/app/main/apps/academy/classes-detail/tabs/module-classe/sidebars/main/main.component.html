@@ -17,7 +17,7 @@
                 <div class="nav-item" aria-label="inbox">
                     <a class="nav-link" matRipple (click)="changeFilter('all')"
                        [ngClass]="{'active accent':filterBy ==='all'}">
-                        <span class="title">Toutes les Thèmatiques Dédiées</span>
+                        <span class="title">Toutes les Thématiques</span>
                     </a>
                 </div>
 
@@ -26,11 +26,11 @@
                     <mat-form-field appearance="outline" class="category-selector">
                         <mat-label>Theme</mat-label>
                         <mat-select [(ngModel)]="currentCategory"
-                                    (selectionChange)="changeFilter($event.value)">
-                            <mat-option [value]="'all'">
+                                    (selectionChange)="changeFilter($event.value)" required>
+                            <!--mat-option [value]="'all'">
                                 Tous
-                            </mat-option>
-                            <mat-option *ngFor="let category of themeInstance" [value]="category">
+                            </mat-option-->
+                            <mat-option *ngFor="let category of theme" [value]="category">
                                 {{ category.themeInstName }}
                             </mat-option>
                         </mat-select>
