@@ -70,6 +70,13 @@ modulesOfTheme : Module[];
 moduleClasse: ModuleInst;
 program:any;
 themesOfProgram : Thematique[];
+
+actualDaysNumberAffected = 0 ; 
+oldDaysAffectedNumber=0 ; 
+
+actualDaysAffectedPerModule=0;
+actualDaysAffectedPerThemeDetail=0;
+
 /**
  * Constructor
  *
@@ -112,6 +119,7 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
            this.getModules(),
           this.getModulesInst(),
           this.getThemeDetail0(),
+          //this.getThemeDetail(),
           this.getThemes()
            
            
@@ -144,21 +152,7 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
     });
 }
 
-/* getThemes(): Promise<any>
-{
-  
-   
-     return new Promise((resolve, reject) => {
-            this._httpClient.get('http://localhost:8080/api/themes')
-            .subscribe((response: any) => {
-              
-                this.onThemeChanged.next(response);
-                this.themes=response;
-                resolve(response);
-            }, reject);
-        }
-    );
-}*/
+
 getModules(): Promise<any>
 {
   
@@ -247,7 +241,7 @@ addThemeInst(themeInst,theme): Promise<any> {
             });
     });
 }
-updateThemeInst(theme,program): Promise<any> {
+/*updateThemeInst(theme,program): Promise<any> {
     console.log("programmmmm");
     console.log(program);
     theme.program = program;
@@ -260,7 +254,7 @@ updateThemeInst(theme,program): Promise<any> {
                 resolve(response);
             });
     });
-}
+}*/
 
 addClass(programInst,program): Observable<any>{
     this.program=program;
@@ -313,7 +307,7 @@ getThemes(): Promise<any> {
 
 
 
-addModuleInst2(themeInst,module): Promise<any> {
+/*addModuleInst2(themeInst,module): Promise<any> {
     this.moduleClasse=new ModuleInst(module);
     this.moduleClasse.module=module;
     this.moduleClasse.moduleInstanceName=module.moduleName;
@@ -332,7 +326,7 @@ console.log(themeInst);
                 resolve(response);
             });
     });
-}
+}*/
 
 /*AutoAddThemeInst(theme,program):Observable<any>{
     
@@ -379,7 +373,7 @@ deleteThemeInst(theme): Promise<any> {
  *
  * @returns {Promise<any>}
  */
-getModulesInst(): Promise<any> {
+/*getModulesInst(): Promise<any> {
     return new Promise((resolve, reject) => {
         this._httpClient.get(AUTH_API +'moduleInstance')
             .subscribe((response: any) => {
@@ -417,7 +411,49 @@ getModulesInst(): Promise<any> {
             }, reject);
     }
     );
-}
+}*/
+
+
+
+/*getModulesInst(): Promise<any> {
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API +'moduleInstance')
+            .subscribe((response: any) => {
+
+                this.modulesInst = response;
+                this.themeInstId = this.filterByModule;
+
+                if (this.themeInstId != null) {
+                    if (this.filterByModule === 'Modules') {
+                    }
+                   else {
+
+                        this.modulesInst = this.modulesInst.filter(_module => {
+                            // return this.user.frequentContacts.includes(_contact.id);
+                            if (_module.themeInstance.id == this.themeInstId) {
+                                return true;
+                            }
+                            return false;
+                        });
+                    }
+                }
+                else {
+                    this.modulesInst = response;
+                }
+                if (this.searchTextModule && this.searchTextModule !== '') {
+                    this.modulesInst = FuseUtils.filterArrayByString(this.modulesInst, this.searchTextModule);
+                }
+
+                this.modulesInst = this.modulesInst.map(module => {
+                    return new ModuleInst(module);
+                });
+
+                this.onmoduleInstChanged.next(this.modulesInst);
+                resolve(this.modulesInst);
+            }, reject);
+    }
+    );
+}*/
 /**
 * Toggle selected modules by id
 *
@@ -594,17 +630,15 @@ getThemeDetail0(): Promise<any> {
     }
     );
 }
-/**
- * Get Modules
- *
- * @returns {Promise<any>}
- */
+
+
 getThemeDetail(): Promise<any> {
     return new Promise((resolve, reject) => {
         this._httpClient.get(AUTH_API +'themeDetailInst')
             .subscribe((response: any) => {
 
                 this.themeDetailsInst = response;
+               
                 this.moduleId = this.filterByThemeDetail;
 
                 if (this.moduleId != null) {
@@ -781,7 +815,85 @@ deleteSelectedThemeDetail(): void {
 
 
 
+getModuleDaysAffected(): Promise<any> {
+
+    let id = new HttpParams().set('id', this.themeInstId);
+    this.actualDaysAffectedPerModule=0;
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API + 'themeInst/modulesInst', { params: id })
+            .subscribe((response: any) => {
+                this.modulesInst = response;
+                this.modulesInst = this.modulesInst.map(module => {
+                    this.actualDaysAffectedPerModule=this.actualDaysAffectedPerModule+Number(module.nbDaysModuleInstance) ; 
+                    return new ModuleInst(module);
+                });
+                resolve(this.actualDaysAffectedPerModule);
+
+            }, reject);
+    });
+}
 
 
 
+updateThemeInst(theme,program): Promise<any> {
+    this.actualDaysNumberAffected= this.actualDaysNumberAffected - this.oldDaysAffectedNumber
+                                    +Number(theme.nbDaysthemeInst)  ;
+    console.log("programmmmm");
+    console.log(program);
+    theme.program = program;
+    console.log("themeee fel service");
+    console.log(theme);
+    return new Promise((resolve, reject) => {
+        this._httpClient.put(AUTH_API +'themeInst', theme)
+            .subscribe(response => {
+                this.lastprogramInst=response;//added by donia
+                resolve(response);
+            });
+    });
+}
+
+
+
+
+getModulesInst(): Promise<any> {
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API +'moduleInstance')
+            .subscribe((response: any) => {
+
+                this.modulesInst = response;
+                console.log("ModuleInst fel class service");
+                console.log(this.modulesInst);
+                this.themeInstId = this.filterByModule;
+
+                if (this.themeInstId != null) {
+                    if (this.filterByModule === 'Modules') {
+                    }
+                   else {
+
+                        this.modulesInst = this.modulesInst.filter(_module => {
+                            // return this.user.frequentContacts.includes(_contact.id);
+                            if (_module.themeInstance.id == this.themeInstId) {
+                                return true;
+                            }
+                            return false;
+                        });
+                    }
+                }
+                else {
+                    this.modulesInst = response;
+                }
+                if (this.searchTextModule && this.searchTextModule !== '') {
+                    this.modulesInst = FuseUtils.filterArrayByString(this.modulesInst, this.searchTextModule);
+                }
+
+                this.modulesInst = this.modulesInst.map(module => {
+                    return new ModuleInst(module);
+                });
+
+                this.onmoduleInstChanged.next(this.modulesInst);
+                resolve(this.modulesInst);
+            }, reject);
+    }
+    );
+}
 }

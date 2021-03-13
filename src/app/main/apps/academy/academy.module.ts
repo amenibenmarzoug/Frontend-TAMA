@@ -59,7 +59,6 @@ import { MainThemeDetailComponent } from './programDetails/tabs/themeDetail/side
 import {SelectedBarThemeDetailComponent} from './programDetails/tabs/themeDetail/selected-bar-theme-detail/selected-bar-theme-detail.component';
 import { from } from 'rxjs';
 import { FormsModule } from '@angular/forms';
-import {MainModuleInstComponent} from '../academy/program-inst-detail/tabs/module-inst/main/mainModule.component'
 import {ModuleInstFormComponent} from '../academy/program-inst-detail/tabs/module-inst/module-form/module-form.component'
 import { AddSessionComponent } from './add-session/add-session.component';
 import { TrainersListComponent } from './add-session/trainers-list/trainers-list.component';
@@ -80,6 +79,7 @@ import { ModuleInstListComponent } from './program-inst-detail/tabs/module-inst/
 import { ThemeDetailInstListComponent } from './program-inst-detail/tabs/theme-detail-inst/theme-detail-inst-list/theme-detail-inst-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './program-inst-detail/tabs/theme-detail-inst/main/main.component';
+import{MainComponent2} from './program-inst-detail/tabs/module-inst/sidebars/main/main.component';
 import { SelectedBarComponent } from './program-inst-detail/tabs/theme-detail-inst/selected-bar/selected-bar.component';
 import{ThemeDetailInstFormComponent} from './../academy/program-inst-detail/tabs/theme-detail-inst/theme-detail-form/theme-detail-form.component';
 import { AllSessionsComponent } from './all-sessions/all-sessions.component';
@@ -101,8 +101,9 @@ import { ThemeDetailClassListComponent } from './classes-detail/tabs/theme-detai
 import { EditSessionComponent } from './edit-session/edit-session.component';
 import { EditTrainersListComponent } from './edit-session/edit-trainers-list/edit-trainers-list.component'
 import { EditSessionService } from 'app/main/apps/academy/edit-session/edit-session.service';
-
-
+import{MainComponent3}from 'app/main/apps/academy/classes-detail/tabs/module-classe/sidebars/main/main.component';
+import{ClassesDetailService} from '../academy/classes-detail/classes-detail.service';
+import{MainComponent4} from '../academy/classes-detail/tabs/theme-detail-classe/main/main.component';
 registerLocaleData(localeFr, 'fr');
 const routes = [
     {
@@ -145,7 +146,7 @@ const routes = [
         path     : 'classeDetail/:id',
         component: ClassesDetailComponent,
         resolve  : {
-            academy: ClassesService,
+            academy: ClassesDetailService,
         }
     },
     
@@ -244,7 +245,6 @@ const routes = [
         
         ModuleInstComponent,
         ModuleInstListComponent,
-        MainModuleInstComponent,
         ModuleInstFormComponent,
         SelectedBarModuleInstComponent,
 
@@ -254,6 +254,8 @@ const routes = [
         ThemeDetailInstComponent,
         ThemeDetailInstListComponent,
         MainComponent,
+        MainComponent2,
+        MainComponent3,
         MainSessionsComponent,
         SelectedBarComponent,
         AllSessionsComponent,
@@ -269,7 +271,8 @@ const routes = [
         SelectedBarModuleClasseComponent,
         ThemeDetailClassListComponent,
         EditSessionComponent,
-        EditTrainersListComponent
+        EditTrainersListComponent,
+        MainComponent4
        
         
         

@@ -148,21 +148,7 @@ export class ProgramInstDetailService {
         });
     }
 
-   /* getThemes(): Promise<any>
-    {
-      
-       
-         return new Promise((resolve, reject) => {
-                this._httpClient.get('http://localhost:8080/api/themes')
-                .subscribe((response: any) => {
-                  
-                    this.onThemeChanged.next(response);
-                    this.themes=response;
-                    resolve(response);
-                }, reject);
-            }
-        );
-    }*/
+   
     getModules(): Promise<any>
     {
       
@@ -301,16 +287,7 @@ export class ProgramInstDetailService {
         });
     }
 
-   /* addClass(programInst,program): Observable<any>{
-        this.program=program;
-        programInst.program = program;
-        this.getThemes();
-
-
-       return this._httpClient.post(AUTH_API +'programsInst', programInst);
-       
-       
-    }*/
+   
 
     getThemes(): Promise<any> {
         return new Promise((resolve, reject) => {
@@ -349,76 +326,8 @@ export class ProgramInstDetailService {
     }
 
 
-    AutoAddThemeInst(theme,program): Promise<any> {
-        console.log("programmmmm");
-        console.log(program);
-        this.themeClasse=new ThematiqueInst(theme);
-        this.themeClasse.programInstance = program;
-        this.themeClasse.theme=theme;
-        this.themeClasse.themeInstName=theme.themeName;
-        this.themeClasse.nbDaysthemeInst=theme.nbDaysTheme;
-        this.getModules();
-        console.log("themeee fel service");
-        console.log(this.themeClasse);
-        return new Promise((resolve, reject) => {
-            this._httpClient.post(AUTH_API +'themeInst', this.themeClasse)
-                .subscribe(response => {
-                    this.lastThemeInst=response;
-
-
-                    console.log("Themeeee insst addeeeed");
-                   
-                 
-                    console.log(this.modules);
-                this.modulesOfTheme = [];
-                if (this.modules != null) {
-               
-                   
-                        this.modules.forEach(theme => {
-                          
-                            if ( (theme.theme).id == theme.id){
-                                console.log("vérifié");
-                                this.modulesOfTheme.push(theme);
-               
-                            }
-                            else{
-                              
-                               console.log((theme.theme).id );
-                               console.log(theme.id) ;
-                            }
-                            
-               
-                        });
-                        console.log("moduleeeeesof theeeme");
-                        console.log(this.modulesOfTheme);
-                      
-                    }
-                   // this.lastThemeInst = this._programInstDetailsService.lastThemeInst; 
-                    console.log("laaaaaaaaaaaaastThemeInst");
-                    console.log(this.lastThemeInst);
-             
-                    
-        for (var val2 of (this.modulesOfTheme)){
-        console.log("vaaaaaaaaaaaal");
-        console.log(val2);
-        
-        //setTimeout(() => {
-            console.log("ddddddd");
-            console.log(this.lastThemeInst);
-        this.addModuleInst2(this.lastThemeInst,val2);
-        
-        //},500);
-                  
-        }       
-        
-                 
-                    resolve(response);
-                });
-        });
-    }
-    
-
-    addModuleInst2(themeInst,module): Promise<any> {
+  
+   addModuleInst2(themeInst,module): Promise<any> {
         this.moduleClasse=new ModuleInst(module);
         this.moduleClasse.module=module;
         this.moduleClasse.moduleInstanceName=module.moduleName;
@@ -728,6 +637,8 @@ console.log(themeInst);
                 .subscribe((response: any) => {
 
                     this.themeDetailsInst = response;
+
+                   
                     this.moduleId = this.filterByThemeDetail;
 
                     if (this.moduleId != null) {
@@ -757,6 +668,7 @@ console.log(themeInst);
 
                     this.onThemeDetailInstChanged.next(this.themeDetailsInst);
                     resolve(this.themeDetailsInst);
+                   
                 }, reject);
         }
         );
@@ -922,82 +834,6 @@ console.log(themeInst);
     }
 
 
-
-
-    goTo(lastprogInst,themes){
-
     
-        //this.themes = this._academyProgramsInstService.themes;  // added by donia
-        this.themes=themes;
-        console.log(this.themes);
-        for (var val of (this.themes)){
-            console.log("parcouuurs themes");
-            console.log(val.id);
-            this.AutoAddThemeInst(val,lastprogInst);
-               // this.lastThemeInst = lastthemeInst;
-               // this._academyProgramsInstService.getModules(;
-           /*  .subscribe(lastthemeInst =>{
-                console.log("Themeeee insst addeeeed");
-                this.lastThemeInst = lastthemeInst;
-               // this._academyProgramsInstService.getModules(val);*/
-     
-        /*setTimeout(() => {
-            this.modulesOfTheme = [];
-            if (this.modules != null) {
-           
-               
-                    this.modules.forEach(module => {
-                      
-                        if ( (module.theme).id == val.id){
-                            console.log("vérifié");
-                            this.modulesOfTheme.push(module);
-           
-                        }
-                        else{
-                          
-                           console.log((module.theme).id );
-                           console.log(val.id) ;
-                        }
-                        
-           
-                    });
-                    console.log("moduleeeeesof theeeme");
-                    console.log(this.modulesOfTheme);
-                  
-                }
-               // this.lastThemeInst = this._programInstDetailsService.lastThemeInst; 
-                console.log("laaaaaaaaaaaaastThemeInst");
-                console.log(this.lastThemeInst);
-          //  },1000);
-    
-                //console.log("moduleeeeesof theeeme222");
-                //console.log(this.modulesOfTheme);
-                
-    for (var val2 of (this.modulesOfTheme)){
-    console.log("vaaaaaaaaaaaal");
-    console.log(val2);
-    
-    //setTimeout(() => {
-        console.log("ddddddd");
-        console.log(this.lastThemeInst);
-    this.addModuleInst3(this.lastThemeInst,val2);
-    
-    //},500);
-              
-    }       
-          /*  } );*/
-    
-             
-       /* },1000); */
-    
-    
-          
-         
-        
-        }
-    
-      }
-    
-      
     
 }
