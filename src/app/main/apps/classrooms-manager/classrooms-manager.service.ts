@@ -20,7 +20,7 @@ export class ClassroomsManagerService implements Resolve<any>
     onUserDataChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
-
+    filtredClasses: any[] = [];
     classes: MyClasses[];
     selectedContactsList: object[] = [];
     user: any;
@@ -31,7 +31,7 @@ export class ClassroomsManagerService implements Resolve<any>
     programs: Program[];
     contactSelected: MyClasses[];
     searchText: string;
-    filterBy: string;
+    filterBy: any;
     id: number;
     /**
      * Constructor
@@ -79,7 +79,6 @@ export class ClassroomsManagerService implements Resolve<any>
                     this.onFilterChanged.subscribe(filter => {
                         this.filterBy = filter;
                         this.getClasses();
-                        console.log(this.getClasses());
                     });
 
                     resolve();
@@ -99,20 +98,31 @@ export class ClassroomsManagerService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.get('http://localhost:8080/api/classroom')
                 .subscribe((response: any) => {
+                    this.classes= response;
 
-                    this.classes = response;
+                    if (this.filterBy != null) {
+                        this.filtredClasses =[];
+                        this.classes= response;
+                        this.classes = this.classes.filter (_classe => {
+                            if(_classe.institution.id == this.filterBy.id){
+                                this.filtredClasses.push(_classe);
+                            }
+                        });
 
-                   
+                        this.classes= this.filtredClasses;
 
-                   
+
+                    }
+                  
+
 
                     if (this.searchText && this.searchText !== '') {
                         this.classes = FuseUtils.filterArrayByString(this.classes, this.searchText);
                     }
 
-                    this.classes = this.classes.map(contact => {
-                        return new MyClasses(contact);
-                    });
+                    // this.classes = this.classes.map(contact => {
+                    //     return new MyClasses(contact);
+                    // });
 
                     this.onContactsChanged.next(this.classes);
                     resolve(this.classes);
@@ -131,7 +141,7 @@ export class ClassroomsManagerService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.get('http://localhost:8080/api/institutions')
                 .subscribe((response: any) => {
-                  
+
                     this.onInstitutionChanged.next(response);
                     this.institutions = response;
                     resolve(response);
@@ -230,7 +240,7 @@ export class ClassroomsManagerService implements Resolve<any>
                 });
         });
     }
-    
+
     updateClasse(contact): Promise<any> {
 
         return new Promise((resolve, reject) => {
@@ -257,7 +267,7 @@ export class ClassroomsManagerService implements Resolve<any>
 
         });
     }
-  
+
 
 
     /**
