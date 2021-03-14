@@ -132,7 +132,15 @@ export const navigationAdmin: FuseNavigation[] = [
         icon: 'account_balance',
         url: '/apps/institution'
     },
+    {
+        id: 'classrooms-manager',
+        title: 'Les Salles',
+        type: 'item',
+        icon: 'school',
+        url: '/apps/classrooms-manager'
+    },
 
+   
     // {
     //     id: 'groups',
     //     title: 'Groupes',

@@ -1,0 +1,39 @@
+<div class="sidebar-content">
+
+    <div class="card">
+
+
+        <!-- / SIDEBAR HEADER -->
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content py-16" fusePerfectScrollbar>
+
+            <div class="nav material2">
+
+                <div class="nav-item" aria-label="inbox">
+                    <a class="nav-link" matRipple (click)="changeFilter('all')"
+                       [ngClass]="{'active accent':filterBy ==='all'}">
+                        <span class="title">Toutes les Classes</span>
+                    </a>
+                </div>
+
+               
+
+        
+        <div class="nav-item" aria-label="Institution" fxLayoutAlign="start center">
+            <mat-form-field appearance="outline" class="category-selector ">
+                <mat-label>Institution</mat-label>
+                <mat-select  (selectionChange)="selectInstitution($event.value)" required>
+
+                    <mat-option *ngFor="let institution of institutions" [value]="institution">
+
+                        {{ institution.institutionName }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    </div>
+
+</div>
+<!-- / SIDEBAR CONTENT -->
