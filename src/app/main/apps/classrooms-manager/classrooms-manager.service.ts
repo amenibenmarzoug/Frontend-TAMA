@@ -103,13 +103,6 @@ export class ClassroomsManagerService implements Resolve<any>
                     this.classes = response;
 
                    
-                    // if (this.filterBy === 'pilier1') {
-                    //     this.classes = this.classes.filter(_contact => {
-                    //         if (_contact.institution) { return true; }
-                    //         return false;
-
-                    //     });
-                    // }
 
                    
 
@@ -229,7 +222,7 @@ export class ClassroomsManagerService implements Resolve<any>
     addClasse(classe, institution): Promise<any> {
         return new Promise((resolve, reject) => {
             classe.institution = institution;
-            this._httpClient.post('http://localhost:8080/api/classroomInstitution', classe)
+            this._httpClient.post('http://localhost:8080/api/classroom', classe)
 
                 .subscribe(response => {
                     this.getClasses();
