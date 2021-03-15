@@ -14,12 +14,12 @@
 
             <div class="nav material2">
 
-                <div class="nav-item" aria-label="inbox">
+               <!--  <div class="nav-item" aria-label="inbox">
                     <a class="nav-link" matRipple (click)="changeFilter('all')"
                        [ngClass]="{'active accent':filterBy ==='all'}">
                         <span class="title">Tous les Modules11</span>
                     </a>
-                </div>
+                </div> -->
 
                 
                 <div class="nav-item" aria-label="Category" >
@@ -27,9 +27,9 @@
                         <mat-label>Modules</mat-label>
                         <mat-select [(ngModel)]="currentCategory"
                                     (selectionChange)="changeFilter($event.value)">
-                            <mat-option [value]="'all'">
+                       <!--      <mat-option [value]="'all'">
                                 Tous
-                            </mat-option>
+                            </mat-option> -->
                             <mat-option *ngFor="let category of module" [value]="category">
                               {{ category.moduleName }}
                             </mat-option>
