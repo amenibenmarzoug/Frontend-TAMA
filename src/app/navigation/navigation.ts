@@ -80,7 +80,6 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.ACADEMY',
                 type: 'collapsable',
                 icon: 'school',
-                //url      : '/apps/academy',
                 children: [
 
                     {
@@ -91,14 +90,7 @@ export const navigation: FuseNavigation[] = [
                         url: '/apps/academy/programs',
                         
                     },
-                    // {
-                    //     id: 'programsD',
-                    //     title: 'Programme Dédié',
-                    //     type: 'item',
-                    //     //url  : '/apps/academy/trainings',
-
-
-                    // },
+                    
 
                 ]
 
@@ -221,6 +213,14 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'school',
                 url: '/apps/classroom'
+            },
+            {
+                id: 'classrooms-manager',
+                title: 'Les Salles',
+                translate: 'NAV.TRAINERS',
+                type: 'item',
+                icon: 'school',
+                url: '/apps/classrooms-manager'
             },
             {
                 id: 'participants',

@@ -57,43 +57,37 @@ export class MainSessionsComponent implements OnInit {
     ngOnInit(): void {
         this.filterBy = this._disponibilityTrainerService.filterBy || 'all';
 
-     
 
-            this._disponibilityTrainerService.onProgramsChanged
+
+        this._disponibilityTrainerService.onProgramsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(programs => {
-              this.programs = programs;
-              console.log("programs");
-              console.log(this.programs);
+                this.programs = programs;
+
             });
-          this._disponibilityTrainerService.onThemesChanged
+        this._disponibilityTrainerService.onThemesChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(themes => {
-              this.themes = themes;
-              console.log("themes");
-              console.log(this.themes);
+                this.themes = themes;
+
             });
-          this._disponibilityTrainerService.onModulesChanged
+        this._disponibilityTrainerService.onModulesChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(modules => {
-              this.modules = modules;
-              console.log("modules");
-              console.log(this.modules);
+                this.modules = modules;
+
             });
-          this._disponibilityTrainerService.onThemeDetailsChanged
+        this._disponibilityTrainerService.onThemeDetailsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(themeDetails => {
-              this.themeDetails = themeDetails;
-              console.log("themeDetails");
-              console.log(this.themeDetails);
+                this.themeDetails = themeDetails;
+
             });
 
         this._disponibilityTrainerService.onCoursesChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(courses => {
                 this.courses = courses;
-                console.log("courses");
-                console.log(this.courses);
             });
 
 
@@ -104,22 +98,8 @@ export class MainSessionsComponent implements OnInit {
             });
 
 
-        /*this._disponibilityTrainerService.onSelectedTrainerChanged
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe(selectedTrainer => {
-           
-               this.trainerId=selectedTrainer;
-  
-                console.log("id trainer");
-                console.log(this.trainerId);
-            
-       
-        });*/
     }
 
-    /**
-     * On destroy
-     */
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
@@ -166,7 +146,6 @@ export class MainSessionsComponent implements OnInit {
 
     selectModule(module): void {
         this.selectedThemeDet = null;
-        //this.onValueChangedStepper1();
         console.log(this.selectedThemeDet);
         this.filteredThemeDetails = [];
         this.selectedModule = module;
@@ -189,9 +168,9 @@ export class MainSessionsComponent implements OnInit {
 
 
     }
-   
 
-  
+
+
     /**
    * Connect function called by the table to retrieve one stream containing the data to render.
    * @returns {Observable<any[]>}

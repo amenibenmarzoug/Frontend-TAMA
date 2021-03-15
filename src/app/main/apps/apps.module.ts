@@ -94,6 +94,7 @@ const routes = [
      loadChildren: () => import('./my-participants/my-participants.module').then(m => m.MyParticipantsModule
         )
     },
+   
     {
         path        : 'scrumboard',
         loadChildren: () => import('./scrumboard/scrumboard.module').then(m => m.ScrumboardModule)
@@ -109,6 +110,10 @@ const routes = [
     {
         path        : 'cursus-participants',
         loadChildren: () => import('./cursus-participants/cursus-participants.module').then(m => m.CursusParticipantsModule)
+    },
+    {
+        path        : 'classrooms-manager',
+        loadChildren: () => import('./classrooms-manager/classrooms-manager.module').then(m => m.ClassroomsManagerModule)
     },
     {
         path        : 'classroom',
