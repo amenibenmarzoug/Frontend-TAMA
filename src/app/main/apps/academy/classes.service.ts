@@ -405,10 +405,11 @@ export class ClassesService {
             this._httpClient.get(AUTH_API +'moduleInstance')
                 .subscribe((response: any) => {
 
-                    this.modulesInst = response;
+                    this.modulesInst = [];
                     this.themeInstId = this.filterByModule;
 
                     if (this.themeInstId != null) {
+                        this.modulesInst = response;
                         if (this.filterByModule === 'Modules') {
                         }
                        else {

@@ -24,8 +24,8 @@
                 fxLayoutAlign.gt-xs="space-between center">
 
                 <mat-form-field appearance="outline" floatLabel="always" class="course-search">
-                    <mat-label>Chercher un Programme</mat-label>
-                    <input matInput placeholder="Entrer le titre du programme..." [(ngModel)]="searchTerm"
+                    <mat-label>Chercher une Classe</mat-label>
+                    <input matInput placeholder="Entrer le titre de la classe..." [(ngModel)]="searchTerm"
                         (input)="filterCoursesByTerm()">
                 </mat-form-field>
 
@@ -81,7 +81,7 @@
                 </div>
 
                 <div class="no-courses" *ngIf="filteredPrograms.length === 0">
-                    Aucun Programme Trouvé!
+                    Aucune Classe Trouvée!
                 </div>
 
             </div>

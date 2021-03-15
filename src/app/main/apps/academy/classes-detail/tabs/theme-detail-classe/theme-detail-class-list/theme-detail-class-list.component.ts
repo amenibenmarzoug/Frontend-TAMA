@@ -27,7 +27,7 @@ export class ThemeDetailClassListComponent implements OnInit {
   themeDetails: any;
   user: any;
   dataSource: FilesDataSource | null;
-  displayedColumns = ['checkbox', 'themeDetailName', 'nbDaysThemeDetail','ThemeDetailInstName','nbDaysThemeDetailInst','buttons'];
+  displayedColumns = ['checkbox'/*, 'themeDetailName', 'nbDaysThemeDetail'*/,'ThemeDetailInstName','nbDaysThemeDetailInst','buttons'];
   selectedThemeDetails: any[];
   checkboxes: {};
   dialogRef: any;

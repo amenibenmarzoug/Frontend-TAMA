@@ -42,12 +42,12 @@ export class ClassroomsManagerFormComponent {
         this.action = _data.action;
 
         if (this.action === 'edit') {
-            this.dialogTitle = 'Modifier Participant';
+            this.dialogTitle = 'Modifier Salle';
             this.contact = _data.contact;
             this._classroomsManagerService.institution = this.contact.institution;
         }
         else {
-            this.dialogTitle = 'Nouveau Participant';
+            this.dialogTitle = 'Nouvelle Salle';
             this.contact = new MyClasses({});
         }
 

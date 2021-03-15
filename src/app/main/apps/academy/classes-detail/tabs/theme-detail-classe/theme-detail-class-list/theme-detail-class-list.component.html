@@ -12,28 +12,28 @@
 </ng-container>
 
 
-<!-- Name Column -->
-<ng-container matColumnDef="themeDetailName">
+<!--  Name Column -->
+<!-- <ng-container matColumnDef="themeDetailName">
 <mat-header-cell *matHeaderCellDef>Titre Theme Detail associé</mat-header-cell>
 <mat-cell *matCellDef="let themeDetail">
  <p class="font-weight-600">{{themeDetail.themeDetail.themeDetailName}} </p>
 </mat-cell>
-</ng-container>
+</ng-container> -->
 
 <!-- Email Column -->
-<ng-container matColumnDef="nbDaysThemeDetail">
+<!-- <ng-container matColumnDef="nbDaysThemeDetail">
 <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Nombre de jours</mat-header-cell>
 <mat-cell *matCellDef="let themeDetail" fxHide fxShow.gt-sm>
  <p  class="email">
      &nbsp; &nbsp; &nbsp; &nbsp;  {{themeDetail.themeDetail.nbDaysThemeDetail}}
  </p>
 </mat-cell>
-</ng-container>
+</ng-container> --> 
 
 
 <!-- Email Column -->
 <ng-container matColumnDef="ThemeDetailInstName">
-<mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>nom ThemeDetail Dédié</mat-header-cell>
+<mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>nom de la thématique</mat-header-cell>
 <mat-cell *matCellDef="let themeDetail" fxHide fxShow.gt-sm>
  <p class="email text-truncate">
      {{themeDetail.themeDetailInstName}}
@@ -43,10 +43,10 @@
 
 <!-- Email Column -->
 <ng-container matColumnDef="nbDaysThemeDetailInst">
-<mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Nombre de jours du themeDetail dédié</mat-header-cell>
+<mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Nombre de jours de la thématique</mat-header-cell>
 <mat-cell *matCellDef="let themeDetail" fxHide fxShow.gt-sm>
  <p class="email text-truncate">
-     {{themeDetail.nbDaysthemeDetailInst}}
+    &nbsp; &nbsp; &nbsp; {{themeDetail.nbDaysthemeDetailInst}}
  </p>
 </mat-cell>
 </ng-container>

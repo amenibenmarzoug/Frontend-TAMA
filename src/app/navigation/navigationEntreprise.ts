@@ -10,7 +10,7 @@ export const navigationEntreprise: FuseNavigation[] = [
         icon: 'today',
         url: '/apps/calendar'
     },
-    {
+/*     {
 
         id: 'cursus',
         title: 'Cursus',
@@ -19,7 +19,7 @@ export const navigationEntreprise: FuseNavigation[] = [
         icon: 'school',
         url: '/apps/cursus/courses',
 
-    },
+    }, */
 
 
     {
