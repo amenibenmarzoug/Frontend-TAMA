@@ -130,7 +130,9 @@
                                     </mat-datetimepicker-toggle>
                                     <mat-datetimepicker #datetimePickerBegin type="datetime" timeInterval="5">
                                     </mat-datetimepicker>
-                                    <input matInput [min]="cursusBeginDate" [max]="cursusEndDate"
+                                    <input matInput 
+                                        [min]="cursusBeginDate" [max]="cursusEndDate"
+                                        name="courseSessionBeginDate"
                                         formControlName="courseSessionBeginDate"
                                         [matDatetimepicker]="datetimePickerBegin" required
                                         (blur)="onValueChangedStepper1()" autocomplete="false"
@@ -151,6 +153,7 @@
                                     <mat-datetimepicker #datetimePickerEnd type="datetime" timeInterval="5">
                                     </mat-datetimepicker>
                                     <input matInput [min]="courseDateMinHour" [max]="courseDateMaxHour"
+                                        name="courseSessionEndDate"
                                         formControlName="courseSessionEndDate"
                                         [matDatetimepicker]="datetimePickerEnd" required
                                         (blur)="onValueChangedStepper1()" autocomplete="false">
