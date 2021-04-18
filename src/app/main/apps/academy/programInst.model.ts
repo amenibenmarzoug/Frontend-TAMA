@@ -10,7 +10,7 @@ export class ProgramInst{
     nbDaysProgInst: number;
     location:string;
     program:Program;
-
+    dateDebut:Date;
    
 
 
@@ -22,6 +22,7 @@ export class ProgramInst{
         this.nbDaysProgInst=programInst.nbDaysProgInst || '';
         this.location = programInst.location || '';
         this.program = programInst.program || '';
+        this.dateDebut=programInst.dateDebut || '';
         
 
     

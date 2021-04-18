@@ -170,6 +170,8 @@ export class AuthenticationService implements Resolve<any>{
       website: entreprise.value.webSite,
       managerFirstName: entreprise.value.firstNameP,
       managerLastName: entreprise.value.lastNameP,
+      managerPosition:entreprise.value.positionM,
+      nbMinParticipants:entreprise.value.participNumber,
       programInstance: entreprise.value.classe,
     }, httpOptions);
   }

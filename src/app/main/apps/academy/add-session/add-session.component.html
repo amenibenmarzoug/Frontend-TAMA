@@ -112,21 +112,25 @@
 
                         </div>
 
-                        <div class="content mb-24" *ngIf="sessionsByThemeDetail!=null && selectedThemeDet!=null && sessionsByThemeDetail.length>=selectedThemeDet.nbDaysthemeDetailInst"
+                        <div class="content mb-24"
+                            *ngIf="sessionsByThemeDetail!=null && selectedThemeDet!=null && sessionsByThemeDetail.length>=selectedThemeDet.nbDaysthemeDetailInst"
                             [hidden]="sessionsByThemeDetail!=null && selectedThemeDet!=null &&  sessionsByThemeDetail.length<selectedThemeDet.nbDaysthemeDetailInst">
                             <div class="message-box error">
                                 Vous avez atteint la limite des séances.
                             </div>
                         </div>
-                       
-                        <div class="content mb-24" *ngIf="sessionsByThemeDetail!=null && selectedThemeDet!=null && sessionsByThemeDetail.length<selectedThemeDet.nbDaysthemeDetailInst"
+
+                        <div class="content mb-24"
+                            *ngIf="sessionsByThemeDetail!=null && selectedThemeDet!=null && sessionsByThemeDetail.length<selectedThemeDet.nbDaysthemeDetailInst"
                             [hidden]="sessionsByThemeDetail!=null && selectedThemeDet!=null &&  sessionsByThemeDetail.length>=selectedThemeDet.nbDaysthemeDetailInst">
                             <div class="message-box warning">
-                                Vous avez {{sessionsByThemeDetail.length }} séance(s) pour la thèmatique "{{selectedThemeDet.themeDetailInstName}}"
+                                Vous avez {{sessionsByThemeDetail.length }} séance(s) pour la thèmatique
+                                "{{selectedThemeDet.themeDetailInstName}}"
                             </div>
                         </div>
-                        <div  *ngIf="sessionsByThemeDetail!=null && selectedThemeDet!=null &&  sessionsByThemeDetail.length<selectedThemeDet.nbDaysthemeDetailInst" [hidden]="sessionsByThemeDetail!=null && selectedThemeDet!=null && sessionsByThemeDetail.length>=selectedThemeDet.nbDaysthemeDetailInst">
-                            <div fxFlex="1 0 auto" fxLayout="column"   >
+                        <div *ngIf="sessionsByThemeDetail!=null && selectedThemeDet!=null &&  sessionsByThemeDetail.length<selectedThemeDet.nbDaysthemeDetailInst"
+                            [hidden]="sessionsByThemeDetail!=null && selectedThemeDet!=null && sessionsByThemeDetail.length>=selectedThemeDet.nbDaysthemeDetailInst">
+                            <div fxFlex="1 0 auto" fxLayout="column">
 
                                 <mat-form-field appearance="outline" class="w-100-p">
                                     <mat-label>Titre Scéance</mat-label>
@@ -152,8 +156,7 @@
                                         {{formErrorsStepper1.courseSessionBeginDate}}</mat-error>
 
                                 </mat-form-field>
-                                <div class="content mb-24" *ngIf="testDate"
-                                    [hidden]="!testDate">
+                                <div class="content mb-24" *ngIf="testDate" [hidden]="!testDate">
                                     <div class="message-box error">
                                         Ce groupe a déjà une séance pour cette date.
                                     </div>

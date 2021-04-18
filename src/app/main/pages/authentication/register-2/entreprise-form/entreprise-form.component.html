@@ -59,7 +59,15 @@
 
                             </mat-form-field>
                         </div>
+                        <div fxLayout="row " fxLayoutAlign="start center" fxFlex="1 0 auto">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Poste occupé par le représentant</mat-label>
+                                <input matInput formControlName="positionM" required (blur)="onValueChanged()">
+                                <mat-icon matSuffix class="secondary-text">work_outline</mat-icon>
+                                <mat-error *ngIf="formErrors.positionM">{{formErrors.positionM}}</mat-error>
 
+                            </mat-form-field>
+                        </div>
                         <div fxLayout="row " fxLayoutAlign="start center" fxFlex="1 0 auto">
                             <mat-form-field appearance="outline">
                                 <mat-label>Nom de l'entreprise</mat-label>
@@ -161,25 +169,35 @@
 
 
                         <div fxLayout="row" fxLayoutAlign="start center">
-                            <mat-form-field appearance="outline" fxFlex >
+                            <mat-form-field appearance="outline" fxFlex>
                                 <mat-label>Classe</mat-label>
                                 <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                                <mat-select formControlName="classe" (selectionChange)="sendClasse($event.value)"  required (blur)="onValueChanged()">
-                                   
+                                <mat-select formControlName="classe" (selectionChange)="sendClasse($event.value)"
+                                    required (blur)="onValueChanged()">
+
                                     <mat-option *ngFor="let classe of classes" [value]="classe">
-                                        {{ classe.programInstName}}    {{ classe.location}} 
+                                        {{ classe.programInstName}} {{ classe.location}}
                                     </mat-option>
                                 </mat-select>
-            
+
                                 <mat-error *ngIf="formErrors.classe">{{formErrors.classe}}</mat-error>
 
                             </mat-form-field>
                         </div>
 
+                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Nombre de participants à inscrire</mat-label>
+                                <input matInput formControlName="participNumber" required (blur)="onValueChanged()">
+                                <mat-icon matSuffix class="secondary-text">looks_one</mat-icon>
+                                <mat-error *ngIf="formErrors.participNumber">{{formErrors.participNumber}}</mat-error>
+
+                            </mat-form-field>
+                        </div>
                         <div class="alert alert-danger" fxLayout="column" fxLayoutAlign="center center" role="alert"
                             *ngIf="isFailed">
 
-                          <h4>{{errorMessage}}</h4>  
+                            <h4>{{errorMessage}}</h4>
                         </div>
 
                     </form>
@@ -201,7 +219,7 @@
                         [disabled]="!formValidation()">
                         VALIDER
                     </button>
-                    <div class="alert alert-success"  fxLayoutAlign="center center" *ngIf="isSuccessful">
+                    <div class="alert alert-success" fxLayoutAlign="center center" *ngIf="isSuccessful">
                         <h4>Vos données sont bien enregistrées.</h4>
                     </div>
                     <div class="register mb-24" fxLayout="row" fxLayoutAlign="center center" fxFlex="1 0 auto">

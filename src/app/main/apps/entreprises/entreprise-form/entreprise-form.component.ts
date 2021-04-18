@@ -96,12 +96,14 @@ export class EntrepriseFormComponent {
             //   address : [this.contact.address],
             managerFirstName: [this.contact.managerFirstName, [Validators.required, Validators.minLength(2)]],
             managerLastName: [this.contact.managerLastName, [Validators.required, Validators.minLength(2)]],
+            positionM: ['', [Validators.required, Validators.minLength(2)]],
             street: [this.contact.street, Validators.required],
             city: [this.contact.city, Validators.required],
             classe: ['', Validators.required],
             postalCode: [this.contact.postalCode, [Validators.required, Validators.pattern(code)]],
             website: [this.contact.website, [Validators.required, Validators.pattern(url)]],
             //password :[this.contact.phoneNumber],
+            participNumber:['', [Validators.required, Validators.pattern(code)]],
             notes: [this.contact.notes],
             /*   id: [this.contact.id],
              enterpriseName: [this.contact.enterpriseName, [Validators.required, Validators.minLength(2)]],
@@ -139,6 +141,8 @@ export class EntrepriseFormComponent {
         'state': '',
         'nameE': '',
         'webSite': '',
+        'positionM':'',
+        'participNumber':'',
 
     };
 
@@ -155,6 +159,11 @@ export class EntrepriseFormComponent {
             'minlength': 'La longueur du nom doit être supérieure à 2.',
 
         },
+        'positionM': {
+            'required': 'Le poste est requis',
+            'minlength': 'La longueur du poste doit être supérieure à 2',
+      
+          },
         'enterpriseName': {
             'required': 'Le nom de l\'entreprise est requis',
             'minlength': 'La longueur du nom doit être supérieure à 2',
@@ -201,6 +210,10 @@ export class EntrepriseFormComponent {
         'classe': {
             'required': 'La classe est requise.',
         },
+        'participNumber':{
+            'required': 'Le nombre de participants est requis.',
+            'pattern': 'Le nombre de participants ne doit contenir que des chiffres.'
+          }
 
     };
 

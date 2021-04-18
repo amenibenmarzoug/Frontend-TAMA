@@ -57,6 +57,8 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
     'state': '',
     'nameE': '',
     'webSite': '',
+    'positionM':'',
+    'participNumber':'',
 
   };
 
@@ -70,6 +72,11 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
     'lastNameP': {
       'required': 'Le nom est requis.',
       'minlength': 'La longueur du nom doit être supérieure à 2.',
+
+    },
+    'positionM': {
+      'required': 'Le poste est requis',
+      'minlength': 'La longueur du poste doit être supérieure à 2',
 
     },
     'nameE': {
@@ -118,7 +125,10 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
     'classe': {
       'required': 'La classe est requise.',
     },
-
+    'participNumber':{
+      'required': 'Le nombre de participants est requis.',
+      'pattern': 'Le nombre de participants ne doit contenir que des chiffres.'
+    }
   };
 
   // Private
@@ -179,6 +189,8 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
         state: new FormControl(),
         nameE: new FormControl(),
         webSite: new FormControl(),
+        positionM:new FormControl(),
+        participNumber:new FormControl(),
       }),
 
     });
@@ -206,9 +218,11 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
       street: ['', Validators.required],
       city: ['', Validators.required],
       postalCode: ['', [Validators.required, Validators.pattern(code)]],
+      positionM: ['', [Validators.required, Validators.minLength(2)]],
       nameE: ['', [Validators.required, Validators.minLength(2)]],
       webSite: ['', [Validators.required, Validators.pattern(url)]],
       classe: ['',Validators.required],
+      participNumber:['', [Validators.required, Validators.pattern(code)]],
 
     });
 
