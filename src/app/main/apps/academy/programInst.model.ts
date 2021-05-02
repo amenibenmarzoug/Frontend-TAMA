@@ -1,6 +1,7 @@
 import { CalendarEventAction } from 'angular-calendar';
 import { startOfDay, endOfDay } from 'date-fns';
 import { Program } from '../academy/program.model';
+import { FuseUtils } from '@fuse/utils';
 
 
 export class ProgramInst{
@@ -10,19 +11,21 @@ export class ProgramInst{
     nbDaysProgInst: number;
     location:string;
     program:Program;
-    dateDebut:Date;
+    BeginDate:Date;
+    endDate:Date;
    
 
 
     constructor(programInst)
     {
        // cursus = cursus || {};
-        this.id = programInst.id;
+        this.id = programInst.id  || FuseUtils.generateGUID();
         this.programInstName=programInst.programInstName || '';
         this.nbDaysProgInst=programInst.nbDaysProgInst || '';
         this.location = programInst.location || '';
         this.program = programInst.program || '';
-        this.dateDebut=programInst.dateDebut || '';
+        this.BeginDate=programInst.dateDebut || '';
+        this.endDate=programInst.endDate || '';
         
 
     

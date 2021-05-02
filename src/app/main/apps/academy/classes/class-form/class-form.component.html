@@ -10,16 +10,17 @@
 
     <div mat-dialog-content class="p-16 pb-0 m-0" fusePerfectScrollbar>
 
-        <form name="programInstForm" [formGroup]="programInstForm" class="event-form w-100-p" fxLayout="column" fxFlex >
+        <form name="programInstForm" [formGroup]="programInstForm" class="event-form w-100-p" fxLayout="column" fxFlex>
             <mat-form-field appearance="outline" class="w-100-p">
                 <mat-label>Programme de Base</mat-label>
-                    <mat-select formControlName="program" placeholder="Programme de Base" (selectionChange)="getProgramForm($event.value)">
-                       
-                        <mat-option *ngFor="let program of programs"  [value]="program">
-                            {{ program.programName}} 
-                        </mat-option>
-                    </mat-select>
-                    <!-- <mat-error *ngIf="program.hasError('required')">
+                <mat-select formControlName="program" placeholder="Programme de Base"
+                    (selectionChange)="getProgramForm($event.value)">
+
+                    <mat-option *ngFor="let program of programs" [value]="program">
+                        {{ program.programName}}
+                    </mat-option>
+                </mat-select>
+                <!-- <mat-error *ngIf="program.hasError('required')">
                         Program required.
                       </mat-error> -->
             </mat-form-field>
@@ -31,77 +32,72 @@
 
             <mat-form-field appearance="outline" fxFlex="100">
                 <mat-label>Ville</mat-label>
-                <mat-select formControlName="location" >
+                <mat-select formControlName="location">
                     <mat-option *ngFor="let city of cities" [value]="city">
                         {{city}}
                     </mat-option>
 
                 </mat-select>
                 <mat-icon matSuffix class="secondary-text">outlined_flag</mat-icon>
-                
+
             </mat-form-field>
-           
-           
+
+
             <mat-form-field appearance="outline" class="w-100-p">
                 <mat-label>Nom du Programme Dédié</mat-label>
-                <input matInput name="programInstName" formControlName="programInstName" 
-                required [(ngModel)]="programInst.programInstName">
+                <input matInput name="programInstName" formControlName="programInstName" required
+                    [(ngModel)]="programInst.programInstName">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="w-100-p">
                 <mat-label>Nombre du jours</mat-label>
-                <input matInput name="nbDaysProgInst" formControlName="nbDaysProgInst" 
-                required  [(ngModel)]="programInst.nbDaysProgInst">
+                <input matInput name="nbDaysProgInst" formControlName="nbDaysProgInst" required
+                    [(ngModel)]="programInst.nbDaysProgInst">
             </mat-form-field>
-           
+
             <mat-form-field appearance="outline">
                 <mat-label>Date début</mat-label>
-                <input matInput [matDatepicker]="dp" formControlName="date">
+                <input matInput [matDatepicker]="dp" formControlName="BeginDate">
                 <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-                <mat-datepicker #dp
-                                startView="multi-year"
-                                (yearSelected)="chosenYearHandler($event)"
-                                (monthSelected)="chosenMonthHandler($event, dp)"
-                                panelClass="example-month-picker">
+                <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+                    (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
                 </mat-datepicker>
-              </mat-form-field>
-              
-              
-             
+            </mat-form-field>
+
+             <mat-form-field appearance="outline">
+                <mat-label>Date Fin</mat-label>
+                <input matInput [matDatepicker]="dpE" formControlName="endDate">
+                <mat-datepicker-toggle matSuffix [for]="dpE"></mat-datepicker-toggle>
+                <mat-datepicker #dpE startView="multi-year" (yearSelected)="chosenYearEndHandler($event)"
+                    (monthSelected)="chosenMonthEndHandler($event, dpE)" panelClass="example-month-picker">
+                </mat-datepicker>
+            </mat-form-field> 
+
+
+
         </form>
-        </div>
-        
-        
-<div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+    </div>
 
-    <button *ngIf="action === 'edit'"
-            mat-button
-            class="mr-8"
-            (click)="matDialogRef.close(['delete',programInstForm])"
-            aria-label="Delete"
-            matTooltip="Delete">
-        DELETE
-    </button>
 
-    <button *ngIf="action !== 'edit'"
-            mat-button
-            class="save-button"
-            (click)="matDialogRef.close(programInstForm)"
-            [disabled]="programInstForm.invalid"
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <button *ngIf="action === 'edit'" mat-button class="mr-8"
+            (click)="matDialogRef.close(['delete',programInstForm])" aria-label="Delete" matTooltip="Delete">
+            DELETE
+        </button>
+
+        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(programInstForm)"
+            [disabled]="programInstForm.invalid" aria-label="SAVE">
+            ADD
+        </button>
+
+        <button *ngIf="action === 'edit'" mat-button class="save-button"
+            (click)="matDialogRef.close(['save',programInstForm])" [disabled]="programInstForm.invalid"
             aria-label="SAVE">
-        ADD
-    </button>
+            SAVE
+        </button>
 
-    <button *ngIf="action === 'edit'"
-            mat-button
-            class="save-button"
-            (click)="matDialogRef.close(['save',programInstForm])"
-            [disabled]="programInstForm.invalid"
-            aria-label="SAVE">
-        SAVE
-    </button>
-
-</div>
+    </div>
 
 
 </div>

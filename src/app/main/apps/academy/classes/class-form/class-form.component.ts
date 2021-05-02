@@ -51,21 +51,86 @@ const moment = _moment;
   ],
 })
 export class ClassFormComponent implements OnInit {
-  date = new FormControl(moment());
+
 
   chosenYearHandler(normalizedYear: Moment) {
-    console.log("DATE");
-    console.log(this.programInstForm.value.date.value);
-    const ctrlValue = this.programInstForm.value.date.value;
+    if (this.programInst.id != null) {
+      this.programInstForm.value.BeginDate = moment();
+    }
+    
+    const ctrlValue = this.programInstForm.value.BeginDate;
+    //const ctrlValue = this.date.value;
     ctrlValue.year(normalizedYear.year());
-    this.programInstForm.value.date.setValue(ctrlValue);
+    this.programInstForm.setValue({
+      id: this.programInstForm.value.id,
+      programInstName: this.programInstForm.value.programInstName,
+      nbDaysProgInst: this.programInstForm.value.nbDaysProgInst,
+      location: this.programInstForm.value.location,
+      program: this.programInstForm.value.program,
+      BeginDate: ctrlValue,
+      endDate:this.programInstForm.value.endDate,
+    });
+    //this.programInstForm.value.dateDebut.setValue(ctrlValue);
+  
 
   }
 
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
-    const ctrlValue = this.programInstForm.value.date.value;
+  
+    const ctrlValue = this.programInstForm.value.BeginDate;
     ctrlValue.month(normalizedMonth.month());
-    this.programInstForm.value.date.setValue(ctrlValue);
+    this.programInstForm.setValue({
+      id: this.programInstForm.value.id,
+      programInstName: this.programInstForm.value.programInstName,
+      nbDaysProgInst: this.programInstForm.value.nbDaysProgInst,
+      location: this.programInstForm.value.location,
+      program: this.programInstForm.value.program,
+      BeginDate: ctrlValue,
+      endDate:this.programInstForm.value.endDate,
+    });
+    
+    this.programInst.BeginDate = this.programInstForm.value.BeginDate;
+    datepicker.close();
+  }
+
+  chosenYearEndHandler(normalizedYear: Moment) {
+
+    if (this.programInst.id != null) {
+      this.programInstForm.value.endDate = moment();
+    }
+    
+    const ctrlValue = this.programInstForm.value.endDate;
+    //const ctrlValue = this.date.value;
+    ctrlValue.year(normalizedYear.year());
+    this.programInstForm.setValue({
+      id: this.programInstForm.value.id,
+      programInstName: this.programInstForm.value.programInstName,
+      nbDaysProgInst: this.programInstForm.value.nbDaysProgInst,
+      location: this.programInstForm.value.location,
+      program: this.programInstForm.value.program,
+      endDate: ctrlValue,
+      dateDebut:this.programInstForm.value.dateDebut,
+    });
+    console.log("FORM");
+    console.log(this.programInstForm.value);
+  }
+
+  chosenMonthEndHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
+    const ctrlValue = this.programInstForm.value.endDate;
+    ctrlValue.month(normalizedMonth.month());
+    this.programInstForm.setValue({
+      id: this.programInstForm.value.id,
+      programInstName: this.programInstForm.value.programInstName,
+      nbDaysProgInst: this.programInstForm.value.nbDaysProgInst,
+      location: this.programInstForm.value.location,
+      program: this.programInstForm.value.program,
+      endDate: ctrlValue,
+      dateDebut:this.programInstForm.value.dateDebut,
+    });
+    
+    this.programInst.endDate = this.programInstForm.value.endDate;
+    console.log("FORM");
+    console.log(this.programInstForm.value);
     datepicker.close();
   }
 
@@ -124,7 +189,7 @@ export class ClassFormComponent implements OnInit {
 
     }
 
-    this.programInstForm = this.createProgramInstForm();
+    this.programInstForm = this.createProgramForm();
     this._unsubscribeAll = new Subject();
     this.programs = this._programInstService.programs;
 
@@ -140,16 +205,64 @@ export class ClassFormComponent implements OnInit {
 
 
   createProgramInstForm(): FormGroup {
-
+    console.log("PROGERAMM");
+    console.log(this.programInst);
+    // if(this.programInst.id==null){
     return this._formBuilder.group({
       id: [this.programInst.id],
       programInstName: [this.programInst.programInstName],
       nbDaysProgInst: [this.programInst.nbDaysProgInst],
       location: [this.programInst.location],
       program: [this.programInst.program, Validators.required],
-      date: [moment()],
+      dateDebut: [moment()],
+      //dateDebut: [this.programInst.dateDebut],
 
     });
+
+    // }
+    /*   else{
+         return this._formBuilder.group({
+           id: [this.programInst.id],
+           programInstName: [this.programInst.programInstName],
+           nbDaysProgInst: [this.programInst.nbDaysProgInst],
+           location: [this.programInst.location],
+           program: [this.programInst.program, Validators.required],
+           //dateDebut: [moment()],
+           dateDebut: [new Date(this.programInst.dateDebut)],
+     
+         });
+     
+       }*/
+
+
+  }
+
+  createProgramForm(): FormGroup {
+    if (this.programInst.id == null) {
+      return new FormGroup({
+        id: new FormControl(this.programInst.id),
+        programInstName: new FormControl(this.programInst.programInstName),
+        nbDaysProgInst: new FormControl(this.programInst.nbDaysProgInst),
+        location: new FormControl(this.programInst.location),
+        program: new FormControl(this.programInst.program),
+        dateDebut: new FormControl(moment()),
+        endDate: new FormControl(moment()),
+        // dateDebut: new FormControl(this.programInst.dateDebut),
+
+      });
+    }
+    else {
+      return new FormGroup({
+        id: new FormControl(this.programInst.id),
+        programInstName: new FormControl(this.programInst.programInstName),
+        nbDaysProgInst: new FormControl(this.programInst.nbDaysProgInst),
+        location: new FormControl(this.programInst.location),
+        program: new FormControl(this.programInst.program),
+        //dateDebut: new FormControl(moment()),
+        BeginDate: new FormControl(this.programInst.BeginDate),
+        endDate:new FormControl(this.programInst.endDate),
+      });
+    }
 
   }
   getProgramForm(event) {
