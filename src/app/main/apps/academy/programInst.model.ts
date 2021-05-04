@@ -11,7 +11,7 @@ export class ProgramInst{
     nbDaysProgInst: number;
     location:string;
     program:Program;
-    BeginDate:Date;
+    beginDate:Date;
     endDate:Date;
    
 
@@ -24,7 +24,7 @@ export class ProgramInst{
         this.nbDaysProgInst=programInst.nbDaysProgInst || '';
         this.location = programInst.location || '';
         this.program = programInst.program || '';
-        this.BeginDate=programInst.dateDebut || '';
+        this.beginDate=programInst.beginDate || '';
         this.endDate=programInst.endDate || '';
         
 

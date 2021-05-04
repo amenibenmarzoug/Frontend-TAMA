@@ -55,10 +55,10 @@ export class ClassFormComponent implements OnInit {
 
   chosenYearHandler(normalizedYear: Moment) {
     if (this.programInst.id != null) {
-      this.programInstForm.value.BeginDate = moment();
+      this.programInstForm.value.beginDate = moment();
     }
     
-    const ctrlValue = this.programInstForm.value.BeginDate;
+    const ctrlValue = this.programInstForm.value.beginDate;
     //const ctrlValue = this.date.value;
     ctrlValue.year(normalizedYear.year());
     this.programInstForm.setValue({
@@ -67,7 +67,7 @@ export class ClassFormComponent implements OnInit {
       nbDaysProgInst: this.programInstForm.value.nbDaysProgInst,
       location: this.programInstForm.value.location,
       program: this.programInstForm.value.program,
-      BeginDate: ctrlValue,
+      beginDate: ctrlValue,
       endDate:this.programInstForm.value.endDate,
     });
     //this.programInstForm.value.dateDebut.setValue(ctrlValue);
@@ -77,7 +77,7 @@ export class ClassFormComponent implements OnInit {
 
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
   
-    const ctrlValue = this.programInstForm.value.BeginDate;
+    const ctrlValue = this.programInstForm.value.beginDate;
     ctrlValue.month(normalizedMonth.month());
     this.programInstForm.setValue({
       id: this.programInstForm.value.id,
@@ -85,11 +85,11 @@ export class ClassFormComponent implements OnInit {
       nbDaysProgInst: this.programInstForm.value.nbDaysProgInst,
       location: this.programInstForm.value.location,
       program: this.programInstForm.value.program,
-      BeginDate: ctrlValue,
+      beginDate: ctrlValue,
       endDate:this.programInstForm.value.endDate,
     });
     
-    this.programInst.BeginDate = this.programInstForm.value.BeginDate;
+    this.programInst.beginDate = this.programInstForm.value.beginDate;
     datepicker.close();
   }
 
@@ -109,7 +109,7 @@ export class ClassFormComponent implements OnInit {
       location: this.programInstForm.value.location,
       program: this.programInstForm.value.program,
       endDate: ctrlValue,
-      dateDebut:this.programInstForm.value.dateDebut,
+      beginDate:this.programInstForm.value.beginDate,
     });
     console.log("FORM");
     console.log(this.programInstForm.value);
@@ -125,7 +125,7 @@ export class ClassFormComponent implements OnInit {
       location: this.programInstForm.value.location,
       program: this.programInstForm.value.program,
       endDate: ctrlValue,
-      dateDebut:this.programInstForm.value.dateDebut,
+      beginDate:this.programInstForm.value.beginDate,
     });
     
     this.programInst.endDate = this.programInstForm.value.endDate;
@@ -189,7 +189,7 @@ export class ClassFormComponent implements OnInit {
 
     }
 
-    this.programInstForm = this.createProgramForm();
+    this.programInstForm = this.createProgramInstForm();
     this._unsubscribeAll = new Subject();
     this.programs = this._programInstService.programs;
 
@@ -204,7 +204,7 @@ export class ClassFormComponent implements OnInit {
   }
 
 
-  createProgramInstForm(): FormGroup {
+ /* createProgramInstForm(): FormGroup {
     console.log("PROGERAMM");
     console.log(this.programInst);
     // if(this.programInst.id==null){
@@ -214,13 +214,13 @@ export class ClassFormComponent implements OnInit {
       nbDaysProgInst: [this.programInst.nbDaysProgInst],
       location: [this.programInst.location],
       program: [this.programInst.program, Validators.required],
-      dateDebut: [moment()],
+      beginDate: [moment()],
       //dateDebut: [this.programInst.dateDebut],
 
     });
 
     // }
-    /*   else{
+      else{
          return this._formBuilder.group({
            id: [this.programInst.id],
            programInstName: [this.programInst.programInstName],
@@ -232,12 +232,12 @@ export class ClassFormComponent implements OnInit {
      
          });
      
-       }*/
+       }
 
 
-  }
+  }*/
 
-  createProgramForm(): FormGroup {
+  createProgramInstForm(): FormGroup {
     if (this.programInst.id == null) {
       return new FormGroup({
         id: new FormControl(this.programInst.id),
@@ -245,7 +245,7 @@ export class ClassFormComponent implements OnInit {
         nbDaysProgInst: new FormControl(this.programInst.nbDaysProgInst),
         location: new FormControl(this.programInst.location),
         program: new FormControl(this.programInst.program),
-        dateDebut: new FormControl(moment()),
+        beginDate: new FormControl(moment()),
         endDate: new FormControl(moment()),
         // dateDebut: new FormControl(this.programInst.dateDebut),
 
@@ -259,7 +259,7 @@ export class ClassFormComponent implements OnInit {
         location: new FormControl(this.programInst.location),
         program: new FormControl(this.programInst.program),
         //dateDebut: new FormControl(moment()),
-        BeginDate: new FormControl(this.programInst.BeginDate),
+        beginDate: new FormControl(this.programInst.beginDate),
         endDate:new FormControl(this.programInst.endDate),
       });
     }
