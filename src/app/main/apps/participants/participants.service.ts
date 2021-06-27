@@ -37,6 +37,7 @@ export class ParticipantsService implements Resolve<any>
     searchText: string;
     filterBy: string;
     id: number;
+    ages: any;
     /**
      * Constructor
      *
@@ -292,8 +293,8 @@ export class ParticipantsService implements Resolve<any>
     addParticipant(contact, entreprise, classe): Promise<any> {
         return new Promise((resolve, reject) => {
             contact.password = contact.phoneNumber;
-            console.log(" PARTICIPANT ENTREPISE")
-            console.log(contact.entreprise)
+            console.log(" PARTICIPANT ENTREPISE");
+            console.log(contact.experience);
             if (entreprise == null) {
                 contact.programInstance = classe;
             }
@@ -355,6 +356,7 @@ export class ParticipantsService implements Resolve<any>
         });
     }
 
+    
 
 
     // /**
@@ -424,5 +426,40 @@ export class ParticipantsService implements Resolve<any>
         this.onContactsChanged.next(this.participants);
         this.deselectContacts();
     }
+
+
+    getAges(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get('http://localhost:8080/api/participants/ages')
+                .subscribe((response: any) => {
+                    console.log("hhhhhhhhhhhh");
+console.log(response);
+                    this.ages = response;
+                    console.log(this.ages);
+                  /*  this.participants = this.participants.map(contact => {
+                        return new Participant(contact);
+                    });*/
+
+                  //  this.onContactsChanged.next(this.participants);
+
+                  
+                    console.log("INSTITUTIONS");
+                   /* this.ages = response.filter(age => {
+                        
+                        if (age.id== contact) {
+                            //console.log("");
+                            return true;
+                        }
+                        return false;
+                    });*/
+                console.log(this.ages);
+               
+                    resolve(this.ages);
+                }, reject);
+        }
+        );
+
+    }
+
 
 }

@@ -19,27 +19,38 @@
 
 
     <!-- Email Column -->
-    <ng-container matColumnDef="email">
+    <!--ng-container matColumnDef="email">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Email</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm>
             <p class="email text-truncate">
                 {{contact.email}}
             </p>
         </mat-cell>
+    </ng-container-->
+
+    <!-- Age Column -->
+    <ng-container matColumnDef="age">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Age</mat-header-cell>
+        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm (selectionChange)="calculateAge(contact)">
+            <p class="age text-truncate">
+              {{this.age}}
+            </p>
+        </mat-cell>
     </ng-container>
 
+ 
     <!-- Phone Column -->
-    <ng-container matColumnDef="phone">
+    <!--ng-container matColumnDef="phone">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Numéro </mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
             <p class="phone text-truncate">
                 {{contact.phoneNumber}}
             </p>
         </mat-cell>
-    </ng-container>
+    </ng-container-->
 
     <!-- Job Title Column -->
-    <ng-container matColumnDef="currentPosition" >
+    <!--ng-container matColumnDef="currentPosition" >
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>
              Position</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
@@ -47,7 +58,7 @@
                 {{contact.currentPosition}}
             </p>
         </mat-cell>
-    </ng-container>
+    </ng-container-->
    <!--  <ng-container matColumnDef="abandon">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Abandonner</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
@@ -77,7 +88,7 @@
     </ng-container>
     
     <ng-container matColumnDef="level">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Niveau</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Niveau Management</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
             <p class="company text-truncate">
                 {{contact.level}}
@@ -121,4 +132,6 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let contact; columns: displayedColumns;" class="contact" (click)="editContact(contact)" [ngClass]="{'accent-50':checkboxes[contact.id]}" [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>
+  
+
 </mat-table>

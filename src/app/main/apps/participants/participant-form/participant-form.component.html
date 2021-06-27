@@ -150,6 +150,14 @@
 
                 </mat-form-field>
             </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="particpantType=='Employé'">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>NombreAnnéeExpérienceProfessionelle</mat-label>
+                    
+                    <input type ="number" formControlName="experience" matInput required>
+                </mat-form-field>
+            </div>
    
             <div fxLayout="row" fxLayoutAlign="start center" class="pr-4" *ngIf="particpantType=='Employé'">
                 <mat-form-field appearance="outline" fxFlex class="pr-4">

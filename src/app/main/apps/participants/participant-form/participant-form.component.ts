@@ -105,6 +105,7 @@ export class ParticipantFormComponent {
             company: [this.contact.entreprise],
             classe: [this.contact.programInstance],
             currentPosition: [this.contact.currentPosition],
+            experience : [this.contact.experience],
             email: [this.contact.email],
             phoneNumber: [this.contact.phoneNumber],
             street: [this.contact.street],
@@ -168,6 +169,7 @@ export class ParticipantFormComponent {
 
     //     this._ParticipantsService.cursus = event;
     // }
+
 
 
 
