@@ -143,7 +143,8 @@ export class CalendarService implements Resolve<any>
             this._httpClient.get(AUTH_API + 'event')
                 .subscribe((response: any) => {
 
-                  
+                    console.log("response");
+                    console.log(response);
                     this.events = response;
                     if (this.userRole.includes("PARTICIPANT")) {
                         if (this.participant.programInstance == null) {
@@ -251,6 +252,20 @@ export class CalendarService implements Resolve<any>
                     console.log(event);
                     this.getEvents();
                     resolve(response);
+                });
+        });
+    }
+
+    addFreeDay(event): Promise<any> {
+        return new Promise((resolve, reject) => {
+
+            this._httpClient.post(AUTH_API + 'event/freeDay', event)
+                .subscribe(response => {
+                  
+                    console.log(event);
+                    
+                    resolve(response);
+                    this.getEvents();
                 });
         });
     }

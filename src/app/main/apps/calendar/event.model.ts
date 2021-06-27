@@ -39,7 +39,7 @@ export class CalendarEventModel {
     this.id = data.id || FuseUtils.generateGUID();
 
     if (data.session != null) {
-       this.session = data.session;
+       this.session = data.session ;
       this.title = data.session.sessionName;
 
       this.start = new Date(data.session.sessionBeginDate);
@@ -48,11 +48,11 @@ export class CalendarEventModel {
     }
 
     else {
-
-      this.title = 'event';
+      this.session=null;
+      this.title = 'Jour Férié';
       // this.courseSession =  null;
-      this.start = new Date() || new Date(data.session.sessionBeginDate) || null;
-      this.end = new Date() || new Date(data.session.sessionEndDate) || null;
+      this.start = new Date(data.start) || null;
+      this.end = new Date(data.end) || null;
     }
 
     this.colorPrimary = data.colorPrimary || '#1e90ff';
