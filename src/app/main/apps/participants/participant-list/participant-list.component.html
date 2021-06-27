@@ -31,9 +31,9 @@
     <!-- Age Column -->
     <ng-container matColumnDef="age">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Age</mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm (selectionChange)="calculateAge(contact)">
+        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm >
             <p class="age text-truncate">
-              {{this.age}}
+              {{currentYear}}
             </p>
         </mat-cell>
     </ng-container>
