@@ -26,7 +26,7 @@
             <!-- HORIZONTAL STEPPER EXAMPLE -->
             <mat-horizontal-stepper class="mat-elevation-z4" [linear]="true" [selectedIndex]="currentStep" #stepper>
 
-                <mat-step #matStep [stepControl]="horizontalStepperStep1" [completed]="matStep.selected">
+                <mat-step #matStep [stepControl]="horizontalStepperStep1" [completed]="matStep.selected" errorMessage="Veuillez naviguer via les boutons Suivant et Précédent" [hasError]="!buttonSuiv1Selected" >
 
                     <form fxLayout="column" [formGroup]="horizontalStepperStep1">
 
@@ -188,7 +188,7 @@
 
                 </mat-step>
 
-                <mat-step #matStep [stepControl]="horizontalStepperStep2" [completed]="!disableButton()">
+                <mat-step #matStep [stepControl]="horizontalStepperStep2" [completed]="!disableButton()" errorMessage="Veuillez naviguer via les boutons Suivant et Précédent" [hasError]="!buttonSuiv2Selected">
 
                     <form fxLayout="column" [formGroup]="horizontalStepperStep2">
 
@@ -211,7 +211,7 @@
 
                         <div fxLayout="row" fxLayoutAlign="center center">
                             <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent"
-                                (click)="onValueChangedStepper1()">
+                                (click)=" PrecButton2()">
                                 Précédent
                             </button>
                             <button mat-raised-button matStepperNext type="button" color="accent"
@@ -223,7 +223,7 @@
                     </form>
                 </mat-step>
 
-                <mat-step #matstep [stepControl]="horizontalStepperStep3" [completed]="matStep.selected">
+                <mat-step #matstep [stepControl]="horizontalStepperStep3" [completed]="matStep.selected" errorMessage="Veuillez naviguer via les boutons Suivant et Précédent" [hasError]="!buttonSuiv3Selected">
 
                     <form fxLayout="column" [formGroup]="horizontalStepperStep3">
 
@@ -263,7 +263,7 @@
                         </div>
 
                         <div fxLayout="row" fxLayoutAlign="center center">
-                            <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
+                            <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent" (click)="PrecButton3()">
                                 Précédent
                             </button>
                             <button mat-raised-button matStepperNext type="button" color="accent"
@@ -280,7 +280,7 @@
                 <mat-step>
 
                     <ng-template matStepLabel>Confirmer</ng-template>
-
+                    <!-- <ng-template matStepContent> -->
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
                         *ngIf="selectedTrainer!=null && session!=null">
                         Etes vous sûr des données suivantes? :
@@ -289,17 +289,22 @@
                         *ngIf="selectedTrainer!=null && session!=null"> Séance: {{session.sessionName}}
                         {{session.themeDetailInstance.themeDetail.themeDetailName}}</div>
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
-                        *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null"> Formateur:
+                        *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null && session.trainer.gender=='Féminin'">
+                        Formatrice:
+                        {{selectedTrainer.firstName}} {{selectedTrainer.lastName}}</div>
+                    <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
+                        *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null && session.trainer.gender=='Masculin'">
+                        Formateur:
                         {{selectedTrainer.firstName}} {{selectedTrainer.lastName}}</div>
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
                         *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null"> Date:
                         {{session.sessionBeginDate | date:'fullDate'}} </div>
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
-                        *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null"> Salle:
-                        {{session.classRoom.classRoomName}}</div>
+                        *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null && session.classRoom.institution!=null"> Salle:
+                        {{session.classRoom.classRoomName}} à {{session.classRoom.institution.institutionName}}</div>
 
                     <div fxLayout="row" fxLayoutAlign="center center">
-                        <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
+                        <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent" (click)="PrecButton4()">
                             Précédent
                         </button>
                         <button mat-raised-button type="button" color="accent" (click)="finishHorizontalStepper()"
@@ -307,7 +312,7 @@
                             Confirmer
                         </button>
                     </div>
-
+                <!-- </ng-template> -->
                 </mat-step>
 
             </mat-horizontal-stepper>

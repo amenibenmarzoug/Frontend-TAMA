@@ -18,7 +18,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { TranslateService } from '@ngx-translate/core';
 import { DateAdapter } from '@angular/material/core';
 import { MatStepper } from '@angular/material/stepper';
-
+import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -28,7 +28,10 @@ const USER_KEY = 'auth-user';
   templateUrl: './add-session.component.html',
   styleUrls: ['./add-session.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  animations: fuseAnimations
+  animations: fuseAnimations,
+  providers: [{
+    provide: STEPPER_GLOBAL_OPTIONS, useValue: {showError: true}
+  }]
 })
 export class AddSessionComponent implements OnInit, OnDestroy {
   form: FormGroup;
@@ -94,6 +97,13 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   // Private
   private _unsubscribeAll: Subject<any>;
   currentStep: any;
+  buttonSuiv1Selected:boolean=false;
+  buttonSuiv2Selected:boolean=false;
+  buttonSuiv3Selected:boolean=false;
+  buttonSuiv4Selected:boolean=false;
+  buttonPrec2Selected:boolean=false;
+  buttonPrec3Selected:boolean=false;
+  buttonPrec4Selected:boolean=false;
 
   formErrorsStepper1 = {
 
@@ -443,6 +453,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       }
 
     });
+    this.buttonSuiv2Selected=true
     this.session = new Session({});
     this.session.sessionName = this.horizontalStepperStep1.value.courseSessionName;
     this.session.sessionBeginDate = this.horizontalStepperStep1.value.courseSessionBeginDate;
@@ -450,8 +461,15 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     this.session.trainer = this.selectedTrainer;
     this.session.themeDetailInstance = this.selectedThemeDet;
 
-    this._addSessionService.getInstitutions();
-    this.institutions = this._addSessionService.institutions;
+   
+    setTimeout(() => {
+      this._addSessionService.getInstitutions().then(() => {
+        this.institutions = this._addSessionService.institutions;
+
+      }
+      );
+    });
+   
     console.log(this.institutions);
   }
 
@@ -469,6 +487,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       case 5: this._addSessionService.selectedDay = "VENDREDI"; break;
       case 6: this._addSessionService.selectedDay = "SAMEDI"; break;
     }
+    this.buttonSuiv1Selected=true;
     console.log(this._addSessionService.selectedDay);
     setTimeout(() => {
       this._addSessionService.getTrainers().then(() => { this.allTrainers = this._addSessionService.trainers; });
@@ -493,6 +512,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   sendClassroom(): void {
 
     this.session.classRoom = this.currentClassroom;
+    this.buttonSuiv3Selected=true;
   }
 
   finishHorizontalStepper(): void {
@@ -515,6 +535,19 @@ export class AddSessionComponent implements OnInit, OnDestroy {
 
 
   }
+
+  PrecButton2(): void {
+    this.buttonSuiv1Selected=false;
+  }
+
+  PrecButton3(): void {
+    this.buttonSuiv2Selected=false;
+  }
+
+  PrecButton4(): void {
+    this.buttonSuiv3Selected=false;
+  }
+
 
   onValueChangedStepper1(data?: any) {
     if (!this.horizontalStepperStep1) { return; }
