@@ -400,7 +400,7 @@ export class EditSessionService implements Resolve<any>{
                     //this.onEventsUpdated.next(this.events);
                     this.freeDays = this.freeDays.filter(_event => {
                         
-                            if (_event.draggable == true) {
+                            if (_event.freeDay == true) {
                                
                                 return true;
                             }

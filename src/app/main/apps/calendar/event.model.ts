@@ -23,7 +23,7 @@ export class CalendarEventModel {
     beforeStart?: boolean;
     afterEnd?: boolean;
   };
-  draggable?: boolean;
+  freeDay?: boolean;
   /* meta?: {
          location: string,
          notes: string
@@ -61,7 +61,7 @@ export class CalendarEventModel {
       colorPrimary: data.colorPrimary || '#1e90ff',//|| '#1e90ff' || colors.yellow.primary || colors.red.primary || colors.green.primary,
       colorSecondary: data.colorSecondary || '#1e90ff',//|| '#D1E8FF'
     };
-    this.draggable = data.draggable || false;
+    this.freeDay = data.freeDay || false;
     this.resizable = {
       beforeStart: data.resizebeforeStart || true,
       afterEnd: data.resizeafterEnd || true

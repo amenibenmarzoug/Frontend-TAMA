@@ -159,7 +159,7 @@ export class CalendarService implements Resolve<any>
                                     }
                                 }
                                 else {
-                                    if (_event.draggable == true) {
+                                    if (_event.freeDay == true) {
                                        
                                         return true;
                                     }
@@ -183,7 +183,7 @@ export class CalendarService implements Resolve<any>
                                 }
                             }
                             else {
-                                if (_event.draggable == true) {
+                                if (_event.freeDay == true) {
                                    
                                     return true;
                                 }
@@ -208,7 +208,7 @@ export class CalendarService implements Resolve<any>
                                     }
                                 }
                                 else {
-                                    if (_event.draggable == true) {
+                                    if (_event.freeDay == true) {
                                        
                                         return true;
                                     }
@@ -224,7 +224,7 @@ export class CalendarService implements Resolve<any>
 
                             }
                             else {
-                                if (_event.draggable == true) {
+                                if (_event.freeDay == true) {
                                    
                                     return true;
                                 }

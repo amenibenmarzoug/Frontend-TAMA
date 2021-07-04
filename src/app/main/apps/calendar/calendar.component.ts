@@ -159,7 +159,7 @@ export class CalendarComponent implements OnInit {
             
             
             
-            if(item.draggable==true){
+            if(item.freeDay==true){
              
                 this.freeDayDates.push(date.toDateString());
                 this.freeDayDates.push(dateEnd.toDateString());
