@@ -25,7 +25,7 @@ export class ClassroomsManagerService implements Resolve<any>
     selectedContactsList: object[] = [];
     user: any;
     selectedContacts: string[] = [];
-    institution: any;
+    institution: any ;
     groupeId: number;
     institutions: MyClasses[];
     programs: Program[];
@@ -238,6 +238,7 @@ export class ClassroomsManagerService implements Resolve<any>
                     this.getClasses();
                     resolve(response);
                 });
+                this.institution= null;
         });
     }
 

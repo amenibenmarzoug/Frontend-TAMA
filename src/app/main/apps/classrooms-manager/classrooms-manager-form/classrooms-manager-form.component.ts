@@ -23,6 +23,7 @@ export class ClassroomsManagerFormComponent {
     institutions: any[];
     classes: any[];
     courses: any[];
+    title: string;
     private _unsubscribeAll: Subject<any>;
     /**
      * Constructor
@@ -47,7 +48,14 @@ export class ClassroomsManagerFormComponent {
             this._classroomsManagerService.institution = this.contact.institution;
         }
         else {
-            this.dialogTitle = 'Nouvelle Salle';
+            if (this._classroomsManagerService.institution != null){
+                this.title=  this._classroomsManagerService.institution.institutionName;
+                this.dialogTitle = 'Nouvelle Salle au sein de : ' + this.title;
+            }
+            else{
+                this.dialogTitle = 'Nouvelle Salle au sein de : ' 
+            }
+            
             this.contact = new MyClasses({});
         }
 

@@ -38,6 +38,16 @@
         </mat-cell>
     </ng-container>
 
+
+     <!-- Professional Experience Column -->
+    <ng-container matColumnDef="experience">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>ExpériencePro. </mat-header-cell>
+        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
+            <p class="phone text-truncate">
+                {{contact.experience}}
+            </p>
+        </mat-cell>
+    </ng-container>
  
     <!-- Phone Column -->
     <!--ng-container matColumnDef="phone">
