@@ -152,9 +152,15 @@ export class CalendarService implements Resolve<any>
                         }
                         else {
                             this.events = this.events.filter(_event => {
-                                if ((_event.session!=null)&&(_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance!= null)) {
+                                if ((_event.session != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.validated == true)) {
                                     if (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == this.participant.programInstance.id) {
                                         //console.log("user trainer");
+                                        return true;
+                                    }
+                                }
+                                else {
+                                    if (_event.draggable == true) {
+                                       
                                         return true;
                                     }
                                 }
@@ -166,13 +172,19 @@ export class CalendarService implements Resolve<any>
 
 
                     }
-                   
+
 
                     else if (this.userRole.includes("TRAINER")) {
                         this.events = this.events.filter(_event => {
-                            if ((_event.session!=null)&&(_event.session.trainer != null)) {
+                            if ((_event.session != null) && (_event.session.trainer != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.validated == true)) {
                                 if (_event.session.trainer.id == this.userId) {
                                     //console.log("user trainer");
+                                    return true;
+                                }
+                            }
+                            else {
+                                if (_event.draggable == true) {
+                                   
                                     return true;
                                 }
                             }
@@ -183,15 +195,21 @@ export class CalendarService implements Resolve<any>
                     else if ((this.userRole.includes("INSTITUTION"))) {
                         this.events = [];
                     }
-                    else if ((this.userRole.includes("ENTREPRISE")) ) {
+                    else if ((this.userRole.includes("ENTREPRISE"))) {
                         if (this.entreprise.programInstance == null) {
                             this.events = [];
                         }
                         else {
                             this.events = this.events.filter(_event => {
-                                if ((_event.session!=null)&&(_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance!= null)) {
+                                if ((_event.session != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.validated == true)) {
                                     if (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == this.entreprise.programInstance.id) {
                                         //console.log("user trainer");
+                                        return true;
+                                    }
+                                }
+                                else {
+                                    if (_event.draggable == true) {
+                                       
                                         return true;
                                     }
                                 }
@@ -200,7 +218,20 @@ export class CalendarService implements Resolve<any>
                         }
                     }
                     else if (this.userRole.includes("MANAGER")) {
-                        this.events = response;
+                        this.events = this.events.filter(_event => {
+                            if ((_event.session != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.validated == true)) {
+                                return true;
+
+                            }
+                            else {
+                                if (_event.draggable == true) {
+                                   
+                                    return true;
+                                }
+                            }
+                            return false;
+                        });
+                     
                     }
                     else {
                         this.events = [];
@@ -235,7 +266,7 @@ export class CalendarService implements Resolve<any>
 
             this._httpClient.put(AUTH_API + 'event', event)
                 .subscribe(response => {
-                   console.log("update methode");
+                    console.log("update methode");
                     console.log(event);
                     this.getEvents();
                     resolve(response);
@@ -248,7 +279,7 @@ export class CalendarService implements Resolve<any>
 
             this._httpClient.post(AUTH_API + 'event', event)
                 .subscribe(response => {
-                  
+
                     console.log(event);
                     this.getEvents();
                     resolve(response);
@@ -261,9 +292,9 @@ export class CalendarService implements Resolve<any>
 
             this._httpClient.post(AUTH_API + 'event/freeDay', event)
                 .subscribe(response => {
-                  
+
                     console.log(event);
-                    
+
                     resolve(response);
                     this.getEvents();
                 });

@@ -53,6 +53,7 @@ export class EditSessionService implements Resolve<any>{
     selectedDay: String;
     onInstitutionsChanged: BehaviorSubject<any>;
     date: Date;
+    freeDays:any[];
     event: CalendarEventModel;
     trainerId:number;
     receivedFilter: EventEmitter<any[]>;
@@ -98,6 +99,7 @@ export class EditSessionService implements Resolve<any>{
                 this.getThemeInst(),
                 this.getSessions(),
                 this.getEvents(),
+                this.getFreeDays()
 
             ]).then(
                 ([files]) => {
@@ -383,6 +385,34 @@ export class EditSessionService implements Resolve<any>{
         });
     }
 
+    getFreeDays(): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+
+
+            this._httpClient.get(AUTH_API + 'event')
+                .subscribe((response: any) => {
+
+                    this.freeDays = response;
+                    //console.log("GET EVENTS");
+                   // console.log(this.events);
+                    //this.onEventsUpdated.next(this.events);
+                    this.freeDays = this.freeDays.filter(_event => {
+                        
+                            if (_event.draggable == true) {
+                               
+                                return true;
+                            }
+                        
+                        return false;
+                    });
+                    resolve(this.freeDays);
+                }, reject);
+        });
+    }
+
+
     updateCourseSessionAndEvent(session): Promise<any> {
         //console.log("result");
         //console.log(contact);
@@ -485,7 +515,7 @@ export class EditSessionService implements Resolve<any>{
                     this.events = response.filter(event => {
                         
                         
-                        if (event.session.id==id) {
+                        if ((event.session!=null)&&(event.session.id==id)) {
                             //console.log("");
                             this.event=event;
                             return true;
