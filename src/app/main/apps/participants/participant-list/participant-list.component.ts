@@ -27,18 +27,18 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
     user: any;
     dataSource: FilesDataSource | null;
     // dataSource :any[] ;
-    displayedColumns = ['checkbox', 'name','age', 'level', 'company', 'classe', 'buttons'];
+    displayedColumns = ['checkbox', 'name', 'age', 'level', 'company', 'classe', 'buttons'];
     selectedContacts: any[];
     checkboxes: {};
     dialogRef: any;
     contact: Participant
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     id: number;
-   currentYear: number;
-   
-   d:Date;
-   ages: any;
-   age: any;
+    currentYear: number;
+
+    d: Date;
+    ages: any;
+    age: any;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -65,8 +65,13 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.currentYear=new Date().getFullYear();
+        this.currentYear = new Date().getFullYear();
         this.dataSource = new FilesDataSource(this._participantsService);
+        this.ages = this._participantsService.getAges().then(() => {
+            this.ages = this._participantsService.ages;
+      
+          }
+          );
         this._participantsService.onContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(contacts => {
@@ -76,9 +81,9 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
                 contacts.map(contact => {
                     this.checkboxes[contact.id] = false;
                 });
-               
+
             });
-          
+
 
         this._participantsService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
@@ -106,8 +111,8 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
                 this._participantsService.deselectContacts();
             });
 
-            this.ages= this._participantsService.getAges();
-          
+
+
     }
 
     /**
@@ -185,15 +190,18 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
 
     }
 
-    calculateAge(contact){
+    calculateAge(contact): number {
         for (const [key, value] of Object.entries(this.ages)) {
+            console.log("AGES");
+            console.log(this.ages);
             console.log(contact.id);
-            if (key==contact.id){
-                this.age= value;
+            if (key == contact.id) {
+                this.age = value;
+                return this.age;
             }
-            console.log(key, value);
-          }
-//return(this.currentYear);
+            //console.log(value);
+          
+        }
     }
 
     ValidateContact(contact) {
@@ -221,8 +229,8 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
         // else {this._participantsService.updateUserData(this.contact);}
     }
 
-    
-    
+
+
 
 
 }

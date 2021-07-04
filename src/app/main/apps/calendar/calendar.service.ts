@@ -152,7 +152,7 @@ export class CalendarService implements Resolve<any>
                         }
                         else {
                             this.events = this.events.filter(_event => {
-                                if (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance!= null) {
+                                if ((_event.session!=null)&&(_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance!= null)) {
                                     if (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == this.participant.programInstance.id) {
                                         //console.log("user trainer");
                                         return true;
@@ -170,7 +170,7 @@ export class CalendarService implements Resolve<any>
 
                     else if (this.userRole.includes("TRAINER")) {
                         this.events = this.events.filter(_event => {
-                            if (_event.session.trainer != null) {
+                            if ((_event.session!=null)&&(_event.session.trainer != null)) {
                                 if (_event.session.trainer.id == this.userId) {
                                     //console.log("user trainer");
                                     return true;
@@ -189,7 +189,7 @@ export class CalendarService implements Resolve<any>
                         }
                         else {
                             this.events = this.events.filter(_event => {
-                                if (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance!= null) {
+                                if ((_event.session!=null)&&(_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance!= null)) {
                                     if (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == this.entreprise.programInstance.id) {
                                         //console.log("user trainer");
                                         return true;
