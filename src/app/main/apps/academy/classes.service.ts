@@ -461,6 +461,31 @@ export class ClassesService {
     }
 
 
+    confirmProgramInst(programInst): Promise<any> {
+
+        return new Promise((resolve, reject) => {
+        
+          //  console.log(programInst);
+            this._httpClient.put(AUTH_API + 'programsInst/confirm', programInst)
+                .subscribe(response => {
+                    this.getProgramsInst();
+                    resolve(response);
+                });
+        });
+    }
+
+    cancelProgramInst(programInst): Promise<any> {
+
+        return new Promise((resolve, reject) => {
+        
+          //  console.log(programInst);
+            this._httpClient.put(AUTH_API + 'programsInst/cancel', programInst)
+                .subscribe(response => {
+                    this.getProgramsInst();
+                    resolve(response);
+                });
+        });
+    }
 
 
 

@@ -29,7 +29,21 @@
                         (input)="filterCoursesByTerm()">
                 </mat-form-field>
 
-              
+                <mat-form-field appearance="outline" class="category-selector">
+                    <mat-label>Classes</mat-label>
+                    <mat-select [(ngModel)]="currentCategory" (selectionChange)="filterClassesByCategory()">
+                        <mat-option [value]="'Toutes'">
+                            Toutes
+                        </mat-option>
+                        <mat-option [value]="'Confirmées'">
+                            Confirmées
+                        </mat-option>
+                        <mat-option [value]="'Non confirmées'">
+                            Non confirmées
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
                 <!-- ADD EVENT BUTTON -->
                 <button mat-fab class="add-event-button mat-accent" aria-label="Add event"
                     [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}" (click)="newProgram()">
@@ -49,7 +63,7 @@
                         <div class="header" fxLayout="row" fxLayoutAlign="center center"
                             [ngClass]="programInst.category + '-bg'">
 
-                           
+
 
                         </div>
 
@@ -70,9 +84,17 @@
                             <button mat-button color="accent" (click)="editProgramInst(programInst)">
                                 Modifier
                             </button>
+                            <div *ngIf="!programInst.validated"><button mat-button color="accent"
+                                    (click)="confirmClass(programInst)">
+                                    Confirmer
+                                </button></div>
+                            <div *ngIf="programInst.validated"><button mat-button color="accent"
+                                    (click)="cancelClass(programInst)">
+                                    Annuler
+                                </button></div>
 
 
-                          <!--   <button mat-button color="accent" (click)="deleteCursus(programInst)">
+                            <!--   <button mat-button color="accent" (click)="deleteCursus(programInst)">
                                 Supprimer
                             </button> -->
 

@@ -32,6 +32,7 @@ export class AddSessionService implements Resolve<any>{
     sessionsByProgram:any[];
     checkboxes:{};
     events: any[];
+    freeDays: any[];
     unavailableTrainersId: any[];
     unavailableClassroomsId: any[];
     trainers: any[];
@@ -95,6 +96,7 @@ export class AddSessionService implements Resolve<any>{
                 this.getThemeInst(),
                 this.getSessions(),
                 this.getEvents(),
+                this.getFreeDays()
 
             ]).then(
                 ([files]) => {
@@ -381,6 +383,34 @@ export class AddSessionService implements Resolve<any>{
                 }, reject);
         });
     }
+
+    getFreeDays(): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+
+
+            this._httpClient.get(AUTH_API + 'event')
+                .subscribe((response: any) => {
+
+                    this.freeDays = response;
+                    //console.log("GET EVENTS");
+                   // console.log(this.events);
+                    //this.onEventsUpdated.next(this.events);
+                    this.freeDays = this.freeDays.filter(_event => {
+                        
+                            if (_event.freeDay == true) {
+                               
+                                return true;
+                            }
+                        
+                        return false;
+                    });
+                    resolve(this.freeDays);
+                }, reject);
+        });
+    }
+
 
     saveCourseSessionAndEvent(session): Promise<any> {
       

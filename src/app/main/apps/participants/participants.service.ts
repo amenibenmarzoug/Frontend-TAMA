@@ -303,7 +303,7 @@ export class ParticipantsService implements Resolve<any>
                 contact.programInstance = entreprise.programInstance;
             }
             //contact.entreprise = entreprise;
-           // contact.programInstance = classe;
+            // contact.programInstance = classe;
             this._httpClient.post('http://localhost:8080/api/signupParticipantManag', contact)
 
                 .subscribe(response => {
@@ -356,7 +356,7 @@ export class ParticipantsService implements Resolve<any>
         });
     }
 
-    
+
 
 
     // /**
@@ -433,27 +433,27 @@ export class ParticipantsService implements Resolve<any>
             this._httpClient.get('http://localhost:8080/api/participants/ages')
                 .subscribe((response: any) => {
                     console.log("hhhhhhhhhhhh");
-console.log(response);
+                    console.log(response);
                     this.ages = response;
                     console.log(this.ages);
-                  /*  this.participants = this.participants.map(contact => {
-                        return new Participant(contact);
-                    });*/
+                    /*  this.participants = this.participants.map(contact => {
+                          return new Participant(contact);
+                      });*/
 
-                  //  this.onContactsChanged.next(this.participants);
+                    //  this.onContactsChanged.next(this.participants);
 
-                  
+
                     console.log("INSTITUTIONS");
-                   /* this.ages = response.filter(age => {
-                        
-                        if (age.id== contact) {
-                            //console.log("");
-                            return true;
-                        }
-                        return false;
-                    });*/
-                console.log(this.ages);
-               
+                    /* this.ages = response.filter(age => {
+                         
+                         if (age.id== contact) {
+                             //console.log("");
+                             return true;
+                         }
+                         return false;
+                     });*/
+                    console.log(this.ages);
+
                     resolve(this.ages);
                 }, reject);
         }

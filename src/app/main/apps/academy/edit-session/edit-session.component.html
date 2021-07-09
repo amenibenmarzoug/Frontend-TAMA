@@ -142,6 +142,11 @@
                                         Ce groupe a déjà une séance pour cette date.
                                     </div>
                                 </div>
+                                <div class="content mb-24" *ngIf="isFreeDay" [hidden]="!isFreeDay">
+                                    <div class="message-box error">
+                                        C'est un jour férié. Veuillez changer la date.
+                                    </div>
+                                </div>
                                 <mat-form-field>
                                     <mat-placeholder>Date et Heure Fin</mat-placeholder>
                                     <mat-datetimepicker-toggle [for]="datetimePickerEnd" matSuffix>

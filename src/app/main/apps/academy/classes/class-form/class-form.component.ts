@@ -175,7 +175,7 @@ export class ClassFormComponent implements OnInit {
 
 
     if (this.action === 'edit') {
-      this.dialogTitle = 'Modifier le Programme Dédié';
+      this.dialogTitle = 'Modifier la Classe';
       //console.log("_data.programInst");
       //console.log(_data.programInst);
       this.programInst = _data.programInst;
@@ -184,7 +184,7 @@ export class ClassFormComponent implements OnInit {
     }
     else {
 
-      this.dialogTitle = 'Nouveau Programme Dédié';
+      this.dialogTitle = 'Nouvelle Classe';
       this.programInst = new ProgramInst({});
 
     }

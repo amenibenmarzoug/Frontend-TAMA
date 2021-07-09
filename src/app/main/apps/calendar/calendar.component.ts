@@ -63,6 +63,7 @@ export class CalendarComponent implements OnInit {
     locale: string = 'fr';
     eventsDates:string[]=[];
     freeDayDates:string[]=[];
+    userRole:string;
 
     weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
   
@@ -78,6 +79,9 @@ export class CalendarComponent implements OnInit {
     ) {
       
         // Set the defaults
+        console.log("Role");
+        console.log( this._calendarService.userRole);
+        this.userRole= this._calendarService.userRole;
         this.view = 'month';
         this.viewDate = new Date();
         this.activeDayIsOpen = true;
@@ -127,7 +131,8 @@ export class CalendarComponent implements OnInit {
                 this._calendarService.updateEvents(this.events);
             }
         });*/
-
+        
+       
         this._calendarService.onEventsUpdated.subscribe(events => {
 
             this.setEvents();
@@ -150,12 +155,14 @@ export class CalendarComponent implements OnInit {
        console.log(this.freeDayDates);
         this.events = this._calendarService.events.map(item => {
             const date=new Date(item.start);
+            const dateEnd=new Date(item.end);
             
             
             
-            if(item.draggable==true){
+            if(item.freeDay==true){
              
                 this.freeDayDates.push(date.toDateString());
+                this.freeDayDates.push(dateEnd.toDateString());
                 item.actions = this.actions;
                 return new CalendarEventModel(item);
        

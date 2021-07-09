@@ -28,7 +28,16 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Capacité</mat-label>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <input name="capacity" formControlName="capacity" matInput>
+                    <input name="capacity" formControlName="capacity" matInput required>
+                </mat-form-field>
+            </div>
+
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Frais de location en dt/1h</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="fees" formControlName="fees" matInput>
                 </mat-form-field>
             </div>
 
@@ -60,11 +69,11 @@
             Supprimer
         </button> -->
 
-        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(contactForm)"  aria-label="SAVE">
+        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(contactForm)"  [disabled]="contactForm.invalid " aria-label="SAVE">
             Ajouter
         </button>
 
-        <button *ngIf="action === 'edit'" mat-button class="save-button" (click)="matDialogRef.close(['save',contactForm])" aria-label="SAVE">
+        <button *ngIf="action === 'edit'" mat-button class="save-button" (click)="matDialogRef.close(['save',contactForm])" [disabled]="contactForm.invalid " aria-label="SAVE">
             Enregistrer
         </button>
 

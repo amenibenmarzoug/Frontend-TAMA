@@ -79,8 +79,8 @@ export class ClassroomsManagerFormComponent {
             id: [this.contact.id],
             classRoomName: [this.contact.classRoomName],
             capacity: [this.contact.capacity],
+            fees : [this.contact.fees],
             institution: [this.contact.institution],
-
 
         });
 

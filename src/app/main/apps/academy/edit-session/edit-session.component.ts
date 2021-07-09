@@ -87,6 +87,8 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   selectedTrainers: any[] = [];
   selectedTrainer: any;
   selectedModule: any;
+  freeDays:any[];
+  isFreeDay:boolean;
   labelDisabled: boolean = true;
   session: Session;
   isDisabled: boolean = true;
@@ -215,6 +217,11 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       this._addSessionService.getEventBySessionId(this.sessionId).then(() => {
 
       });
+      this._addSessionService.getFreeDays().then(() => {
+        this.freeDays = this._addSessionService.freeDays;
+  
+      }
+      );
      /* console.log("SELECTED DAY IN CONSTRUCTOR");
       this._addSessionService.selectedDate = this.session.sessionBeginDate;
       console.log(this._addSessionService.selectedDate);
@@ -365,7 +372,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   }
 
   addEvent(event: MatDatepickerInputEvent<Date>) {
-
+    this.isFreeDay=false;
     this._addSessionService.deselectContacts();
     this.testDate = false;
     this.events.push(event.value);
@@ -382,6 +389,17 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       if ((session.id != this.sessionId) && (this.courseDate.toDateString() === d.toDateString())) {
 
         this.testDate = true;
+      }
+
+
+    });
+    this.freeDays.forEach(day => {
+      let start = new Date(day.start);
+      let end = new Date(day.end);
+
+      if ((this.courseDate.toDateString() === end.toDateString())||(this.courseDate.toDateString() === start.toDateString())) {
+        this.isFreeDay=true;
+        
       }
 
 
