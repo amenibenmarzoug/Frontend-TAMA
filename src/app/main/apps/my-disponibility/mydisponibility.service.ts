@@ -10,9 +10,9 @@ import { catchError } from 'rxjs/operators';
 //import { CourseSession } from 'app/main/apps/disponibility-trainer/courseSession.model';
 import { Contact } from 'app/main/apps/trainer/trainer.model';
 import { Days } from 'app/main/apps/my-disponibility/days';
+import {environment} from 'environments/environment';
 
-
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 
 @Injectable()
 export class MyDisponibilityService implements Resolve<any>
@@ -76,7 +76,7 @@ export class MyDisponibilityService implements Resolve<any>
      * @returns {Observable<any> | Promise<any> | any}
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
 
             Promise.all([
                 this.getTrainers(),

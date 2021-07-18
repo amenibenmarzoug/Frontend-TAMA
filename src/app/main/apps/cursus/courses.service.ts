@@ -5,11 +5,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Cursus } from 'app/main/apps/cursus/cursus.model';
 import { Disponibility } from './cursus-participants/disponibility.model';
 import { Entreprise } from '../entreprises/entreprise.model';
-
+import {environment} from 'environments/environment';
 
 const USER_KEY = 'auth-user';
 
-const AUTH_API1 = 'http://localhost:8080/api/';
+const AUTH_API1 = environment.backend_url+ 'api/';
 @Injectable()
 export class CursusCoursesService implements Resolve<any>
 
@@ -55,7 +55,7 @@ export class CursusCoursesService implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {   //let role = JSON.parse(sessionStorage.getItem(USER_KEY)),
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
 
             Promise.all([
                
@@ -191,7 +191,7 @@ export class CursusCoursesService implements Resolve<any>
        
          return new Promise((resolve, reject) => {
             id = JSON.parse(sessionStorage.getItem(USER_KEY)).id ;
-                this._httpClient.get('http://localhost:8080/api/entreprises/'+id )
+                this._httpClient.get(environment.backend_url+ 'api/entreprises/'+id )
                 .subscribe((response: any) => {
                    console.log("response");
              // console.log(response);
@@ -212,7 +212,7 @@ export class CursusCoursesService implements Resolve<any>
          const params = new HttpParams().set('id', id);
     
         // console.log(disponibility);
-            this._httpClient.post('http://localhost:8080/api/disponibility',disponibility,{params:params} )
+            this._httpClient.post(environment.backend_url+ 'api/disponibility',disponibility,{params:params} )
                 .subscribe((response: any) => {
                   //  this.getCourses();
                   console.log(response);
@@ -233,7 +233,7 @@ export class CursusCoursesService implements Resolve<any>
             //const obj = { id: 'id', cursusId: 'cursusId'};
             //console.log(contact);
             //const params = new HttpParams().set('cursusId', cursusId );
-            this._httpClient.put('http://localhost:8080/api/entreprises/CursusId',entreprise,  { params: params } )
+            this._httpClient.put(environment.backend_url+ 'api/entreprises/CursusId',entreprise,  { params: params } )
                 .subscribe(response => {
                     console.log(response) ;
 

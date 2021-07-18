@@ -14,7 +14,8 @@ import{ThematiqueInst} from '../program-inst-detail/tabs/thematique-inst/themati
 import{ModuleInst} from '../program-inst-detail/tabs/module-inst/moduleInst.model';
 import{ThemeDetailInst} from '../program-inst-detail/tabs/theme-detail-inst/themeDetailsInst.model';
 import { ProgramInst } from '../programInst.model';
-const AUTH_API = 'http://localhost:8080/api/';
+import {environment} from 'environments/environment';
+const AUTH_API = environment.backend_url+ 'api/';
 @Injectable({
   providedIn: 'root'
 })
@@ -158,7 +159,7 @@ getModules(): Promise<any>
   
    
      return new Promise((resolve, reject) => {
-            this._httpClient.get('http://localhost:8080/api/module')
+            this._httpClient.get(environment.backend_url+ 'api/module')
             .subscribe((response: any) => {
               
                 this.onModuleChanged.next(response);
@@ -179,7 +180,7 @@ getProgramInst(): Promise<any>
   
    
      return new Promise((resolve, reject) => {
-            this._httpClient.get('http://localhost:8080/api/programsInst')
+            this._httpClient.get(environment.backend_url+ 'api/programsInst')
             .subscribe((response: any) => {
                 this.onProgramInstChanged.next(response);
                 this.programsInst=response;
@@ -597,7 +598,7 @@ deleteModule(id): Promise<any> {
         const moduleIndex = this.modulesInst.indexOf(id);
         this.modulesInst.splice(moduleIndex, 1);
         this.onmoduleInstChanged.next(this.modulesInst);
-        this._httpClient.delete(`http://localhost:8080/api/module/${id}`)
+        this._httpClient.delete(AUTH_API + `module/${id}`)
             .subscribe(response => {
                 resolve(response);
             });
@@ -792,7 +793,7 @@ deleteThemeDetail(id): Promise<any> {
         const themeDetailIndex = this.themeDetailsInst.indexOf(id);
         this.themeDetailsInst.splice(themeDetailIndex, 1);
         this.onThemeDetailInstChanged.next(this.themeDetailsInst);
-        this._httpClient.delete(`http://localhost:8080/api/themeDetail/${id}`)
+        this._httpClient.delete(AUTH_API + `themeDetail/${id}`)
             .subscribe(response => {
                 resolve(response);
             });

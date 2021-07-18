@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import {environment} from 'environments/environment';
 
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 const USER_KEY = 'auth-user';
 
 @Injectable({
@@ -71,7 +72,7 @@ export class ToolbarService implements Resolve<any>{
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
         console.log(this.userId);
         if (this.userRole.includes('PARTICIPANT')) {
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 Promise.all([
 
                     this.getParticipantById(this.userId)
@@ -84,7 +85,7 @@ export class ToolbarService implements Resolve<any>{
             });
         }
         if (this.userRole.includes('TRAINER')) {
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 Promise.all([
                     this.getTrainerById(this.userId),
                 ]).then(
@@ -96,7 +97,7 @@ export class ToolbarService implements Resolve<any>{
             });
         }
         if (this.userRole.includes('ENTREPRISE')) {
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 Promise.all([
                     this.getEntrepriseById(this.userId),
                 ]).then(
@@ -108,7 +109,7 @@ export class ToolbarService implements Resolve<any>{
             });
         }
         if (this.userRole.includes("INSTITUTION")) {
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 Promise.all([
                     this.getInstitutionById(this.userId),
                 ]).then(

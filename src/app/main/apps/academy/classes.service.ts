@@ -8,9 +8,9 @@ import { Thematique } from './programDetails/tabs/thematique/thematique.model';
 import { ModuleInst } from '../academy/program-inst-detail/tabs/module-inst/moduleInst.model';
 import { Module } from './programDetails/tabs/module/module.model';
 import { FuseUtils } from '@fuse/utils';
+import {environment} from 'environments/environment';
 
-
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 
 @Injectable({
     providedIn: 'root'
@@ -507,7 +507,7 @@ export class ClassesService {
     getPrograms(): Promise<any> {
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get('http://localhost:8080/api/programs')
+            this._httpClient.get(environment.backend_url+ 'api/programs')
                 .subscribe((response: any) => {
                     this.onProgramChanged.next(response);
                     this.programs = response;

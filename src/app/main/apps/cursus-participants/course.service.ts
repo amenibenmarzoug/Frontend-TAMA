@@ -4,8 +4,10 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CursusCoursessPartService } from './courses/coursess.service';
 import { CursusCoursesPartService } from './courses.service';
+import {environment} from 'environments/environment';
 
-const AUTH_API1 = 'http://localhost:8080/api/';
+
+const AUTH_API1 = environment.backend_url+ 'api/';
 
 @Injectable()
 export class CursusCoursePartService implements Resolve<any>
@@ -48,7 +50,7 @@ export class CursusCoursePartService implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
 
             Promise.all([
                 this.getCursus(route.params.courseId,route.params.courseName),
