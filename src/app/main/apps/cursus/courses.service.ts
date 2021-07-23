@@ -55,7 +55,7 @@ export class CursusCoursesService implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {   //let role = JSON.parse(sessionStorage.getItem(USER_KEY)),
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
 
             Promise.all([
                

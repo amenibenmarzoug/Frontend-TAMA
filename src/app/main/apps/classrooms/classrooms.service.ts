@@ -64,7 +64,7 @@ export class ClassroomsService implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
 
             Promise.all([
                 this.getContacts(),
@@ -105,20 +105,6 @@ export class ClassroomsService implements Resolve<any>
                     .subscribe((response: any) => {
 
                         this.contacts = response;
-
-                        if ( this.filterBy === 'starred' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.starred.includes(_contact.id);
-                            });
-                        }
-
-                        if ( this.filterBy === 'frequent' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.frequentContacts.includes(_contact.id);
-                            });
-                        }
 
                         if ( this.searchText && this.searchText !== '' )
                         {
