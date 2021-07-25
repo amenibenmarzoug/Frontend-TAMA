@@ -26,6 +26,7 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
     )}</b> ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName} ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location} -   ${event.session.themeDetailInstance.themeDetail.themeDetailName} - ${event.title}<br>
     <b>     Salle: </b> ${event.session.classRoom.classRoomName } à ${ event.session.classRoom.institution.institutionName }`;
   }
+  
   else{
     return `<b>${new DatePipe(this.localeFr).transform(
       event.start,

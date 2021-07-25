@@ -5,7 +5,8 @@
 export const environment = {
     production: false,
     hmr       : false,
-    backend_url: 'https://be.tama-academy.net/',
+    //backend_url: 'https://be.tama-academy.net/',
+    backend_url: 'http://localhost:8080/',
 };
 
 /*

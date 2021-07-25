@@ -46,14 +46,14 @@ export const navigationAdmin: FuseNavigation[] = [
                 url: '/apps/academy/programs',
                 
             },
-/*              {
+             {
                 id: 'programsD',
-                 title: 'Programme Dédié',
+                 title: 'Programme Spécifique',
                  type: 'item',
                  url  : '/apps/academy/programsD',
 
 
-             }, */
+             }, 
              {
                 id: 'class',
                  title: 'Classes',

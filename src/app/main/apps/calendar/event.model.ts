@@ -49,7 +49,7 @@ export class CalendarEventModel {
 
     else {
       this.session=null;
-      this.title = 'Jour Férié';
+      this.title = data.title ||'Jour Férié';
       // this.courseSession =  null;
       this.start = new Date(data.start) || null;
       this.end = new Date(data.end) || null;

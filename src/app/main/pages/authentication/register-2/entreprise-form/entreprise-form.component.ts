@@ -27,10 +27,7 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
   errorMessage = '';
   isSuccessful = false;
   isFailed = false;
-  ParticipantForm: FormGroup;
-  TrainerForm: FormGroup;
-  EntrepriseForm: FormGroup;
-  InstitutionForm: FormGroup;
+  
   participant: string;
   entreprise: string;
   institution: string;
@@ -191,6 +188,7 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
         webSite: new FormControl(),
         positionM:new FormControl(),
         participNumber:new FormControl(),
+      
       }),
 
     });
@@ -280,7 +278,7 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
 
       },
       err => {
-        console.log("LOGIN FAILED");
+        console.log("Request FAILED");
         this.errorMessage = err.error.message;
         this.isSuccessful = false;
         this.isFailed = true;

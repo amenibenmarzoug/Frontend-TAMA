@@ -85,6 +85,9 @@
             <p *ngIf="contact.entreprise!=null"  class="company text-truncate">
              {{contact.entreprise.enterpriseName}}
             </p>
+            <p *ngIf="contact.entreprise==null"  class="company text-truncate">
+                aucune
+               </p>
         </mat-cell>
     </ng-container>
     <!-- Company Column -->

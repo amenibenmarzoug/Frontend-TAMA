@@ -1,6 +1,6 @@
 <div id="register" class="inner-scroll" fxLayout="row" fxLayoutAlign="start">
 
-    <div id="register-intro" fxFlex fxHide fxShow.gt-xs>
+    <div id="register-intro"  fxHide fxShow.gt-xs>
 
         <div class="logo" [@animate]="{value:'*',params:{scale:'0.2'}}">
             <img src="assets/images/logos/fuse.svg">
@@ -8,9 +8,14 @@
 
         <div class="title" [@animate]="{value:'*',params:{delay:'50ms',y:'25px'}}">
         </div>
-
+<!-- 
         <div class="description" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
             Si vous êtes une entreprise et vous êtes intéressée par nos programmes, veuillez remplir le formulaire !
+        </div> -->
+
+        <div class="description" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
+            Si vous êtes intéressé par nos programmes et vous voulez vous inscrire individuellement, veuillez remplir le formulaire !
+            <a class="link" [routerLink]="'/pages/auth/register_participant'"> Formulaire</a>
         </div>
 
     </div>
@@ -208,12 +213,12 @@
 
 
 
-                    <div class="terms" fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+               <!--      <div class="terms" fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
                         <mat-checkbox name="terms" aria-label="Accept">
                             <span>Accepter</span>
                         </mat-checkbox>
                         <a href="#">les conditions</a>
-                    </div>
+                    </div> -->
 
                     <button mat-raised-button color="accent" class="submit-button" aria-label="CREATE AN ACCOUNT"
                         [disabled]="!formValidation()">
