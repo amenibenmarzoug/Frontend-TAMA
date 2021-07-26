@@ -12,9 +12,9 @@ export class Trainer {
     lastName: string;
     specification: string;
 	gender : string;
-    isVerified : boolean;
+    validated : boolean;
     field  : string ; 
     constructor(){
-        this.isVerified = false;
+        this.validated = false;
     }
 }

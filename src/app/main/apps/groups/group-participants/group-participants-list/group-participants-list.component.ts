@@ -10,7 +10,7 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 
 import { TrainerService } from 'app/main/apps/trainer/trainer.service';
 import { TrainerFormComponent } from 'app/main/apps/trainer/trainer-form/trainer-form.component';
-import { Contact } from 'app/main/apps/participants/participant.model';
+import { Participant } from 'app/main/apps/participants/participant.model';
 import { GroupsService } from '../../groups.service';
 import { ActivatedRoute } from '@angular/router';
 import { take, forEach } from 'lodash';

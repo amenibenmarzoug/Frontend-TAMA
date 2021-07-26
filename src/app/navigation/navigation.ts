@@ -76,61 +76,26 @@ export const navigation: FuseNavigation[] = [
             },
             {
                 id: 'academy',
-                title: 'Academie',
+                title: 'Académie',
                 translate: 'NAV.ACADEMY',
                 type: 'collapsable',
                 icon: 'school',
-                //url      : '/apps/academy',
-                children: [{
-                    id: 'trainings',
-                    title: 'Formations',
-                    //type : 'item',
-                    //url  : '/apps/academy/trainings',
-                    type: 'collapsable',
-                    children: [
-                        {
-                            id: 'addCourseSession',
-                            title: 'Ajout Séance',
-                            type: 'item',
-                            url: '/apps/academy/addCourseSession',
-                        },
-                        {
-                            id: 'showCourse',
-                            title: 'Formations',
-                            type: 'item',
-                            url: '/apps/academy/trainings',
-                        }
-                    ]
+                children: [
 
-                },
-                {
-                    id: 'cursus',
-                    title: 'Cursus',
-                    // type : 'item',
-                    type: 'collapsable',
-                    // url  : '/apps/academy/cursus',
-                    //exactMatch: true
-                    children: [
-                        {
-                            id: 'add',
-                            title: 'Ajout Cursus',
-                            type: 'item',
-                            url: '/apps/academy/add',
+                    {
+                        id: 'programs',
+                        title: 'Programme',
+                        translate: 'NAV.ACADEMY',
+                        type: 'item',
+                        url: '/apps/academy/programs',
+                        
+                    },
+                    
 
-                        },
-                        {
-                            id: 'show',
-                            title: 'Cursus',
-                            type: 'item',
-                            url: '/apps/academy/cursus',
-
-                        }
-                    ]
-
-                }
                 ]
 
             },
+
 
             {
                 id: 'cursus',
@@ -248,6 +213,14 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'school',
                 url: '/apps/classroom'
+            },
+            {
+                id: 'classrooms-manager',
+                title: 'Les Salles',
+                translate: 'NAV.TRAINERS',
+                type: 'item',
+                icon: 'school',
+                url: '/apps/classrooms-manager'
             },
             {
                 id: 'participants',

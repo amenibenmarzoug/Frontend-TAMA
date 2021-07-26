@@ -5,6 +5,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
@@ -13,233 +14,263 @@ import { EntreprisesService } from 'app/main/apps/entreprises/entreprises.servic
 import { EntrepriseFormComponent } from 'app/main/apps/entreprises/entreprise-form/entreprise-form.component';
 import { Entreprise } from 'app/main/apps/entreprises/entreprise.model';
 @Component({
-  selector: 'app-entreprise-list',
-  templateUrl: './entreprise-list.component.html',
-  styleUrls: ['./entreprise-list.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  animations   : fuseAnimations
+    selector: 'app-entreprise-list',
+    templateUrl: './entreprise-list.component.html',
+    styleUrls: ['./entreprise-list.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    animations: fuseAnimations
 })
 export class EntrepriseListComponent implements OnInit, OnDestroy {
 
-  @ViewChild('dialogContent')
-  dialogContent: TemplateRef<any>;
+    @ViewChild('dialogContent')
+    dialogContent: TemplateRef<any>;
+    alertDialog: MatDialogRef<AlertDialogComponent>;
+    contacts: any;
+    user: any;
+    dataSource: FilesDataSource | null;
+    displayedColumns = ['checkbox', 'name', 'nameP', 'email', 'phone', 'website', 'classe', 'buttons'];
+    selectedContacts: any[];
+    checkboxes: {};
+    dialogRef: any;
+    contact: Entreprise
+    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    id: number;
+    disabled: boolean = false
+    // Private
+    private _unsubscribeAll: Subject<any>;
 
-  contacts: any;
-  user: any;
-  dataSource: FilesDataSource | null;
-  displayedColumns = ['checkbox', 'name', 'email', 'phone', 'website','phone' , 'buttons'];
-  selectedContacts: any[];
-  checkboxes: {};
-  dialogRef: any;
-  contact : Entreprise
-  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-id : number ;
+    /**
+     * Constructor
+     *
+     * @param {EntreprisesService} _entreprisesService
+     * @param {MatDialog} _matDialog
+     */
+    constructor(
+        private _entreprisesService: EntreprisesService,
+        public _matDialog: MatDialog
+    ) {
+        // Set the private defaults
+        this._unsubscribeAll = new Subject();
+    }
 
-  // Private
-  private _unsubscribeAll: Subject<any>;
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
 
-  /**
-   * Constructor
-   *
-   * @param {EntreprisesService} _entreprisesService
-   * @param {MatDialog} _matDialog
-   */
-  constructor(
-      private  _entreprisesService: EntreprisesService,
-      public _matDialog: MatDialog
-  )
-  {
-      // Set the private defaults
-      this._unsubscribeAll = new Subject();
-  }
+    /**
+     * On init
+     */
+    ngOnInit(): void {
+        this.dataSource = new FilesDataSource(this._entreprisesService);
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Lifecycle hooks
-  // -----------------------------------------------------------------------------------------------------
+        this._entreprisesService.onContactsChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(contacts => {
+                this.contacts = contacts;
 
-  /**
-   * On init
-   */
-  ngOnInit(): void
-  {
-      this.dataSource = new FilesDataSource(this. _entreprisesService);
+                this.checkboxes = {};
+                contacts.map(contact => {
+                    this.checkboxes[contact.id] = false;
+                });
+            });
 
-      this. _entreprisesService.onContactsChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(contacts => {
-              this.contacts = contacts;
+        this._entreprisesService.onSelectedContactsChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(selectedContacts => {
+                for (const id in this.checkboxes) {
+                    if (!this.checkboxes.hasOwnProperty(id)) {
+                        continue;
+                    }
 
-              this.checkboxes = {};
-              contacts.map(contact => {
-                  this.checkboxes[contact.id] = false;
-              });
-          });
+                    this.checkboxes[id] = selectedContacts.includes(id);
+                }
+                this.selectedContacts = selectedContacts;
+            });
 
-      this. _entreprisesService.onSelectedContactsChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(selectedContacts => {
-              for ( const id in this.checkboxes )
-              {
-                  if ( !this.checkboxes.hasOwnProperty(id) )
-                  {
-                      continue;
-                  }
+        this._entreprisesService.onUserDataChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(user => {
+                this.user = user;
+            });
 
-                  this.checkboxes[id] = selectedContacts.includes(id);
-              }
-              this.selectedContacts = selectedContacts;
-          });
+        this._entreprisesService.onFilterChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(() => {
+                this._entreprisesService.deselectContacts();
+            });
+    }
 
-      this. _entreprisesService.onUserDataChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(user => {
-              this.user = user;
-          });
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
 
-      this. _entreprisesService.onFilterChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(() => {
-              this. _entreprisesService.deselectContacts();
-          });
-  }
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
-  /**
-   * On destroy
-   */
-  ngOnDestroy(): void
-  {
-      // Unsubscribe from all subscriptions
-      this._unsubscribeAll.next();
-      this._unsubscribeAll.complete();
-  }
+    /**
+     * Edit contact
+     *
+     * @param contact
+     */
+    editContact(contact): void {
+        this.dialogRef = this._matDialog.open(EntrepriseFormComponent, {
+            panelClass: 'contact-form-dialog',
+            data: {
+                contact: contact,
+                action: 'edit'
+            }
+        });
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
+        this.dialogRef.afterClosed()
+            .subscribe(response => {
+                if (!response) {
+                    return;
+                }
+                const actionType: string = response[0];
+                const formData: FormGroup = response[1];
+                switch (actionType) {
+                    /**
+                     * Save
+                     */
+                    case 'save':
+                        /*  this._entreprisesService.updateContact1(formData.getRawValue(), this._entreprisesService.classe).then(response => {
+                              console.log("RESULTAT");
+                              console.log(response);
+                              //resolve(res);
+                          })
+                              .catch(err => {
+                                  console.log("ERREUR");
+                                  
+                                  console.log(err);
+                                  // reject(err); // Here.
+                              });*/
+                        this._entreprisesService.updateContact1(formData.getRawValue(), this._entreprisesService.classe).subscribe(
+                            data => {
+                                this._entreprisesService.getContacts();
+                                console.log("data on submit");
 
-  /**
-   * Edit contact
-   *
-   * @param contact
-   */
-  editContact(contact): void
-  {
-      this.dialogRef = this._matDialog.open(EntrepriseFormComponent, {
-          panelClass: 'contact-form-dialog',
-          data      : {
-              contact: contact,
-              action : 'edit'
-          }
-      });
 
-      this.dialogRef.afterClosed()
-          .subscribe(response => {
-              if ( !response )
-              {
-                  return;
-              }
-              const actionType: string = response[0];
-              const formData: FormGroup = response[1];
-              switch ( actionType )
-              {
-                  /**
-                   * Save
-                   */
-                  case 'save':
 
-                      this._entreprisesService.updateContact1(formData.getRawValue());
+                            },
+                            err => {
 
-                      break;
-                  /**
-                   * Delete
-                   */
-                  case 'delete':
 
-                      this.deleteContact(contact.id);
-                     // this._participantsService.updateContact1(formData.getRawValue());
-                      break;
-              }
-          });
-  }
+                                this.addAlert(err.error.message, formData);
 
-  /**
-   * Delete Contact
-   */
-  deleteContact(id): void
-  {
-      this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
-          disableClose: false
-      });
+                            });
 
-      this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+                        break;
+                    /**
+                     * Delete
+                     */
+                    case 'delete':
 
-      this.confirmDialogRef.afterClosed().subscribe(result => {
-          if ( result )
-          { 
-              console.log(id)
-              this. _entreprisesService.deleteContact(id);
-          }
-          this.confirmDialogRef = null;
-      });
+                        this.deleteContact(contact.id);
+                        // this._participantsService.updateContact1(formData.getRawValue());
+                        break;
+                }
+            });
+    }
 
-  }
+    addAlert(message, formValue): void {
+        this.alertDialog = this._matDialog.open(AlertDialogComponent, {
+            disableClose: false
+        });
 
-  ValidateContact(contact){
-   
-    //this._entreprisesService.ValidateContact(contact)
-  }
+        this.alertDialog.componentInstance.dialogMessage = message;
 
-  /**
-   * On selected change
-   *
-   * @param contactId
-   */
-  onSelectedChange(contactId): void
-  {
-      this. _entreprisesService.toggleSelectedContact(contactId);
-  }
+        this.alertDialog.afterClosed().subscribe(result => {
+            if (result) {
 
-  /**
-   * Toggle star
-   *
-   * @param contactId
-   */
-  toggleStar(contactId): void
-  {
-       //if(this.contact.abandon=true) {this._participantsService.updateUserData(this.contact)}
-      
-      // else {this._participantsService.updateUserData(this.contact);}
-  }
+            }
+            this.dialogRef = this._matDialog.open(EntrepriseFormComponent, {
+                panelClass: 'contact-form-dialog',
+                data: {
+                    contact: formValue.value,
+                    action: 'edit'
+                }
+            });
+            this.alertDialog = null;
+        });
+    }
+    /**
+     * Delete Contact
+     */
+    deleteContact(id): void {
+        this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
+            disableClose: false
+        });
+
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+
+        this.confirmDialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                console.log(id)
+                this._entreprisesService.deleteContact(id);
+            }
+            this.confirmDialogRef = null;
+        });
+
+    }
+
+    ValidateContact(contact) {
+        this.disabled = true;
+
+        this._entreprisesService.ValidateContact(contact)
+    }
+
+    /**
+     * On selected change
+     *
+     * @param contactId
+     */
+    onSelectedChange(contactId): void {
+        this._entreprisesService.toggleSelectedContact(contactId);
+    }
+
+    /**
+     * Toggle star
+     *
+     * @param contactId
+     */
+    toggleStar(contactId): void {
+        //if(this.contact.abandon=true) {this._participantsService.updateUserData(this.contact)}
+
+        // else {this._participantsService.updateUserData(this.contact);}
+    }
 }
 
 export class FilesDataSource extends DataSource<any>
 {
-  /**
-   * Constructor
-   *
-   * @param {EntreprisesService} _participantsService
-   */
-  constructor(
-      private _participantsService: EntreprisesService
-  )
-  {
-      super();
-  }
+    /**
+     * Constructor
+     *
+     * @param {EntreprisesService} _participantsService
+     */
+    constructor(
+        private _participantsService: EntreprisesService
+    ) {
+        super();
+    }
 
-  /**
-   * Connect function called by the table to retrieve one stream containing the data to render.
-   * @returns {Observable<any[]>}
-   */
-  connect(): Observable<any[]>
-  {
-      return this._participantsService.onContactsChanged;
-  }
+    /**
+     * Connect function called by the table to retrieve one stream containing the data to render.
+     * @returns {Observable<any[]>}
+     */
+    connect(): Observable<any[]> {
+        return this._participantsService.onContactsChanged;
+    }
 
-  /**
-   * Disconnect
-   */
-  disconnect(): void
-  {
-  }
+    /**
+     * Disconnect
+     */
+    disconnect(): void {
+    }
 
 }

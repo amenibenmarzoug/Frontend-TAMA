@@ -26,7 +26,6 @@ export const navigationAdmin: FuseNavigation[] = [
     {
         id: 'calendar',
         title: 'Calendrier',
-        translate: 'NAV.CALENDAR',
         type: 'item',
         icon: 'today',
         url: '/apps/calendar'
@@ -35,56 +34,47 @@ export const navigationAdmin: FuseNavigation[] = [
     {
         id: 'academy',
         title: 'Académie',
-        translate: 'NAV.ACADEMY',
         type: 'collapsable',
         icon: 'school',
         //url      : '/apps/academy',
-        children: [{
-            id: 'trainings',
-            title: 'Formations',
-            //type : 'item',
-            //url  : '/apps/academy/trainings',
-            type: 'collapsable',
-            children: [
-                {
-                    id: 'addCourseSession',
-                    title: 'Ajout Séance',
-                    type: 'item',
-                    url: '/apps/academy/addCourseSession',
-                },
-                {
-                    id: 'showCourse',
-                    title: 'Formations',
-                    type: 'item',
-                    url: '/apps/academy/trainings',
-                }
-            ]
+        children: [
 
-        },
+            {
+                id: 'academy',
+                title: 'Programme',
+                type: 'item',
+                url: '/apps/academy/programs',
+                
+            },
+             {
+                id: 'programsD',
+                 title: 'Programme Spécifique',
+                 type: 'item',
+                 url  : '/apps/academy/programsD',
+
+
+             }, 
+             {
+                id: 'class',
+                 title: 'Classes',
+                 type: 'item',
+                 url  : '/apps/academy/class',
+
+
+             },
+       
         {
-            id: 'cursus',
-            title: 'Cursus',
-            // type : 'item',
-            type: 'collapsable',
-            // url  : '/apps/academy/cursus',
-            //exactMatch: true
-            children: [
-                {
-                    id: 'add',
-                    title: 'Ajout Cursus',
-                    type: 'item',
-                    url: '/apps/academy/add',
-
-                },
-                {
-                    id: 'show',
-                    title: 'Cursus',
-                    type: 'item',
-                    url: '/apps/academy/cursus',
-
-                }
-            ]
-
+            id: 'add',
+            title: 'Ajout Séance',
+            type: 'item',
+            url: '/apps/academy/addSession',
+        },
+        
+        {
+            id: 'allSessions',
+            title: 'Toutes les séances',
+            type: 'item',
+            url: '/apps/academy/allSessions',
         }
         ]
 
@@ -96,12 +86,11 @@ export const navigationAdmin: FuseNavigation[] = [
     {
         id: 'trainers',
         title: 'Formateurs',
-        translate: 'NAV.TRAINERS',
         type: 'item',
         icon: 'account_box',
         url: '/apps/trainer'
     },
-    {
+ /*   {
         id: 'disponibility-trainer',
         title: 'Disponibilités des formateurs',
 
@@ -118,7 +107,7 @@ export const navigationAdmin: FuseNavigation[] = [
         type: 'item',
         icon: 'account_box',
         url: '/apps/course-trainer'
-    },
+    },*/
     {
         id: 'participants',
         title: 'Participants',
@@ -131,7 +120,6 @@ export const navigationAdmin: FuseNavigation[] = [
     {
         id: 'Entreprises',
         title: 'Entreprises',
-        translate: 'NAV.ENTREPRISES',
         type: 'item',
         icon: 'account_box',
         url: '/apps/entreprises'
@@ -140,20 +128,26 @@ export const navigationAdmin: FuseNavigation[] = [
     {
         id: 'institution',
         title: 'Institutions',
-        translate: 'NAV.TRAINERS',
         type: 'item',
         icon: 'account_balance',
         url: '/apps/institution'
     },
-
     {
-        id: 'groups',
-        title: 'Groupes',
-        translate: 'NAV.GROUPS',
+        id: 'classrooms-manager',
+        title: 'Salles',
         type: 'item',
-        icon: 'account_box',
-        url: '/apps/groups'
+        icon: 'school',
+        url: '/apps/classrooms-manager'
     },
+
+   
+    // {
+    //     id: 'groups',
+    //     title: 'Groupes',
+    //     type: 'item',
+    //     icon: 'account_box',
+    //     url: '/apps/groups'
+    // },
 
   /*  {
         id       : 'file-manager',

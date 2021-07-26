@@ -7,11 +7,12 @@ import { FuseUtils } from '@fuse/utils';
 
 import { catchError } from 'rxjs/operators';
 
-import { CourseSession } from 'app/main/apps/disponibility-trainer/courseSession.model';
+//import { CourseSession } from 'app/main/apps/disponibility-trainer/courseSession.model';
 import { Contact } from 'app/main/apps/trainer/trainer.model';
+import { Days } from 'app/main/apps/my-disponibility/days';
+import {environment} from 'environments/environment';
 
-
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 
 @Injectable()
 export class MyDisponibilityService implements Resolve<any>
@@ -30,8 +31,8 @@ export class MyDisponibilityService implements Resolve<any>
     trainers: Contact[];
     trainer: any;
     courses: any[];
-    specificCourseSessions: CourseSession[];
-    contacts: CourseSession[];
+    //specificCourseSessions: CourseSession[];
+    contacts: any[];
     user: any;
     courseSessions: any[] = [];
     selectedContacts: string[] = [];
@@ -75,19 +76,16 @@ export class MyDisponibilityService implements Resolve<any>
      * @returns {Observable<any> | Promise<any> | any}
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
 
             Promise.all([
-                this.getContacts(),
-                this.getUserData(),
                 this.getTrainers(),
-                this.getCourses(),
-                this.getDisponibilities(),
+                this.getDays(),
 
             ]).then(
                 ([files]) => {
 
-                    this.onSearchTextChanged.subscribe(searchText => {
+                   /* this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
                         this.getContacts();
                     });
@@ -95,7 +93,7 @@ export class MyDisponibilityService implements Resolve<any>
                     this.onFilterChanged.subscribe(filter => {
                         this.filterBy = filter;
                         this.getContacts();
-                    });
+                    });*/
 
                     resolve();
 
@@ -110,10 +108,8 @@ export class MyDisponibilityService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getContacts(): Promise<any> {
-        /* console.log(this._httpClient.get<any[]>(AUTH_API + 'courseSession'));
-         return this._httpClient.get<any[]>(AUTH_API + 'courseSession')
-         .pipe(catchError(this.processHTTPMsgService.handleError));*/
+  /*  getContacts(): Promise<any> {
+
 
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'courseSession')
@@ -123,12 +119,7 @@ export class MyDisponibilityService implements Resolve<any>
                     this.contacts = response;
                     this.courseId = this.filterBy;
                     //console.log(this.contacts[0].courseSessionName);
-                    /* if ( this.filterBy === 'starred' )
-                     {
-                         this.contacts = this.contacts.filter(_contact => {
-                             return this.user.starred.includes(_contact.id);
-                         });
-                     }*/
+                  
                      console.log("courseId");
                      console.log(this.courseId);
                     //this.specificCourseSessions = response;
@@ -148,7 +139,7 @@ export class MyDisponibilityService implements Resolve<any>
                             });*/
 
 
-                            this.contacts = this.contacts.filter(_courseSession => {
+                   /*         this.contacts = this.contacts.filter(_courseSession => {
                                 // return this.user.frequentContacts.includes(_contact.id);
                                 if (_courseSession.course.id == this.courseId) {
                                     console.log(_courseSession.course);
@@ -171,9 +162,7 @@ export class MyDisponibilityService implements Resolve<any>
                         this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
                     }
 
-                    /*this.contacts = this.contacts.map(contact => {
-                        return new CourseSession(contact);
-                    });*/
+                   
 
 
                     this.onSpecificCourseSessionsChanged.next(this.contacts);
@@ -183,77 +172,8 @@ export class MyDisponibilityService implements Resolve<any>
         );
     }
 
-    /*   getSpecificCourseSessions(id): Promise<any> {
    
-           if (id == null) {
-               return new Promise((resolve, reject) => {
-   
-                   this._httpClient.get(AUTH_API + 'courseSession')
-                       .subscribe((response: any) => {
-                           console.log("ALL coursesessions");
-                           console.log(response);
-                           this.specificCourseSessions = response;
-                           if (this.courses != null) {
-                               if (this.filterBy === 'Formations') {
-   
-                               }
-                               else {
-   
-                                   this.contacts.forEach(contact => {
-                                       if (contact.course.id == this.courseId) {
-                                           if (!this.courseSessions.includes(contact))
-                                               this.courseSessions.push(contact);
-                                       }
-   
-                                   });
-   
-   
-                                   this.specificCourseSessions = this.specificCourseSessions.filter(_courseSession => {
-                                       // return this.user.frequentContacts.includes(_contact.id);
-                                       if (this.trainersId.includes(_trainer.id)) { return true; }
-                                       return false;
-                                   });
-                               }
-                           }
-                           else {
-                               this.courseSessions = [];
-                           }
-   
-   
-   
-                           this.onSpecificCourseSessionsChanged.next(response);
-   
-   
-                           resolve(response);
-                       }, reject);
-               }
-               );
-           }
-   
-   
-   
-   
-           this.onSpecificCourseSessionsChanged.next(this.courseSessions);
-        
-           else {
-               return new Promise((resolve, reject) => {
-   
-                   this._httpClient.get(AUTH_API + 'courseSession/course/' + Number(id))
-                       .subscribe((response: any) => {
-                           console.log("specific coursesessions");
-                           console.log(response);
-   
-                           this.onSpecificCourseSessionsChanged.next(response);
-                           this.specificCourseSessions = response;
-   
-                           resolve(response);
-                       }, reject);
-               }
-               );
-           }
-   
-       }*/
-
+*/
 
     getTrainers(): Promise<any> {
         /* console.log(this._httpClient.get<any[]>(AUTH_API + 'courseSession'));
@@ -273,21 +193,16 @@ export class MyDisponibilityService implements Resolve<any>
         );
     }
 
-    getCourses(): Promise<any> {
+    getDays(): Promise<any> {
         /* console.log(this._httpClient.get<any[]>(AUTH_API + 'courseSession'));
          return this._httpClient.get<any[]>(AUTH_API + 'courseSession')
          .pipe(catchError(this.processHTTPMsgService.handleError));*/
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'course')
-                .subscribe((response: any) => {
-                    console.log("response course");
-                    console.log(response);
-                    this.courses = response;
-                    this.onCoursesChanged.next(response);
-                    
-                    resolve(response);
-                }, reject);
+                    this.contacts=Days;
+                    this.onSpecificCourseSessionsChanged.next(Days);
+                    resolve(Days);
+            
         }
         );
     }
@@ -315,7 +230,7 @@ export class MyDisponibilityService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getUserData(): Promise<any> {
+  /*  getUserData(): Promise<any> {
 
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'courseSession')
@@ -326,9 +241,8 @@ export class MyDisponibilityService implements Resolve<any>
                 }, reject);
         }
         );
-        /* return this._httpClient.get<any[]>(AUTH_API + 'courseSession')
-       .pipe(catchError(this.processHTTPMsgService.handleError));*/
-    }
+
+    }*/
 
     getDisponibilities(): Promise<any> {
         /* console.log(this._httpClient.get<any[]>(AUTH_API + 'courseSession'));
@@ -434,7 +348,7 @@ export class MyDisponibilityService implements Resolve<any>
      * @param contact
      * @returns {Promise<any>}
      */
-    updateContact(contact): Promise<any> {
+    /*updateContact(contact): Promise<any> {
         return new Promise((resolve, reject) => {
 
             this._httpClient.post(AUTH_API + 'courseSession' + contact.id, { ...contact })
@@ -443,7 +357,7 @@ export class MyDisponibilityService implements Resolve<any>
                     resolve(response);
                 });
         });
-    }
+    }*/
 
     /**
      * Update user data
@@ -451,7 +365,7 @@ export class MyDisponibilityService implements Resolve<any>
      * @param userData
      * @returns {Promise<any>}
      */
-    updateUserData(userData): Promise<any> {
+    /*updateUserData(userData): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient.post(AUTH_API + 'courseSession' + this.user.id, { ...userData })
                 .subscribe(response => {
@@ -460,7 +374,7 @@ export class MyDisponibilityService implements Resolve<any>
                     resolve(response);
                 });
         });
-    }
+    }*/
 
     /**
      * Deselect contacts

@@ -387,7 +387,7 @@ export class Register2Component implements OnInit, OnDestroy {
                 }
                 else
                 if (this.rForm.value.userRole == "Participant") {
-                    this.authService.registerParticipant(this.ParticipantForm, this.rForm).subscribe(
+                    this.authService.registerParticipant(this.ParticipantForm).subscribe(
                         data => {
                             console.log("data on submit");
                             console.log(data);

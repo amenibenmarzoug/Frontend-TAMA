@@ -3,8 +3,9 @@ import { List } from "lodash";
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve } from '@angular/router';
+import {environment} from 'environments/environment';
 
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 const USER_KEY = 'auth-user';
 @Injectable({ providedIn: "root" })
 export class Login2Service implements Resolve<any> {
@@ -72,7 +73,7 @@ export class Login2Service implements Resolve<any> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
         console.log(this.userId);
         if (this.userRole.includes("PARTICIPANT")) {
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 Promise.all([
 
                     this.getParticipantById(this.userId)
@@ -85,7 +86,7 @@ export class Login2Service implements Resolve<any> {
             });
         }
         if (this.userRole.includes("TRAINER")) {
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 Promise.all([
                     this.getTrainerById(this.userId),
                 ]).then(
@@ -97,7 +98,7 @@ export class Login2Service implements Resolve<any> {
             });
         }
         if (this.userRole.includes("ENTREPRISE")) {
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 Promise.all([
                     this.getEntrepriseById(this.userId),
                 ]).then(
@@ -109,7 +110,7 @@ export class Login2Service implements Resolve<any> {
             });
         }
         if (this.userRole.includes("INSTITUTION")) {
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 Promise.all([
                     this.getInstitutionById(this.userId),
                 ]).then(
@@ -121,7 +122,7 @@ export class Login2Service implements Resolve<any> {
             });
         }
 
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             Promise.all([
             ]).then(
                 () => {

@@ -19,12 +19,23 @@ import { TrainerFormComponent } from './trainer-form/trainer-form.component';
 import { EntrepriseFormComponent } from './entreprise-form/entreprise-form.component';
 import { InstitutionFormComponent } from './institution-form/institution-form.component';
 import { UserFormComponent } from './user-form/user-form.component';
+import { Register2Service } from 'app/main/pages/authentication/register-2/register-2.service'
 
 const routes = [
     {
         path     : 'auth/register-2',
         component: Register2Component
-    }
+    },
+    {
+        path     : 'auth/register_entreprise',
+        component: EntrepriseFormComponent
+    },
+    {
+        path     : 'auth/register_participant',
+        component: ParticipantFormComponent
+    },
+   
+
 ];
 
 
@@ -51,7 +62,10 @@ const routes = [
         MatStepperModule,
         MatDatepickerModule,
         FuseSharedModule
-    ]
+    ],
+    providers      : [
+        Register2Service
+    ],
 })
 export class Register2Module
 {

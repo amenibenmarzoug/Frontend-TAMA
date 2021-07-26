@@ -11,7 +11,9 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 import { MyDisponibilityService } from 'app/main/apps/my-disponibility/mydisponibility.service';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-import { CourseSession } from 'app/main/apps/disponibility-trainer/courseSession.model';
+//import { Day } from 'app/main/apps/disponibility-trainer/day.model';
+import { Days } from 'app/main/apps/my-disponibility/days';
+
 
 @Component({
     selector: 'app-disponibility-list',
@@ -25,10 +27,10 @@ export class DisponibilityListComponent implements OnInit, OnDestroy {
     @ViewChild('dialogContent')
     dialogContent: TemplateRef<any>;
     courseSessions:any[]=[];
-    contacts: CourseSession[];
+    days: any[]=Days;
     user: any;
     dataSource: FilesDataSource | null;
-    displayedColumns = ['checkbox', 'lieu', 'date', 'time', 'institution', 'seance'];
+    displayedColumns = ['checkbox', 'jour',];
     selectedContacts: any[];
     coursesId: any[] = [];
     checkboxes: {};
@@ -60,14 +62,14 @@ export class DisponibilityListComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        //this.dataSource = new FilesDataSource(this._disponibilityTrainerService);
-        this.dataSource = null;
+        this.dataSource = new FilesDataSource(this._mydisponibilityService);
+        //this.dataSource = null;
         
        this._mydisponibilityService.onSpecificCourseSessionsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(contacts => {
 
-                this.contacts = contacts;
+               // this.days = contacts;
                 //this.courseSessions=contacts;
                
                //this.contacts=this.courseSessions;
@@ -80,9 +82,10 @@ export class DisponibilityListComponent implements OnInit, OnDestroy {
              //   console.log(this.courseSessions);
                // this.courseSessions=this._disponibilityTrainerService.getSpecificCourseSessions(this._disponibilityTrainerService.courseId);
                
-              
+              console.log("DAYS");
+              console.log(this.days);
               this.checkboxes = {};
-                this.contacts.map(contact => {
+                this.days.map(contact => {
                     this.checkboxes[contact.id] = false;
                 });
             });
@@ -110,7 +113,7 @@ export class DisponibilityListComponent implements OnInit, OnDestroy {
                 });
             });*/
 
-            this.dataSource = new FilesDataSource(this._mydisponibilityService);
+            //this.dataSource = new FilesDataSource(this._mydisponibilityService);
         this._mydisponibilityService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedContacts => {
@@ -216,7 +219,7 @@ export class FilesDataSource extends DataSource<any>
      * @returns {Observable<any[]>}
      */
     connect(): Observable<any[]> {
-        return this._mydisponibilityService.onSpecificCourseSessionsChanged;
+        return this._mydisponibilityService.onSpecificCourseSessionsChanged ;
     }
 
     /**

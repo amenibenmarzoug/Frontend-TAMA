@@ -5,10 +5,10 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { Observable, BehaviorSubject } from 'rxjs';
 import{ Document} from 'app/main/apps/file-manager/file.model';
 import { HttpRequest, HttpEvent } from '@angular/common/http';
-import { Training } from '../academy/trainings/training.model';
+//import { Training } from '../academy/trainings/training.model';
+import {environment} from 'environments/environment';
 
-
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 
 @Injectable()
 export class FileManagerService implements Resolve<any> 
@@ -56,7 +56,7 @@ export class FileManagerService implements Resolve<any>
    */
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
   {
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
 
           Promise.all([
               this.getFiles(),
@@ -73,7 +73,7 @@ export class FileManagerService implements Resolve<any>
  
 
   getFiles(): Observable<any> {
-    return this._httpClient.get(`http://localhost:8080/api/files`);
+    return this._httpClient.get(AUTH_API + `files`);
   }
 
   /*getFiles(): Promise<any>
@@ -169,7 +169,7 @@ export class FileManagerService implements Resolve<any>
     formData.forEach((value,key) => {
         console.log(key+" "+value)
   });
-    const req = new HttpRequest('POST', `http://localhost:8080/api/upload`, formData,{
+    const req = new HttpRequest('POST', AUTH_API + `upload`, formData,{
       reportProgress: true,
       responseType: 'json'
     });
@@ -182,7 +182,7 @@ export class FileManagerService implements Resolve<any>
     {  //console.log("function entryy") ; 
         //console.log(course.id)  ;
         console.log(id);
-     this._httpClient.delete( `http://localhost:8080/api/files/${id}`)
+     this._httpClient.delete( AUTH_API + `files/${id}`)
             .subscribe(response => {
                this.getFiles();
                console.log("deleete 2") ; 
@@ -198,7 +198,7 @@ export class FileManagerService implements Resolve<any>
         const contactIndex = this.contacts.indexOf(id);
         this.contacts.splice(contactIndex, 1);
             this.onFilesChanged.next(this.contacts);
-        this._httpClient.delete(`http://localhost:8080/api/file/${id}`)
+        this._httpClient.delete(AUTH_API + `file/${id}`)
             .subscribe(response => {
                // this.getContacts();
                console.log(response);
@@ -210,7 +210,7 @@ export class FileManagerService implements Resolve<any>
 
 
     /*downloadFile(id): Observable<any> {
-        return this._httpClient.get(`http://localhost:8080/api/file/${id}`);
+        return this._httpClient.get(AUTH_API + `file/${id}`);
       }*/
 
 
@@ -219,7 +219,7 @@ export class FileManagerService implements Resolve<any>
 
 
         console.log(filename);
-        const baseUrl = 'http://localhost:8080/api';
+        const baseUrl = environment.backend_url+ 'api';
       //  const token = 'my JWT';
         const headers = new HttpHeaders().set('authorization','Bearer ');
         this._httpClient.get(baseUrl + '/files/${id}',{headers, responseType: 'blob' as 'json'}).subscribe(
@@ -259,7 +259,7 @@ export class FileManagerService implements Resolve<any>
       const contactIndex = this.documents.indexOf(id);
       this.documents.splice(contactIndex, 1);
           this.onFilesChanged.next(this.documents);
-      this._httpClient.delete(`http://localhost:8080/api/document/${id}`)
+      this._httpClient.delete(AUTH_API + `document/${id}`)
           .subscribe(response => {
              // this.getContacts();
               resolve(response);
@@ -275,7 +275,7 @@ export class FileManagerService implements Resolve<any>
 
   formData.append('file', file);
 
-  const req = new HttpRequest('POST', `http://localhost:8080/api/upload`, formData, {
+  const req = new HttpRequest('POST', AUTH_API + `upload`, formData, {
     reportProgress: true,
     responseType: 'json'
   });

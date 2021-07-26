@@ -4,10 +4,13 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { FuseUtils } from '@fuse/utils';
+import {environment} from 'environments/environment';
 
 //import { Contact } from 'app/main/apps/participants/participant.model';
 import { MyParticipant } from './participants/participant.model';
 import { convertActionBinding } from '@angular/compiler/src/compiler_util/expression_converter';
+
+const AUTH_API = environment.backend_url+ 'api/';
 const USER_KEY = 'auth-user';
 @Injectable()
 export class ParticipantsService implements Resolve<any>
@@ -26,7 +29,7 @@ export class ParticipantsService implements Resolve<any>
     searchText: string;
     filterBy: string;
     id: number;
-cursus : any ;
+    cursus: any;
 
     /**
      * Constructor
@@ -36,7 +39,7 @@ cursus : any ;
     constructor(
 
         private _httpClient: HttpClient,
-       
+
     ) {
 
         // Set the defaults
@@ -59,10 +62,9 @@ cursus : any ;
      * @param {RouterStateSnapshot} state
      * @returns {Observable<any> | Promise<any> | any}
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
-    {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
 
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
 
             Promise.all([
                 this.getUserData(),
@@ -96,17 +98,17 @@ cursus : any ;
      */
 
     getContacts(): Promise<any> {
-    this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
-        //console.log(this.user.id) ; console.log(this.contact.validated) ;
+        this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
+        // console.log(this.user.id) ; console.log(this.contact.validated) ;
 
         const params = new HttpParams().set('id', this.user.id);
 
         return new Promise((resolve, reject) => {
 
-            this._httpClient.get('http://localhost:8080/api/participants/entreprise', { params: params })
-                // this._httpClient.get('http://localhost:8080/api/participants')
+            this._httpClient.get(environment.backend_url+ 'api/participants/entreprise', { params: params })
+                // this._httpClient.get(environment.backend_url+ 'api/participants')
                 .subscribe((response: any) => {
-                    //console.log(JSON.stringify(response));
+                    // console.log(JSON.stringify(response));
                     this.contacts = response;
                     // console.log(response) ; 
 
@@ -114,7 +116,7 @@ cursus : any ;
                         this.contacts = this.contacts.filter(_contact => {
                             if (_contact.entreprise) { return true; }
                             return false;
-                            // this._httpClient.get('http://localhost:8080/api/participants/pilier1')                                   
+                            // this._httpClient.get(environment.backend_url+ 'api/participants/pilier1')                                   
 
                         });
                     }
@@ -156,16 +158,15 @@ cursus : any ;
      * @returns {Promise<any>}
      */
 
-    getUserData(): Promise<any>
-    {
+    getUserData(): Promise<any> {
         return new Promise((resolve, reject) => {
-                this._httpClient.get('http://localhost:8080/api/participants')
-                    .subscribe((response: any) => {
-                        this.user = response;
-                        this.onUserDataChanged.next(this.user);
-                        resolve(this.user);
-                    }, reject);
-            }
+            this._httpClient.get(environment.backend_url+ 'api/participants')
+                .subscribe((response: any) => {
+                    this.user = response;
+                    this.onUserDataChanged.next(this.user);
+                    resolve(this.user);
+                }, reject);
+        }
 
         );
     }
@@ -176,15 +177,12 @@ cursus : any ;
      * @param id
      */
 
-    toggleSelectedContact(id): void
-    {
+    toggleSelectedContact(id): void {
         // First, check if we already have that contact as selected...
-        if ( this.selectedContacts.length > 0 )
-        {
+        if (this.selectedContacts.length > 0) {
             const index = this.selectedContacts.indexOf(id);
 
-            if ( index !== -1 )
-            {
+            if (index !== -1) {
 
                 this.selectedContacts.splice(index, 1);
 
@@ -210,14 +208,11 @@ cursus : any ;
      * Toggle select all
      */
 
-    toggleSelectAll(): void
-    {
-        if ( this.selectedContacts.length > 0 )
-        {
+    toggleSelectAll(): void {
+        if (this.selectedContacts.length > 0) {
             this.deselectContacts();
         }
-        else
-        {
+        else {
 
             this.selectContacts();
         }
@@ -230,18 +225,16 @@ cursus : any ;
      * @param filterValue
      */
 
-    selectContacts(filterParameter?, filterValue?): void
-    {
+    selectContacts(filterParameter?, filterValue?): void {
         this.selectedContacts = [];
 
         // If there is no filter, select all contacts
-        if ( filterParameter === undefined || filterValue === undefined )
-        {
+        if (filterParameter === undefined || filterValue === undefined) {
 
             this.selectedContacts = [];
             this.contacts.map(contact => {
                 this.selectedContacts.push(contact.id);
-                //console.log(this.selectedContacts)
+                // console.log(this.selectedContacts)
 
             });
         }
@@ -250,20 +243,19 @@ cursus : any ;
         this.onSelectedContactsChanged.next(this.selectedContacts);
 
     }
-    getCursus(id): Promise<any>
-    {
-      
-       
-         return new Promise((resolve, reject) => {
-                this._httpClient.get('http://localhost:8080/api/cursus/'+id)
+    getCursus(id): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(environment.backend_url+ 'api/cursus/' + id)
                 .subscribe((response: any) => {
-                  //  console.log("response");
-                   // console.log(response);
-                    //this.onEntrpriseChanged.next(response);
-                    this.cursus=response;
+                    //  console.log("response");
+                    // console.log(response);
+                    // this.onEntrpriseChanged.next(response);
+                    this.cursus = response;
                     resolve(response);
                 }, reject);
-            }
+        }
         );
     }
 
@@ -278,34 +270,34 @@ cursus : any ;
     updateContact2(contact): Promise<any> {
         return new Promise((resolve, reject) => {
             contact.password = contact.phoneNumber;
-             //contact.cursus=cursus ;
+            // contact.cursus=cursus ;
             let id = JSON.parse(sessionStorage.getItem(USER_KEY)).id;
             const params = new HttpParams().set('id', id);
-           // console.log(contact);
-            this._httpClient.post('http://localhost:8080/api/signupParticipantEntre', contact, { params: params })
+            // console.log(contact);
+            this._httpClient.post(environment.backend_url+ 'api/signupParticipantEntre', contact, { params: params })
                 .subscribe(response => {
-                    
+
                     this.getContacts();
                     resolve(response);
-                    
+
                 });
         });
     }
 
 
 
-    updateContact(contact , cursusId ): Promise<any> {
+    updateContact(contact, cursusId): Promise<any> {
         return new Promise((resolve, reject) => {
             contact.password = contact.phoneNumber;
-             //contact.cursus=cursus ;
+            // contact.cursus=cursus ;
             let id = JSON.parse(sessionStorage.getItem(USER_KEY)).id;
-          //const params = new HttpParams().set('id', id);
-            const param = new HttpParams({fromObject: { 'id':id , 'cursusId':cursusId }});
-            const obj = { id: 'id', cursusId: 'cursusId'};
-            //console.log(contact);
-            this._httpClient.post('http://localhost:8080/api/signupParticipantEntre', contact, { params: param } )
+            // const params = new HttpParams().set('id', id);
+            const param = new HttpParams({ fromObject: { 'id': id, 'cursusId': cursusId } });
+            const obj = { id: 'id', cursusId: 'cursusId' };
+            // console.log(contact);
+            this._httpClient.post(environment.backend_url+ 'api/signupParticipantEntre', contact, { params: param })
                 .subscribe(response => {
-                    console.log(response) ;
+                    console.log(response);
                     this.getContacts();
                     resolve(response);
                 });
@@ -315,8 +307,8 @@ cursus : any ;
     /** */
     updateContact1(contact): Promise<any> {
         return new Promise((resolve, reject) => {
-            //console.log (contact) ;
-            this._httpClient.put('http://localhost:8080/api/updatePartEntr', contact)
+            // console.log (contact) ;
+            this._httpClient.put(environment.backend_url+ 'api/updatePartEntr', contact)
 
                 .subscribe(response => {
                     this.getContacts();
@@ -326,17 +318,10 @@ cursus : any ;
     }
 
 
-   /**
-     * Update user data
-     *
-     * @param userData
-     * @returns {Promise<any>}
-     */
-
-    updateUserData(userData): Promise<any>
-    {
+   
+    updateUserData(userData): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.post('api/contacts-user/' + this.user.id, {...userData})
+            this._httpClient.post('api/contacts-user/' + this.user.id, { ...userData })
 
                 .subscribe(response => {
                     this.getUserData();
@@ -350,8 +335,7 @@ cursus : any ;
      * Deselect contacts
      */
 
-    deselectContacts(): void
-    {
+    deselectContacts(): void {
 
         this.selectedContacts = [];
 
@@ -360,27 +344,22 @@ cursus : any ;
 
     }
 
-    /**
-     * Delete contact
-     *
-     *@param id
-     */
+    
 
-    deleteContact(id):Promise<any>
-    {   //console.log(id)  ;
-        
-     
-       return new Promise((resolve, reject) => {
-        const contactIndex = this.contacts.indexOf(id);
-        this.contacts.splice(contactIndex, 0);
+    deleteContact(id): Promise<any> {  
+
+
+        return new Promise((resolve, reject) => {
+            const contactIndex = this.contacts.indexOf(id);
+            this.contacts.splice(contactIndex, 0);
             this.onContactsChanged.next(this.contacts);
-        this._httpClient.delete(`http://localhost:8080/api/participants/${id}`)
-            .subscribe(response => {
-               // this.getContacts();
-              
-                resolve(response);
-            });
-    }); 
+            this._httpClient.delete(AUTH_API + `participants/${id}`)
+                .subscribe(response => {
+                    // this.getContacts();
+
+                    resolve(response);
+                });
+        });
 
     }
 
@@ -388,18 +367,16 @@ cursus : any ;
      * Delete selected contacts
      */
 
-    deleteSelectedContacts(): void
-    {
-        for ( const contactId of this.selectedContacts )
-        {
+    deleteSelectedContacts(): void {
+        for (const contactId of this.selectedContacts) {
             const contact = this.contacts.find(_contact => {
                 return _contact.id === contactId;
-                 
+
             });
-            this.deleteContact(contactId) ;
+            this.deleteContact(contactId);
             const contactIndex = this.contacts.indexOf(contact);
             this.contacts.splice(contactIndex, 1);
-           
+
 
         }
         this.onContactsChanged.next(this.contacts);

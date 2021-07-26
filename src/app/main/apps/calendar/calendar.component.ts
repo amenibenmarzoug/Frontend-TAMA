@@ -19,6 +19,7 @@ import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { forEach } from 'lodash';
 
   import { CustomDateFormatter } from './custom-date-formatter.provider';
+import { Console } from 'console';
 
 const USER_KEY ='auth-user';
 
@@ -61,6 +62,8 @@ export class CalendarComponent implements OnInit {
     viewDate: Date;
     locale: string = 'fr';
     eventsDates:string[]=[];
+    freeDayDates:string[]=[];
+    userRole:string;
 
     weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
   
@@ -76,6 +79,9 @@ export class CalendarComponent implements OnInit {
     ) {
       
         // Set the defaults
+        console.log("Role");
+        console.log( this._calendarService.userRole);
+        this.userRole= this._calendarService.userRole;
         this.view = 'month';
         this.viewDate = new Date();
         this.activeDayIsOpen = true;
@@ -100,7 +106,7 @@ export class CalendarComponent implements OnInit {
          * Get events from service/server
          */
       
-        //this.setEventsCustomized(2);
+      //  this._calendarService.getEvents();
         this.setEvents();
     }
 
@@ -117,15 +123,16 @@ export class CalendarComponent implements OnInit {
         /**
          * Watch re-render-refresh for updating db
          */
-        
-        this.refresh.subscribe(updateDB => {
+        //this._calendarService.getEvents();
+       /* this.refresh.subscribe(updateDB => {
             
             if (updateDB) {
              
                 this._calendarService.updateEvents(this.events);
             }
-        });
-
+        });*/
+        
+       
         this._calendarService.onEventsUpdated.subscribe(events => {
 
             this.setEvents();
@@ -142,14 +149,35 @@ export class CalendarComponent implements OnInit {
      * Set events
      */
     setEvents(): void {
+       // this._calendarService.getEvents();
+       this.freeDayDates=[];
+       console.log("FREE DATA IN SET");
+       console.log(this.freeDayDates);
         this.events = this._calendarService.events.map(item => {
             const date=new Date(item.start);
-            this.eventsDates.push(date.toDateString());
-            item.actions = this.actions;
-            return new CalendarEventModel(item);
+            const dateEnd=new Date(item.end);
+            
+            
+            
+            if(item.freeDay==true){
+             
+                this.freeDayDates.push(date.toDateString());
+                this.freeDayDates.push(dateEnd.toDateString());
+                item.actions = this.actions;
+                return new CalendarEventModel(item);
+       
+            }
+            else{
+                this.eventsDates.push(date.toDateString());
+                item.actions = this.actions;
+                return new CalendarEventModel(item);
+            }
+          
+            
         });
-        console.log("DATES");
-        console.log(this.eventsDates);
+        console.log("Events in comp");
+        console.log(this.events);
+     
     }
 
 
@@ -173,7 +201,7 @@ export class CalendarComponent implements OnInit {
             return new CalendarEventModel(item);
         });
 
-        console.log(this.events);
+        
     }
 
     /**
@@ -203,11 +231,15 @@ export class CalendarComponent implements OnInit {
     beforeMonthViewRenderCustomized(renderEvent: CalendarMonthViewBeforeRenderEvent): void {
         renderEvent.body.forEach((day) => {
 
+            
             const dayOfMonth = day.date.getDay();
-            console.log(day.date.toDateString());
-            if (this.eventsDates.includes(day.date.toDateString()) && day.inMonth) {
-                console.log(day.date);
+            if (this.eventsDates.includes(day.date.toDateString()) && day.inMonth && (!this.freeDayDates.includes(day.date.toDateString()))) {
                 day.cssClass = 'bg-unclicked';
+            }
+         
+            if(this.freeDayDates.includes(day.date.toDateString()) && day.inMonth){
+               
+                day.cssClass = 'bg-freeday';
             }
         });
     }
@@ -222,6 +254,8 @@ export class CalendarComponent implements OnInit {
         const date: Date = day.date;
         const events: CalendarEvent[] = day.events;
 
+        console.log("EZVENTSSS");
+        console.log(events);
         if (isSameMonth(date, this.viewDate)) {
             if ((isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) || events.length === 0) {
                 this.activeDayIsOpen = false;
@@ -334,13 +368,16 @@ export class CalendarComponent implements OnInit {
         });
         this.dialogRef.afterClosed()
             .subscribe((response: FormGroup) => {
+                console.log("Event");
+                console.log(response);
                 if (!response) {
                     return;
                 }
                 const newEvent = response.getRawValue();
                 newEvent.actions = this.actions;
-                this.events.push(newEvent);
-                this.refresh.next(true);
+                //this.events.push(newEvent);
+                this._calendarService.addFreeDay(newEvent);
+               // this.refresh.next(true);
             });
     }
 }

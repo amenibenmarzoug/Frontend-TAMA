@@ -1,0 +1,84 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+
+        <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
+            
+            <div class="contact-name mt-8">{{themeDetail.themeDetailInstName}} </div>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="themeDetailForm">
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Titre theme Detail</mat-label>
+                    <!-- <mat-icon matSuffix class="secondary-text">font_download</mat-icon> -->
+                    <!-- <input ngDefaultControl name="moduleInstanceName" formControlName="moduleInstanceName" matInput required> -->
+                    <mat-select formControlName="themeDetail" (selectionChange)="getModuleForm($event.value)">
+                       
+                        <mat-option *ngFor="let module of themedetails" [value]="module">
+                            {{ module.themeDetailName}} 
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Titre du Theme Detail</mat-label>
+                    <mat-icon matSuffix class="secondary-text">font_download</mat-icon>
+                    <input  name="themeDetailInstName" formControlName="themeDetailInstName" [(ngModel)]="themeDetail.themeDetailInstName" matInput required>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Nombre de jours</mat-label>
+                    <mat-icon matSuffix class="secondary-text">assignment</mat-icon>
+                    <input  name="nbDaysthemeDetailInst" formControlName="nbDaysthemeDetailInst"  [(ngModel)]="themeDetail.nbDaysthemeDetailInst" matInput required>
+                    <mat-error *ngIf="themeDetailForm.get('nbDaysthemeDetailInst').hasError('pattern')">Entrer un numéro</mat-error>
+                </mat-form-field>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <!-- <button *ngIf="action === 'edit'"
+                mat-button
+                class="mr-8"
+                (click)="matDialogRef.close(['delete',themeDetailForm])"
+                aria-label="Delete"
+                matTooltip="Delete">
+            Supprimer
+        </button> -->
+
+        <button *ngIf="action !== 'edit'"
+                mat-button
+                class="save-button"
+                (click)="closeNewThemeDetailForm()"
+                [disabled]="themeDetailForm.invalid"
+                aria-label="SAVE">
+            Ajouter
+        </button>
+
+        <button *ngIf="action === 'edit'"
+                mat-button
+                class="save-button"
+                (click)="closeEditThemeDetailForm()"
+                [disabled]="themeDetailForm.invalid"
+                aria-label="SAVE">
+            Enregistrer
+        </button>
+
+    </div>
+</div>

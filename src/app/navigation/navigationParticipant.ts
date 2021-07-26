@@ -6,7 +6,6 @@ export const navigationParticipant: FuseNavigation[] = [
     {
         id       : 'calendar',
         title    : 'Calendrier',
-        translate: 'NAV.CALENDAR',
         type     : 'item',
         icon     : 'today',
         url      : '/apps/calendar'
@@ -21,10 +20,9 @@ export const navigationParticipant: FuseNavigation[] = [
         url  : '/pages/profile'
     },
 
-    {
+  /*   {
         id: 'academy',
         title: 'Académie',
-        translate: 'NAV.ACADEMY',
         type: 'collapsable',
         icon: 'school',
         //url      : '/apps/academy',
@@ -48,14 +46,13 @@ export const navigationParticipant: FuseNavigation[] = [
         {
             id: 'cursus-participants',
             title: 'Mes Cursus',
-            translate: 'NAV.CURSUS',
             type: 'item',
             url: '/apps/cursus-participants/courses',
 
         },
         ]
 
-    },
+    }, */
 
    
 

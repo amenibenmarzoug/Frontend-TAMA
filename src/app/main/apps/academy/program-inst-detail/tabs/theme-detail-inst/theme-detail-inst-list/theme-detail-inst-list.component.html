@@ -1,0 +1,98 @@
+
+<mat-table #table [dataSource]="dataSource"
+           [@animateStagger]="{value:'50'}">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+        <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+        <mat-cell *matCellDef="let themeDetail">
+            <mat-checkbox [(ngModel)]="checkboxes[themeDetail.id]" (ngModelChange)="onSelectedChange(themeDetail.id.toString())"
+                          (click)="$event.stopPropagation()">
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="themeDetailName">
+        <mat-header-cell *matHeaderCellDef>Titre Theme Detail associé</mat-header-cell>
+        <mat-cell *matCellDef="let themeDetail">
+            <p class="font-weight-600">{{themeDetail.themeDetail.themeDetailName}} </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="nbDaysThemeDetail">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Nombre de jours</mat-header-cell>
+        <mat-cell *matCellDef="let themeDetail" fxHide fxShow.gt-sm>
+            <p  class="email">
+                &nbsp; &nbsp; &nbsp; &nbsp;  {{themeDetail.themeDetail.nbDaysThemeDetail}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+
+     <!-- Email Column -->
+     <ng-container matColumnDef="ThemeDetailInstName">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>nom ThemeDetail Dédié</mat-header-cell>
+        <mat-cell *matCellDef="let themeDetail" fxHide fxShow.gt-sm>
+            <p class="email text-truncate">
+                {{themeDetail.themeDetailInstName}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="nbDaysThemeDetailInst">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Nombre de jours du themeDetail dédié</mat-header-cell>
+        <mat-cell *matCellDef="let themeDetail" fxHide fxShow.gt-sm>
+            <p class="email text-truncate">
+                {{themeDetail.nbDaysthemeDetailInst}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+
+
+
+
+
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="buttons">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let themeDetail">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                
+
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                        (click)="$event.stopPropagation();">
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="edit" (click)="editThemeDetail(themeDetail)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Modifier</span>
+                    </button>
+                   <!--  <button mat-menu-item aria-label="remove" (click)="deleteThemeDetail(themeDetail.id)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Supprimer</span>
+                    </button> -->
+                </mat-menu>
+
+            </div>
+
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let themeDetail; columns: displayedColumns;"
+             class="contact"
+             
+             [ngClass]="{'accent-50':checkboxes[themeDetail.id]}"
+             [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>
+
+
+
+
+

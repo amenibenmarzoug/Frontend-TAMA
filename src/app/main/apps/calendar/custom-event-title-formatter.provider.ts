@@ -18,19 +18,31 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
   // you can override any of the methods defined in the parent class
 
   month(event: MyEvent): string {
+    if(event.session!=null){
     return `<b>${new DatePipe(this.localeFr).transform(
       event.start,
       'd/M/yy à HH:mm',
       this.localeFr
-    )}</b>  ${event.courseSession.course.courseName}-${event.title}`;
+    )}</b> ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName} ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location} -   ${event.session.themeDetailInstance.themeDetail.themeDetailName} - ${event.title}<br>
+    <b>     Salle: </b> ${event.session.classRoom.classRoomName } à ${ event.session.classRoom.institution.institutionName }`;
   }
+  
+  else{
+    return `<b>${new DatePipe(this.localeFr).transform(
+      event.start,
+      'd/M/yy ',
+      this.localeFr
+    )}</b> 
+    <b>  ${event.title}</b> `;
+  }
+}
 
   week(event: MyEvent): string {
     return `<b>${new DatePipe(this.localeFr).transform(
       event.start,
       'HH:mm',
       this.localeFr
-    )}</b>  ${event.courseSession.course.courseName}-${event.title} `;
+    )}</b>  ${event.session.themeDetailInstance.themeDetail.themeDetailName}-${event.title} `;
   }
 
   day(event: MyEvent): string {
@@ -38,7 +50,7 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
       event.start,
       'HH:mm',
       this.localeFr
-    )}</b> ${event.courseSession.course.courseName}-${event.title}`;
+    )}</b> ${event.session.themeDetailInstance.themeDetail.themeDetailName}-${event.title}`;
   }
 }
 

@@ -1,0 +1,61 @@
+<mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let contact">
+            <mat-checkbox [(ngModel)]="checkboxes[contact.id.toString()]"
+                (ngModelChange)="onSelectedChange(contact.id.toString())" (click)="$event.stopPropagation()"
+                [disabled]="disableCheckbox(contact.id.toString())">
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+
+
+    <!-- Name Column -->
+
+
+    <!-- Place Column -->
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Nom et Prénom</mat-header-cell>
+        <mat-cell *matCellDef="let contact">
+            <p class="text-truncate font-weight-600">{{contact.firstName}} {{contact.lastName}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Email</mat-header-cell>
+        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm>
+            <p class="email text-truncate">
+                {{contact.email}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Phone Column -->
+    <ng-container matColumnDef="phone">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Numéro Téléphone</mat-header-cell>
+        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
+            <p class="phone text-truncate">
+                {{contact.phoneNumber}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+
+
+    
+
+
+
+
+
+    <!-- Buttons Column -->
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let contact; columns: displayedColumns;" class="contact"
+        [ngClass]="{'accent-50':checkboxes[contact.id]}" [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>

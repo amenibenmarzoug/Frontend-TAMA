@@ -18,6 +18,12 @@
             <p class="text-truncate font-weight-600">{{contact.enterpriseName}} </p>
         </mat-cell>
     </ng-container>
+    <ng-container matColumnDef="nameP">
+        <mat-header-cell *matHeaderCellDef>Représentant</mat-header-cell>
+        <mat-cell *matCellDef="let contact">
+            <p class="text-truncate font-weight-600">{{contact.managerFirstName}} {{contact.managerLastName}}  </p>
+        </mat-cell>
+    </ng-container>
     
 
     <!-- Email Column -->
@@ -51,7 +57,15 @@
         </mat-cell>
     </ng-container>
   
-
+    <ng-container matColumnDef="classe" >
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>
+            Inscrite dans </mat-header-cell>
+        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
+            <p class="job-title text-truncate">
+              {{ contact.programInstance.programInstName}}    {{ contact.programInstance.location}} 
+            </p>
+        </mat-cell>
+    </ng-container>
 
 
 
@@ -64,20 +78,19 @@
                     <mat-icon *ngIf="contact.validated " class="amber-fg" >star</mat-icon>
                     <mat-icon *ngIf="!contact.validated"class="secondary-text" >star_border</mat-icon>
                 </button>
-                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
-                        (click)="$event.stopPropagation();">
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More" (click)="$event.stopPropagation();">
                     <mat-icon class="secondary-text">more_vert</mat-icon>
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
-                    <button mat-menu-item aria-label="remove" (click)="deleteContact(contact.id)">
+                   <!--  <button mat-menu-item aria-label="remove" (click)="deleteContact(contact.id)">
                         <mat-icon>delete</mat-icon>
                         <span>Supprimer</span>
-                    </button>
-                    <button mat-menu-item aria-label="check" (click)="ValidateContact(contact)">
+                    </button> -->
+                    <button mat-menu-item aria-label="check" [disabled]="disabled" (click)="ValidateContact(contact)">
                         <mat-icon *ngIf="contact.validated ">check</mat-icon>
                         <mat-icon *ngIf="!contact.validated ">close</mat-icon>
-                        <span>Valider</span>
+                        <span>Créer un compte</span>
                     </button>
                 </mat-menu>
 

@@ -12,7 +12,7 @@ import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 export interface MyEvent extends CalendarEvent {
     id: number;
-    courseSession:any;
+    session:any;
     colorPrimary?:string;
     colorSecondary:string;
    // color:MyEventColor;

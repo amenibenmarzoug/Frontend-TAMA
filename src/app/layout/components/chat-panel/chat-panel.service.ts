@@ -28,7 +28,7 @@ export class ChatPanelService
      */
     loadContacts(): Promise<any> | any
     {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             Promise.all([
                 this.getContacts(),
                 this.getUser()

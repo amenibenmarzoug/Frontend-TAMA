@@ -1,0 +1,118 @@
+<div id="academy-courses" class="page-layout simple">
+
+    <!-- HEADER -->
+    <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="center center">
+
+        <div class="hero-text">
+            <mat-icon class="hero-icon">school</mat-icon>
+            <h1 [@animate]="{value:'*',params:{delay:'100ms', y:'25px'}}">
+                Bienvenue à la plateforme TAMA <br>
+            </h1>
+            <h3 [@animate]="{value:'*',params:{delay:'100ms', y:'25px'}}">
+            </h3>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-24">
+
+        <div fxLayout="column" fxLayoutAlign="center">
+
+            <div class="filters" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+                fxLayoutAlign.gt-xs="space-between center">
+
+                <mat-form-field appearance="outline" floatLabel="always" class="course-search">
+                    <mat-label>Chercher une Classe</mat-label>
+                    <input matInput placeholder="Entrer le titre de la classe..." [(ngModel)]="searchTerm"
+                        (input)="filterCoursesByTerm()">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="category-selector">
+                    <mat-label>Classes</mat-label>
+                    <mat-select [(ngModel)]="currentCategory" (selectionChange)="filterClassesByCategory()">
+                        <mat-option [value]="'Toutes'">
+                            Toutes
+                        </mat-option>
+                        <mat-option [value]="'Confirmées'">
+                            Confirmées
+                        </mat-option>
+                        <mat-option [value]="'Non confirmées'">
+                            Non confirmées
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- ADD EVENT BUTTON -->
+                <button mat-fab class="add-event-button mat-accent" aria-label="Add event"
+                    [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}" (click)="newProgram()">
+                    <mat-icon>add</mat-icon>
+                </button>
+                <!-- / ADD EVENT BUTTON -->
+            </div>
+
+
+            <div class="courses" fxLayout="row wrap" fxLayoutAlign="center" [@animateStagger]="{value:'50'}">
+
+                <div class="course" *ngFor="let programInst of filteredPrograms" fxFlex="100" fxFlex.gt-xs="50"
+                    fxFlex.gt-sm="33" [ngClass]="programInst.category" [@animate]="{value:'*',params:{y:'100%'}}">
+
+                    <div class="course-content" fxLayout="column" fxFlex="1 1 auto">
+
+                        <div class="header" fxLayout="row" fxLayoutAlign="center center"
+                            [ngClass]="programInst.category + '-bg'">
+
+
+
+                        </div>
+
+                        <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex="1 1 auto">
+                            <div class="h1">{{programInst.programInstName}}</div>
+                            <div class="updated">Programme associé : {{programInst.program.programName}}</div>
+                            <div class="updated">Nombre de Jours : {{programInst.nbDaysProgInst}}</div>
+                            <div class="updated">Localisation : {{programInst.location}}</div>
+                            <div class="updated">Date début : {{programInst.beginDate | date:'MMMM yyyy'}}</div>
+                            <div class="updated">Date Fin : {{programInst.endDate | date:'MMMM yyyy'}}</div>
+
+                        </div>
+
+                        <div class="footer" fxLayout="row" fxLayoutAlign="center center">
+                            <button mat-button color="accent" (click)="goToProgramModuleInst(programInst.id)">
+                                Détails
+                            </button>
+                            <button mat-button color="accent" (click)="editProgramInst(programInst)">
+                                Modifier
+                            </button>
+                            <div *ngIf="!programInst.validated"><button mat-button color="accent"
+                                    (click)="confirmClass(programInst)">
+                                    Confirmer
+                                </button></div>
+                            <div *ngIf="programInst.validated"><button mat-button color="accent"
+                                    (click)="cancelClass(programInst)">
+                                    Annuler
+                                </button></div>
+
+
+                            <!--   <button mat-button color="accent" (click)="deleteCursus(programInst)">
+                                Supprimer
+                            </button> -->
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="no-courses" *ngIf="filteredPrograms.length === 0">
+                    Aucune Classe Trouvée!
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

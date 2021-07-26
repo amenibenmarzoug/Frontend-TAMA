@@ -6,9 +6,10 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FuseUtils } from '@fuse/utils';
 
 import { Group } from 'app/main/apps/groups/group.model';
-import { Contact } from '../participants/participant.model';
+import { Participant } from '../participants/participant.model';
+import {environment} from 'environments/environment';
 
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 
 @Injectable()
 export class GroupsService implements Resolve<any>
@@ -24,7 +25,7 @@ export class GroupsService implements Resolve<any>
     onSearchTextChangedP: Subject<any>;
     onFilterChanged: Subject<any>;
     onFilterChangedP: Subject<any>;
-    participant: Contact[];
+    participant: Participant[];
     contacts: Group[];
     user: any;
     selectedContacts: string[] = [];
@@ -79,10 +80,10 @@ export class GroupsService implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             
             Promise.all([
-                this.getContacts(),
+                //this.getContacts(),
               
             ]).then(
                 ([files]) => {
@@ -118,18 +119,14 @@ export class GroupsService implements Resolve<any>
     getGroupsParticipants(): Promise<any>
     {
 
-        console.log("groupe id rani f service" + this.groupId);
         const id = new HttpParams().set('id', this.groupId);
         return new Promise((resolve, reject)=>{
             this._httpClient.get(AUTH_API + 'participants/group', {params:id})
             .subscribe((response:any)=>{
                 this.participant = response;
-                //console.log("chfaha list response" + response);
-            
                 this.participant = this.participant.map(contact =>{
-                    return new Contact(contact);
+                    return new Participant(contact);
                 });
-               console.log("affichi list y 5raaa" + this.participant);
                this.onContactsChangedP.next(this.participant);
                 resolve(this.participant);
  
@@ -149,7 +146,6 @@ export class GroupsService implements Resolve<any>
         return new Promise((resolve, reject) => {
                 this._httpClient.get(AUTH_API + 'groups')
                     .subscribe((response: any) => {
-                       // console.log(this.contacts);
                         this.contacts = response;
                         console.log(response);
 
@@ -315,7 +311,7 @@ export class GroupsService implements Resolve<any>
         const contactIndex = this.contacts.indexOf(id);
         this.contacts.splice(contactIndex, 1);
             this.onContactsChanged.next(this.contacts);
-        this._httpClient.delete(`http://localhost:8080/api/groups/${id}`)
+        this._httpClient.delete(AUTH_API + `groups/${id}`)
             .subscribe(response => {
                // this.getContacts();
               
@@ -477,7 +473,7 @@ export class GroupsService implements Resolve<any>
         const contactIndex = this.participant.indexOf(id);
         this.participant.splice(contactIndex, 1);
             this.onContactsChangedP.next(this.participant);
-        this._httpClient.delete(`http://localhost:8080/api/group/participants/${id}`)
+        this._httpClient.delete(AUTH_API + `group/participants/${id}`)
             .subscribe(response => {
                // this.getContacts();
               

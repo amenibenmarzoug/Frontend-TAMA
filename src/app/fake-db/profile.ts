@@ -270,7 +270,7 @@ export class ProfileFakeDb
 
     public static about = {
         'general': {
-            'gender'   : 'Male',
+            'gender'   : 'Masculin',
             'birthday' : 'February 30th, 1974',
             'locations': [
                 'London, UK',

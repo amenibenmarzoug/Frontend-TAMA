@@ -18,7 +18,7 @@ import { MyEvent } from '../mycalendar-utils';
 export class CalendarEventFormDialogComponent
 {
     action: string;
-    event: MyEvent;
+    event: CalendarEventModel;
     eventForm: FormGroup;
     dialogTitle: string;
     presetColors = MatColors.presets;
@@ -36,6 +36,7 @@ export class CalendarEventFormDialogComponent
         private _formBuilder: FormBuilder
     )
     {
+        
         this.event = _data.event;
         this.action = _data.action;
 
@@ -45,11 +46,13 @@ export class CalendarEventFormDialogComponent
         }
         else
         {
-            /*this.dialogTitle = 'New Event';
+            this.dialogTitle = 'Jour Férié';
+            console.log(_data._formBuilder),
             this.event = new CalendarEventModel({
+               
                 start: _data.date,
                 end  : _data.date
-            });*/
+            });
         }
 
         this.eventForm = this.createEventForm();
