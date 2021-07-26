@@ -89,6 +89,7 @@ export class MainClasseComponent implements OnInit, OnDestroy {
 
     selectInstitution(institution): void {
         this.filterBy = institution;
+        this._classroomsManagerService.institution= institution;
         this._classroomsManagerService.onFilterChanged.next(institution);
         // this.filtredClasses = [];
         // this.classes.forEach(classe => {

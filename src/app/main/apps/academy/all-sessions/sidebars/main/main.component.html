@@ -6,7 +6,7 @@
         <div class="header p-24" fxLayout="row" fxLayoutAlign="start center">
 
             <!-- USER -->
-            <span class="h5 font-weight-600">Programmes et Thèmes</span>
+            <span class="h5 font-weight-600">Classes et Thèmes</span>
             <!-- / USER -->
 
         </div>
@@ -22,7 +22,7 @@
 
                 <div class="nav-item" aria-label="Formations" fxLayoutAlign="start center">
                     <mat-form-field appearance="outline" class="category-selector ">
-                        <mat-label>Programme</mat-label>
+                        <mat-label>Classe</mat-label>
                         <mat-select (selectionChange)="selectProgram($event.value)" required>
 
                             <mat-option *ngFor="let program of programs" [value]="program">

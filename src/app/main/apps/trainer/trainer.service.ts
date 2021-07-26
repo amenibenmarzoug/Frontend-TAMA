@@ -6,8 +6,9 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FuseUtils } from '@fuse/utils';
 
 import { Contact } from './trainer.model';
+import {environment} from 'environments/environment';
 
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 
 
 
@@ -350,7 +351,7 @@ export class TrainerService implements Resolve<any>
             const contactIndex = this.contacts.indexOf(id);
             this.contacts.splice(contactIndex, 1);
             this.onContactsChanged.next(this.contacts);
-            this._httpClient.delete(`http://localhost:8080/api/trainers/${id}`)
+            this._httpClient.delete(AUTH_API + `trainers/${id}`)
                 .subscribe(response => {
                     // this.getContacts();
 

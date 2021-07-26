@@ -104,9 +104,9 @@ export class ParticipantFormComponent {
             currentPosition: [this.contact.currentPosition],
             email: [this.contact.email],
             phoneNumber: [this.contact.phoneNumber],
-            street: [this.contact.street],
+           
             city: [this.contact.city],
-            postalCode: [this.contact.postalCode],
+           
             birthday: [this.contact.birthday],
             notes: [this.contact.notes],
             educationLevel: [this.contact.educationLevel],

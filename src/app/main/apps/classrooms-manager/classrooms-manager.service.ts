@@ -9,6 +9,9 @@ import { FuseUtils } from '@fuse/utils';
 
 import { Program } from '../academy/program.model';
 import { ProgramInst } from '../academy/programInst.model';
+import {environment} from 'environments/environment';
+
+const AUTH_API = environment.backend_url+ 'api/';
 const USER_KEY = 'auth-user';
 
 @Injectable()
@@ -25,7 +28,7 @@ export class ClassroomsManagerService implements Resolve<any>
     selectedContactsList: object[] = [];
     user: any;
     selectedContacts: string[] = [];
-    institution: any;
+    institution: any ;
     groupeId: number;
     institutions: MyClasses[];
     programs: Program[];
@@ -96,7 +99,7 @@ export class ClassroomsManagerService implements Resolve<any>
      */
     getClasses(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get('http://localhost:8080/api/classroom')
+            this._httpClient.get(environment.backend_url+ 'api/classroom')
                 .subscribe((response: any) => {
                     this.classes= response;
 
@@ -139,7 +142,7 @@ export class ClassroomsManagerService implements Resolve<any>
 
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get('http://localhost:8080/api/institutions')
+            this._httpClient.get(environment.backend_url+ 'api/institutions')
                 .subscribe((response: any) => {
 
                     this.onInstitutionChanged.next(response);
@@ -232,19 +235,20 @@ export class ClassroomsManagerService implements Resolve<any>
     addClasse(classe, institution): Promise<any> {
         return new Promise((resolve, reject) => {
             classe.institution = institution;
-            this._httpClient.post('http://localhost:8080/api/classroom', classe)
+            this._httpClient.post(environment.backend_url+ 'api/classroom', classe)
 
                 .subscribe(response => {
                     this.getClasses();
                     resolve(response);
                 });
+              //  this.institution= null;
         });
     }
 
     updateClasse(contact): Promise<any> {
 
         return new Promise((resolve, reject) => {
-            this._httpClient.put('http://localhost:8080/api/classroomInstitution/' + this.id, contact)
+            this._httpClient.put(environment.backend_url+ 'api/classroomInstitution/' + this.id, contact)
                 .subscribe(response => {
                     this.getClasses();
                     resolve(response);
@@ -256,7 +260,7 @@ export class ClassroomsManagerService implements Resolve<any>
         return new Promise((resolve, reject) => {
             contact.institution = institution;
 
-            this._httpClient.put('http://localhost:8080/api/classroomInstitution', contact)
+            this._httpClient.put(environment.backend_url+ 'api/classroomInstitution', contact)
                 .subscribe(response => {
                     this.getClasses();
 
@@ -293,7 +297,7 @@ export class ClassroomsManagerService implements Resolve<any>
             const contactIndex = this.classes.indexOf(id);
             this.classes.splice(contactIndex, 1);
             this.onContactsChanged.next(this.classes);
-            this._httpClient.delete(`http://localhost:8080/api/classroom/${id}`)
+            this._httpClient.delete(AUTH_API + `classroom/${id}`)
                 .subscribe(response => {
                     // this.getContacts();
 

@@ -7,7 +7,8 @@ import { FuseUtils } from '@fuse/utils';
 import { ThemeDetail } from './tabs/themeDetail/theme-detail.model';
 import { Program } from '../program.model';
 import { Thematique } from './tabs/thematique/thematique.model';
-const AUTH_API = 'http://localhost:8080/api/';
+import {environment} from 'environments/environment';
+const AUTH_API = environment.backend_url+ 'api/';
 
 @Injectable()
 export class ProgramDetailsService implements Resolve<any>
@@ -137,7 +138,7 @@ export class ProgramDetailsService implements Resolve<any>
 
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get('http://localhost:8080/api/programs')
+            this._httpClient.get(environment.backend_url+ 'api/programs')
                 .subscribe((response: any) => {
                     this.onProgramChanged.next(response);
                     this.programs = response;
@@ -452,7 +453,7 @@ export class ProgramDetailsService implements Resolve<any>
             const moduleIndex = this.modules.indexOf(id);
             this.modules.splice(moduleIndex, 1);
             this.onmoduleChanged.next(this.modules);
-            this._httpClient.delete(`http://localhost:8080/api/module/${id}`)
+            this._httpClient.delete(AUTH_API + `module/${id}`)
                 .subscribe(response => {
                     this.getModules();
                     resolve(response);
@@ -655,7 +656,7 @@ export class ProgramDetailsService implements Resolve<any>
             const themeDetailIndex = this.themeDetails.indexOf(id);
             this.themeDetails.splice(themeDetailIndex, 1);
             this.onThemeDetailChanged.next(this.themeDetails);
-            this._httpClient.delete(`http://localhost:8080/api/themeDetail/${id}`)
+            this._httpClient.delete(AUTH_API + `themeDetail/${id}`)
                 .subscribe(response => {
                     this.getThemeDetail();
                     resolve(response);

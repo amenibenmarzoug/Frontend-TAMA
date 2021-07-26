@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Program } from 'app/main/apps/academy/program.model';
+import {environment} from 'environments/environment';
 
 
-
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 @Injectable()
 export class ProgramsService implements Resolve<any>
 {

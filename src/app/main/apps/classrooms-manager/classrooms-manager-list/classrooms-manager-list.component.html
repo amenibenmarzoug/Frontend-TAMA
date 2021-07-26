@@ -11,7 +11,7 @@
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef> Classe</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Salle</mat-header-cell>
         <mat-cell *matCellDef="let contact">
             <p class="text-truncate font-weight-600">{{contact.classRoomName}}</p>
         </mat-cell>
@@ -28,7 +28,15 @@
         </mat-cell>
     </ng-container>
 
-    
+     <!-- Email Column -->
+     <ng-container matColumnDef="fees">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Frais en dt/1h</mat-header-cell>
+        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm>
+            <p class="email text-truncate">
+                {{contact.fees}}
+            </p>
+        </mat-cell>
+    </ng-container>
 
    
 
@@ -56,10 +64,10 @@
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
-                    <button mat-menu-item aria-label="remove" (click)="deleteContact(contact.id)">
+                    <!-- <button mat-menu-item aria-label="remove" (click)="deleteContact(contact.id)">
                         <mat-icon>delete</mat-icon>
                         <span>Supprimer</span>
-                    </button>
+                    </button> -->
                 </mat-menu>
 
 

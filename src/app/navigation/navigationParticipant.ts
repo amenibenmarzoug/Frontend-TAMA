@@ -20,7 +20,7 @@ export const navigationParticipant: FuseNavigation[] = [
         url  : '/pages/profile'
     },
 
-    {
+  /*   {
         id: 'academy',
         title: 'Académie',
         type: 'collapsable',
@@ -52,7 +52,7 @@ export const navigationParticipant: FuseNavigation[] = [
         },
         ]
 
-    },
+    }, */
 
    
 

@@ -11,7 +11,7 @@ import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import{ProgramInstDetailService} from '../../../program-inst-detail/program-inst-detail.service';
 import { ModuleInstFormComponent } from '../../../program-inst-detail/tabs/module-inst/module-form/module-form.component';
-
+import{ClassesDetailService} from '../../classes-detail.service'
 @Component({
   selector: 'app-module-classe',
   templateUrl: './module-classe.component.html',
@@ -40,7 +40,7 @@ export class ModuleClasseComponent implements OnInit {
    * @param {MatDialog} _matDialog
    */
   constructor(
-      private _moduleInstService: ProgramInstDetailService,
+      private _moduleInstService: ClassesDetailService,
       private _fuseSidebarService: FuseSidebarService,
       private _matDialog: MatDialog
   ) {

@@ -27,7 +27,7 @@ export class ClassroomsManagerListComponent implements OnInit, OnDestroy {
     user: any;
     dataSource: FilesDataSource | null;
     // dataSource :any[] ;
-    displayedColumns = ['checkbox', 'name', 'capacity', 'institution', 'buttons'];
+    displayedColumns = ['checkbox', 'name', 'capacity', 'fees','institution' ];
     selectedContacts: any[];
     checkboxes: {};
     dialogRef: any;

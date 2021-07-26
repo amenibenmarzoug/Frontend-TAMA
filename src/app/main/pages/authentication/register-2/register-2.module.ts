@@ -30,6 +30,10 @@ const routes = [
         path     : 'auth/register_entreprise',
         component: EntrepriseFormComponent
     },
+    {
+        path     : 'auth/register_participant',
+        component: ParticipantFormComponent
+    },
    
 
 ];

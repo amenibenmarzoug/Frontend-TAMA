@@ -3,10 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { AddSessionService } from 'app/main/apps/academy/add-session/add-session.service';
 import { Session } from 'app/main/apps/academy/add-session/session.model';
-
-import { CursusCoursessService } from 'app/main/apps/cursus/courses/coursess.service';
-import { CursusCoursesComponent } from 'app/main/apps/cursus/courses/courses.component';
-import { TokenStorageService } from 'app/main/pages/authentication/common-authentication/token-storage.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
@@ -18,7 +14,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { TranslateService } from '@ngx-translate/core';
 import { DateAdapter } from '@angular/material/core';
 import { MatStepper } from '@angular/material/stepper';
-
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -28,7 +24,10 @@ const USER_KEY = 'auth-user';
   templateUrl: './add-session.component.html',
   styleUrls: ['./add-session.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  animations: fuseAnimations
+  animations: fuseAnimations,
+  providers: [{
+    provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true }
+  }]
 })
 export class AddSessionComponent implements OnInit, OnDestroy {
   form: FormGroup;
@@ -51,11 +50,16 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   beginHour: any;
   endHour: any;
   datetotry: Date;
+
   courseDate: Date;
   courseDateMaxHour: Date;
+  courseDateMinHour: Date;
   events: any[] = [];
   cursusBeginDate: Date;
   cursusEndDate: Date;
+  minSessionDuration: number = 45;
+
+
   classRooms: any[];
   institutions: any[];
   currentInstitution: string;
@@ -71,6 +75,8 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   currentCity: any;
   themes: any[];
   modules: any[];
+  freeDays:any[];
+  isFreeDay:boolean;
   themeDetails: any[];
   testDate: boolean;
   chosenInstitutionName: string;
@@ -89,6 +95,13 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   // Private
   private _unsubscribeAll: Subject<any>;
   currentStep: any;
+  buttonSuiv1Selected: boolean = false;
+  buttonSuiv2Selected: boolean = false;
+  buttonSuiv3Selected: boolean = false;
+  buttonSuiv4Selected: boolean = false;
+  buttonPrec2Selected: boolean = false;
+  buttonPrec3Selected: boolean = false;
+  buttonPrec4Selected: boolean = false;
 
   formErrorsStepper1 = {
 
@@ -174,6 +187,11 @@ export class AddSessionComponent implements OnInit, OnDestroy {
         console.log(this.institutions);
       });*/
     this.selectedTrainerHere = null;
+    this._addSessionService.getFreeDays().then(() => {
+      this.freeDays = this._addSessionService.freeDays;
+
+    }
+    );
     this._addSessionService.onClassRoomsChanged
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(classRooms => {
@@ -283,11 +301,14 @@ export class AddSessionComponent implements OnInit, OnDestroy {
 
 
   addEvent(event: MatDatepickerInputEvent<Date>) {
-
+    this.isFreeDay=false;
     this._addSessionService.deselectContacts();
     this.testDate = false;
     this.events.push(event.value);
     this.courseDate = this.events[this.events.length - 1];
+    this.courseDateMinHour = this.events[this.events.length - 1];
+    this.courseDateMinHour.setHours(this.courseDate.getHours(), this.courseDate.getMinutes() + this.minSessionDuration);
+    console.log("couerse min dateeee"); console.log(this.courseDateMinHour);
     this.courseDateMaxHour.setFullYear(this.courseDate.getFullYear(), this.courseDate.getMonth(), this.courseDate.getDate())
 
 
@@ -295,13 +316,24 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       let d = new Date(session.sessionBeginDate);
 
       if (this.courseDate.toDateString() === d.toDateString()) {
-        console.log(d);
         this.testDate = true;
       }
 
 
     });
-    //console.log("courseDate changeddd");
+    this.freeDays.forEach(day => {
+      let start = new Date(day.start);
+      let end = new Date(day.end);
+
+      if ((this.courseDate.toDateString() === end.toDateString())||(this.courseDate.toDateString() === start.toDateString())) {
+        this.isFreeDay=true;
+        
+      }
+
+
+    });
+    
+       //console.log("courseDate changeddd");
     //console.log(this.courseDate);
 
     // console.log("courseDate Max changed");
@@ -426,6 +458,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       }
 
     });
+    this.buttonSuiv2Selected = true
     this.session = new Session({});
     this.session.sessionName = this.horizontalStepperStep1.value.courseSessionName;
     this.session.sessionBeginDate = this.horizontalStepperStep1.value.courseSessionBeginDate;
@@ -433,8 +466,15 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     this.session.trainer = this.selectedTrainer;
     this.session.themeDetailInstance = this.selectedThemeDet;
 
-    this._addSessionService.getInstitutions();
-    this.institutions = this._addSessionService.institutions;
+
+    setTimeout(() => {
+      this._addSessionService.getInstitutions().then(() => {
+        this.institutions = this._addSessionService.institutions;
+
+      }
+      );
+    });
+
     console.log(this.institutions);
   }
 
@@ -452,6 +492,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       case 5: this._addSessionService.selectedDay = "VENDREDI"; break;
       case 6: this._addSessionService.selectedDay = "SAMEDI"; break;
     }
+    this.buttonSuiv1Selected = true;
     console.log(this._addSessionService.selectedDay);
     setTimeout(() => {
       this._addSessionService.getTrainers().then(() => { this.allTrainers = this._addSessionService.trainers; });
@@ -473,6 +514,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   sendClassroom(): void {
 
     this.session.classRoom = this.currentClassroom;
+    this.buttonSuiv3Selected = true;
   }
 
   finishHorizontalStepper(): void {
@@ -484,9 +526,20 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       });
     }, 5);
 
-
-
   }
+
+  PrecButton2(): void {
+    this.buttonSuiv1Selected = false;
+  }
+
+  PrecButton3(): void {
+    this.buttonSuiv2Selected = false;
+  }
+
+  PrecButton4(): void {
+    this.buttonSuiv3Selected = false;
+  }
+
 
   onValueChangedStepper1(data?: any) {
     if (!this.horizontalStepperStep1) { return; }

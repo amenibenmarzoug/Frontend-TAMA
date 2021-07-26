@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
+import {environment} from 'environments/environment';
 
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 const USER_KEY = 'auth-user';
 
 @Injectable()
@@ -143,7 +144,8 @@ export class CalendarService implements Resolve<any>
             this._httpClient.get(AUTH_API + 'event')
                 .subscribe((response: any) => {
 
-                  
+                    console.log("response");
+                    console.log(response);
                     this.events = response;
                     if (this.userRole.includes("PARTICIPANT")) {
                         if (this.participant.programInstance == null) {
@@ -151,9 +153,15 @@ export class CalendarService implements Resolve<any>
                         }
                         else {
                             this.events = this.events.filter(_event => {
-                                if (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance!= null) {
+                                if ((_event.session != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.validated == true)) {
                                     if (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == this.participant.programInstance.id) {
                                         //console.log("user trainer");
+                                        return true;
+                                    }
+                                }
+                                else {
+                                    if (_event.freeDay == true) {
+                                       
                                         return true;
                                     }
                                 }
@@ -165,13 +173,19 @@ export class CalendarService implements Resolve<any>
 
 
                     }
-                   
+
 
                     else if (this.userRole.includes("TRAINER")) {
                         this.events = this.events.filter(_event => {
-                            if (_event.session.trainer != null) {
+                            if ((_event.session != null) && (_event.session.trainer != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.validated == true)) {
                                 if (_event.session.trainer.id == this.userId) {
                                     //console.log("user trainer");
+                                    return true;
+                                }
+                            }
+                            else {
+                                if (_event.freeDay == true) {
+                                   
                                     return true;
                                 }
                             }
@@ -182,15 +196,21 @@ export class CalendarService implements Resolve<any>
                     else if ((this.userRole.includes("INSTITUTION"))) {
                         this.events = [];
                     }
-                    else if ((this.userRole.includes("ENTREPRISE")) ) {
+                    else if ((this.userRole.includes("ENTREPRISE"))) {
                         if (this.entreprise.programInstance == null) {
                             this.events = [];
                         }
                         else {
                             this.events = this.events.filter(_event => {
-                                if (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance!= null) {
+                                if ((_event.session != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.validated == true)) {
                                     if (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == this.entreprise.programInstance.id) {
                                         //console.log("user trainer");
+                                        return true;
+                                    }
+                                }
+                                else {
+                                    if (_event.freeDay == true) {
+                                       
                                         return true;
                                     }
                                 }
@@ -199,7 +219,20 @@ export class CalendarService implements Resolve<any>
                         }
                     }
                     else if (this.userRole.includes("MANAGER")) {
-                        this.events = response;
+                        this.events = this.events.filter(_event => {
+                            if ((_event.session != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.validated == true)) {
+                                return true;
+
+                            }
+                            else {
+                                if (_event.freeDay == true) {
+                                   
+                                    return true;
+                                }
+                            }
+                            return false;
+                        });
+                     
                     }
                     else {
                         this.events = [];
@@ -234,7 +267,7 @@ export class CalendarService implements Resolve<any>
 
             this._httpClient.put(AUTH_API + 'event', event)
                 .subscribe(response => {
-                   console.log("update methode");
+                    console.log("update methode");
                     console.log(event);
                     this.getEvents();
                     resolve(response);
@@ -247,10 +280,24 @@ export class CalendarService implements Resolve<any>
 
             this._httpClient.post(AUTH_API + 'event', event)
                 .subscribe(response => {
-                  
+
                     console.log(event);
                     this.getEvents();
                     resolve(response);
+                });
+        });
+    }
+
+    addFreeDay(event): Promise<any> {
+        return new Promise((resolve, reject) => {
+
+            this._httpClient.post(AUTH_API + 'event/freeDay', event)
+                .subscribe(response => {
+
+                    console.log(event);
+
+                    resolve(response);
+                    this.getEvents();
                 });
         });
     }

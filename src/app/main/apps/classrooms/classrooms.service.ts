@@ -6,8 +6,9 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FuseUtils } from '@fuse/utils';
 
 import { MyClasses } from './classrooms.model';
+import {environment} from 'environments/environment';
 
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 
 const USER_KEY = 'auth-user';
 
@@ -280,7 +281,7 @@ export class ClassroomsService implements Resolve<any>
         const contactIndex = this.contacts.indexOf(id);
         this.contacts.splice(contactIndex, 1);
             this.onContactsChanged.next(this.contacts);
-        this._httpClient.delete(`http://localhost:8080/api/classroom/${id}`)
+        this._httpClient.delete(AUTH_API + `classroom/${id}`)
             .subscribe(response => {
                // this.getContacts();
               

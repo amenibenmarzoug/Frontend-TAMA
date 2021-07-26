@@ -3,8 +3,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CursusCoursessService } from './courses/coursess.service';
+import {environment} from 'environments/environment';
 
-const AUTH_API1 = 'http://localhost:8080/api/';
+const AUTH_API1 = environment.backend_url+ 'api/';
 
 @Injectable()
 export class CursusCourseService implements Resolve<any>

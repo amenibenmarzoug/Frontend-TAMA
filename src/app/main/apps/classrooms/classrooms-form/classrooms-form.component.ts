@@ -64,6 +64,7 @@ export class ClassroomsFormComponent
         return this._formBuilder.group({
             id      : [this.contact.id],
             classRoomName:[this.contact.classRoomName],
+            fees : [this.contact.fees],
             capacity   : [this.contact.capacity],
             
             
