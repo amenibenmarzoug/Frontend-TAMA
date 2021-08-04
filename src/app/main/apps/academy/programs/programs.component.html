@@ -29,18 +29,7 @@
                         (input)="filterCoursesByTerm()">
                 </mat-form-field>
 
-                <!--mat-form-field appearance="outline" class="category-selector">
-                    <mat-label>Category</mat-label>
-                    <mat-select [(ngModel)]="currentCategory"
-                                (selectionChange)="filterCoursesByCategory()">
-                        <mat-option [value]="'all'">
-                            All
-                        </mat-option>
-                        <mat-option *ngFor="let category of categories" [value]="category.value">
-                            {{ category.label }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field-->
+             
                 <!-- ADD EVENT BUTTON -->
                 <button mat-fab class="add-event-button mat-accent" aria-label="Add event"
                     [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}" (click)="newProgram()">
@@ -60,14 +49,7 @@
                         <div class="header" fxLayout="row" fxLayoutAlign="center center"
                             [ngClass]="program.category + '-bg'">
 
-                            <!-- <div class="category" fxFlex>
-                                {{program.category}}
-                            </div>
-
-                            <div class="length" fxLayout="row" fxLayoutAlign="center center">
-                                <mat-icon class="length-icon s-20">access_time</mat-icon>
-                                <div class="min">{{program.length}} min</div>
-                            </div> -->
+                         
 
                         </div>
 
@@ -87,10 +69,6 @@
                                 Modifier
                             </button>
 
-
-                            <!-- <button mat-button color="accent" (click)="deleteCursus(program)">
-                                Supprimer
-                            </button> -->
 
                         </div>
 

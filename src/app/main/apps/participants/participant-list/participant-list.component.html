@@ -18,16 +18,6 @@
     </ng-container>
 
 
-    <!-- Email Column -->
-    <!--ng-container matColumnDef="email">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Email</mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm>
-            <p class="email text-truncate">
-                {{contact.email}}
-            </p>
-        </mat-cell>
-    </ng-container-->
-
     <!-- Age Column -->
     <ng-container matColumnDef="age">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Age</mat-header-cell>
@@ -49,34 +39,6 @@
         </mat-cell>
     </ng-container>
  
-    <!-- Phone Column -->
-    <!--ng-container matColumnDef="phone">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Numéro </mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
-            <p class="phone text-truncate">
-                {{contact.phoneNumber}}
-            </p>
-        </mat-cell>
-    </ng-container-->
-
-    <!-- Job Title Column -->
-    <!--ng-container matColumnDef="currentPosition" >
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>
-             Position</mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
-            <p class="job-title text-truncate">
-                {{contact.currentPosition}}
-            </p>
-        </mat-cell>
-    </ng-container-->
-   <!--  <ng-container matColumnDef="abandon">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Abandonner</mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
-            <p class="job-title text-truncate">
-                {{contact.abandon}}
-            </p>
-        </mat-cell>
-    </ng-container> -->
 
     <!-- Company Column -->
     <ng-container  matColumnDef="company">
@@ -96,6 +58,15 @@
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
             <p *ngIf="contact.programInstance!=null" class="company">
                 {{contact.programInstance.programInstName}} {{contact.programInstance.location}}
+            </p>
+        </mat-cell>
+    </ng-container>
+    <!-- Company Column -->
+    <ng-container matColumnDef="statut">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Statut</mat-header-cell>
+        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
+            <p  class="company" [ngStyle]="{'background-color': getRowColor(contact.status)}">
+                {{contact.status}} 
             </p>
         </mat-cell>
     </ng-container>
@@ -125,10 +96,7 @@
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
-                  <!--   <button mat-menu-item aria-label="remove" (click)="deleteContact(contact.id)">
-                        <mat-icon>delete</mat-icon>
-                        <span>Supprimer</span>
-                    </button> -->
+                
                     <button mat-menu-item aria-label="check" (click)="ValidateContact(contact)">
                         <mat-icon *ngIf="contact.validated ">check</mat-icon>
                         <mat-icon *ngIf="!contact.validated ">close</mat-icon>

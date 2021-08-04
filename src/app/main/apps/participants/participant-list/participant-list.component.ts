@@ -28,7 +28,7 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
     dataSource: FilesDataSource | null;
     // dataSource :any[] ;
 
-    displayedColumns = ['checkbox', 'name','age','experience','level', 'company', 'classe', 'buttons'];
+    displayedColumns = ['checkbox', 'name','age','experience','level', 'company', 'classe','statut', 'buttons'];
 
     selectedContacts: any[];
     checkboxes: {};
@@ -194,9 +194,7 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
 
     calculateAge(contact): number {
         for (const [key, value] of Object.entries(this.ages)) {
-            console.log("AGES");
-            console.log(this.ages);
-            console.log(contact.id);
+           
             if (key == contact.id) {
                 this.age = value;
                 return this.age;
@@ -229,6 +227,20 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
         // if(this.contact.abandon=true) {this._participantsService.updateUserData(this.contact)}
 
         // else {this._participantsService.updateUserData(this.contact);}
+    }
+
+    getRowColor(status) {
+        if (status === 'WAITING') {
+            return 'orange';
+
+        }else if (status === 'REFUSED'){
+            return 'red';
+        }
+        else if (status === 'ACCEPTED'){
+            return 'green';
+        }
+       
+        
     }
 
 

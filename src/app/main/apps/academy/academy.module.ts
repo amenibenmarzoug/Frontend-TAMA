@@ -12,7 +12,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { ColorPickerModule } from 'ngx-color-picker';
 import { CalendarModule as AngularCalendarModule, DateAdapter } from 'angular-calendar';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ProgramsComponent } from 'app/main/apps/academy/programs/programs.component';
@@ -34,11 +33,6 @@ import {
     MAT_MOMENT_DATE_ADAPTER_OPTIONS,
   } from '@angular/material-moment-adapter';
 
-/*import {
-    NgxMatDatetimePickerModule, 
-    NgxMatNativeDateModule, 
-    NgxMatTimepickerModule 
-} from '@angular-material-components/datetime-picker';*/
 import {MatDatetimepickerModule, MatNativeDatetimeModule, MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 
 import { CommonModule, registerLocaleData } from '@angular/common';
@@ -57,13 +51,11 @@ import { ThemeDetailFormComponent } from './programDetails/tabs/themeDetail/them
 import { ThemeDetailsListComponent } from './programDetails/tabs/themeDetail/theme-detail-list/theme-detail-list.component';
 import { MainThemeDetailComponent } from './programDetails/tabs/themeDetail/sidebars/main/main-theme-detail.component';
 import {SelectedBarThemeDetailComponent} from './programDetails/tabs/themeDetail/selected-bar-theme-detail/selected-bar-theme-detail.component';
-import { from } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import {ModuleInstFormComponent} from '../academy/program-inst-detail/tabs/module-inst/module-form/module-form.component'
 import { AddSessionComponent } from './add-session/add-session.component';
 import { TrainersListComponent } from './add-session/trainers-list/trainers-list.component';
 import {SelectedBarModuleInstComponent} from '../academy/program-inst-detail/tabs/module-inst/selected-bar-module-inst/selected-bar-module-inst.component'
-import { CursusParticipantService } from '../cursus/cursus-participants/cursus-participant.service';
 import { AddSessionService } from './add-session/add-session.service';
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { ProgramsInstComponent } from './programs-inst/programs-inst.component';
@@ -77,7 +69,6 @@ import{ProgramsInstService} from './programs-inst.service';
 import{ProgramInstDetailService} from './program-inst-detail/program-inst-detail.service';
 import { ModuleInstListComponent } from './program-inst-detail/tabs/module-inst/module-inst-list/module-inst-list.component';
 import { ThemeDetailInstListComponent } from './program-inst-detail/tabs/theme-detail-inst/theme-detail-inst-list/theme-detail-inst-list.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './program-inst-detail/tabs/theme-detail-inst/main/main.component';
 import{MainComponent2} from './program-inst-detail/tabs/module-inst/sidebars/main/main.component';
 import { SelectedBarComponent } from './program-inst-detail/tabs/theme-detail-inst/selected-bar/selected-bar.component';
@@ -86,7 +77,6 @@ import { AllSessionsComponent } from './all-sessions/all-sessions.component';
 import { SessionsListComponent } from './all-sessions/sessions-list/sessions-list.component';
 import  { AllSessionsService } from 'app/main/apps/academy/all-sessions/all-sessions.service';
 import  { MainSessionsComponent } from 'app/main/apps/academy/all-sessions/sidebars/main/main.component';
-
 import { ClassesComponent } from './classes/classes.component';
 import { ClassFormComponent } from './classes/class-form/class-form.component';
 import{ClassesService} from './classes.service';
@@ -104,7 +94,12 @@ import { EditSessionService } from 'app/main/apps/academy/edit-session/edit-sess
 import{MainComponent3}from 'app/main/apps/academy/classes-detail/tabs/module-classe/sidebars/main/main.component';
 import{ClassesDetailService} from '../academy/classes-detail/classes-detail.service';
 import{MainComponent4} from '../academy/classes-detail/tabs/theme-detail-classe/main/main.component';
+import {ClasseParticipantsComponent} from './classes/classe-participants/classe-participants.component'
+import {ClasseParticipantListComponent} from './classes/classe-participants/classe-participants-list/classe-participant-list.component'
+import { ClasseParticipantsService } from './classes/classe-participants/classe-participants.service'
+
 registerLocaleData(localeFr, 'fr');
+
 const routes = [
     {
         path     : 'programs',
@@ -272,7 +267,12 @@ const routes = [
         ThemeDetailClassListComponent,
         EditSessionComponent,
         EditTrainersListComponent,
-        MainComponent4
+        MainComponent4,
+
+        //ClasseParticipantsComponent
+
+        ClasseParticipantListComponent,
+        ClasseParticipantsComponent
        
         
         
@@ -328,6 +328,8 @@ const routes = [
         AddSessionService,
         AllSessionsService,
         EditSessionService,
+       // ClasseParticipantsService,
+        ClasseParticipantsService,
         {provide: LOCALE_ID, useValue: 'fr' },
         {
             provide: DateAdapter,

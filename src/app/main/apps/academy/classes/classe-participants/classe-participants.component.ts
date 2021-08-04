@@ -9,17 +9,20 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { ParticipantsService } from 'app/main/apps/participants/participants.service';
 import { ParticipantFormComponent } from 'app/main/apps/participants/participant-form/participant-form.component';
-import { Participant } from './participant.model';
+import { Participant } from 'app/main/apps/participants/participant.model';
+import { ClasseParticipantsService } from './classe-participants.service';
+import { Router } from '@angular/router';
 
 
 @Component({
-    selector: 'app-participants',
-    templateUrl: './participants.component.html',
-    styleUrls: ['./participants.component.scss'],
+    selector: 'classe-participants',
+    templateUrl: './classe-participants.component.html',
+    styleUrls: ['./classe-participants.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class ParticipantsComponent implements OnInit, OnDestroy {
+export class ClasseParticipantsComponent implements OnInit, OnDestroy {
+
     participants: Participant[] = [];;
     dialogRef: any;
     hasSelectedContacts: boolean;
@@ -36,9 +39,11 @@ export class ParticipantsComponent implements OnInit, OnDestroy {
      * @param {MatDialog} _matDialog
      */
     constructor(
-        private _participantsService: ParticipantsService,
+        private _participantsService: ClasseParticipantsService,
         private _fuseSidebarService: FuseSidebarService,
-        private _matDialog: MatDialog
+        private _matDialog: MatDialog,
+        private router: Router,
+
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');
@@ -55,12 +60,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._participantsService.onSelectedContactsChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(selectedContacts => {
-                this.hasSelectedContacts = selectedContacts.length > 0;
-            });
-
+       
         this.searchInput.valueChanges
             .pipe(
                 takeUntil(this._unsubscribeAll),
@@ -88,28 +88,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * New contact
-     */
-    newContact(): void {
-        this.dialogRef = this._matDialog.open(ParticipantFormComponent, {
-            panelClass: 'contact-form-dialog',
-            data: {
-                action: 'new'
-            }
-        });
-
-        this.dialogRef.afterClosed()
-            .subscribe((response: FormGroup) => {
-                if (!response) {
-                    return;
-                }
-
-                this._participantsService.addParticipant(response.getRawValue(), this._participantsService.entreprise, this._participantsService.classe);
-
-            });
-    }
-
+    
     /**
      * Toggle the sidebar
      *
@@ -118,5 +97,9 @@ export class ParticipantsComponent implements OnInit, OnDestroy {
     toggleSidebar(name): void {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
+
+    // goToParticipantList(){
+    //     this.router.navigate(['./apps/participants']);
+    // }
 
 }
