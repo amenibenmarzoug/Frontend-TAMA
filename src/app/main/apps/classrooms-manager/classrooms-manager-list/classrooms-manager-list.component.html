@@ -52,7 +52,14 @@
     <!-- Company Column -->
    
  
-
+    <ng-container matColumnDef="equipments">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Ressources</mat-header-cell>
+        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm>
+            <div fxFlex="row" flexLayoutAlign="start" >
+        <button (click)="$event.stopPropagation();" class="resources-button" mat-raised-button (click)="goToEquipment(contact.id)" color="accent">Liste Ressources</button>
+        </div>
+        </mat-cell>
+    </ng-container>
 
     <!-- Buttons Column -->
     <ng-container matColumnDef="buttons">

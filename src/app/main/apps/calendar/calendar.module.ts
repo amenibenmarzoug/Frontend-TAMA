@@ -15,12 +15,13 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule } from '@fuse/components';
-
+import {MAT_DATE_LOCALE,MAT_DATE_FORMATS} from '@angular/material/core';
 import { CalendarComponent } from 'app/main/apps/calendar/calendar.component';
 import { CalendarService } from 'app/main/apps/calendar/calendar.service';
 import { CalendarEventFormDialogComponent } from 'app/main/apps/calendar/event-form/event-form.component';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 registerLocaleData(localeFr);
 
@@ -34,6 +35,18 @@ const routes: Routes = [
         }
     }
 ];
+
+export const MY_FORMATS = {
+    parse: {
+        dateInput: 'LL'
+    },
+    display: {
+        dateInput: 'DD/MM/YYYY',
+        monthYearLabel: 'MMMM YYYY',
+       
+    }
+};
+
 
 @NgModule({
     declarations   : [
@@ -64,7 +77,10 @@ const routes: Routes = [
     ],
     providers      : [
         CalendarService,
-        {provide: LOCALE_ID, useValue: 'fr' }
+        {provide: LOCALE_ID, useValue: 'fr' },
+        { provide: MAT_DATE_LOCALE, useValue: 'fr' },
+       
+        {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
     ],
     entryComponents: [
         CalendarEventFormDialogComponent

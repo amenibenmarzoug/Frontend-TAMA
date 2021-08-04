@@ -100,6 +100,17 @@ import { ClasseParticipantsService } from './classes/classe-participants/classe-
 
 registerLocaleData(localeFr, 'fr');
 
+export const MY_FORMATS = {
+    parse: {
+        dateInput: 'LL'
+    },
+    display: {
+        dateInput: 'DD/MM/YYYY',
+        monthYearLabel: 'MM-YYYY',
+       
+    }
+};
+
 const routes = [
     {
         path     : 'programs',
@@ -336,7 +347,7 @@ const routes = [
             useClass: MomentDateAdapter,
             deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
           },
-          {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+          {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
 
        
     ],
