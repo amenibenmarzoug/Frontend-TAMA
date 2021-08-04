@@ -5,6 +5,7 @@ import { ParticipantsService } from 'app/main/apps/participants/participants.ser
 import { Participant } from 'app/main/apps/participants/participant.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DateAdapter } from '@angular/material/core';
 
 
 @Component({
@@ -60,11 +61,13 @@ export class ParticipantFormComponent {
         public matDialogRef: MatDialogRef<ParticipantFormComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder,
-        private _ParticipantsService: ParticipantsService
+        private _ParticipantsService: ParticipantsService,
+        private dateAdapter: DateAdapter<Date>
+
     ) {
         // Set the defaults
         this.action = _data.action;
-
+        this.dateAdapter.setLocale('fr');
         if (this.action === 'edit') {
             this.dialogTitle = 'Modifier Participant';
             this.contact = _data.contact;
