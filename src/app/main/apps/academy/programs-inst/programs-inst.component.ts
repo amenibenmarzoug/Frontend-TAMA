@@ -191,7 +191,7 @@ export class ProgramsInstComponent implements OnInit {
                    */
                   case 'save':
 
-                  console.log("programmm fel saave");
+                 
                   console.log(this._academyProgramsInstService.program);
                       this._academyProgramsInstService.updateProgramInst(formData.getRawValue(),this._academyProgramsInstService.program);
 
