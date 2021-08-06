@@ -12,7 +12,8 @@
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
-        "bundle-report": "webpack-bundle-analyzer dist/stats.json"
+        "bundle-report": "webpack-bundle-analyzer dist/stats.json",
+        "build-serve": "node --max_old_space_size=8048 ./node_modules/@angular/cli/bin/ng serve --port=4201 "
     },
     "private": true,
     "dependencies": {
