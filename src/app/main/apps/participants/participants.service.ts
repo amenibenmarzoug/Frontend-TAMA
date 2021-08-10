@@ -296,6 +296,7 @@ export class ParticipantsService implements Resolve<any>
     addParticipant(contact, entreprise, classe): Promise<any> {
         return new Promise((resolve, reject) => {
             contact.password = contact.phoneNumber;
+            console.log(" PARTICIPANT",contact );
             console.log(" PARTICIPANT ENTREPISE");
             console.log(contact.experience);
             if (entreprise == null) {
@@ -312,7 +313,7 @@ export class ParticipantsService implements Resolve<any>
                 .subscribe(response => {
                     this.getContacts();
                     resolve(response);
-                });
+                }); 
         });
     }
     /**
@@ -435,7 +436,7 @@ export class ParticipantsService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.get(environment.backend_url+ 'api/participants/ages')
                 .subscribe((response: any) => {
-                    console.log("hhhhhhhhhhhh");
+                    //console.log("hhhhhhhhhhhh");
                     console.log(response);
                     this.ages = response;
                     console.log(this.ages);

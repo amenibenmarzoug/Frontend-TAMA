@@ -112,6 +112,7 @@ export class ParticipantFormComponent {
             city: [this.contact.city],
             postalCode: [this.contact.postalCode],
             birthday: [this.contact.birthday],
+            birthYear : [this.contact.birthYear],
             notes: [this.contact.notes],
             educationLevel: [this.contact.educationLevel],
             particType:[''],

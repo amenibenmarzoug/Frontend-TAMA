@@ -79,7 +79,7 @@
                             </div>
                             <div class="nav-item" aria-label="Thème de la journée">
                                 <mat-form-field appearance="outline" class="w-100-p">
-                                    <mat-label>Thème de la journée</mat-label>
+                                    <mat-label>Thèmatique</mat-label>
                                     <input matInput formControlName="themeDet"
                                        
                                         (blur)="onValueChangedStepper1()" required>
@@ -213,7 +213,7 @@
                             Précédent
                         </button>
                         <button mat-raised-button matStepperNext type="button" color="accent"
-                            (click)="selectedTrainerButton()" [disabled]="disableButton()">
+                            (click)="selectedTrainerButton(horizontalStepperStep3)" [disabled]="disableButton()">
                             Suivant
                         </button>
                     </div>
@@ -239,7 +239,7 @@
                                 <mat-form-field appearance="outline" class="w-100-p">
                                     <mat-label>Institutions</mat-label>
                                     <mat-select formControlName="institution"
-                                        (selectionChange)="selectInstitution($event.value)" required>
+                                        (selectionChange)="selectInstitution($event.value)" required >
 
                                         <mat-option *ngFor="let institution of institutions" [value]="institution.id">
 

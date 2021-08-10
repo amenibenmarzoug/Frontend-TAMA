@@ -44,7 +44,7 @@
 
 
             <mat-form-field appearance="outline" class="w-100-p">
-                <mat-label>Nom du Programme Dédié</mat-label>
+                <mat-label>Nom de la classe</mat-label>
                 <input matInput name="programInstName" formControlName="programInstName" required
                     [(ngModel)]="programInst.programInstName">
             </mat-form-field>
@@ -57,20 +57,25 @@
 
             <mat-form-field appearance="outline">
                 <mat-label>Date début</mat-label>
-                <input matInput [matDatepicker]="dp" formControlName="beginDate">
-                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+           <input matInput [matDatepicker]="dp" formControlName="beginDate"> 
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                 <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
                     (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
                 </mat-datepicker>
+              <!--   <input matInput [matDatepicker]="dp" name="beginDate" formControlName="beginDate">
+                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                    <mat-datepicker #dp></mat-datepicker> -->
             </mat-form-field>
 
              <mat-form-field appearance="outline">
                 <mat-label>Date Fin</mat-label>
                 <input matInput [matDatepicker]="dpE" formControlName="endDate">
-                <mat-datepicker-toggle matSuffix [for]="dpE"></mat-datepicker-toggle>
+               <mat-datepicker-toggle matSuffix [for]="dpE"></mat-datepicker-toggle>
                 <mat-datepicker #dpE startView="multi-year" (yearSelected)="chosenYearEndHandler($event)"
                     (monthSelected)="chosenMonthEndHandler($event, dpE)" panelClass="example-month-picker">
-                </mat-datepicker>
+                </mat-datepicker> 
+                <mat-datepicker-toggle matSuffix [for]="dpE"></mat-datepicker-toggle>
+                <mat-datepicker #dpE></mat-datepicker>
             </mat-form-field> 
 
 

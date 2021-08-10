@@ -103,14 +103,14 @@ export class InstitutionService implements Resolve<any>
 
                         this.contacts = response;
 
-                        if ( this.filterBy === 'starred' )
+                        if ( this.filterBy === 'entreprise' )
                         {
                             this.contacts = this.contacts.filter(_contact => {
                                 return this.user.starred.includes(_contact.id);
                             });
                         }
 
-                        if ( this.filterBy === 'frequent' )
+                        if ( this.filterBy === 'institution' )
                         {
                             this.contacts = this.contacts.filter(_contact => {
                                 return this.user.frequentContacts.includes(_contact.id);

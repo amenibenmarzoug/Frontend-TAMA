@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { EditSessionService } from 'app/main/apps/academy/edit-session/edit-session.service';
 import { Session } from 'app/main/apps/academy/add-session/session.model';
@@ -32,7 +32,7 @@ const USER_KEY = 'auth-user';
 })
 export class EditSessionComponent implements OnInit, OnDestroy {
   form: FormGroup;
-
+  //toppings = new FormControl('Mushroom');
   @ViewChild('stepper') stepper: MatStepper;
   // @ViewChild('stepper2') stepper2: MatStepper;
   // @ViewChild('stepper') stepper: MatStepper;
@@ -105,6 +105,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   buttonPrec2Selected:boolean=false;
   buttonPrec3Selected:boolean=false;
   buttonPrec4Selected:boolean=false;
+  institution : any
 
   formErrorsStepper1 = {
 
@@ -458,10 +459,13 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectedTrainerButton(): void {
+  selectedTrainerButton(horizontalStepperStep3): void {
     //console.log("BUTTON")
     // console.log(document.getElementById('button1'));
     this._addSessionService.getClassRooms();
+   /*  this.institution= horizontalStepperStep3.get('institution').value
+    
+    console.log("try",horizontalStepperStep3) */
     this._addSessionService.selectedContacts.forEach(select => {
       this.selectedTrainers.push(select.toString());
 
@@ -493,7 +497,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       }
       );
     });
-   
+
     console.log(this.institutions);
   }
 

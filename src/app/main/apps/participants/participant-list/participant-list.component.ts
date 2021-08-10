@@ -194,9 +194,9 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
 
     calculateAge(contact): number {
         for (const [key, value] of Object.entries(this.ages)) {
-            console.log("AGES");
-            console.log(this.ages);
-            console.log(contact.id);
+           /*  console.log("AGES");
+            console.log(this.ages); 
+            console.log(contact.id);*/
             if (key == contact.id) {
                 this.age = value;
                 return this.age;

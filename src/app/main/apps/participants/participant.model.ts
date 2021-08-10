@@ -13,6 +13,7 @@ export class Participant {
     lastNameP: string;
     gender: string;
     birthday: Date;
+    birthYear : number ;
     currentPosition: string;
     level: string;
     abandon: boolean;
@@ -48,6 +49,7 @@ export class Participant {
             this.city = contact.city || '';
             this.postalCode = contact.postalCode || '';
             this.birthday = contact.birthday || '';
+            this.birthYear = contact.birthYear || '';
             this.notes = contact.notes || '';
             this.educationLevel = contact.educationLevel || '';
             this.abandon = contact.abandon || '';
