@@ -4,7 +4,7 @@
     "license": "https://themeforest.net/licenses/terms/regular",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve --open",
+        "start": "ng serve  --open ",
         "start:mem": "node --max_old_space_size=6144 ./node_modules/@angular/cli/bin/ng serve --open",
         "build": "ng build",
         "build:prod": "ng build --prod",
@@ -14,6 +14,7 @@
         "e2e": "ng e2e",
         "bundle-report": "webpack-bundle-analyzer dist/stats.json",
          "build-serve": "node --max_old_space_size=8048 ./node_modules/@angular/cli/bin/ng serve --port=4201 "
+
     },
     "private": true,
     "dependencies": {
