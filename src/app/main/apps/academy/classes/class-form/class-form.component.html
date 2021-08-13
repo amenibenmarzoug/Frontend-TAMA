@@ -67,7 +67,7 @@
             (click)="matDialogRef.close(['delete',programInstForm])"
             aria-label="Delete"
             matTooltip="Delete">
-        DELETE
+        Supprimer
     </button>
 
     <button *ngIf="action !== 'edit'"
@@ -76,7 +76,7 @@
             (click)="matDialogRef.close(programInstForm)"
             [disabled]="programInstForm.invalid"
             aria-label="SAVE">
-        ADD
+        Ajouter
     </button>
 
     <button *ngIf="action === 'edit'"
@@ -85,7 +85,7 @@
             (click)="matDialogRef.close(['save',programInstForm])"
             [disabled]="programInstForm.invalid"
             aria-label="SAVE">
-        SAVE
+        Enregistrer
     </button>
 
 </div>
