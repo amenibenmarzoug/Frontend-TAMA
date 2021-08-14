@@ -3,8 +3,9 @@ import { List } from "lodash";
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve } from '@angular/router';
+import {environment} from 'environments/environment';
 
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 const USER_KEY = 'auth-user';
 @Injectable({ providedIn: "root" })
 export class Login2Service implements Resolve<any> {

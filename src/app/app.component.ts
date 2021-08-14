@@ -76,7 +76,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private tokenStorageService: TokenStorageService,
         private serviceLogin: Login2Service
     ) {
-        
+
 
         // Register the navigation to the service
         this._fuseNavigationService.register('test', this.navigation);

@@ -8,6 +8,9 @@ import { FuseUtils } from '@fuse/utils';
 import { Participant } from './participant.model';
 import { Program } from '../academy/program.model';
 import { ProgramInst } from '../academy/programInst.model';
+import {environment} from 'environments/environment';
+
+const AUTH_API = environment.backend_url+ 'api/';
 const USER_KEY = 'auth-user';
 
 @Injectable()
@@ -37,6 +40,7 @@ export class ParticipantsService implements Resolve<any>
     searchText: string;
     filterBy: string;
     id: number;
+    ages: any;
     /**
      * Constructor
      *
@@ -75,8 +79,6 @@ export class ParticipantsService implements Resolve<any>
                 this.getUserData(),
                 this.getEntreprises(),
                 this.getClasses(),
-                //  this.getGroups(),
-                // this.getCursus(),
             ]).then(
                 ([files]) => {
 
@@ -105,11 +107,12 @@ export class ParticipantsService implements Resolve<any>
      */
     getContacts(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get('http://localhost:8080/api/participants')
+            this._httpClient.get(environment.backend_url+ 'api/participants')
                 .subscribe((response: any) => {
 
                     this.participants = response;
-
+                    //console.log("SERVICE PART");
+                    //console.log(this.participants);
                     if (this.filterBy === 'with') {
                         this.participants = this.participants.filter(_contact => {
                             if (_contact.validated) { return true; }
@@ -172,7 +175,7 @@ export class ParticipantsService implements Resolve<any>
 
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get('http://localhost:8080/api/entreprises')
+            this._httpClient.get(environment.backend_url+ 'api/entreprises')
                 .subscribe((response: any) => {
                     //  console.log("response");
                     // console.log(response);
@@ -188,7 +191,7 @@ export class ParticipantsService implements Resolve<any>
 
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get('http://localhost:8080/api/programsInst')
+            this._httpClient.get(environment.backend_url+ 'api/programsInst')
                 .subscribe((response: any) => {
                     this.onClassesChanged.next(response);
                     this.classes = response;
@@ -202,7 +205,7 @@ export class ParticipantsService implements Resolve<any>
 
     getUserData(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get('http://localhost:8080/api/participants')
+            this._httpClient.get(environment.backend_url+ 'api/participants')
                 .subscribe((response: any) => {
                     this.user = response;
                     this.onUserDataChanged.next(this.user);
@@ -292,8 +295,6 @@ export class ParticipantsService implements Resolve<any>
     addParticipant(contact, entreprise, classe): Promise<any> {
         return new Promise((resolve, reject) => {
             contact.password = contact.phoneNumber;
-            console.log(" PARTICIPANT ENTREPISE")
-            console.log(contact.entreprise)
             if (entreprise == null) {
                 contact.programInstance = classe;
             }
@@ -302,8 +303,8 @@ export class ParticipantsService implements Resolve<any>
                 contact.programInstance = entreprise.programInstance;
             }
             //contact.entreprise = entreprise;
-           // contact.programInstance = classe;
-            this._httpClient.post('http://localhost:8080/api/signupParticipantManag', contact)
+            // contact.programInstance = classe;
+            this._httpClient.post(environment.backend_url+ 'api/signupParticipantManag', contact)
 
                 .subscribe(response => {
                     this.getContacts();
@@ -319,7 +320,7 @@ export class ParticipantsService implements Resolve<any>
     updateClasse(contact): Promise<any> {
 
         return new Promise((resolve, reject) => {
-            this._httpClient.put('http://localhost:8080/api/classeParticipant/' + this.id, contact)
+            this._httpClient.put(environment.backend_url+ 'api/classeParticipant/' + this.id, contact)
                 .subscribe(response => {
                     this.getContacts();
                     resolve(response);
@@ -332,7 +333,7 @@ export class ParticipantsService implements Resolve<any>
             contact.entreprise = entreprise;
             contact.programInstance = programInstance;
 
-            this._httpClient.put('http://localhost:8080/api/participants', contact)
+            this._httpClient.put(environment.backend_url+ 'api/participants', contact)
                 .subscribe(response => {
                     this.getContacts();
 
@@ -347,7 +348,7 @@ export class ParticipantsService implements Resolve<any>
         return new Promise((resolve, reject) => {
             contact.validated = true;
             console.log(contact)
-            this._httpClient.put('http://localhost:8080/api/participants/validate', contact)
+            this._httpClient.put(environment.backend_url+ 'api/participants/validate', contact)
                 .subscribe(response => {
                     this.getContacts();
                     resolve(response);
@@ -355,24 +356,6 @@ export class ParticipantsService implements Resolve<any>
         });
     }
 
-
-
-    // /**
-    //  * Update user data
-    //  *
-    //  * @param userData
-    //  * @returns {Promise<any>}
-    //  */
-    // updateUserData(userData): Promise<any> {
-    //     return new Promise((resolve, reject) => {
-    //         this._httpClient.post('api/contacts-user/' + this.user.id, { ...userData })
-    //             .subscribe(response => {
-    //                 this.getUserData();
-    //                 this.getContacts();
-    //                 resolve(response);
-    //             });
-    //     });
-    // }
 
     /**
      * Deselect contacts
@@ -397,7 +380,7 @@ export class ParticipantsService implements Resolve<any>
             const contactIndex = this.participants.indexOf(id);
             this.participants.splice(contactIndex, 1);
             this.onContactsChanged.next(this.participants);
-            this._httpClient.delete(`http://localhost:8080/api/participants/${id}`)
+            this._httpClient.delete(AUTH_API + `participants/${id}`)
                 .subscribe(response => {
                     // this.getContacts();
 
@@ -424,5 +407,39 @@ export class ParticipantsService implements Resolve<any>
         this.onContactsChanged.next(this.participants);
         this.deselectContacts();
     }
+
+
+    getAges(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(environment.backend_url+ 'api/participants/ages')
+                .subscribe((response: any) => {
+                 
+                    this.ages = response;
+                    console.log(this.ages);
+                    /*  this.participants = this.participants.map(contact => {
+                          return new Participant(contact);
+                      });*/
+
+                    //  this.onContactsChanged.next(this.participants);
+
+
+                    console.log("INSTITUTIONS");
+                    /* this.ages = response.filter(age => {
+                         
+                         if (age.id== contact) {
+                             //console.log("");
+                             return true;
+                         }
+                         return false;
+                     });*/
+                    console.log(this.ages);
+
+                    resolve(this.ages);
+                }, reject);
+        }
+        );
+
+    }
+
 
 }

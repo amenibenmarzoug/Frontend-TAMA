@@ -9,9 +9,10 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { ClassroomsManagerFormComponent } from './classrooms-manager-form/classrooms-manager-form.component';
 import { ClassroomsManagerService } from './classrooms-manager.service';
+import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 
-
-
+import { MatDialogRef } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-classes',
@@ -25,6 +26,7 @@ export class ClassroomsManagerComponent implements OnInit, OnDestroy {
     dialogRef: any;
     hasSelectedContacts: boolean;
     searchInput: FormControl;
+    alertDialog: MatDialogRef<AlertDialogComponent>;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -71,6 +73,8 @@ export class ClassroomsManagerComponent implements OnInit, OnDestroy {
             .subscribe(searchText => {
                 this._classroomsManagerService.onSearchTextChanged.next(searchText);
             });
+
+            this._classroomsManagerService.institution= null;
     }
 
     /**
@@ -109,9 +113,14 @@ export class ClassroomsManagerComponent implements OnInit, OnDestroy {
 
                 //  console.log("entreprise button");
                 // console.log(this._participantsService.entreprise);
+                 if (this._classroomsManagerService.institution== null){
+                    //this.addModuleAlert("Veuillez choisir une institution");
+                    this.ErrorMessage("Veuillez choisir une institution")
+                 }
 
+                else {
                 this._classroomsManagerService.addClasse(response.getRawValue(), this._classroomsManagerService.institution);
-
+                }
             });
     }
 
@@ -123,5 +132,34 @@ export class ClassroomsManagerComponent implements OnInit, OnDestroy {
     toggleSidebar(name): void {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
+
+    addModuleAlert(message): void {
+        this.alertDialog = this._matDialog.open(AlertDialogComponent, {
+            disableClose: false
+        });
+
+        this.alertDialog.componentInstance.dialogMessage = message;
+
+        this.alertDialog.afterClosed().subscribe(result => {
+            if (result) {
+
+            }
+            this.alertDialog = null;
+        });
+    }
+
+    ErrorMessage(message): void {
+        Swal.fire(
+          {
+            title: message,
+            icon: 'error',
+            showCancelButton: false,
+            confirmButtonColor: '#38a9ff',
+            //cancelButtonColor: '#d33',
+            confirmButtonText: 'Retour'
+          }
+      )
+      
+      }
 
 }

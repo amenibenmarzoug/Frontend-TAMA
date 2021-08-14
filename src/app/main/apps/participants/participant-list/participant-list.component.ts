@@ -27,13 +27,20 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
     user: any;
     dataSource: FilesDataSource | null;
     // dataSource :any[] ;
-    displayedColumns = ['checkbox', 'name', 'email', 'phone', 'currentPosition', 'level', 'company', 'classe', 'buttons'];
+
+    displayedColumns = ['checkbox', 'name','age','experience','level', 'company', 'classe','statut', 'buttons'];
+
     selectedContacts: any[];
     checkboxes: {};
     dialogRef: any;
     contact: Participant
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     id: number;
+    currentYear: number;
+
+    d: Date;
+    ages: any;
+    age: any;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -60,7 +67,13 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this.currentYear = new Date().getFullYear();
         this.dataSource = new FilesDataSource(this._participantsService);
+        this.ages = this._participantsService.getAges().then(() => {
+            this.ages = this._participantsService.ages;
+      
+          }
+          );
         this._participantsService.onContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(contacts => {
@@ -70,7 +83,9 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
                 contacts.map(contact => {
                     this.checkboxes[contact.id] = false;
                 });
+
             });
+
 
         this._participantsService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
@@ -97,6 +112,9 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
             .subscribe(() => {
                 this._participantsService.deselectContacts();
             });
+
+
+
     }
 
     /**
@@ -174,6 +192,18 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
 
     }
 
+    calculateAge(contact): number {
+        for (const [key, value] of Object.entries(this.ages)) {
+           
+            if (key == contact.id) {
+                this.age = value;
+                return this.age;
+            }
+            //console.log(value);
+          
+        }
+    }
+
     ValidateContact(contact) {
         contact.validated = true;
         this._participantsService.ValidateContact(contact)
@@ -198,6 +228,25 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
 
         // else {this._participantsService.updateUserData(this.contact);}
     }
+
+    getRowColor(status) {
+        if (status === 'WAITING') {
+            return 'orange';
+
+        }else if (status === 'REFUSED'){
+            return 'red';
+        }
+        else if (status === 'ACCEPTED'){
+            return 'green';
+        }
+       
+        
+    }
+
+
+
+
+
 }
 
 export class FilesDataSource extends DataSource<any>

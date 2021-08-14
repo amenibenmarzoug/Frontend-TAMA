@@ -104,9 +104,9 @@ export class ParticipantFormComponent {
             currentPosition: [this.contact.currentPosition],
             email: [this.contact.email],
             phoneNumber: [this.contact.phoneNumber],
-            street: [this.contact.street],
+           
             city: [this.contact.city],
-            postalCode: [this.contact.postalCode],
+           
             birthday: [this.contact.birthday],
             notes: [this.contact.notes],
             educationLevel: [this.contact.educationLevel],
@@ -127,7 +127,6 @@ export class ParticipantFormComponent {
                 // clear previous error message (if any)
                 this.contactForm[field] = '';
                 const control = form.get(field);
-                // console.log(control)
                 if (control && (control.dirty || control.touched) && !control.valid) {
                     const messages = this.validationMessagesP[field];
                     for (const key in control.errors) {

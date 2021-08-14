@@ -6,6 +6,7 @@ export class MyClasses {
     classRoomName: string;
     capacity: number;
     institution: any;
+    fees : number;
 
     /**
      * Constructor
@@ -19,6 +20,7 @@ export class MyClasses {
             this.classRoomName = contact.classRoomName || '';
             this.capacity = contact.capacity || '';
             this.institution = contact.institution;
+            this.fees= contact.fees || '';
 
         }
     }

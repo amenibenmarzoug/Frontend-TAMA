@@ -4,11 +4,11 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ProgramInst } from 'app/main/apps/academy/programInst.model';
 import { Program } from './program.model';
+import {environment} from 'environments/environment';
 
 
 
-
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 
 @Injectable({
   providedIn: 'root'
@@ -54,7 +54,7 @@ export class ProgramsInstService {
      * @returns {Observable<any> | Promise<any> | any}
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
 
             Promise.all([
                 //this.getCategories(),
@@ -159,7 +159,7 @@ export class ProgramsInstService {
     {
         
          return new Promise((resolve, reject) => {
-                this._httpClient.get('http://localhost:8080/api/programs')
+                this._httpClient.get(environment.backend_url+ 'api/programs')
                 .subscribe((response: any) => {
                     this.onProgramChanged.next(response);
                     this.programs=response;

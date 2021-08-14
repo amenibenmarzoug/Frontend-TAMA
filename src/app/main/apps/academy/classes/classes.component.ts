@@ -4,24 +4,20 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
-import { FormControl, FormGroup } from '@angular/forms';
-
-import { ProgramsService } from 'app/main/apps/academy/programs.service';
-import { ProgramsInstService } from 'app/main/apps/academy/programs-inst.service';
+import { FormGroup } from '@angular/forms';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CalendarEventFormDialogComponent } from 'app/main/apps/calendar/event-form/event-form.component';
 
 import { Router } from '@angular/router';
-import { ProgramInstFormComponent } from '../programs-inst/program-inst-form/program-inst-form.component';
-import { ProgramInstDetailService } from '../../academy/program-inst-detail/program-inst-detail.service';
 import { ClassesService } from '../../academy/classes.service';
 import { ClassFormComponent } from './class-form/class-form.component';
-import { ProgramDetailsService } from '../programDetails/programDetails.service'
 import { ModuleInst } from '../program-inst-detail/tabs/module-inst/moduleInst.model';
 import { Module } from '../programDetails/tabs/module/module.model';
-import { BehaviorSubject, from, Observable } from 'rxjs';
 import { ThematiqueInst } from '../program-inst-detail/tabs/thematique-inst/thematiqueInst.model';
+import { ClasseParticipantsService } from './classe-participants/classe-participants.service';
+import { ClasseParticipantsComponent } from './classe-participants/classe-participants.component';
+
 @Component({
     selector: 'app-classes',
     templateUrl: './classes.component.html',
@@ -31,38 +27,38 @@ import { ThematiqueInst } from '../program-inst-detail/tabs/thematique-inst/them
 })
 export class ClassesComponent implements OnInit {
 
-  categories: any[];
-  programs: any[];
-  programsFilteredByCategory: any[];
-  programId: any;
-  filteredPrograms: any[];
-  currentCategory: string;
-  searchTerm: string;
-  dialogRef: any;
-  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  duration: any;
+    categories: any[];
+    programs: any[];
+    programsFilteredByCategory: any[];
+    programId: any;
+    filteredPrograms: any[];
+    currentCategory: string;
+    searchTerm: string;
+    dialogRef: any;
+    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    duration: any;
 
-  themes : any [];
-  lastprogInst: any;
+    themes: any[];
+    lastprogInst: any;
 
 
-  themesFilteredByCategory: any[];
-  filteredThemes: any[];
+    themesFilteredByCategory: any[];
+    filteredThemes: any[];
 
-  modulesInst:ModuleInst[];
+    modulesInst: ModuleInst[];
 
-  modules:Module[];
-  hasSelectedModules: boolean;
-  modulesOfTheme : Module[];
-  lastThemeInst:ThematiqueInst;
-  cities: String[] = [
-    'Tunis', 'Ariana', 'Ben Arous', 'Manouba','Nabeul', 'Zaghouan', 'Bizerte', 'Béja', 'Jendouba', 'Kef', 'Siliana',
-    'Sousse', 'Monastir', 'Mahdia', 'Sfax', 'Kairouan','Kasserine','Sidi Bouzid', 'Gabès', 'Mednine','Tataouine','Gafsa','Tozeur','Kebili'
-    
-  ];
+    modules: Module[];
+    hasSelectedModules: boolean;
+    modulesOfTheme: Module[];
+    lastThemeInst: ThematiqueInst;
+    cities: String[] = [
+        'Tunis', 'Ariana', 'Ben Arous', 'Manouba', 'Nabeul', 'Zaghouan', 'Bizerte', 'Béja', 'Jendouba', 'Kef', 'Siliana',
+        'Sousse', 'Monastir', 'Mahdia', 'Sfax', 'Kairouan', 'Kasserine', 'Sidi Bouzid', 'Gabès', 'Mednine', 'Tataouine', 'Gafsa', 'Tozeur', 'Kebili'
 
-  // Private
-  private _unsubscribeAll: Subject<any>;
+    ];
+
+    // Private
+    private _unsubscribeAll: Subject<any>;
 
 
 
@@ -76,17 +72,11 @@ export class ClassesComponent implements OnInit {
         private _academyProgramsInstService: ClassesService,
         public dialog: MatDialog,
         private router: Router,
-        // private _programDetailsService : ProgramInstDetailService,
-        // private _programDetailsService:ProgramDetailsService,
-
-
-        // private _programInstDetailsService:ProgramInstDetailService,
-
-
+        private _participantService: ClasseParticipantsService
 
     ) {
         // Set the defaults
-        this.currentCategory = 'all';
+        this.currentCategory = 'Toutes';
         this.searchTerm = '';
 
         // Set the private defaults
@@ -116,63 +106,8 @@ export class ClassesComponent implements OnInit {
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(courses => {
                 this.filteredPrograms = this.programsFilteredByCategory = this.programs = courses;
-                console.log("programInst fel Classe");
-                console.log(courses);
             });
-
-
-
-        /*  this._academyProgramsInstService.onSelectedModulesChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(selectedModules => {
-              this.hasSelectedModules = selectedModules.length > 0;
-          });
-
-        /* this._academyProgramsInstService.onmoduleChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(modules => {
-              this.modules = modules;
-              console.log("moduules fel init classes");
-              console.log(this.modules);
-          });*/
-
-        /* this._programInstDetailsService.onModuleChanged
-         .pipe(takeUntil(this._unsubscribeAll))
-         .subscribe(modules => {
-             this.modules = modules;
-             console.log("moduules fel init classes");
-             console.log(this.modules);
-         });
-        
-
-     
-
-
-          // Subscribe to courses
-  /*  this._academyProgramsInstService.onProgramChanged
-     .pipe(takeUntil(this._unsubscribeAll))
-     .subscribe(courses => {
-         this.programs=courses;
-         console.log("programs fel Classe");
-         console.log(this.programs);
-       console.log(courses);
-     });*/
-
-
-
-        // Subscribe to themes
-        /*   this._academyProgramsInstService.onThemeChanged
-           .pipe(takeUntil(this._unsubscribeAll))
-           .subscribe(themes => {
-             //  this.filteredThemes = this.themesFilteredByCategory = this.themes = themes;
-             this.themes = themes;
-               console.log("themeees fel classess");
-               console.log(themes);
-              console.log(this.themes);
-           });*/
     }
-
-
 
     /**
      * On destroy
@@ -190,18 +125,27 @@ export class ClassesComponent implements OnInit {
     /**
      * Filter courses by category
      */
-    filterCoursesByCategory(): void {
+    filterClassesByCategory(): void {
         // Filter
-        if (this.currentCategory === 'all') {
+        if (this.currentCategory === 'Toutes') {
             this.programsFilteredByCategory = this.programs;
             this.filteredPrograms = this.programs;
         }
         else {
-            this.programsFilteredByCategory = this.programs.filter((course) => {
-
-                return course.category === this.currentCategory;
-            });
-
+            if (this.currentCategory === 'Non confirmées') {
+                this.programsFilteredByCategory = this.programs.filter((course) => {
+                    if (course.validated == false) {
+                        return course;
+                    }
+                });
+            }
+            else {
+                this.programsFilteredByCategory = this.programs.filter((course) => {
+                    if (course.validated == true) {
+                        return course;
+                    }
+                });
+            }
             this.filteredPrograms = [...this.programsFilteredByCategory];
 
 
@@ -244,7 +188,6 @@ export class ClassesComponent implements OnInit {
         else {
             this.themesFilteredByCategory = this.themes.filter((theme) => {
 
-                // return theme.category === this.currentCategory;
             });
 
             this.filteredThemes = [...this.themesFilteredByCategory];
@@ -275,95 +218,119 @@ export class ClassesComponent implements OnInit {
     }
 
 
-  /**
-   * New contact
-   */
-  newProgram(): void {
-      this.dialogRef = this.dialog.open(ClassFormComponent, {
-          panelClass: 'classe-form-dialog',
-          data: {
-              action: 'new',
-          }
-      });
+    /**
+     * New contact
+     */
+    newProgram(): void {
+        this.dialogRef = this.dialog.open(ClassFormComponent, {
+            panelClass: 'classe-form-dialog',
+            data: {
+                action: 'new',
+            }
+        });
 
-      this.dialogRef.afterClosed()
-          .subscribe((response: FormGroup) => {
-              if (!response) {
-                  return;
-              }
-              console.log(this._academyProgramsInstService.program);
+        this.dialogRef.afterClosed()
+            .subscribe((response: FormGroup) => {
+                if (!response) {
+                    return;
+                }
 
-            this._academyProgramsInstService.addClass(response.getRawValue(),this._academyProgramsInstService.program);
+                this._academyProgramsInstService.addClass(response.getRawValue(), this._academyProgramsInstService.program);
 
-          });
-  }
+            });
+    }
 
 
-  
 
- 
-  
-  /**
-    * Edit contact
-    *
-    * @param contact
-    */
-  editProgramInst(programInst): void {
-      this.dialogRef = this.dialog.open(ClassFormComponent, {
-          panelClass: 'cursus-form-dialog',
-          data: {
-              programInst: programInst,
-              action: 'edit'
-          }
-      });
 
-      this.dialogRef.afterClosed()
-          .subscribe(response => {
-              if (!response) {
-                  return;
-              }
-              const actionType: string = response[0];
-              const formData: FormGroup = response[1];
-              switch (actionType) {
-                  /**
-                   * Save
-                   */
-                  case 'save':
-                console.log("tesssst");
-                  console.log(programInst);
-                      this._academyProgramsInstService.updateProgramInst(formData.getRawValue(),this._academyProgramsInstService.program);
 
-                      break;
-                  /**
-                   * Delete
-                   */
-                  case 'delete':
+    listeDesParticipants(programInst): void {
+        this._participantService.classeId = programInst;
+        this.dialogRef = this.dialog.open(ClasseParticipantsComponent, {
+            height: '80%',
+            width: '60%',
+            panelClass: 'contact-form-dialog',
+            data: {
+                //programInst: programInst,
+                //action: 'edit'
+            }
+        });
+        this.dialogRef.afterClosed()
+            .subscribe(response => {
+                if (!response) {
+                    return;
+                }
+            })
 
-                      this.deleteCursus(programInst.id);
+    }
+    /**
+      * Edit contact
+      *
+      * @param contact
+      */
+    editProgramInst(programInst): void {
+        this.dialogRef = this.dialog.open(ClassFormComponent, {
+            panelClass: 'cursus-form-dialog',
+            data: {
+                programInst: programInst,
+                action: 'edit'
+            }
+        });
 
-                      break;
-              }
-          });
-  }
-  goToProgramModuleInst(id) {
-      this.router.navigate(['/apps/academy/classeDetail', id]);
-      console.log("programInst id" + id)
-  }
+        this.dialogRef.afterClosed()
+            .subscribe(response => {
+                if (!response) {
+                    return;
+                }
+                const actionType: string = response[0];
+                const formData: FormGroup = response[1];
+                switch (actionType) {
+                    /**
+                     * Save
+                     */
+                    case 'save':
+                        this._academyProgramsInstService.updateProgramInst(formData.getRawValue(), this._academyProgramsInstService.program);
 
-  deleteCursus(contact): void {
-      this.dialogRef = this.dialog.open(FuseConfirmDialogComponent, {
-          disableClose: false
-      });
+                        break;
+                    /**
+                     * Delete
+                     */
+                    case 'delete':
 
-      this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+                        this.deleteCursus(programInst.id);
 
-      this.dialogRef.afterClosed().subscribe(result => {
-          if (result) {
-              this._academyProgramsInstService.deleteProgramInst(contact);
-          }
-          this.dialogRef = null;
-      });
+                        break;
+                }
+            });
+    }
+    goToProgramModuleInst(id) {
+        this.router.navigate(['/apps/academy/classeDetail', id]);
+    }
 
-  }
+
+
+    confirmClass(programInst): void {
+        this._academyProgramsInstService.confirmProgramInst(programInst);
+    }
+
+    cancelClass(programInst): void {
+        this._academyProgramsInstService.cancelProgramInst(programInst);
+    }
+
+    deleteCursus(contact): void {
+        this.dialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+            disableClose: false
+        });
+
+        this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+
+        this.dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this._academyProgramsInstService.deleteProgramInst(contact);
+            }
+            this.dialogRef = null;
+        });
+
+    }
 
 }

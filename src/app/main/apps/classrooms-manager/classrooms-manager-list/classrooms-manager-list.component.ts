@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
@@ -27,7 +28,7 @@ export class ClassroomsManagerListComponent implements OnInit, OnDestroy {
     user: any;
     dataSource: FilesDataSource | null;
     // dataSource :any[] ;
-    displayedColumns = ['checkbox', 'name', 'capacity', 'institution', 'buttons'];
+    displayedColumns = ['checkbox', 'name', 'capacity', 'fees','institution','equipments' ];
     selectedContacts: any[];
     checkboxes: {};
     dialogRef: any;
@@ -46,7 +47,7 @@ export class ClassroomsManagerListComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _classroomsManagerService: ClassroomsManagerService,
-        public _matDialog: MatDialog
+        public _matDialog: MatDialog,  private router: Router,
     ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -174,7 +175,9 @@ export class ClassroomsManagerListComponent implements OnInit, OnDestroy {
 
     }
 
-  
+    goToEquipment(id){
+        this.router.navigate(['./apps/ressource', id]);
+    }
 
     /**
      * On selected change

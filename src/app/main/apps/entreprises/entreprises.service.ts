@@ -7,8 +7,10 @@ import { FuseUtils } from '@fuse/utils';
 
 //import { Contact } from 'app/main/apps/participants/participant.model';
 import { Entreprise } from './entreprise.model';
+import {environment} from 'environments/environment';
+
 const USER_KEY = 'auth-user';
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 
 @Injectable()
 export class EntreprisesService implements Resolve<any>
@@ -107,7 +109,7 @@ export class EntreprisesService implements Resolve<any>
                         this.contacts = this.contacts.filter(_contact => {
                             if (_contact.validated) { return true; }
                             return false;
-                            // this._httpClient.get('http://localhost:8080/api/participants/pilier1')                                   
+                            // this._httpClient.get(environment.backend_url+ 'api/participants/pilier1')                                   
 
                         });
                     }
@@ -361,7 +363,7 @@ export class EntreprisesService implements Resolve<any>
             const contactIndex = this.contacts.indexOf(id);
             this.contacts.splice(contactIndex, 1);
             this.onContactsChanged.next(this.contacts);
-            this._httpClient.delete(`http://localhost:8080/api/entreprises/${id}`)
+            this._httpClient.delete(AUTH_API + `entreprises/${id}`)
                 .subscribe(response => {
                     // this.getContacts();
 

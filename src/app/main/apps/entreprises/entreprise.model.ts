@@ -14,6 +14,8 @@ export class Entreprise
     website : string ;
     managerFirstName:string;
     managerLastName:string;
+    managerPosition:string;
+    nbMinParticipants:number;
     notes : string ;
     programInstance:any;
     validated : boolean ;
@@ -39,6 +41,8 @@ export class Entreprise
             this.roles = contact.roles || '';
             this.programInstance=contact.programInstance || '';
             this.validated = contact.validated || '';
+            this.managerPosition=contact.managerPosition || '';
+            this.nbMinParticipants=contact.nbMinParticipants || '';
 
            
         }

@@ -14,6 +14,7 @@ import localeFr from '@angular/common/locales/fr';
 import { CourseSession } from 'app/main/apps/disponibility-trainer/courseSession.model';
 import { Router } from '@angular/router';
 import { EditSessionService } from 'app/main/apps/academy/edit-session/edit-session.service';
+import { Session } from '../../edit-session/session.model';
 
 
 @Component({
@@ -36,6 +37,7 @@ export class SessionsListComponent implements OnInit, OnDestroy {
     coursesId: any[] = [];
     checkboxes: {};
     dialogRef: any;
+    session: Session;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
 
     // Private
@@ -152,6 +154,16 @@ export class SessionsListComponent implements OnInit, OnDestroy {
         this.router.navigate(['/apps/academy/editSession', id]);
         console.log("SESSION id" + id);
         this.editService.getSessionsById(id);
+        //this.session=new Session(this.editService.session);
+        
+        this.editService.getSessionsById(id).then(() => {
+            this.session = new Session(this.editService.session);
+            console.log("SESSION IN ALL");
+            console.log(this.session);
+            localStorage.setItem('sessionId',id);
+            localStorage.setItem('session',JSON.stringify(this.session));
+            });
+ 
     }
 
 }

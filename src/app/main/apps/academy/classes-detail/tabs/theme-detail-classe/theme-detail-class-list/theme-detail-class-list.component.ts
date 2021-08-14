@@ -15,7 +15,9 @@ import{ClassesDetailService} from '../../.././classes-detail.service';
 @Component({
   selector: 'app-theme-detail-class-list',
   templateUrl: './theme-detail-class-list.component.html',
-  styleUrls: ['./theme-detail-class-list.component.scss']
+  styleUrls: ['./theme-detail-class-list.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  animations: fuseAnimations
 })
 export class ThemeDetailClassListComponent implements OnInit {
 
@@ -25,7 +27,7 @@ export class ThemeDetailClassListComponent implements OnInit {
   themeDetails: any;
   user: any;
   dataSource: FilesDataSource | null;
-  displayedColumns = ['checkbox', 'themeDetailName', 'nbDaysThemeDetail','ThemeDetailInstName','nbDaysThemeDetailInst','buttons'];
+  displayedColumns = ['checkbox'/*, 'themeDetailName', 'nbDaysThemeDetail'*/,'ThemeDetailInstName','nbDaysThemeDetailInst','buttons'];
   selectedThemeDetails: any[];
   checkboxes: {};
   dialogRef: any;

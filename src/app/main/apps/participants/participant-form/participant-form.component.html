@@ -87,7 +87,7 @@
             </div> -->
             <div fxLayout="row" fxLayoutAlign="start center">
                 <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Rue</mat-label>
+                    <mat-label>Adresse</mat-label>
                     <mat-icon matSuffix class="secondary-text">home</mat-icon>
                     <input name="street" formControlName="street" matInput>
 
@@ -148,6 +148,14 @@
                     <mat-error *ngIf="formErrorsP.gender">{{formErrorsP.level}}</mat-error>
 
 
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="particpantType=='Employé'">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>NombreAnnéeExpérienceProfessionelle</mat-label>
+                    
+                    <input type ="number" formControlName="experience" matInput required>
                 </mat-form-field>
             </div>
    
@@ -274,13 +282,13 @@
 
 
 
-
+<!-- 
             <div fxLayout="row" class="textarea-wrapper" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Remarques</mat-label>
                     <textarea name="notes" formControlName="notes" matInput type="text" max-rows="4"></textarea>
                 </mat-form-field>
-            </div>
+            </div> -->
 
         </form>
 
@@ -288,10 +296,10 @@
 
     <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
 
-        <button *ngIf="action === 'edit'" mat-button class="mr-8" (click)="matDialogRef.close(['delete',contactForm])"
+        <!-- <button *ngIf="action === 'edit'" mat-button class="mr-8" (click)="matDialogRef.close(['delete',contactForm])"
             aria-label="Delete" matTooltip="Delete">
             Supprimer
-        </button>
+        </button> -->
 
         <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(contactForm)"
             aria-label="SAVE">

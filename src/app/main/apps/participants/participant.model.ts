@@ -20,14 +20,19 @@ export class Participant {
     entreprise: any;
     programInstance: any;
     educationLevel: string;
+    experience: number; 
+    status: string;
     // cursus: any;
     notes: string;
+    age:string
+   // age: number;
     /**
      * Constructor
      *
      * @param contact
      */
     constructor(contact) {
+       
         {
             this.id = contact.id || '';
             this.firstNameP = contact.firstNameP || '';
@@ -51,7 +56,10 @@ export class Participant {
             this.gender = contact.gender || '';
             this.level = contact.level || '';
             this.validated = contact.validated || '';
-
+            this.experience= contact.experience || '';
+            this.status= contact.status || '';
+            this.age=contact.age || '';
+            //this.age= contact.birthday.getFullYear()
             // this.password = contact.password;
         }
     }

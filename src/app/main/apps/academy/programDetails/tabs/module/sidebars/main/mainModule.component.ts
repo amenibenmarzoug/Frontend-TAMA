@@ -46,7 +46,7 @@ export class MainModuleComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.filterBy = this._moduleService.filterByModule || 'all';
+        this.filterBy = this._moduleService.filterByModule ;
 
 
 

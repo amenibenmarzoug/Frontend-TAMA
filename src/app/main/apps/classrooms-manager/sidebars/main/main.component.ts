@@ -88,18 +88,21 @@ export class MainClasseComponent implements OnInit, OnDestroy {
     }
 
     selectInstitution(institution): void {
-        this.filtredClasses = [];
-        this.classes.forEach(classe => {
-            if (classe.institution.id == institution.id) {
-                if (!this.filtredClasses.includes(classe))
-                    this.filtredClasses.push(classe);
-                    console.log(this.filtredClasses)
+        this.filterBy = institution;
+        this._classroomsManagerService.institution= institution;
+        this._classroomsManagerService.onFilterChanged.next(institution);
+        // this.filtredClasses = [];
+        // this.classes.forEach(classe => {
+        //     if (classe.institution.id == institution.id) {
+        //         if (!this.filtredClasses.includes(classe))
+        //             this.filtredClasses.push(classe);
 
-            }
+        //     }
 
-        });
-        this._classroomsManagerService.onFilterChanged.next(this.filtredClasses);
-       
+        // });
+        // this._classroomsManagerService.onFilterChanged.next(this.filtredClasses);
+        // this._classroomsManagerService.classes = this.filtredClasses;
+
     }
 
     connect(): Observable<any[]> {

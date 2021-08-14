@@ -8,9 +8,9 @@ import { catchError } from 'rxjs/operators';
 
 import { CourseSession } from 'app/main/apps/disponibility-trainer/courseSession.model';
 import { Contact } from 'app/main/apps/trainer/trainer.model';
+import {environment} from 'environments/environment';
 
-
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 
 @Injectable()
 export class AllSessionsService implements Resolve<any>

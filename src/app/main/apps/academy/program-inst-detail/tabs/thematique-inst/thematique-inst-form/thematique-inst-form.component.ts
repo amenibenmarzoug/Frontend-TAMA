@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { ProgramInstDetailService } from '../../../program-inst-detail.service';
 import { ThematiqueInst } from '../thematiqueInst.model';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-thematique-inst-form',
@@ -114,7 +115,8 @@ closeEditThemeForm(message){
   // case where the modified days number exceeded the limit
   if(this.actualDaysNumberAffected >= this.programTotalDaysNumber) {
                           
-    this.addThematiqueAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
+    //this.addThematiqueAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
+    this.ErrorMessage("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme")
     console.log(`Exceeded`);                    
 }
 else {
@@ -136,6 +138,21 @@ addThematiqueAlert(message): void {
       this.alertDialog = null;
   });
 }
+
+ErrorMessage(message): void {
+  Swal.fire(
+    {
+      title: message,
+      icon: 'error',
+      showCancelButton: false,
+      confirmButtonColor: '#38a9ff',
+      //cancelButtonColor: '#d33',
+      confirmButtonText: 'Retour'
+    }
+)
+
+}
+
 
  
 

@@ -7,8 +7,9 @@ import { FuseUtils } from '@fuse/utils';
 
 import { Group } from 'app/main/apps/groups/group.model';
 import { Participant } from '../participants/participant.model';
+import {environment} from 'environments/environment';
 
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 
 @Injectable()
 export class GroupsService implements Resolve<any>
@@ -79,7 +80,7 @@ export class GroupsService implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             
             Promise.all([
                 //this.getContacts(),
@@ -310,7 +311,7 @@ export class GroupsService implements Resolve<any>
         const contactIndex = this.contacts.indexOf(id);
         this.contacts.splice(contactIndex, 1);
             this.onContactsChanged.next(this.contacts);
-        this._httpClient.delete(`http://localhost:8080/api/groups/${id}`)
+        this._httpClient.delete(AUTH_API + `groups/${id}`)
             .subscribe(response => {
                // this.getContacts();
               
@@ -472,7 +473,7 @@ export class GroupsService implements Resolve<any>
         const contactIndex = this.participant.indexOf(id);
         this.participant.splice(contactIndex, 1);
             this.onContactsChangedP.next(this.participant);
-        this._httpClient.delete(`http://localhost:8080/api/group/participants/${id}`)
+        this._httpClient.delete(AUTH_API + `group/participants/${id}`)
             .subscribe(response => {
                // this.getContacts();
               

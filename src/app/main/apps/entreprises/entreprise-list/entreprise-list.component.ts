@@ -160,9 +160,9 @@ export class EntrepriseListComponent implements OnInit, OnDestroy {
                             },
                             err => {
 
-                                
-                                  this.addAlert( err.error.message,formData);
-                               
+
+                                this.addAlert(err.error.message, formData);
+
                             });
 
                         break;

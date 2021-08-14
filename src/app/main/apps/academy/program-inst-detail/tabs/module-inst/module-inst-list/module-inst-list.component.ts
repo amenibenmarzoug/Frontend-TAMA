@@ -66,7 +66,8 @@ export class ModuleInstListComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
-      this.dataSource = new FilesDataSource(this._moduleInstService);
+   
+    this.dataSource = new FilesDataSource(this._moduleInstService);
 
       this._moduleInstService.onmoduleInstChanged
           .pipe(takeUntil(this._unsubscribeAll))
@@ -80,7 +81,7 @@ export class ModuleInstListComponent implements OnInit {
                   this.checkboxes[module.id] = false;
               });
           });
-
+         
       this._moduleInstService.onSelectedModulesChanged
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(selectedModules => {
@@ -98,7 +99,9 @@ export class ModuleInstListComponent implements OnInit {
           .subscribe(() => {
               this._moduleInstService.deselectModules();
           });
+          
 
+          
   }
 
   /**

@@ -34,15 +34,15 @@
     <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
 
         <button *ngIf="action === 'edit'" mat-button class="mr-8" (click)="matDialogRef.close(['delete',contactForm])" aria-label="Delete" matTooltip="Delete">
-            DELETE
+            Supprimer
         </button>
 
         <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(contactForm)" [disabled]="contactForm.invalid" aria-label="SAVE">
-            ADD
+            Ajouter
         </button>
 
         <button *ngIf="action === 'edit'" mat-button class="save-button" (click)="matDialogRef.close(['save',contactForm])" [disabled]="contactForm.invalid" aria-label="SAVE">
-            SAVE
+            Enregistrer
         </button>
 
     </div>

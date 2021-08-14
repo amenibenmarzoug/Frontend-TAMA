@@ -83,10 +83,10 @@
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
-                    <button mat-menu-item aria-label="remove" (click)="deleteContact(contact.id)">
+                   <!--  <button mat-menu-item aria-label="remove" (click)="deleteContact(contact.id)">
                         <mat-icon>delete</mat-icon>
                         <span>Supprimer</span>
-                    </button>
+                    </button> -->
                     <button mat-menu-item aria-label="check" [disabled]="disabled" (click)="ValidateContact(contact)">
                         <mat-icon *ngIf="contact.validated ">check</mat-icon>
                         <mat-icon *ngIf="!contact.validated ">close</mat-icon>

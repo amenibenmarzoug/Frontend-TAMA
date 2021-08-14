@@ -8,9 +8,9 @@ import { Thematique } from './programDetails/tabs/thematique/thematique.model';
 import { ModuleInst } from '../academy/program-inst-detail/tabs/module-inst/moduleInst.model';
 import { Module } from './programDetails/tabs/module/module.model';
 import { FuseUtils } from '@fuse/utils';
+import {environment} from 'environments/environment';
 
-
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 
 @Injectable({
     providedIn: 'root'
@@ -354,7 +354,7 @@ export class ClassesService {
     }
 
 
-    getModulesInst(): Promise<any> {
+  /*  getModulesInst(): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'moduleInstance')
                 .subscribe((response: any) => {
@@ -395,6 +395,50 @@ export class ClassesService {
                 }, reject);
         }
         );
+    }*/
+
+
+
+
+    getModulesInst(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API +'moduleInstance')
+                .subscribe((response: any) => {
+
+                    this.modulesInst = [];
+                    this.themeInstId = this.filterByModule;
+
+                    if (this.themeInstId != null) {
+                        this.modulesInst = response;
+                        if (this.filterByModule === 'Modules') {
+                        }
+                       else {
+
+                            this.modulesInst = this.modulesInst.filter(_module => {
+                                // return this.user.frequentContacts.includes(_contact.id);
+                                if (_module.themeInstance.id == this.themeInstId) {
+                                    return true;
+                                }
+                                return false;
+                            });
+                        }
+                    }
+                    else {
+                        this.modulesInst = response;
+                    }
+                    if (this.searchTextModule && this.searchTextModule !== '') {
+                        this.modulesInst = FuseUtils.filterArrayByString(this.modulesInst, this.searchTextModule);
+                    }
+
+                    this.modulesInst = this.modulesInst.map(module => {
+                        return new ModuleInst(module);
+                    });
+
+                    this.onmoduleInstChanged.next(this.modulesInst);
+                    resolve(this.modulesInst);
+                }, reject);
+        }
+        );
     }
 
 
@@ -417,6 +461,31 @@ export class ClassesService {
     }
 
 
+    confirmProgramInst(programInst): Promise<any> {
+
+        return new Promise((resolve, reject) => {
+        
+          //  console.log(programInst);
+            this._httpClient.put(AUTH_API + 'programsInst/confirm', programInst)
+                .subscribe(response => {
+                    this.getProgramsInst();
+                    resolve(response);
+                });
+        });
+    }
+
+    cancelProgramInst(programInst): Promise<any> {
+
+        return new Promise((resolve, reject) => {
+        
+          //  console.log(programInst);
+            this._httpClient.put(AUTH_API + 'programsInst/cancel', programInst)
+                .subscribe(response => {
+                    this.getProgramsInst();
+                    resolve(response);
+                });
+        });
+    }
 
 
 
@@ -425,7 +494,7 @@ export class ClassesService {
         return new Promise((resolve, reject) => {
             programInst.program = program;
             console.log("program on the update");
-            console.log(program);
+            console.log(programInst);
           //  console.log(programInst);
             this._httpClient.put(AUTH_API + 'programsInst', programInst)
                 .subscribe(response => {
@@ -438,7 +507,7 @@ export class ClassesService {
     getPrograms(): Promise<any> {
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get('http://localhost:8080/api/programs')
+            this._httpClient.get(environment.backend_url+ 'api/programs')
                 .subscribe((response: any) => {
                     this.onProgramChanged.next(response);
                     this.programs = response;

@@ -8,7 +8,7 @@
         </mat-toolbar-row>
 
         <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
-            
+
             <div class="contact-name mt-8">{{contact.enterpriseName}}</div>
         </mat-toolbar-row>
     </mat-toolbar>
@@ -21,7 +21,8 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Nom de l'entreprise</mat-label>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <input name="enterpriseName" formControlName="enterpriseName" matInput required (blur)="onValueChanged()">
+                    <input name="enterpriseName" formControlName="enterpriseName" matInput required
+                        (blur)="onValueChanged()">
                     <mat-error *ngIf="formErrors.enterpriseName">{{formErrors.enterpriseName}}</mat-error>
 
                 </mat-form-field>
@@ -31,7 +32,8 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Prénom du représentant</mat-label>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <input name="managerFirstName" formControlName="managerFirstName" matInput required (blur)="onValueChanged()">
+                    <input name="managerFirstName" formControlName="managerFirstName" matInput required
+                        (blur)="onValueChanged()">
                     <mat-error *ngIf="formErrors.managerFirstName">{{formErrors.managerFirstName}}</mat-error>
 
                 </mat-form-field>
@@ -41,12 +43,22 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Nom du représentant</mat-label>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <input name="managerLastName" formControlName="managerLastName" matInput required (blur)="onValueChanged()">
+                    <input name="managerLastName" formControlName="managerLastName" matInput required
+                        (blur)="onValueChanged()">
                     <mat-error *ngIf="formErrors.managerLastName">{{formErrors.managerLastName}}</mat-error>
                 </mat-form-field>
             </div>
 
-            
+            <div fxLayout="row " fxLayoutAlign="start center">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Poste occupé par le représentant</mat-label>
+                    <input matInput formControlName="positionM" required (blur)="onValueChanged()">
+                    <mat-icon matSuffix class="secondary-text">work_outline</mat-icon>
+                    <mat-error *ngIf="formErrors.positionM">{{formErrors.positionM}}</mat-error>
+
+                </mat-form-field>
+            </div>
+
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Email</mat-label>
@@ -78,7 +90,7 @@
             </div>
             <div fxLayout="row" fxLayoutAlign="start center">
                 <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Rue</mat-label>
+                    <mat-label>Adresse</mat-label>
                     <mat-icon matSuffix class="secondary-text">home</mat-icon>
                     <input name="street" formControlName="street" matInput required (blur)="onValueChanged()">
                     <mat-error *ngIf="formErrors.street">{{formErrors.street}}</mat-error>
@@ -90,7 +102,7 @@
 
                 <mat-form-field appearance="outline" fxFlex="100">
                     <mat-label>Ville</mat-label>
-                    <mat-select formControlName="city" ngDefaultControl required (blur)="onValueChanged()" >
+                    <mat-select formControlName="city" ngDefaultControl required (blur)="onValueChanged()">
                         <mat-option *ngFor="let city of cities" [value]="city">
                             {{city}}
                         </mat-option>
@@ -101,10 +113,11 @@
 
                 </mat-form-field>
 
-               
+
                 <mat-form-field appearance="outline" fxFlex="33">
                     <mat-label>Code Postal</mat-label>
-                    <input matInput #postalCode formControlName="postalCode" maxlength="5 " required (blur)="onValueChanged()" >
+                    <input matInput #postalCode formControlName="postalCode" maxlength="5 " required
+                        (blur)="onValueChanged()">
                     <mat-icon matSuffix class="secondary-text ">markunread_mailbox</mat-icon>
 
                     <mat-error *ngIf="formErrors.postalCode">{{formErrors.postalCode}}</mat-error>
@@ -113,18 +126,29 @@
 
             </div>
             <div fxLayout="row" fxLayoutAlign="start center">
-                <mat-form-field appearance="outline" fxFlex >
+                <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Classe</mat-label>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <mat-select formControlName="classe" (selectionChange)="sendClasse($event.value)"  required (blur)="onValueChanged()">
-                       
+                    <mat-select formControlName="classe" (selectionChange)="sendClasse($event.value)" required
+                        (blur)="onValueChanged()">
+
                         <mat-option *ngFor="let classe of classes" [value]="classe">
-                            {{ classe.programInstName}}    {{ classe.location}} 
+                            {{ classe.programInstName}} {{ classe.location}}
                         </mat-option>
                     </mat-select>
                     <mat-error *ngIf="formErrors.classe">{{formErrors.classe}}</mat-error>
 
-                    
+
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Nombre de participants à inscrire</mat-label>
+                    <input matInput formControlName="participNumber" required (blur)="onValueChanged()">
+                    <mat-icon matSuffix class="secondary-text">looks_one</mat-icon>
+
+                    <mat-error *ngIf="formErrors.participNumber">{{formErrors.participNumber}}</mat-error>
+
                 </mat-form-field>
             </div>
 
@@ -134,33 +158,24 @@
 
     <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
 
-        <button *ngIf="action === 'edit'"
+        <!--   <button *ngIf="action === 'edit'"
                 mat-button
                 class="mr-8"
                 (click)="matDialogRef.close(['delete',contactForm])"
                 aria-label="Delete"
                 matTooltip="Delete">
             SUPPRIMER
-        </button>
+        </button> -->
 
-        <button *ngIf="action !== 'edit'"
-                mat-button
-                class="save-button"
-                (click)="matDialogRef.close(contactForm)"
-                [disabled]="contactForm.invalid"
-                aria-label="SAVE">
+        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(contactForm)"
+            [disabled]="contactForm.invalid" aria-label="SAVE">
             AJOUTER
         </button>
 
-        <button *ngIf="action === 'edit'"
-                mat-button
-                class="save-button"
-                (click)="matDialogRef.close(['save',contactForm])"
-                [disabled]="contactForm.invalid"
-                aria-label="SAVE">
+        <button *ngIf="action === 'edit'" mat-button class="save-button"
+            (click)="matDialogRef.close(['save',contactForm])" [disabled]="contactForm.invalid" aria-label="SAVE">
             ENREGISTRER
         </button>
 
     </div>
 </div>
-

@@ -23,6 +23,7 @@ export class ClassroomsManagerFormComponent {
     institutions: any[];
     classes: any[];
     courses: any[];
+    title: string;
     private _unsubscribeAll: Subject<any>;
     /**
      * Constructor
@@ -42,12 +43,19 @@ export class ClassroomsManagerFormComponent {
         this.action = _data.action;
 
         if (this.action === 'edit') {
-            this.dialogTitle = 'Modifier Participant';
+            this.dialogTitle = 'Modifier Salle';
             this.contact = _data.contact;
             this._classroomsManagerService.institution = this.contact.institution;
         }
         else {
-            this.dialogTitle = 'Nouveau Participant';
+            if (this._classroomsManagerService.institution != null){
+                this.title=  this._classroomsManagerService.institution.institutionName;
+                this.dialogTitle = 'Nouvelle Salle au sein de : ' + this.title;
+            }
+            else{
+                this.dialogTitle = 'Nouvelle Salle au sein de : ' 
+            }
+            
             this.contact = new MyClasses({});
         }
 
@@ -71,8 +79,8 @@ export class ClassroomsManagerFormComponent {
             id: [this.contact.id],
             classRoomName: [this.contact.classRoomName],
             capacity: [this.contact.capacity],
+            fees : [this.contact.fees],
             institution: [this.contact.institution],
-
 
         });
 
