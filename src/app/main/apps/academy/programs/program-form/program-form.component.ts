@@ -36,7 +36,7 @@ export class ProgramFormComponent implements OnInit {
   }
   else
   {
-    console.log("I m heeeere");
+   
 
       this.dialogTitle = 'Nouveau Programme';
       this.program = new Program({});

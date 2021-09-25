@@ -44,7 +44,7 @@
 
 
             <mat-form-field appearance="outline" class="w-100-p">
-                <mat-label>Nom du Programme Dédié</mat-label>
+                <mat-label>Nom de la classe</mat-label>
                 <input matInput name="programInstName" formControlName="programInstName" required
                     [(ngModel)]="programInst.programInstName">
             </mat-form-field>
@@ -55,23 +55,26 @@
                     [(ngModel)]="programInst.nbDaysProgInst">
             </mat-form-field>
 
-            <mat-form-field appearance="outline">
-                <mat-label>Date début</mat-label>
-                <input matInput [matDatepicker]="dp" formControlName="beginDate">
-                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-                <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
-                    (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
-                </mat-datepicker>
-            </mat-form-field>
+            <div >
+                <mat-form-field appearance="outline"  class="w-100-p">
+                    <mat-label>Date début</mat-label>
+                    <input matInput [matDatepicker]="startDatePicker" name="beginDate" formControlName="beginDate">
+                    <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #startDatePicker></mat-datepicker>
+                </mat-form-field>
+             
+            </div>
+            <div >
+                <mat-form-field appearance="outline"  class="w-100-p">
+                    <mat-label>Date fin</mat-label>
+                    <input matInput [matDatepicker]="endDatePicker" name="endDate" formControlName="endDate">
+                    <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #endDatePicker></mat-datepicker>
+                </mat-form-field>
+                
+            </div>
 
-             <mat-form-field appearance="outline">
-                <mat-label>Date Fin</mat-label>
-                <input matInput [matDatepicker]="dpE" formControlName="endDate">
-                <mat-datepicker-toggle matSuffix [for]="dpE"></mat-datepicker-toggle>
-                <mat-datepicker #dpE startView="multi-year" (yearSelected)="chosenYearEndHandler($event)"
-                    (monthSelected)="chosenMonthEndHandler($event, dpE)" panelClass="example-month-picker">
-                </mat-datepicker>
-            </mat-form-field> 
+  
 
 
 
@@ -83,18 +86,18 @@
 
         <button *ngIf="action === 'edit'" mat-button class="mr-8"
             (click)="matDialogRef.close(['delete',programInstForm])" aria-label="Delete" matTooltip="Delete">
-            DELETE
+            Supprimer
         </button>
 
         <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(programInstForm)"
             [disabled]="programInstForm.invalid" aria-label="SAVE">
-            ADD
+            Ajouter
         </button>
 
         <button *ngIf="action === 'edit'" mat-button class="save-button"
             (click)="matDialogRef.close(['save',programInstForm])" [disabled]="programInstForm.invalid"
             aria-label="SAVE">
-            SAVE
+            Enregistrer
         </button>
 
     </div>

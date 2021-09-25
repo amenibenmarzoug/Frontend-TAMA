@@ -234,7 +234,23 @@
                             </div>
                         </div>
                         <div fxFlex="1 0 auto" fxLayout="column">
-
+                            <div fxLayout="row" fxLayoutAlign="start center">
+                                <mat-form-field appearance="outline" fxFlex>
+                                    <mat-label>Institutions/Entreprises</mat-label>
+                                    <mat-select formControlName="choice"
+                                        (selectionChange)="selectChoice($event.value)" required
+                                        >
+                
+                                        <mat-option [value]="true">
+                                            Institutions
+                                        </mat-option>
+                                        <mat-option [value]="false">
+                                            Entreprises
+                                        </mat-option>
+                                    </mat-select>
+                                   
+                                </mat-form-field>
+                            </div>
                             <div class="nav-item" aria-label="Formations">
                                 <mat-form-field appearance="outline" class="w-100-p">
                                     <mat-label>Institutions</mat-label>

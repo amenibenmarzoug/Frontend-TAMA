@@ -26,7 +26,7 @@ export class MyParticipantListComponent implements OnInit, OnDestroy {
   contacts: any;
   user: any;
   dataSource: FilesDataSource | null;
-  displayedColumns = ['checkbox', 'name', 'email', 'phone', 'currentPosition', 'educationLevel',  'buttons'];
+  displayedColumns = ['checkbox', 'name', 'email', 'phone', 'currentPosition', 'educationLevel'];
   selectedContacts: any[];
   checkboxes: {};
   dialogRef: any;

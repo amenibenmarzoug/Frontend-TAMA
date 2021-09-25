@@ -61,17 +61,17 @@
 
         <button *ngIf="action === 'edit'" mat-button class="mr-8" (click)="matDialogRef.close(['delete',themeInstForm])"
             aria-label="Delete" matTooltip="Delete">
-            DELETE
+            Supprimer
         </button>
 
         <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="closeNewThemeForm()"
             [disabled]="themeInstForm.invalid" aria-label="SAVE">
-            ADD
+            Ajouter
         </button>
 
         <button *ngIf="action === 'edit'" mat-button class="save-button"
             (click)="closeEditThemeForm()" [disabled]="themeInstForm.invalid" aria-label="SAVE">
-            SAVE
+            Enregistrer
         </button>
 
     </div>
