@@ -161,7 +161,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private dateAdapter: DateAdapter<Date>
   ) {
-    //this.dateAdapter.setLocale('fr');
+    this.dateAdapter.setLocale('fr');
     this.courseDateMaxHour = new Date();
     this.courseDateMaxHour.setHours(23, 59, 59);
     this.events.push(new Date());

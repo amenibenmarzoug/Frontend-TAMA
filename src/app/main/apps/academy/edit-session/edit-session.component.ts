@@ -40,6 +40,10 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   horizontalStepperStep1: FormGroup;
   horizontalStepperStep2: FormGroup;
   horizontalStepperStep3: FormGroup;
+  //institutionForm: FormGroup;
+  enterpriseForm: FormGroup;
+
+
 
   // Vertical Stepper
   verticalStepperStep1: FormGroup;
@@ -179,9 +183,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
        }
        ); */
     });
-    //this.dateAdapter.setLocale('fr');
-
-
+    this.dateAdapter.setLocale('fr');
     this.courseDateMaxHour = new Date();
     this.courseDateMaxHour.setHours(23, 59, 59);   
 
@@ -323,8 +325,10 @@ export class EditSessionComponent implements OnInit, OnDestroy {
      });*/
 
     this.horizontalStepperStep3 = this._formBuilder.group({
+      choice: ['',Validators.required],
+      institutionForm:this._formBuilder.group({
       institution: [this.session.classRoom.institution.institutionName, Validators.required],
-      classroom: [this.session.classRoom.classRoomName, Validators.required],
+      classroom: [this.session.classRoom.classRoomName, Validators.required],})
 
 
     });
@@ -374,6 +378,12 @@ export class EditSessionComponent implements OnInit, OnDestroy {
 
 
     });
+  }
+
+  selectChoice(event){
+    console.log("choice");
+
+    console.log(event);
   }
 
   addEvent(event: MatDatepickerInputEvent<Date>) {

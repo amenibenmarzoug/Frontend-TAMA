@@ -111,6 +111,8 @@ export class ParticipantsService implements Resolve<any>
                 .subscribe((response: any) => {
 
                     this.participants = response;
+                    //console.log("SERVICE PART");
+                    //console.log(this.participants);
                     if (this.filterBy === 'with') {
                         this.participants = this.participants.filter(_contact => {
                             if (_contact.validated) { return true; }

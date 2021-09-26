@@ -26,7 +26,7 @@ export class ClasseParticipantListComponent implements OnInit, OnDestroy {
     dataSource: FilesDataSource | null;
     // dataSource :any[] ;
 
-    displayedColumns = ['number','name','email', 'phone','experience','level', 'company','action'];
+    displayedColumns = ['number','name','email', 'phone','experience','level', 'company'];
 
     checkboxes: {};
     dialogRef: any;

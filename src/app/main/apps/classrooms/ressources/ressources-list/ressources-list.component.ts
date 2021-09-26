@@ -27,7 +27,7 @@ export class RessourcesListComponent implements OnInit, OnDestroy
     contacts: any;
     user: any;
     dataSource: FilesDataSource | null;
-    displayedColumns = ['checkbox', 'name', 'quantity', 'buttons'];
+    displayedColumns = ['checkbox', 'name', 'quantity'];
     selectedContacts: any[];
     checkboxes: {};
     dialogRef: any;

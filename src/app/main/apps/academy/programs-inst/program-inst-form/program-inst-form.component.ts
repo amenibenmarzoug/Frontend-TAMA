@@ -40,7 +40,7 @@ export class ProgramInstFormComponent implements OnInit {
 
   if ( this.action === 'edit' )
   {
-      this.dialogTitle = 'Modifier le Programme Dédié';
+      this.dialogTitle = 'Modifier la classe';
       this.programInst = _data.programInst;
       this._programInstService.program = this.programInst.program;
      
@@ -48,7 +48,7 @@ export class ProgramInstFormComponent implements OnInit {
   else
   {
 
-      this.dialogTitle = 'Nouveau Programme Dédié';
+      this.dialogTitle = 'Nouvelle classe';
       this.programInst = new ProgramInst({});
       
     }

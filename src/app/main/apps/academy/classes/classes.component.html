@@ -73,15 +73,15 @@
                             <div class="updated">Programme associé : {{programInst.program.programName}}</div>
                             <div class="updated">Nombre de Jours : {{programInst.nbDaysProgInst}}</div>
                             <div class="updated">Localisation : {{programInst.location}}</div>
-                            <div class="updated">Date début : {{programInst.beginDate | date:'MMMM yyyy'}}</div>
-                            <div class="updated">Date Fin : {{programInst.endDate | date:'MMMM yyyy'}}</div>
+                            <div class="updated">Date début : {{programInst.beginDate | date:'dd MMMM yyyy'}}</div>
+                            <div class="updated">Date Fin : {{programInst.endDate | date:'dd MMMM yyyy'}}</div>
                            
                          
                         </div>
 
                         <div class="footer" fxLayout="row" fxLayoutAlign="center center">
                             <button mat-button color="accent" (click)="listeDesParticipants(programInst.id)">
-                                Liste des participants
+                                Participants
                             </button>
                             <button mat-button color="accent" (click)="editProgramInst(programInst)">
                                 Modifier

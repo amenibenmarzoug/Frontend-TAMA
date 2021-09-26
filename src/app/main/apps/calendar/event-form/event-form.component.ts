@@ -7,6 +7,11 @@ import { MatColors } from '@fuse/mat-colors';
 
 import { CalendarEventModel } from 'app/main/apps/calendar/event.model';
 import { MyEvent } from '../mycalendar-utils';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { DateAdapter } from '@angular/material/core';
+
+registerLocaleData(localeFr, 'fr');
 
 @Component({
     selector     : 'calendar-event-form-dialog',
@@ -33,10 +38,10 @@ export class CalendarEventFormDialogComponent
     constructor(
         public matDialogRef: MatDialogRef<CalendarEventFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,private dateAdapter: DateAdapter<Date>
     )
     {
-        
+        this.dateAdapter.setLocale('fr');
         this.event = _data.event;
         this.action = _data.action;
 
