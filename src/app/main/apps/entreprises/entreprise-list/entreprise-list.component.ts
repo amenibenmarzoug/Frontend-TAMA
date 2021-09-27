@@ -150,7 +150,9 @@ export class EntrepriseListComponent implements OnInit, OnDestroy {
                                   console.log(err);
                                   // reject(err); // Here.
                               });*/
-                        this._entreprisesService.updateContact1(formData.getRawValue(), this._entreprisesService.classe).subscribe(
+                              console.log("ENTERPRISE");
+                              console.log(new Entreprise(formData.getRawValue()));
+                        this._entreprisesService.updateContact1(new Entreprise(formData.getRawValue()), this._entreprisesService.classe).subscribe(
                             data => {
                                 this._entreprisesService.getContacts();
                                 console.log("data on submit");
