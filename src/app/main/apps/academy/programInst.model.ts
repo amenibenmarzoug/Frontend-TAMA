@@ -14,6 +14,7 @@ export class ProgramInst{
     beginDate:Date;
     endDate:Date;
     validated:boolean;
+    place: string;
    
 
 
@@ -28,6 +29,7 @@ export class ProgramInst{
         this.beginDate=programInst.beginDate || '';
         this.endDate=programInst.endDate || '';
         this.validated=programInst.validated || '';
+        this.place=programInst.place || '';
         
 
     

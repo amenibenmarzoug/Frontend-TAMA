@@ -46,11 +46,14 @@
     </ng-container>
 
     <!-- Institution Column -->
-    <ng-container matColumnDef="institution">
+    <ng-container matColumnDef="institution" >
         <mat-header-cell *matHeaderCellDef fxShow.gt-md>Salle</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxShow.gt-md>
-            <p class="text-truncate font-weight-600">
+            <p class="text-truncate font-weight-600"  *ngIf="contact.classRoom!=null">
                 {{contact.classRoom.classRoomName}} - {{contact.classRoom.institution.institutionName}}
+            </p>
+            <p class="text-truncate font-weight-600"  *ngIf="contact.classRoom==null">
+              {{places[contact.id]}}
             </p>
         </mat-cell>
     </ng-container>

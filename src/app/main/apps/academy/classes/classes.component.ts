@@ -17,6 +17,7 @@ import { Module } from '../programDetails/tabs/module/module.model';
 import { ThematiqueInst } from '../program-inst-detail/tabs/thematique-inst/thematiqueInst.model';
 import { ClasseParticipantsService } from './classe-participants/classe-participants.service';
 import { ClasseParticipantsComponent } from './classe-participants/classe-participants.component';
+import { PlaceFormComponent } from './place-form/place-form.component';
 
 @Component({
     selector: 'app-classes',
@@ -241,7 +242,22 @@ export class ClassesComponent implements OnInit {
     }
 
 
-
+    choosePlace(programInst):void{
+        this.dialogRef = this.dialog.open(PlaceFormComponent, {
+            height: '80%',
+            width: '30%',
+            panelClass: 'contact-form-dialog',
+            data: {
+                programInst: programInst,
+            }
+        });
+        this.dialogRef.afterClosed()
+            .subscribe(response => {
+                if (!response) {
+                    return;
+                }
+            })
+    }
 
 
     listeDesParticipants(programInst): void {
