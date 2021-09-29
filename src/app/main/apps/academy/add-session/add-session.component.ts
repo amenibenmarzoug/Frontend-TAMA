@@ -44,6 +44,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   verticalStepperStep1: FormGroup;
   verticalStepperStep2: FormGroup;
   verticalStepperStep3: FormGroup;
+  institutionForm:FormGroup;
 
 
   dateCourse: Date;
@@ -102,6 +103,8 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   buttonPrec2Selected: boolean = false;
   buttonPrec3Selected: boolean = false;
   buttonPrec4Selected: boolean = false;
+
+  place:string;
 
   formErrorsStepper1 = {
 
@@ -264,11 +267,12 @@ export class AddSessionComponent implements OnInit, OnDestroy {
      });*/
 
     this.horizontalStepperStep3 = this._formBuilder.group({
-      institution: ['', Validators.required],
-      classroom: ['', Validators.required],
-
 
     });
+
+    this.institutionForm=this._formBuilder.group({
+      institution: [this.session.classRoom.institution.institutionName, Validators.required],
+      classroom: [this.session.classRoom.classRoomName, Validators.required],});
 
     // Vertical Stepper form stepper
     this.verticalStepperStep1 = this._formBuilder.group({
@@ -480,6 +484,13 @@ export class AddSessionComponent implements OnInit, OnDestroy {
 
   sendDate(): void {
 
+    console.log("prog prog prog");
+    console.log(this.horizontalStepperStep1.value.program.place);
+    let pl=JSON.parse(this.horizontalStepperStep1.value.program.place);
+    console.log(pl)
+    if(pl!=null){
+      this.place=pl.name;
+    }
     this._addSessionService.selectedDate = this.horizontalStepperStep1.value.courseSessionBeginDate;
     console.log(this._addSessionService.selectedDate);
     console.log(this._addSessionService.selectedDate.getDay());

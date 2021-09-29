@@ -96,7 +96,8 @@ import{ClassesDetailService} from '../academy/classes-detail/classes-detail.serv
 import{MainComponent4} from '../academy/classes-detail/tabs/theme-detail-classe/main/main.component';
 import {ClasseParticipantsComponent} from './classes/classe-participants/classe-participants.component'
 import {ClasseParticipantListComponent} from './classes/classe-participants/classe-participants-list/classe-participant-list.component'
-import { ClasseParticipantsService } from './classes/classe-participants/classe-participants.service'
+import { ClasseParticipantsService } from './classes/classe-participants/classe-participants.service';
+import { PlaceFormComponent } from './classes/place-form/place-form.component'
 
 registerLocaleData(localeFr, 'fr');
 
@@ -283,7 +284,8 @@ const routes = [
         //ClasseParticipantsComponent
 
         ClasseParticipantListComponent,
-        ClasseParticipantsComponent
+        ClasseParticipantsComponent,
+        PlaceFormComponent
        
         
         

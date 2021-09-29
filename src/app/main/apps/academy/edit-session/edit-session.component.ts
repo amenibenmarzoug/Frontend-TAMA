@@ -42,7 +42,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   horizontalStepperStep3: FormGroup;
   //institutionForm: FormGroup;
   enterpriseForm: FormGroup;
-
+  institutionForm:FormGroup;
 
 
   // Vertical Stepper
@@ -96,6 +96,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   labelDisabled: boolean = true;
   session: Session;
   isDisabled: boolean = true;
+  place:string;
   event: CalendarEventModel;
   alertDialog: MatDialogRef<AlertDialogComponent>;
   // Private
@@ -325,14 +326,17 @@ export class EditSessionComponent implements OnInit, OnDestroy {
      });*/
 
     this.horizontalStepperStep3 = this._formBuilder.group({
-      choice: ['',Validators.required],
-      institutionForm:this._formBuilder.group({
-      institution: [this.session.classRoom.institution.institutionName, Validators.required],
-      classroom: [this.session.classRoom.classRoomName, Validators.required],})
-
+      //choice: ['',Validators.required],
+     
 
     });
 
+    if(this.session.classRoom!=null){
+    this.institutionForm=this._formBuilder.group({
+      institution: ['', Validators.required],
+      classroom: ['', Validators.required],})
+
+    }
     // Vertical Stepper form stepper
     this.verticalStepperStep1 = this._formBuilder.group({
       firstName: ['', Validators.required],
@@ -369,7 +373,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
 
 
     return this._formBuilder.group({
-      program: [{ value: this.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.program.programName + " - " + this.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location, disabled: true }, Validators.required],
+      program: [{ value: this.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName+ " - " + this.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location, disabled: true }, Validators.required],
       module: [{ value: this.session.themeDetailInstance.moduleInstance.moduleInstanceName, disabled: true }, Validators.required],
       theme: [{ value: this.session.themeDetailInstance.moduleInstance.themeInstance.themeInstName, disabled: true }, Validators.required],
       themeDet: [{ value: this.session.themeDetailInstance.themeDetailInstName, disabled: true }, Validators.required],
@@ -516,6 +520,13 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   sendDate(): void {
     console.log("STEPS");
     console.log(this.stepper.steps);
+    console.log("prog prog prog");
+
+    let pl=JSON.parse(this.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.place);
+    console.log(pl)
+    if(pl!=null){
+      this.place=pl.name;
+    }
     this._addSessionService.selectedDate = this.horizontalStepperStep1.value.courseSessionBeginDate;
     console.log(this._addSessionService.selectedDate);
     console.log(this._addSessionService.selectedDate.getDay());
@@ -549,6 +560,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   }
 
   sendClassroom(): void {
+    
     this.buttonSuiv3Selected=true;
     this.session.classRoom = this.currentClassroom;
   }
