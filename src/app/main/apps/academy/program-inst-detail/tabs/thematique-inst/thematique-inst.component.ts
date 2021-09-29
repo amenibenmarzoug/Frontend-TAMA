@@ -12,6 +12,7 @@ import { ThematiqueFormComponent } from '../../../programDetails/tabs/thematique
 import{ProgramInstDetailService} from '../../../program-inst-detail/program-inst-detail.service';
 import { ThematiqueInstFormComponent } from './thematique-inst-form/thematique-inst-form.component';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-thematique-inst',
   templateUrl: './thematique-inst.component.html',
@@ -234,7 +235,8 @@ export class ThematiqueInstComponent implements OnInit {
                     // case where the modified days number exceeded the limit
                     if(this.actualDaysNumberAffected > this.programTotalDaysNumber) {
 
-                        this.addThematiqueAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
+                        //this.addThematiqueAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
+                        this.ErrorMessage("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme")
                         console.log(`Exceeded`);
                         this._programInstDetailsService.getThemeInst(); 
 
@@ -288,4 +290,20 @@ export class ThematiqueInstComponent implements OnInit {
         this.alertDialog = null;
     });
 }
+
+
+ErrorMessage(message): void {
+    Swal.fire(
+      {
+        title: message,
+        icon: 'error',
+        showCancelButton: false,
+        confirmButtonColor: '#38a9ff',
+        //cancelButtonColor: '#d33',
+        confirmButtonText: 'Retour'
+      }
+  )
+  
+  }
+
 }

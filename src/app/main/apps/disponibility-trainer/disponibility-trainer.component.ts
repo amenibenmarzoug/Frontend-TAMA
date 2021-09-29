@@ -13,6 +13,7 @@ import { Disponibility } from 'app/main/apps/disponibility-trainer/disponibility
 import { ParticipantListComponent } from 'app/main/apps/participants/participant-list/participant-list.component';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-disponibility-trainer',
@@ -132,11 +133,13 @@ export class DisponibilityTrainerComponent implements OnInit, OnDestroy {
         });
 
         if ((this._disponibilityTrainerService.trainer == null) || (this._disponibilityTrainerService.courseId == null)) {
-            this.chooseDispo("Veuillez choisir le formateur et la formation");
+            //this.chooseDispo("Veuillez choisir le formateur et la formation");
+            this.ErrorMessage("Veuillez choisir le formateur et la formation");
         }
         else {
             if (this.selectedContacts.length == 0) {
-                this.chooseDispo("Veuillez choisir la/les disponibilité(s)");
+                //this.chooseDispo("Veuillez choisir la/les disponibilité(s)");
+                this.ErrorMessage("Veuillez choisir la/les disponibilité(s)");
             }
             else {
                 //Adding Trainer's Disponibilities
@@ -278,5 +281,19 @@ export class DisponibilityTrainerComponent implements OnInit, OnDestroy {
     toggleSidebar(name): void {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
+
+    ErrorMessage(message): void {
+        Swal.fire(
+          {
+            title: message,
+            icon: 'error',
+            showCancelButton: false,
+            confirmButtonColor: '#38a9ff',
+            //cancelButtonColor: '#d33',
+            confirmButtonText: 'Retour'
+          }
+      )
+      
+      }
 
 }

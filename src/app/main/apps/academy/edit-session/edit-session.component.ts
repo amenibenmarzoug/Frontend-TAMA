@@ -367,14 +367,15 @@ export class EditSessionComponent implements OnInit, OnDestroy {
 
   createForm(): FormGroup {
 
-      return this._formBuilder.group({
-      program: [{ value: this._addSessionService.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.program.programName + " - " + this._addSessionService.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location, disabled: true }, Validators.required],
-      module: [{ value: this._addSessionService.session.themeDetailInstance.moduleInstance.moduleInstanceName, disabled: true }, Validators.required],
-      theme: [{ value: this._addSessionService.session.themeDetailInstance.moduleInstance.themeInstance.themeInstName, disabled: true }, Validators.required],
-      themeDet: [{ value: this._addSessionService.session.themeDetailInstance.themeDetailInstName, disabled: true }, Validators.required],
-      courseSessionName: [this._addSessionService.session.sessionName, Validators.required],
-      courseSessionBeginDate: [new Date(this._addSessionService.session.sessionBeginDate), Validators.required],
-      courseSessionEndDate: [new Date(this._addSessionService.session.sessionEndDate), Validators.required],
+
+    return this._formBuilder.group({
+      program: [{ value: this.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.program.programName + " - " + this.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location, disabled: true }, Validators.required],
+      module: [{ value: this.session.themeDetailInstance.moduleInstance.moduleInstanceName, disabled: true }, Validators.required],
+      theme: [{ value: this.session.themeDetailInstance.moduleInstance.themeInstance.themeInstName, disabled: true }, Validators.required],
+      themeDet: [{ value: this.session.themeDetailInstance.themeDetailInstName, disabled: true }, Validators.required],
+      courseSessionName: [this.session.sessionName, Validators.required],
+      courseSessionBeginDate: [new Date(this.session.sessionBeginDate), Validators.required],
+      courseSessionEndDate: [new Date(this.session.sessionEndDate), Validators.required],
 
 
     });
@@ -392,8 +393,9 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     this.testDate = false;
     this.events.push(event.value);
     this.courseDate = this.events[this.events.length - 1];
-    this.courseDateMinHour=this.events[this.events.length - 1];
-    this.courseDateMinHour.setHours(this.courseDate.getHours(), this.courseDate.getMinutes()+this.minSessionDuration); 
+    this.courseDateMinHour = this.events[this.events.length - 1];
+    this.courseDateMinHour.setHours(this.courseDate.getHours(), this.courseDate.getMinutes() + this.minSessionDuration);
+    console.log("couerse min dateeee"); console.log(this.courseDateMinHour);
     this.courseDateMaxHour.setFullYear(this.courseDate.getFullYear(), this.courseDate.getMonth(), this.courseDate.getDate())
 
 

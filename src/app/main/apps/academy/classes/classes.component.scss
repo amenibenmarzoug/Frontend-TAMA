@@ -113,6 +113,13 @@
                         height: 60px !important;
                         min-height: 64px !important;
                         max-height: 64px !important;
+                        &.validatedClass-true {
+                            background: mat-color($mat-blue, 500);
+                        }
+
+                        &.validatedClass-false {
+                            background: mat-color($mat-amber, 100);
+                        }
 
                         &.web-bg {
                             background: mat-color($mat-blue, 500);
