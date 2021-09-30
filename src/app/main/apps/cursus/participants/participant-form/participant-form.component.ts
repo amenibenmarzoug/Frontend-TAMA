@@ -127,7 +127,6 @@ export class ParticipantFormComponent {
                 // clear previous error message (if any)
                 this.contactForm[field] = '';
                 const control = form.get(field);
-                // console.log(control)
                 if (control && (control.dirty || control.touched) && !control.valid) {
                     const messages = this.validationMessagesP[field];
                     for (const key in control.errors) {

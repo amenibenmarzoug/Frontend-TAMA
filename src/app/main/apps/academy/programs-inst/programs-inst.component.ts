@@ -81,8 +81,7 @@ export class ProgramsInstComponent implements OnInit {
           .subscribe(courses => {
               this.filteredPrograms = this.programsFilteredByCategory = this.programs = courses;
 
-              console.log("programInst fel progInst");
-              console.log(courses);
+             
           });
   }
 
@@ -207,7 +206,7 @@ export class ProgramsInstComponent implements OnInit {
               }
           });
   }
-  goToProgramModuleInst(id) {
+ goToProgramModuleInst(id) {
       this.router.navigate(['/apps/academy/programInstDetails', id]);
       console.log("programInst id" + id)
   }

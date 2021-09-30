@@ -32,7 +32,7 @@ export class ProgramInstDetailService {
     moduleInst:Module;
     themeInst: ThematiqueInst;
     themeClasse:ThematiqueInst;
-    themeDetailInst: ThemeDetailInst; //changed by Donia
+    themeDetailInst: ThemeDetailInst; 
     themeDetails: ThemeDetail[];
     onFilterChangedModuleInst: Subject<any>;
     onThemeDetailInstChanged: BehaviorSubject<any>;
@@ -350,23 +350,7 @@ console.log(themeInst);
         });
     }
 
-    /*AutoAddThemeInst(theme,program):Observable<any>{
-        
-        console.log("programmmmm");
-        console.log(program);
-        this.themeClasse=new ThematiqueInst(theme);
-        this.themeClasse.programInstance = program;
-        this.themeClasse.theme=theme;
-        this.themeClasse.themeInstName=theme.themeName;
-        this.themeClasse.nbDaysthemeInst=theme.nbDaysTheme;
-       // console.log("themeee fel service");
-        //console.log(this.themeClasse);
-
-       return this._httpClient.post(AUTH_API +'themeInst', this.themeClasse);
-       
-       
-    }*/
-
+   
     
 
     /**
@@ -772,8 +756,8 @@ console.log(themeInst);
     addThemeDetail(themeDetail, module): Promise<any> {
         return new Promise((resolve, reject) => {
             themeDetail.moduleInstance = module;
-            console.log("themeDetail inst fel service");
-            console.log(themeDetail);
+           // console.log("themeDetail inst fel service");
+            //console.log(themeDetail);
             //themeDetailInst.themeDetail=themeDetail;
             this._httpClient.post(AUTH_API +'themeDetailInst', themeDetail)
                 .subscribe(response => {

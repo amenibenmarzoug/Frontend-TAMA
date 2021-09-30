@@ -107,20 +107,6 @@ export class ClassroomsService implements Resolve<any>
 
                         this.contacts = response;
 
-                        if ( this.filterBy === 'starred' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.starred.includes(_contact.id);
-                            });
-                        }
-
-                        if ( this.filterBy === 'frequent' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.frequentContacts.includes(_contact.id);
-                            });
-                        }
-
                         if ( this.searchText && this.searchText !== '' )
                         {
                             this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);

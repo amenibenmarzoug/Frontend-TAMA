@@ -79,8 +79,6 @@ export class ParticipantsService implements Resolve<any>
                 this.getUserData(),
                 this.getEntreprises(),
                 this.getClasses(),
-                //  this.getGroups(),
-                // this.getCursus(),
             ]).then(
                 ([files]) => {
 
@@ -113,7 +111,8 @@ export class ParticipantsService implements Resolve<any>
                 .subscribe((response: any) => {
 
                     this.participants = response;
-
+                    //console.log("SERVICE PART");
+                    //console.log(this.participants);
                     if (this.filterBy === 'with') {
                         this.participants = this.participants.filter(_contact => {
                             if (_contact.validated) { return true; }
@@ -296,8 +295,6 @@ export class ParticipantsService implements Resolve<any>
     addParticipant(contact, entreprise, classe): Promise<any> {
         return new Promise((resolve, reject) => {
             contact.password = contact.phoneNumber;
-            console.log(" PARTICIPANT ENTREPISE");
-            console.log(contact.experience);
             if (entreprise == null) {
                 contact.programInstance = classe;
             }
@@ -360,25 +357,6 @@ export class ParticipantsService implements Resolve<any>
     }
 
 
-
-
-    // /**
-    //  * Update user data
-    //  *
-    //  * @param userData
-    //  * @returns {Promise<any>}
-    //  */
-    // updateUserData(userData): Promise<any> {
-    //     return new Promise((resolve, reject) => {
-    //         this._httpClient.post('api/contacts-user/' + this.user.id, { ...userData })
-    //             .subscribe(response => {
-    //                 this.getUserData();
-    //                 this.getContacts();
-    //                 resolve(response);
-    //             });
-    //     });
-    // }
-
     /**
      * Deselect contacts
      */
@@ -435,8 +413,7 @@ export class ParticipantsService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.get(environment.backend_url+ 'api/participants/ages')
                 .subscribe((response: any) => {
-                    console.log("hhhhhhhhhhhh");
-                    console.log(response);
+                 
                     this.ages = response;
                     console.log(this.ages);
                     /*  this.participants = this.participants.map(contact => {

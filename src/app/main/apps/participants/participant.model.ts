@@ -21,8 +21,10 @@ export class Participant {
     programInstance: any;
     educationLevel: string;
     experience: number; 
+    status: string;
     // cursus: any;
     notes: string;
+    age:string
    // age: number;
     /**
      * Constructor
@@ -55,6 +57,8 @@ export class Participant {
             this.level = contact.level || '';
             this.validated = contact.validated || '';
             this.experience= contact.experience || '';
+            this.status= contact.status || '';
+            this.age=contact.age || '';
             //this.age= contact.birthday.getFullYear()
             // this.password = contact.password;
         }

@@ -179,7 +179,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
        }
        ); */
     });
-    //this.dateAdapter.setLocale('fr');
+    this.dateAdapter.setLocale('fr');
     this.courseDateMaxHour = new Date();
     this.courseDateMaxHour.setHours(23, 59, 59);
     this.events.push(new Date());

@@ -101,13 +101,9 @@ export class ParticipantsComponent implements OnInit, OnDestroy {
 
         this.dialogRef.afterClosed()
             .subscribe((response: FormGroup) => {
-                //   console.log(response) ;
                 if (!response) {
                     return;
                 }
-
-                //  console.log("entreprise button");
-                // console.log(this._participantsService.entreprise);
 
                 this._participantsService.addParticipant(response.getRawValue(), this._participantsService.entreprise, this._participantsService.classe);
 

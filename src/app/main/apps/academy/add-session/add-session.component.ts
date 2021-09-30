@@ -3,10 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { AddSessionService } from 'app/main/apps/academy/add-session/add-session.service';
 import { Session } from 'app/main/apps/academy/add-session/session.model';
-
-import { CursusCoursessService } from 'app/main/apps/cursus/courses/coursess.service';
-import { CursusCoursesComponent } from 'app/main/apps/cursus/courses/courses.component';
-import { TokenStorageService } from 'app/main/pages/authentication/common-authentication/token-storage.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
@@ -159,9 +155,13 @@ export class AddSessionComponent implements OnInit, OnDestroy {
    * @param {FormBuilder} _formBuilder
    */
   constructor(
-    private _addSessionService: AddSessionService, private _formBuilder: FormBuilder, private _matDialog: MatDialog, private translate: TranslateService, private dateAdapter: DateAdapter<Date>
+    private _addSessionService: AddSessionService,
+    private _formBuilder: FormBuilder,
+    private _matDialog: MatDialog,
+    private translate: TranslateService,
+    private dateAdapter: DateAdapter<Date>
   ) {
-    //this.dateAdapter.setLocale('fr');
+    this.dateAdapter.setLocale('fr');
     this.courseDateMaxHour = new Date();
     this.courseDateMaxHour.setHours(23, 59, 59);
     this.events.push(new Date());
@@ -358,10 +358,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
           this.filteredClassrooms.push(contact);
       }
 
-    });
-    console.log(this.classRooms);
-    console.log(this.filteredClassrooms);
-
+    })
 
   }
 
@@ -401,8 +398,6 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       }
 
     });
-
-    console.log(this.filteredModules);
   }
 
   selectModule(module): void {
@@ -418,8 +413,6 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       }
 
     });
-
-    console.log(this.filteredThemeDetails);
   }
 
   selectThemeDetail(themeDet): void {
@@ -431,8 +424,6 @@ export class AddSessionComponent implements OnInit, OnDestroy {
 
     }
     );
-    console.log(this.selectedThemeDet);
-    console.log(this.selectedThemeDet.nbDaysthemeDetailInst);
   }
 
   selectClassroom(event): void {
@@ -458,10 +449,6 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       this.selectedTrainers.push(select.toString());
 
     });
-
-    console.log("selected selectedTrainers");
-    console.log(this.selectedTrainers);
-    console.log(this._addSessionService.trainers);
 
     this._addSessionService.trainers.forEach(trainer => {
 
@@ -510,9 +497,6 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this._addSessionService.getTrainers().then(() => { this.allTrainers = this._addSessionService.trainers; });
     });
-    //this.allTrainers=this._addSessionService.trainers;
-
-    //console.log(this._addSessionService.selectedModule);
 
   }
   // -----------------------------------------------------------------------------------------------------
@@ -535,22 +519,12 @@ export class AddSessionComponent implements OnInit, OnDestroy {
 
   finishHorizontalStepper(): void {
 
-    console.log(this.selectedTrainer);
-    console.log(this.currentClassroom);
-    console.log(this.horizontalStepperStep1);
-
-
-    console.log(this.session);
-    console.log(this.selectedThemeDet);
-
     setTimeout(() => {
       this._addSessionService.saveCourseSessionAndEvent(this.session).then(() => {
         this._addSessionService.getEvents();
         window.location.reload();
       });
     }, 5);
-
-
 
   }
 
