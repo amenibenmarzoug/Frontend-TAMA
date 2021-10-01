@@ -43,7 +43,7 @@ export class ThematiqueSpecFormComponent implements OnInit {
 
     if (this.action === 'edit') {
       this.dialogTitle = 'Edit Thèmatique Dédiée';
-      this.themeSpec = _data.themeInst;
+      this.themeSpec = _data.theme;
       this._programDetailsService.program=this.themeSpec.program;
     //  this._programDetailsService.theme  = this.themeSpec.theme;
 

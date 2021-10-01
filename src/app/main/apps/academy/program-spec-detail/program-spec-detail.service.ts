@@ -246,9 +246,10 @@ export class ProgramSpecDetailService {
 
       theme.program = program;
       return new Promise((resolve, reject) => {
+        let id = new HttpParams().set('id', this.programId);
           this._httpClient.put(AUTH_API + 'theme', theme)
               .subscribe(response => {
-                  this.getThemes();
+                this.getThemesPerProgram();
                   resolve(response);
               });
       });
@@ -626,8 +627,7 @@ export class ProgramSpecDetailService {
   addThemeDetail(themeDetail, module): Promise<any> {
       return new Promise((resolve, reject) => {
           themeDetail.module = module;
-          console.log("tttttt");
-          console.log(themeDetail);
+          
           this._httpClient.post(AUTH_API + 'themeDetail', themeDetail)
               .subscribe(response => {
                   this.getThemeDetail();

@@ -13,13 +13,13 @@
         <form name="programSpecForm" [formGroup]="programSpecForm" class="event-form w-100-p" fxLayout="column" fxFlex >
             <mat-form-field appearance="outline" class="w-100-p">
                 <mat-label>Programme de Base</mat-label>
-                    <mat-select formControlName="program" placeholder="Programme de Base" (selectionChange)="getProgramForm($event.value)">
+                    <mat-select  placeholder="Programme de Base" (selectionChange)="getProgramForm($event.value)">
                        
                         <mat-option *ngFor="let program of programs"  [value]="program">
                             {{ program.programName}} 
                         </mat-option>
                     </mat-select>
-                    <!-- <mat-error *ngIf="program.hasError('required')">
+                    <!-- formControlName="program" <mat-error *ngIf="program.hasError('required')">
                         Program required.
                       </mat-error> -->
             </mat-form-field>

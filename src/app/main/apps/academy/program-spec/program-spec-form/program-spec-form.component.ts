@@ -40,7 +40,7 @@ export class ProgramSpecFormComponent implements OnInit {
   if ( this.action === 'edit' )
   {
       this.dialogTitle = 'Modifier le Programme Dédié';
-      this.programSpec = _data.programInst;
+      this.programSpec = _data.program;
      // this._programSpecService.program = this.programSpec.program;
      
   }

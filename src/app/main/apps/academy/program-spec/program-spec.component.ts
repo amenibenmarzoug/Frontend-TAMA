@@ -160,11 +160,12 @@ export class ProgramSpecComponent implements OnInit {
     *
     * @param contact
     */
-  editProgramInst(programInst): void {
+   
+   editCourse(program): void {
       this.dialogRef = this.dialog.open(ProgramSpecFormComponent, {
           panelClass: 'cursus-form-dialog',
           data: {
-              programInst: programInst,
+              program: program,
               action: 'edit'
           }
       });
@@ -183,8 +184,8 @@ export class ProgramSpecComponent implements OnInit {
                   case 'save':
 
                  
-                  console.log(this._academyProgramsSpecService.program);
-                   //   this._academyProgramsSpecService.updateProgramInst(formData.getRawValue(),this._academyProgramsInstService.program);
+                  
+                     this._academyProgramsSpecService.updateProgram(formData.getRawValue());
 
                       break;
                   /**
@@ -192,7 +193,7 @@ export class ProgramSpecComponent implements OnInit {
                    */
                   case 'delete':
 
-                      this.deleteCursus(programInst.id);
+                      this.deleteCursus(program.id);
 
                       break;
               }
