@@ -19,7 +19,7 @@ import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 import { Moment } from 'moment';
 
-export const MY_FORMATS = {
+/*export const MY_FORMATS = {
   parse: {
     dateInput: 'MM/YYYY',
   },
@@ -29,9 +29,9 @@ export const MY_FORMATS = {
     dateA11yLabel: 'LL',
     dateDebutA11yLabel: 'MMMM YYYY',
   },
-};
+};*/
 
-const moment = _moment;
+//const moment = _moment;
 
 @Component({
   selector: 'app-class-form',
@@ -47,13 +47,13 @@ const moment = _moment;
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
     },
 
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+   // { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
 export class ClassFormComponent implements OnInit {
 
 
-  chosenYearHandler(normalizedYear: Moment) {
+  /*chosenYearHandler(normalizedYear: Moment) {
     if (this.programInst.id != null) {
       this.programInstForm.value.beginDate = moment();
     }
@@ -132,7 +132,7 @@ export class ClassFormComponent implements OnInit {
     console.log("FORM");
     console.log(this.programInstForm.value);
     datepicker.close();
-  }
+  }*/
 
   /*  chosenYearHandler(normalizedYear: Moment) {
       console.log("DATE");
@@ -168,11 +168,11 @@ export class ClassFormComponent implements OnInit {
 
     private _formBuilder: FormBuilder,
     //private _programInstService1: ProgramsInstService,
-    private _programInstService: ClassesService
+    private _programInstService: ClassesService,private dateAdapter: DateAdapter<Date>
   ) {
     // Set the defaults
     this.action = _data.action;
-
+    this.dateAdapter.setLocale('fr');
 
     if (this.action === 'edit') {
       this.dialogTitle = 'Modifier la Classe';
@@ -245,8 +245,8 @@ export class ClassFormComponent implements OnInit {
         nbDaysProgInst: new FormControl(this.programInst.nbDaysProgInst),
         location: new FormControl(this.programInst.location),
         program: new FormControl(this.programInst.program),
-        beginDate: new FormControl(moment()),
-        endDate: new FormControl(moment()),
+        beginDate: new FormControl(this.programInst.beginDate),
+        endDate: new FormControl(this.programInst.endDate),
         // dateDebut: new FormControl(this.programInst.dateDebut),
 
       });

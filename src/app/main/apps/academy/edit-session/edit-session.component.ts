@@ -40,6 +40,10 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   horizontalStepperStep1: FormGroup;
   horizontalStepperStep2: FormGroup;
   horizontalStepperStep3: FormGroup;
+  //institutionForm: FormGroup;
+  enterpriseForm: FormGroup;
+
+
 
   // Vertical Stepper
   verticalStepperStep1: FormGroup;
@@ -181,10 +185,9 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     });
     this.dateAdapter.setLocale('fr');
     this.courseDateMaxHour = new Date();
-    this.courseDateMaxHour.setHours(23, 59, 59);
-    this.events.push(new Date());
-    this.courseDate = this.events[this.events.length - 1];
-    this.courseDateMaxHour.setFullYear(this.courseDate.getFullYear(), this.courseDate.getMonth(), this.courseDate.getDate())
+    this.courseDateMaxHour.setHours(23, 59, 59);   
+
+    
 
     // Set the private defaults
     this._unsubscribeAll = new Subject();
@@ -266,6 +269,11 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       //  });
     });
 
+    this.courseDate=new Date(this._addSessionService.session.sessionBeginDate ); 
+    this.courseDateMinHour=new Date (this._addSessionService.session.sessionBeginDate ); 
+    this.courseDateMinHour.setHours(this.courseDate.getHours(), this.courseDate.getMinutes()+this.minSessionDuration); 
+    this.courseDateMaxHour.setFullYear(this.courseDate.getFullYear(), this.courseDate.getMonth(), this.courseDate.getDate())
+ 
     this._addSessionService.onClassRoomsChanged
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(classRooms => {
@@ -317,8 +325,10 @@ export class EditSessionComponent implements OnInit, OnDestroy {
      });*/
 
     this.horizontalStepperStep3 = this._formBuilder.group({
+      choice: ['',Validators.required],
+      institutionForm:this._formBuilder.group({
       institution: [this.session.classRoom.institution.institutionName, Validators.required],
-      classroom: [this.session.classRoom.classRoomName, Validators.required],
+      classroom: [this.session.classRoom.classRoomName, Validators.required],})
 
 
     });
@@ -369,6 +379,12 @@ export class EditSessionComponent implements OnInit, OnDestroy {
 
 
     });
+  }
+
+  selectChoice(event){
+    console.log("choice");
+
+    console.log(event);
   }
 
   addEvent(event: MatDatepickerInputEvent<Date>) {

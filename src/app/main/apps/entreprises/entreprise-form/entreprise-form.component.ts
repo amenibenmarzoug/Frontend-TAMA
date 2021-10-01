@@ -47,6 +47,8 @@ export class EntrepriseFormComponent {
         if (this.action === 'edit') {
             this.dialogTitle = 'Modifier Entreprise';
             this.contact = _data.contact;
+            console.log("edit");
+            console.log( _data)
         }
         else {
             this.dialogTitle = 'Nouvelle Entreprise';
@@ -88,6 +90,8 @@ export class EntrepriseFormComponent {
         const regx = '[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)';
         const phone = '^[0-9]*$';
         const code = '^[0-9]*$';
+        console.log("create");
+        console.log(this.contact)
         return this._formBuilder.group({
             id: [this.contact.id],
             enterpriseName: [this.contact.enterpriseName, [Validators.required, Validators.minLength(2)]],
@@ -96,15 +100,16 @@ export class EntrepriseFormComponent {
             //   address : [this.contact.address],
             managerFirstName: [this.contact.managerFirstName, [Validators.required, Validators.minLength(2)]],
             managerLastName: [this.contact.managerLastName, [Validators.required, Validators.minLength(2)]],
-            positionM: ['', [Validators.required, Validators.minLength(2)]],
+            managerPosition: [this.contact.managerPosition, [Validators.required, Validators.minLength(2)]],
             street: [this.contact.street, Validators.required],
             city: [this.contact.city, Validators.required],
-            classe: ['', Validators.required],
+            programInstance: ['', Validators.required],
             postalCode: [this.contact.postalCode, [Validators.required, Validators.pattern(code)]],
             website: [this.contact.website, [Validators.required, Validators.pattern(url)]],
             //password :[this.contact.phoneNumber],
-            participNumber:['', [Validators.required, Validators.pattern(code)]],
+            nbMinParticipants:[this.contact.nbMinParticipants, [Validators.required, Validators.pattern(code)]],
             notes: [this.contact.notes],
+            provider: [this.contact.provider, Validators.required],
             /*   id: [this.contact.id],
              enterpriseName: [this.contact.enterpriseName, [Validators.required, Validators.minLength(2)]],
              email: [this.contact.email],
@@ -219,6 +224,11 @@ export class EntrepriseFormComponent {
 
     sendClasse(event) {
         this._ParticipantsService.classe = event;
+    }
+
+    selectProvider(event){
+        console.log(event);
+        this.contactForm.patchValue({provider:event});
     }
 
     onValueChanged(data?: any) {

@@ -69,11 +69,13 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.currentYear = new Date().getFullYear();
         this.dataSource = new FilesDataSource(this._participantsService);
+        /*
         this.ages = this._participantsService.getAges().then(() => {
             this.ages = this._participantsService.ages;
       
           }
           );
+          */
         this._participantsService.onContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(contacts => {

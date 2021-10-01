@@ -200,6 +200,9 @@
                                 <mat-label>Niveau Management </mat-label>
                                 <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
                                 <mat-select formControlName="level"  (blur)="onValueChangedP()" required>
+                                    <mat-option [value]="'0'">
+                                        0
+                                    </mat-option>
                                     <mat-option [value]="'0.5'">
                                         0.5
                                     </mat-option>

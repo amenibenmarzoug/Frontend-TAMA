@@ -104,7 +104,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy {
                 if (!response) {
                     return;
                 }
-
+                
                 this._participantsService.addParticipant(response.getRawValue(), this._participantsService.entreprise, this._participantsService.classe);
 
             });

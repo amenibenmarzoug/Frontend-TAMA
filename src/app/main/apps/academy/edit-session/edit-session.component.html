@@ -128,7 +128,9 @@
                                     </mat-datetimepicker-toggle>
                                     <mat-datetimepicker #datetimePickerBegin type="datetime" timeInterval="5">
                                     </mat-datetimepicker>
-                                    <input matInput [min]="cursusBeginDate" [max]="cursusEndDate"
+                                    <input matInput 
+                                        [min]="cursusBeginDate" [max]="cursusEndDate"
+                                        name="courseSessionBeginDate"
                                         formControlName="courseSessionBeginDate"
                                         [matDatetimepicker]="datetimePickerBegin" required
                                         (blur)="onValueChangedStepper1()" autocomplete="false"
@@ -154,6 +156,7 @@
                                     <mat-datetimepicker #datetimePickerEnd type="datetime" timeInterval="5">
                                     </mat-datetimepicker>
                                     <input matInput [min]="courseDateMinHour" [max]="courseDateMaxHour"
+                                        name="courseSessionEndDate"
                                         formControlName="courseSessionEndDate"
                                         [matDatetimepicker]="datetimePickerEnd" required
                                         (blur)="onValueChangedStepper1()" autocomplete="false">
@@ -234,7 +237,23 @@
                             </div>
                         </div>
                         <div fxFlex="1 0 auto" fxLayout="column">
-
+                            <div fxLayout="row" fxLayoutAlign="start center">
+                                <mat-form-field appearance="outline" fxFlex>
+                                    <mat-label>Institutions/Entreprises</mat-label>
+                                    <mat-select formControlName="choice"
+                                        (selectionChange)="selectChoice($event.value)" required
+                                        >
+                
+                                        <mat-option [value]="true">
+                                            Institutions
+                                        </mat-option>
+                                        <mat-option [value]="false">
+                                            Entreprises
+                                        </mat-option>
+                                    </mat-select>
+                                   
+                                </mat-form-field>
+                            </div>
                             <div class="nav-item" aria-label="Formations">
                                 <mat-form-field appearance="outline" class="w-100-p">
                                     <mat-label>Institutions</mat-label>

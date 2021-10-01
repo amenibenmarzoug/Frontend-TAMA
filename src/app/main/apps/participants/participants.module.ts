@@ -14,7 +14,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatRadioModule} from '@angular/material/radio';
 
 import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseConfirmDialogModule, FuseSidebarModule } from '@fuse/components';
+import { FuseConfirmDialogModule, FuseSidebarModule,CustomDatepickerModule } from '@fuse/components';
 
 
 import { ParticipantsComponent } from './participants.component';
@@ -56,7 +56,8 @@ const routes: Routes = [
     MatRadioModule,
     FuseSharedModule,
     FuseConfirmDialogModule,
-    FuseSidebarModule
+    FuseSidebarModule,
+    CustomDatepickerModule
   ],
   providers      : [
     ParticipantsService

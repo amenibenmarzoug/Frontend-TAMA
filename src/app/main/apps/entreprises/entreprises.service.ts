@@ -100,10 +100,11 @@ export class EntreprisesService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'entreprises')
                 .subscribe((response: any) => {
+                    
+                   
+                    this.contacts = response;
                     console.log('entreprises :');
                     console.log(this.contacts);
-                    this.contacts = response;
-
 
                     if (this.filterBy === 'with') {
                         this.contacts = this.contacts.filter(_contact => {

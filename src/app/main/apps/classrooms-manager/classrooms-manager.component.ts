@@ -12,6 +12,7 @@ import { ClassroomsManagerService } from './classrooms-manager.service';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 
 import { MatDialogRef } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-classes',
@@ -120,7 +121,7 @@ export class ClassroomsManagerComponent implements OnInit, OnDestroy {
 
                 //  console.log("entreprise button");
                 // console.log(this._participantsService.entreprise);
-                
+
                 else {
                 this._classroomsManagerService.addClasse(response.getRawValue(), this._classroomsManagerService.institution);
                 }
@@ -151,5 +152,19 @@ export class ClassroomsManagerComponent implements OnInit, OnDestroy {
             this.alertDialog = null;
         });
     }
+
+    ErrorMessage(message): void {
+        Swal.fire(
+          {
+            title: message,
+            icon: 'error',
+            showCancelButton: false,
+            confirmButtonColor: '#38a9ff',
+            //cancelButtonColor: '#d33',
+            confirmButtonText: 'Retour'
+          }
+      )
+      
+      }
 
 }

@@ -61,7 +61,7 @@
                     <div class="course-content" fxLayout="column" fxFlex="1 1 auto">
 
                         <div class="header" fxLayout="row" fxLayoutAlign="center center"
-                            [ngClass]="programInst.category + '-bg'">
+                        [ngClass]="'validatedClass-'+programInst.validated ">
                           
                         </div>
 
@@ -73,8 +73,8 @@
                             <div class="updated">Programme associé : {{programInst.program.programName}}</div>
                             <div class="updated">Nombre de Jours : {{programInst.nbDaysProgInst}}</div>
                             <div class="updated">Localisation : {{programInst.location}}</div>
-                            <div class="updated">Date début : {{programInst.beginDate | date:'MMMM yyyy'}}</div>
-                            <div class="updated">Date Fin : {{programInst.endDate | date:'MMMM yyyy'}}</div>
+                            <div class="updated">Date début : {{programInst.beginDate | date:'dd MMMM yyyy'}}</div>
+                            <div class="updated">Date Fin : {{programInst.endDate | date:'dd MMMM yyyy'}}</div>
                            
                          
                         </div>

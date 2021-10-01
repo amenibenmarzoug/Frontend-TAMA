@@ -72,7 +72,7 @@
             (click)="matDialogRef.close(['delete',cursusForm])"
             aria-label="Delete"
             matTooltip="Delete">
-        DELETE
+        Supprimer
     </button>
 
     <button *ngIf="action !== 'edit'"
@@ -81,7 +81,7 @@
             (click)="matDialogRef.close(cursusForm)"
             [disabled]="cursusForm.invalid"
             aria-label="SAVE">
-        ADD
+        Ajouter
     </button>
 
     <button *ngIf="action === 'edit'"
@@ -90,7 +90,7 @@
             (click)="matDialogRef.close(['save',cursusForm])"
             [disabled]="cursusForm.invalid"
             aria-label="SAVE">
-        SAVE
+        Enregistrer
     </button>
 
 </div>
