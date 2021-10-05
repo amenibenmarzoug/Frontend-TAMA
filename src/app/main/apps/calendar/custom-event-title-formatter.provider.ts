@@ -1,8 +1,8 @@
 
 import { LOCALE_ID, Inject, Injectable } from '@angular/core';
-import {  CalendarEvent, CalendarEventTitleFormatter } from 'angular-calendar';
+import { CalendarEvent, CalendarEventTitleFormatter } from 'angular-calendar';
 import { DatePipe } from '@angular/common';
-import {MyEvent} from './mycalendar-utils'
+import { MyEvent } from './mycalendar-utils'
 //import {CalendarEventTitleFormatterCustomized} from 'app/main/apps/calendar/CustomEventTitleFormatter'
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
@@ -18,39 +18,52 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
   // you can override any of the methods defined in the parent class
 
   month(event: MyEvent): string {
-    if(event.session!=null){
-    return `<b>${new DatePipe(this.localeFr).transform(
-      event.start,
-      'd/M/yy à HH:mm',
-      this.localeFr
-    )}</b> ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName} ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location} -   ${event.session.themeDetailInstance.themeDetail.themeDetailName} - ${event.title}<br>
-    <b>     Salle: </b> ${event.session.classRoom.classRoomName } à ${ event.session.classRoom.institution.institutionName }`;
-  }
+    if (event.session != null) {
+      if (event.session.classRoom != null) {
+        return `<b>${new DatePipe(this.localeFr).transform(
+          event.start,
+          'd/M/yy à HH:mm',
+          this.localeFr
+        )}</b> ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName} ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location} -   ${event.session.themeDetailInstance.themeDetail.themeDetailName} - ${event.title}<br>
+        <b>     Salle: </b> ${event.session.classRoom.classRoomName} à ${event.session.classRoom.institution.institutionName}`;
+
+      }
+      else{
+        return `<b>${new DatePipe(this.localeFr).transform(
+          event.start,
+          'd/M/yy à HH:mm',
+          this.localeFr
+        )}</b> ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName} ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location} -   ${event.session.themeDetailInstance.themeDetail.themeDetailName} - ${event.title}<br>`;
+
+      }
+
+    }
+  
   
   else{
-    return `<b>${new DatePipe(this.localeFr).transform(
-      event.start,
-      'd/M/yy ',
-      this.localeFr
-    )}</b> 
+  return `<b>${new DatePipe(this.localeFr).transform(
+    event.start,
+    'd/M/yy ',
+    this.localeFr
+  )}</b> 
     <b>  ${event.title}</b> `;
-  }
+}
 }
 
-  week(event: MyEvent): string {
-    return `<b>${new DatePipe(this.localeFr).transform(
-      event.start,
-      'HH:mm',
-      this.localeFr
-    )}</b>  ${event.session.themeDetailInstance.themeDetail.themeDetailName}-${event.title} `;
-  }
+week(event: MyEvent): string {
+  return `<b>${new DatePipe(this.localeFr).transform(
+    event.start,
+    'HH:mm',
+    this.localeFr
+  )}</b>  ${event.session.themeDetailInstance.themeDetail.themeDetailName}-${event.title} `;
+}
 
-  day(event: MyEvent): string {
-    return `<b>${new DatePipe(this.localeFr).transform(
-      event.start,
-      'HH:mm',
-      this.localeFr
-    )}</b> ${event.session.themeDetailInstance.themeDetail.themeDetailName}-${event.title}`;
-  }
+day(event: MyEvent): string {
+  return `<b>${new DatePipe(this.localeFr).transform(
+    event.start,
+    'HH:mm',
+    this.localeFr
+  )}</b> ${event.session.themeDetailInstance.themeDetail.themeDetailName}-${event.title}`;
+}
 }
 
