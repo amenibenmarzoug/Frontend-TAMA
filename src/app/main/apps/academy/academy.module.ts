@@ -98,6 +98,24 @@ import {ClasseParticipantsComponent} from './classes/classe-participants/classe-
 import {ClasseParticipantListComponent} from './classes/classe-participants/classe-participants-list/classe-participant-list.component'
 import { ClasseParticipantsService } from './classes/classe-participants/classe-participants.service';
 import { PlaceFormComponent } from './classes/place-form/place-form.component'
+import { ProgramSpecComponent } from './program-spec/program-spec.component';
+import { ProgramSpecFormComponent } from './program-spec/program-spec-form/program-spec-form.component'
+import {ProgramSpecService } from './program-spec.service';
+import { ProgramSpecDetailComponent } from './program-spec-detail/program-spec-detail.component';
+import { ThematiqueSpecComponent } from './program-spec-detail/tabs/thematique-spec/thematique-spec.component';
+import { ModuleSpecComponent } from './program-spec-detail/tabs/module-spec/module-spec.component';
+import { ThemeDetailSpecComponent } from './program-spec-detail/tabs/theme-detail-spec/theme-detail-spec.component';
+
+import {ProgramSpecDetailService} from './program-spec-detail/program-spec-detail.service';
+import { ThematiqueSpecFormComponent } from './program-spec-detail/tabs/thematique-spec/thematique-spec-form/thematique-spec-form.component';
+import { ModuleSpecFormComponent } from './program-spec-detail/tabs/module-spec/module-spec-form/module-spec-form.component';
+import { ModuleSpecListComponent } from './program-spec-detail/tabs/module-spec/module-spec-list/module-spec-list.component';
+import { SelectedBarModuleSpecComponent } from './program-spec-detail/tabs/module-spec/selected-bar-module-spec/selected-bar-module-spec.component';
+import { MainModuleSpecComponent } from './program-spec-detail/tabs/module-spec/sidebars/main-module-spec/main-module-spec.component';
+import { SelectedBarThemeDetailSpecComponent } from './program-spec-detail/tabs/theme-detail-spec/selected-bar-theme-detail-spec/selected-bar-theme-detail-spec.component';
+import { MainThemeDetailSpecComponent } from './program-spec-detail/tabs/theme-detail-spec/sidebars/main-theme-detail-spec/main-theme-detail-spec.component';
+import { ThemeDetailSpecFormComponent } from './program-spec-detail/tabs/theme-detail-spec/theme-detail-spec-form/theme-detail-spec-form.component';
+import { ThemeDetailSpecListComponent } from './program-spec-detail/tabs/theme-detail-spec/theme-detail-spec-list/theme-detail-spec-list.component'
 
 registerLocaleData(localeFr, 'fr');
 
@@ -122,9 +140,9 @@ const routes = [
     },
     {
         path     : 'programsD',
-        component: ProgramsInstComponent,
+        component: ProgramSpecComponent,
         resolve  : {
-            academy: ProgramsInstService
+            academy: ProgramSpecService
         }
     },
 
@@ -157,7 +175,13 @@ const routes = [
         }
     },
     
-    
+    {
+        path     : 'programSpecDetails/:id',
+        component: ProgramSpecDetailComponent,
+        resolve  : {
+            academy: ProgramSpecDetailService,
+        }
+    },
     {
         path     : 'module',
         component: ModuleComponent,
@@ -285,7 +309,22 @@ const routes = [
 
         ClasseParticipantListComponent,
         ClasseParticipantsComponent,
-        PlaceFormComponent
+        PlaceFormComponent,
+        ProgramSpecComponent,
+        ProgramSpecFormComponent,
+        ProgramSpecDetailComponent,
+        ThematiqueSpecComponent,
+        ModuleSpecComponent,
+        ThemeDetailSpecComponent,
+        ThematiqueSpecFormComponent,
+        ModuleSpecFormComponent,
+        ModuleSpecListComponent,
+        SelectedBarModuleSpecComponent,
+        MainModuleSpecComponent,
+        SelectedBarThemeDetailSpecComponent,
+        MainThemeDetailSpecComponent,
+        ThemeDetailSpecFormComponent,
+        ThemeDetailSpecListComponent
        
         
         
@@ -341,6 +380,8 @@ const routes = [
         AddSessionService,
         AllSessionsService,
         EditSessionService,
+        ProgramSpecService,
+        ProgramSpecDetailService,
        // ClasseParticipantsService,
         ClasseParticipantsService,
         {provide: LOCALE_ID, useValue: 'fr' },

@@ -15,7 +15,8 @@ export class ProgramInstFormComponent implements OnInit {
  
   action: string;
   //course:AcademyCoursesComponent;
-    programInst:ProgramInst;
+   // programInst:ProgramInst;
+   programInst:ProgramInst;
     event: CalendarEvent;
     programInstForm: FormGroup;
     dialogTitle: string;

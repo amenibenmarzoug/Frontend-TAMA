@@ -1,0 +1,82 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+
+        <!--mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
+            
+            <div class="contact-name mt-8">{{moduleSpec.moduleName}} </div>
+        </mat-toolbar-row-->
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="moduleInstForm">
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Titre Module Dédié</mat-label>
+                    <!-- <mat-icon matSuffix class="secondary-text">font_download</mat-icon> -->
+                    <!--  formControlName="module" <input ngDefaultControl name="moduleInstanceName" formControlName="moduleInstanceName" matInput required> -->
+                    <mat-select (selectionChange)="getModuleForm($event.value)">
+                       
+                        <mat-option *ngFor="let module of allModules" [value]="module">
+                            {{ module.moduleName}} 
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Titre Module Dédié</mat-label>
+                    
+                    <input  name="moduleName" formControlName="moduleName" matInput [(ngModel)]="moduleSpec.moduleName" required>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Nombre de jours</mat-label>
+                    <input ngDefaultControl name="nbDaysModule" formControlName="nbDaysModule" [(ngModel)]="moduleSpec.nbDaysModule" matInput required>
+                    <mat-error *ngIf="moduleInstForm.get('nbDaysModule').hasError('pattern')">Entrer un numéro</mat-error>
+                </mat-form-field>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+       <!--  <button *ngIf="action === 'edit'"
+                mat-button
+                class="mr-8"
+                (click)="matDialogRef.close(['delete',moduleInstForm])"
+                aria-label="Delete"
+                matTooltip="Delete">
+            Supprimer
+        </button> -->
+
+        <button *ngIf="action !== 'edit'"
+                mat-button
+                class="save-button"
+                (click)="closeNewModuleForm()"
+                [disabled]="moduleInstForm.invalid"
+                aria-label="SAVE">
+            Ajouter
+        </button>
+
+        <button *ngIf="action === 'edit'"
+                mat-button
+                class="save-button"
+                (click)="closeEditModuleForm()"
+                [disabled]="moduleInstForm.invalid"
+                aria-label="SAVE">
+            Enregistrer
+        </button>
+
+    </div>
+</div>

@@ -46,14 +46,14 @@ export const navigationAdmin: FuseNavigation[] = [
                 url: '/apps/academy/programs',
                 
             },
-            /* {
+             {
                 id: 'programsD',
                  title: 'Programme Spécifique',
                  type: 'item',
                  url  : '/apps/academy/programsD',
 
 
-             }, */
+             }, 
              {
                 id: 'class',
                  title: 'Classes',
@@ -121,7 +121,7 @@ export const navigationAdmin: FuseNavigation[] = [
         id: 'Entreprises',
         title: 'Entreprises',
         type: 'item',
-        icon: 'account_box',
+        icon: 'business',
         url: '/apps/entreprises'
 
     },

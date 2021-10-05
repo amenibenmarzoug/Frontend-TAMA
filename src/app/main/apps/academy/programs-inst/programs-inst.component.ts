@@ -81,8 +81,7 @@ export class ProgramsInstComponent implements OnInit {
           .subscribe(courses => {
               this.filteredPrograms = this.programsFilteredByCategory = this.programs = courses;
 
-              console.log("programInst fel progInst");
-              console.log(courses);
+             
           });
   }
 
@@ -191,7 +190,7 @@ export class ProgramsInstComponent implements OnInit {
                    */
                   case 'save':
 
-                  console.log("programmm fel saave");
+                 
                   console.log(this._academyProgramsInstService.program);
                       this._academyProgramsInstService.updateProgramInst(formData.getRawValue(),this._academyProgramsInstService.program);
 
@@ -207,7 +206,7 @@ export class ProgramsInstComponent implements OnInit {
               }
           });
   }
-  goToProgramModuleInst(id) {
+ goToProgramModuleInst(id) {
       this.router.navigate(['/apps/academy/programInstDetails', id]);
       console.log("programInst id" + id)
   }

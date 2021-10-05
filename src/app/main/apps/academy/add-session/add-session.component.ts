@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { AddSessionService } from 'app/main/apps/academy/add-session/add-session.service';
 import { Session } from 'app/main/apps/academy/add-session/session.model';
@@ -233,7 +233,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     console.log("SELECTED TRAINERS IN INIT")
     console.log(this._addSessionService.selectedContacts);
     // Reactive Form
-    this.form = this._formBuilder.group({
+    /*this.form = this._formBuilder.group({
       company: [
         {
           value: 'Google',
@@ -248,7 +248,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       state: ['', Validators.required],
       postalCode: ['', [Validators.required, Validators.maxLength(5)]],
       country: ['', Validators.required]
-    });
+    });*/
 
     // Horizontal Stepper form steps
     this.horizontalStepperStep1 = this._formBuilder.group({
@@ -266,9 +266,11 @@ export class AddSessionComponent implements OnInit, OnDestroy {
          maliste: ['']
      });*/
 
-    this.horizontalStepperStep3 = this._formBuilder.group({
-
-    });
+     
+     
+    this.horizontalStepperStep3 = new FormGroup({
+     
+    })
 
     this.institutionForm=this._formBuilder.group({
       institution: [this.session.classRoom.institution.institutionName, Validators.required],

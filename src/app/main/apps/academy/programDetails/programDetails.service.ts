@@ -19,6 +19,7 @@ export class ProgramDetailsService implements Resolve<any>
     moduleId: any;
     modules: Module[];
     themeDetails: ThemeDetail[];
+   
     module: Module;
     theme: Thematique;
     themeDetail: ThemeDetail;
@@ -617,6 +618,7 @@ export class ProgramDetailsService implements Resolve<any>
     addThemeDetail(themeDetail, module): Promise<any> {
         return new Promise((resolve, reject) => {
             themeDetail.module = module;
+           
             this._httpClient.post(AUTH_API + 'themeDetail', themeDetail)
                 .subscribe(response => {
                     this.getThemeDetail();
