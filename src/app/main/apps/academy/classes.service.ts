@@ -186,6 +186,13 @@ export class ClassesService {
             this._httpClient.get(AUTH_API + 'entreprises')
                 .subscribe((response: any) => {
                     this.enterprises = response;
+                    this.enterprises = this.enterprises.filter(enterprise => {
+                        // return this.user.frequentContacts.includes(_contact.id);
+                        if (enterprise.provider == true) {
+                            return true;
+                        }
+                        return false;
+                    });
                     this.onEnterprisesChanged.next(this.enterprises);
                     resolve(this.enterprises);
                 }, reject);

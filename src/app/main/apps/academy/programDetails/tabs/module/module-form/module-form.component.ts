@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 import {Module} from 'app/main/apps/academy/programDetails/tabs/module/module.model'
+import Swal from 'sweetalert2';
 import { ProgramDetailsService } from '../../../programDetails.service';
 
 
@@ -90,8 +91,10 @@ export class ModuleFormComponent  {
     console.log(this.module.nbDaysModule)*/
 
     if (this.actualDaysNumberAffected > this._moduleService.theme.nbDaysTheme) {
-      this.ModuleAlert("Vous avez dépassé le nombre des jours de la thématique");
+      //this.ModuleAlert("Vous avez dépassé le nombre des jours de la thématique");
+      this.ErrorMessage("Vous avez dépassé le nombre des jours de la thématique")
       console.log(`Exceeded`);
+      
      // return; 
      }
      else {
@@ -107,7 +110,8 @@ export class ModuleFormComponent  {
     // case where the modified days number exceeded the limit
     if(this.actualDaysNumberAffected > this._moduleService.theme.nbDaysTheme) {
                             
-      this.ModuleAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
+      //this.ModuleAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
+      this.ErrorMessage("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme")
       console.log(`Exceeded`);
 
     }
@@ -130,6 +134,20 @@ export class ModuleFormComponent  {
         }
         this.alertDialog = null;
     });
+}
+
+ErrorMessage(message): void {
+  Swal.fire(
+    {
+      title: message,
+      icon: 'error',
+      showCancelButton: false,
+      confirmButtonColor: '#38a9ff',
+      //cancelButtonColor: '#d33',
+      confirmButtonText: 'Retour'
+    }
+)
+
 }
 
 }

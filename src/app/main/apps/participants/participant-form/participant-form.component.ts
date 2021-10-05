@@ -5,14 +5,34 @@ import { ParticipantsService } from 'app/main/apps/participants/participants.ser
 import { Participant } from 'app/main/apps/participants/participant.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { DateAdapter } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 
+export const MY_FORMATS = {
+    parse: {
+      dateInput: 'YYYY',
+    },
+    display: {
+      dateInput: 'YYYY',
+      monthYearLabel: 'YYYY',
+      monthYearA11yLabel: 'YYYY',
+    },
+  };
 
 @Component({
     selector: 'app-participant-form',
     templateUrl: './participant-form.component.html',
     styleUrls: ['./participant-form.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    providers: [
+        {
+          provide: DateAdapter,
+          useClass: MomentDateAdapter,
+          deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+        },
+    
+        {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+      ],
 
 })
 export class ParticipantFormComponent {
@@ -48,6 +68,8 @@ export class ParticipantFormComponent {
     classes: any[];
     courses: any[];
     particpantType:string;
+    chosenYearDate: Date;
+    currentDate: Date ; 
     private _unsubscribeAll: Subject<any>;
     /**
      * Constructor
@@ -68,6 +90,7 @@ export class ParticipantFormComponent {
         // Set the defaults
         this.action = _data.action;
         this.dateAdapter.setLocale('fr');
+        this.currentDate=new Date()
         if (this.action === 'edit') {
             this.dialogTitle = 'Modifier Participant';
             this.contact = _data.contact;
@@ -77,6 +100,11 @@ export class ParticipantFormComponent {
         else {
             this.dialogTitle = 'Nouveau Participant';
             this.contact = new Participant({});
+            console.log("contact birthday")
+            console.log(this.contact)
+
+
+        
         }
 
         this.contactForm = this.createContactForm();
@@ -172,6 +200,16 @@ export class ParticipantFormComponent {
 
     //     this._ParticipantsService.cursus = event;
     // }
+    chosenYearHandler(event, input){
+        let { _d } = event;
+        this.contactForm["birthday"] = _d;
+        this.chosenYearDate=_d
+        
+        console.log(this.contactForm["birthday"])
+        console.log(_d)
+        input._destroyPopup()
+      }
+
 
 
 

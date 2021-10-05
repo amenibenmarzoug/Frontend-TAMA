@@ -186,10 +186,9 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     });
     this.dateAdapter.setLocale('fr');
     this.courseDateMaxHour = new Date();
-    this.courseDateMaxHour.setHours(23, 59, 59);
-    this.events.push(new Date());
-    this.courseDate = this.events[this.events.length - 1];
-    this.courseDateMaxHour.setFullYear(this.courseDate.getFullYear(), this.courseDate.getMonth(), this.courseDate.getDate())
+    this.courseDateMaxHour.setHours(23, 59, 59);   
+
+    
 
     // Set the private defaults
     this._unsubscribeAll = new Subject();
@@ -271,6 +270,11 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       //  });
     });
 
+    this.courseDate=new Date(this._addSessionService.session.sessionBeginDate ); 
+    this.courseDateMinHour=new Date (this._addSessionService.session.sessionBeginDate ); 
+    this.courseDateMinHour.setHours(this.courseDate.getHours(), this.courseDate.getMinutes()+this.minSessionDuration); 
+    this.courseDateMaxHour.setFullYear(this.courseDate.getFullYear(), this.courseDate.getMonth(), this.courseDate.getDate())
+ 
     this._addSessionService.onClassRoomsChanged
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(classRooms => {

@@ -148,7 +148,7 @@ export class CalendarService implements Resolve<any>
                     console.log(response);
                     this.events = response;
                     if (this.userRole.includes("PARTICIPANT")) {
-                        if (this.participant.programInstance == null) {
+                        if ((this.participant.programInstance == null)|| this.participant.status=='WAITING') {
                             this.events = [];
                         }
                         else {

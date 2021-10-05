@@ -6,6 +6,7 @@ import { Thematique } from '../thematique.model';
 import { ProgramDetailsService } from '../../../programDetails.service';
 import { Subject } from 'rxjs';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-thematique-form',
@@ -80,7 +81,8 @@ export class ThematiqueFormComponent implements OnInit {
     this.actualDaysNumberAffected = this._programDetailsService.actualDaysNumberAffected + Number(this.themeForm.value.nbDaysTheme);
     console.log("this.theme.nbDaysTheme"); console.log(this.theme.nbDaysTheme)
     if (this.actualDaysNumberAffected > this.programTotalDaysNumber) {
-      this.addThematiqueAlert("Vous avez dépassé le nombre des jours du Programme");
+      this.ErrorMessage("Vous avez dépassé le nombre des jours du Programme")
+     //this.addThematiqueAlert("Vous avez dépassé le nombre des jours du Programme");
       console.log(`Exceeded`);
 
       //return; 
@@ -104,7 +106,8 @@ export class ThematiqueFormComponent implements OnInit {
     // case where the modified days number exceeded the limit
     if (this.actualDaysNumberAffected > this.programTotalDaysNumber) {
 
-      this.addThematiqueAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
+      //this.addThematiqueAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
+      this.ErrorMessage("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme")
       console.log(`Exceeded`);
     }
     else {
@@ -125,6 +128,20 @@ export class ThematiqueFormComponent implements OnInit {
       }
       this.alertDialog = null;
     });
+  }
+
+  ErrorMessage(message): void {
+    Swal.fire(
+      {
+        title: message,
+        icon: 'error',
+        showCancelButton: false,
+        confirmButtonColor: '#38a9ff',
+        //cancelButtonColor: '#d33',
+        confirmButtonText: 'Retour'
+      }
+  )
+  
   }
 
 

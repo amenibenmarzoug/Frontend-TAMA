@@ -199,6 +199,24 @@
 
                             </mat-form-field>
                         </div>
+                        <div fxLayout="row" fxLayoutAlign="start center">
+                            <mat-form-field appearance="outline" fxFlex>
+                                <mat-label>Prestataire de salles</mat-label>
+                                <mat-select formControlName="provider"
+                                    (selectionChange)="selectProvider($event.value)" required
+                                    >
+            
+                                    <mat-option [value]="true">
+                                        Oui
+                                    </mat-option>
+                                    <mat-option [value]="false">
+                                        Non
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formErrors.provider">{{formErrors.provider}}</mat-error>
+
+                            </mat-form-field>
+                        </div>
                         <div class="alert alert-danger" fxLayout="column" fxLayoutAlign="center center" role="alert"
                             *ngIf="isFailed">
 

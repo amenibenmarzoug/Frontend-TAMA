@@ -11,6 +11,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
 import {ThemeDetailFormComponent} from '../themeDetail/theme-detail-form/theme-detail-form.component';
 import { ProgramDetailsService } from '../../programDetails.service';
+import Swal from 'sweetalert2';
 @Component({
     selector     : 'themeDetail',
     templateUrl  : './themeDetail.component.html',
@@ -96,7 +97,8 @@ export class ThemeDetailComponent implements OnInit, OnDestroy
     addNewThemeDetail(): void {
         if ((this._themeDetailsService.module == null )) {
             console.log(this._themeDetailsService.module);
-            this.addThemeDetailAlert("Veuillez choisir un Module");
+            //this.addThemeDetailAlert("Veuillez choisir un Module");
+            this.ErrorMessage("Veuillez choisir un Module");
         }
 
         else {
@@ -174,4 +176,18 @@ export class ThemeDetailComponent implements OnInit, OnDestroy
     toggleSidebar(name): void {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
+
+    ErrorMessage(message): void {
+        Swal.fire(
+          {
+            title: message,
+            icon: 'error',
+            showCancelButton: false,
+            confirmButtonColor: '#38a9ff',
+            //cancelButtonColor: '#d33',
+            confirmButtonText: 'Retour'
+          }
+      )
+      
+      }
 }
