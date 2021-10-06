@@ -116,6 +116,9 @@ import { SelectedBarThemeDetailSpecComponent } from './program-spec-detail/tabs/
 import { MainThemeDetailSpecComponent } from './program-spec-detail/tabs/theme-detail-spec/sidebars/main-theme-detail-spec/main-theme-detail-spec.component';
 import { ThemeDetailSpecFormComponent } from './program-spec-detail/tabs/theme-detail-spec/theme-detail-spec-form/theme-detail-spec-form.component';
 import { ThemeDetailSpecListComponent } from './program-spec-detail/tabs/theme-detail-spec/theme-detail-spec-list/theme-detail-spec-list.component'
+import { NgxMatDateFormats, NgxMatDatetimePickerModule, NgxMatTimepickerModule, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
+
+
 
 registerLocaleData(localeFr, 'fr');
 
@@ -129,6 +132,18 @@ export const MY_FORMATS = {
        
     }
 };
+
+const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
+    parse: {
+      dateInput: "l, LTS"
+    },
+    display: {
+      dateInput: "l, LTS",
+      monthYearLabel: "MMM YYYY",
+      dateA11yLabel: "LL",
+      monthYearA11yLabel: "MMMM YYYY"
+    }
+  };
 
 const routes = [
     {
@@ -365,6 +380,8 @@ const routes = [
         MatNativeDatetimeModule,
         CommonModule,
         FormsModule,
+
+        NgxMatDatetimePickerModule, NgxMatTimepickerModule
         
 
 
@@ -384,6 +401,7 @@ const routes = [
         ProgramSpecDetailService,
        // ClasseParticipantsService,
         ClasseParticipantsService,
+        { provide: NGX_MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS },
         {provide: LOCALE_ID, useValue: 'fr' },
         {
             provide: DateAdapter,
