@@ -60,7 +60,7 @@ export class MainModuleComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(theme => {
                 this.theme = theme;
-
+               
             });
 
 

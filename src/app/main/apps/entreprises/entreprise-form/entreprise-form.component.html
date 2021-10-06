@@ -20,7 +20,7 @@
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Nom de l'entreprise</mat-label>
-                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <mat-icon matSuffix class="secondary-text">business</mat-icon>
                     <input name="enterpriseName" formControlName="enterpriseName" matInput required
                         (blur)="onValueChanged()">
                     <mat-error *ngIf="formErrors.enterpriseName">{{formErrors.enterpriseName}}</mat-error>

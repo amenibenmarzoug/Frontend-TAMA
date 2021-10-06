@@ -96,14 +96,22 @@ export class ClassroomsManagerComponent implements OnInit, OnDestroy {
     /**
      * New contact
      */
+
+  
     newContact(): void {
+
+        if (this._classroomsManagerService.institution== null){
+            this.addModuleAlert("Veuillez choisir une institution");
+         }
+         else {
+
         this.dialogRef = this._matDialog.open(ClassroomsManagerFormComponent, {
             panelClass: 'contact-form-dialog',
             data: {
                 action: 'new'
             }
         });
-
+            
         this.dialogRef.afterClosed()
             .subscribe((response: FormGroup) => {
                 //   console.log(response) ;
@@ -113,15 +121,12 @@ export class ClassroomsManagerComponent implements OnInit, OnDestroy {
 
                 //  console.log("entreprise button");
                 // console.log(this._participantsService.entreprise);
-                 if (this._classroomsManagerService.institution== null){
-                    //this.addModuleAlert("Veuillez choisir une institution");
-                    this.ErrorMessage("Veuillez choisir une institution")
-                 }
 
                 else {
                 this._classroomsManagerService.addClasse(response.getRawValue(), this._classroomsManagerService.institution);
                 }
             });
+        }
     }
 
     /**

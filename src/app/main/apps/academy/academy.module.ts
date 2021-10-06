@@ -96,11 +96,26 @@ import{ClassesDetailService} from '../academy/classes-detail/classes-detail.serv
 import{MainComponent4} from '../academy/classes-detail/tabs/theme-detail-classe/main/main.component';
 import {ClasseParticipantsComponent} from './classes/classe-participants/classe-participants.component'
 import {ClasseParticipantListComponent} from './classes/classe-participants/classe-participants-list/classe-participant-list.component'
-import { ClasseParticipantsService } from './classes/classe-participants/classe-participants.service'
-import { NgxMatDateFormats, NgxMatDatetimePickerModule, NgxMatTimepickerModule, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
-import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { ClasseParticipantsService } from './classes/classe-participants/classe-participants.service';
+import { PlaceFormComponent } from './classes/place-form/place-form.component'
+import { ProgramSpecComponent } from './program-spec/program-spec.component';
+import { ProgramSpecFormComponent } from './program-spec/program-spec-form/program-spec-form.component'
+import {ProgramSpecService } from './program-spec.service';
+import { ProgramSpecDetailComponent } from './program-spec-detail/program-spec-detail.component';
+import { ThematiqueSpecComponent } from './program-spec-detail/tabs/thematique-spec/thematique-spec.component';
+import { ModuleSpecComponent } from './program-spec-detail/tabs/module-spec/module-spec.component';
+import { ThemeDetailSpecComponent } from './program-spec-detail/tabs/theme-detail-spec/theme-detail-spec.component';
 
+import {ProgramSpecDetailService} from './program-spec-detail/program-spec-detail.service';
+import { ThematiqueSpecFormComponent } from './program-spec-detail/tabs/thematique-spec/thematique-spec-form/thematique-spec-form.component';
+import { ModuleSpecFormComponent } from './program-spec-detail/tabs/module-spec/module-spec-form/module-spec-form.component';
+import { ModuleSpecListComponent } from './program-spec-detail/tabs/module-spec/module-spec-list/module-spec-list.component';
+import { SelectedBarModuleSpecComponent } from './program-spec-detail/tabs/module-spec/selected-bar-module-spec/selected-bar-module-spec.component';
+import { MainModuleSpecComponent } from './program-spec-detail/tabs/module-spec/sidebars/main-module-spec/main-module-spec.component';
+import { SelectedBarThemeDetailSpecComponent } from './program-spec-detail/tabs/theme-detail-spec/selected-bar-theme-detail-spec/selected-bar-theme-detail-spec.component';
+import { MainThemeDetailSpecComponent } from './program-spec-detail/tabs/theme-detail-spec/sidebars/main-theme-detail-spec/main-theme-detail-spec.component';
+import { ThemeDetailSpecFormComponent } from './program-spec-detail/tabs/theme-detail-spec/theme-detail-spec-form/theme-detail-spec-form.component';
+import { ThemeDetailSpecListComponent } from './program-spec-detail/tabs/theme-detail-spec/theme-detail-spec-list/theme-detail-spec-list.component'
 
 registerLocaleData(localeFr, 'fr');
 
@@ -115,17 +130,7 @@ export const MY_FORMATS = {
     }
 };
 
-const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
-    parse: {
-      dateInput: "l, LTS"
-    },
-    display: {
-      dateInput: "l, LTS",
-      monthYearLabel: "MMM YYYY",
-      dateA11yLabel: "LL",
-      monthYearA11yLabel: "MMMM YYYY"
-    }
-  };
+
 
 const routes = [
     {
@@ -137,9 +142,9 @@ const routes = [
     },
     {
         path     : 'programsD',
-        component: ProgramsInstComponent,
+        component: ProgramSpecComponent,
         resolve  : {
-            academy: ProgramsInstService
+            academy: ProgramSpecService
         }
     },
 
@@ -172,7 +177,13 @@ const routes = [
         }
     },
     
-    
+    {
+        path     : 'programSpecDetails/:id',
+        component: ProgramSpecDetailComponent,
+        resolve  : {
+            academy: ProgramSpecDetailService,
+        }
+    },
     {
         path     : 'module',
         component: ModuleComponent,
@@ -301,6 +312,31 @@ const routes = [
         ClasseParticipantListComponent,
         ClasseParticipantsComponent,
         
+        PlaceFormComponent,
+        ProgramSpecComponent,
+        ProgramSpecFormComponent,
+        ProgramSpecDetailComponent,
+        ThematiqueSpecComponent,
+        ModuleSpecComponent,
+        ThemeDetailSpecComponent,
+        ThematiqueSpecFormComponent,
+        ModuleSpecFormComponent,
+        ModuleSpecListComponent,
+        SelectedBarModuleSpecComponent,
+        MainModuleSpecComponent,
+        SelectedBarThemeDetailSpecComponent,
+        MainThemeDetailSpecComponent,
+        ThemeDetailSpecFormComponent,
+        ThemeDetailSpecListComponent
+       
+        
+        
+
+        
+
+
+
+        
     ],
     imports     : [
         RouterModule.forChild(routes),
@@ -333,9 +369,6 @@ const routes = [
         CommonModule,
         FormsModule,
 
-        NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatMomentModule ,
-
-        NgxMaterialTimepickerModule
         
 
 
@@ -351,9 +384,11 @@ const routes = [
         AddSessionService,
         AllSessionsService,
         EditSessionService,
+        ProgramSpecService,
+        ProgramSpecDetailService,
        // ClasseParticipantsService,
         ClasseParticipantsService,
-        { provide: NGX_MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS },
+        
         {provide: LOCALE_ID, useValue: 'fr' },
         {
             provide: DateAdapter,

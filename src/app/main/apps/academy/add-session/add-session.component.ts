@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { AddSessionService } from 'app/main/apps/academy/add-session/add-session.service';
 import { Session } from 'app/main/apps/academy/add-session/session.model';
@@ -16,7 +16,7 @@ import { DateAdapter } from '@angular/material/core';
 import { MatStepper } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
-import {MyErrorStateMatcher} from 'app/main/apps/academy/myErrorStateMatcher'
+//import {MyErrorStateMatcher} from 'app/main/apps/academy/myErrorStateMatcher'
 
 registerLocaleData(localeFr, 'fr');
 
@@ -46,6 +46,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   verticalStepperStep1: FormGroup;
   verticalStepperStep2: FormGroup;
   verticalStepperStep3: FormGroup;
+  institutionForm:FormGroup;
 
 
   //dateCourse: Date;
@@ -57,7 +58,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   courseBeginTime: Date ; 
   courseEndTime: Date ; 
   timeNotValid: boolean ; 
-  matcher: MyErrorStateMatcher;
+  //matcher: MyErrorStateMatcher;
 
   
   courseDateMaxHour: Date;
@@ -110,6 +111,8 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   buttonPrec2Selected: boolean = false;
   buttonPrec3Selected: boolean = false;
   buttonPrec4Selected: boolean = false;
+
+  place:string;
 
   formErrorsStepper1 = {
 
@@ -180,7 +183,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private dateAdapter: DateAdapter<Date>
   ) {
-    this.matcher = new MyErrorStateMatcher();
+   // this.matcher = new MyErrorStateMatcher();
     this.timeNotValid=false ; 
 
 
@@ -253,7 +256,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     console.log("SELECTED TRAINERS IN INIT")
     console.log(this._addSessionService.selectedContacts);
     // Reactive Form
-    this.form = this._formBuilder.group({
+    /*this.form = this._formBuilder.group({
       company: [
         {
           value: 'Google',
@@ -268,7 +271,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       state: ['', Validators.required],
       postalCode: ['', [Validators.required, Validators.maxLength(5)]],
       country: ['', Validators.required]
-    });
+    });*/
 
     // Horizontal Stepper form steps
     this.horizontalStepperStep1 = this._formBuilder.group({
@@ -292,12 +295,15 @@ export class AddSessionComponent implements OnInit, OnDestroy {
          maliste: ['']
      });*/
 
-    this.horizontalStepperStep3 = this._formBuilder.group({
-      institution: ['', Validators.required],
-      classroom: ['', Validators.required],
+     
+     
+    this.horizontalStepperStep3 = new FormGroup({
+     
+    })
 
-
-    });
+    this.institutionForm=this._formBuilder.group({
+      institution: [this.session.classRoom.institution.institutionName, Validators.required],
+      classroom: [this.session.classRoom.classRoomName, Validators.required],});
 
     // Vertical Stepper form stepper
     this.verticalStepperStep1 = this._formBuilder.group({
@@ -577,7 +583,14 @@ export class AddSessionComponent implements OnInit, OnDestroy {
 
   sendDate(): void {
 
-    this._addSessionService.selectedDate = this.horizontalStepperStep1.value.courseSessionBeginDate;
+    console.log("prog prog prog");
+    console.log(this.horizontalStepperStep1.value.program.place);
+    let pl=JSON.parse(this.horizontalStepperStep1.value.program.place);
+    console.log(pl)
+    if(pl!=null){
+      this.place=pl.name;
+    }
+    this._addSessionService.selectedDate = this.horizontalStepperStep1.value.courseSessionDate;
     console.log(this._addSessionService.selectedDate);
     console.log(this._addSessionService.selectedDate.getDay());
     switch (this._addSessionService.selectedDate.getDay()) {

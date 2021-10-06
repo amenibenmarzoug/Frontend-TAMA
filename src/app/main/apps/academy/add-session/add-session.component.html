@@ -30,7 +30,9 @@
             <!-- HORIZONTAL STEPPER EXAMPLE -->
             <mat-horizontal-stepper class="mat-elevation-z4" [linear]="true" [selectedIndex]="currentStep" #stepper>
 
-                <mat-step #matStep [stepControl]="horizontalStepperStep1" [completed]="matStep.selected" errorMessage="Veuillez naviguer via les boutons Suivant et Précédent" [hasError]="!buttonSuiv1Selected" >
+                <mat-step #matStep [stepControl]="horizontalStepperStep1" [completed]="matStep.selected"
+                    errorMessage="Veuillez naviguer via les boutons Suivant et Précédent"
+                    [hasError]="!buttonSuiv1Selected">
 
                    
                     <form fxLayout="column" [formGroup]="horizontalStepperStep1">
@@ -51,7 +53,7 @@
 
                                         <mat-option *ngFor="let program of programs" [value]="program">
 
-                                            {{ program.program.programName}} - {{ program.location}}
+                                            {{ program.programInstName}} - {{ program.location}}
                                         </mat-option>
                                     </mat-select>
                                     <mat-error *ngIf="formErrorsStepper1.program">{{formErrorsStepper1.program}}
@@ -252,8 +254,10 @@
                     </form>
 
                 </mat-step>
-                
-                <mat-step #matStep [stepControl]="horizontalStepperStep2" [completed]="!disableButton()" errorMessage="Veuillez naviguer via les boutons Suivant et Précédent" [hasError]="!buttonSuiv2Selected">
+
+                <mat-step #matStep [stepControl]="horizontalStepperStep2" [completed]="!disableButton()"
+                    errorMessage="Veuillez naviguer via les boutons Suivant et Précédent"
+                    [hasError]="!buttonSuiv2Selected">
 
                     <form fxLayout="column" [formGroup]="horizontalStepperStep2">
 
@@ -288,57 +292,87 @@
                     </form>
                 </mat-step>
 
-                <mat-step #matstep [stepControl]="horizontalStepperStep3" [completed]="matStep.selected" errorMessage="Veuillez naviguer via les boutons Suivant et Précédent" [hasError]="!buttonSuiv3Selected">
+                <mat-step #matstep [stepControl]="horizontalStepperStep3" [completed]="matStep.selected"
+                    errorMessage="Veuillez naviguer via les boutons Suivant et Précédent"
+                    [hasError]="!buttonSuiv3Selected">
 
                     <form fxLayout="column" [formGroup]="horizontalStepperStep3">
 
                         <ng-template matStepLabel>Choisir une salle</ng-template>
 
-                        <div fxFlex="1 0 auto" fxLayout="column">
-
-                            <div class="nav-item" aria-label="Formations">
-                                <mat-form-field appearance="outline" class="w-100-p">
-                                    <mat-label>Institutions</mat-label>
-                                    <mat-select formControlName="institution"
-                                        (selectionChange)="selectInstitution($event.value)" required>
-
-                                        <mat-option *ngFor="let institution of institutions" [value]="institution.id">
-
-                                            {{ institution.institutionName }}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
+                        <div class="content mb-24" *ngIf="place!=null">
+                            <div class="message-box warning">
+                                La formation se déroule à {{place}}
                             </div>
-                            <div class="nav-item" aria-label="Institutions">
-                                <mat-form-field appearance="outline" class="w-100-p">
-                                    <mat-label>Institutions-Salle</mat-label>
-                                    <mat-select formControlName="classroom"
-                                        (selectionChange)="selectClassroom($event.value)" required>
-
-                                        <mat-option *ngFor="let classRoom of filteredClassrooms" [value]="classRoom">
-
-                                            {{ classRoom.institution.institutionName }}-{{ classRoom.classRoomName }}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-
-
-
                         </div>
+                        <div fxFlex="1 0 auto" fxLayout="column" *ngIf="place==null">
+                            <form fxLayout="column" [formGroup]="institutionForm" *ngIf="place==null">
+                                <!--   <div fxLayout="row" fxLayoutAlign="start center">
+                                <mat-form-field appearance="outline" fxFlex>
+                                    <mat-label>Institutions/Entreprises</mat-label>
+                                    <mat-select formControlName="choice"
+                                        (selectionChange)="selectChoice($event.value)" required
+                                        >
+                
+                                        <mat-option [value]="true">
+                                            Institutions
+                                        </mat-option>
+                                        <mat-option [value]="false">
+                                            Entreprises
+                                        </mat-option>
+                                    </mat-select>
+                                   
+                                </mat-form-field>
+                            </div> -->
+                                <div class="nav-item" aria-label="Formations">
+                                    <mat-form-field appearance="outline" class="w-100-p">
+                                        <mat-label>Institutions</mat-label>
+                                        <mat-select formControlName="institution"
+                                            (selectionChange)="selectInstitution($event.value)">
 
-                        <div fxLayout="row" fxLayoutAlign="center center">
-                            <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent" (click)="PrecButton3()">
-                                Précédent
-                            </button>
-                            <button mat-raised-button matStepperNext type="button" color="accent"
-                                [disabled]="!horizontalStepperStep3.valid || selectedClassRoom==null"
-                                (click)="sendClassroom()">
-                                Suivant
-                            </button>
+                                            <mat-option *ngFor="let institution of institutions"
+                                                [value]="institution.id">
+
+                                                {{ institution.institutionName }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="nav-item" aria-label="Institutions">
+                                    <mat-form-field appearance="outline" class="w-100-p">
+                                        <mat-label>Institutions-Salle</mat-label>
+                                        <mat-select formControlName="classroom"
+                                            (selectionChange)="selectClassroom($event.value)">
+
+                                            <mat-option *ngFor="let classRoom of filteredClassrooms"
+                                                [value]="classRoom">
+
+                                                {{ classRoom.institution.institutionName }}-{{ classRoom.classRoomName
+                                                }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+
+                            </form>
                         </div>
 
                     </form>
+
+                    <div fxLayout="row" fxLayoutAlign="center center">
+                        <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent"
+                            (click)="PrecButton3()">
+                            Précédent
+                        </button>
+                        <button mat-raised-button matStepperNext type="button" color="accent"
+                            [disabled]="!horizontalStepperStep3.valid || selectedClassRoom==null"
+                            (click)="sendClassroom()">
+                            Suivant
+                        </button>
+                    </div>
+
+
 
                 </mat-step>
 
@@ -365,11 +399,13 @@
                         *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null"> Date:
                         {{session.sessionBeginDate | date:'fullDate'}} </div>
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
-                        *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null && session.classRoom.institution!=null"> Salle:
+                        *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null && session.classRoom.institution!=null">
+                        Salle:
                         {{session.classRoom.classRoomName}} à {{session.classRoom.institution.institutionName}}</div>
 
                     <div fxLayout="row" fxLayoutAlign="center center">
-                        <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent" (click)="PrecButton4()">
+                        <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent"
+                            (click)="PrecButton4()">
                             Précédent
                         </button>
                         <button mat-raised-button type="button" color="accent" (click)="finishHorizontalStepper()"
@@ -377,7 +413,7 @@
                             Confirmer
                         </button>
                     </div>
-                <!-- </ng-template> -->
+                    <!-- </ng-template> -->
                 </mat-step>
 
             </mat-horizontal-stepper>

@@ -69,31 +69,53 @@
                             <button mat-button color="primary" (click)="goToProgramModuleInst(programInst.id)">
                                 <div class="h1">{{programInst.programInstName}}</div>
                             </button>
-                           
+
                             <div class="updated">Programme associé : {{programInst.program.programName}}</div>
                             <div class="updated">Nombre de Jours : {{programInst.nbDaysProgInst}}</div>
                             <div class="updated">Localisation : {{programInst.location}}</div>
                             <div class="updated">Date début : {{programInst.beginDate | date:'dd MMMM yyyy'}}</div>
                             <div class="updated">Date Fin : {{programInst.endDate | date:'dd MMMM yyyy'}}</div>
-                           
-                         
+
+
                         </div>
 
                         <div class="footer" fxLayout="row" fxLayoutAlign="center center">
-                            <button mat-button color="accent" (click)="listeDesParticipants(programInst.id)">
-                                Participants
-                            </button>
+                            
                             <button mat-button color="accent" (click)="editProgramInst(programInst)">
                                 Modifier
                             </button>
-                            <div *ngIf="!programInst.validated"><button mat-button color="accent"
+                            <button *ngIf="!programInst.validated" mat-button color="accent"
                                     (click)="confirmClass(programInst)">
                                     Confirmer
-                                </button></div>
-                            <div *ngIf="programInst.validated"><button mat-button color="accent"
+                                </button>
+                            <button *ngIf="programInst.validated" mat-button color="accent"
                                     (click)="cancelClass(programInst)">
                                     Annuler
-                                </button></div>
+                                </button>
+                                <button mat-button color="accent" (click)="listeDesParticipants(programInst.id)">
+                                    Participants
+                                </button>
+                            <div fxLayoutAlign="end end">
+                                <!--
+                                    <button mat-icon-button (click)="$event.stopPropagation();toggleStar(contact.id)" aria-label="Toggle star">
+                                        <mat-icon class="amber-fg" *ngIf="user.starred.includes(contact.id)">star</mat-icon>
+                                        <mat-icon class="secondary-text" *ngIf="!user.starred.includes(contact.id)">star_border</mat-icon>
+                                    </button>
+                                    -->
+                                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                                    (click)="$event.stopPropagation();">
+                                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                                </button>
+
+                                <mat-menu #moreMenu="matMenu">
+                                  
+                                    <button mat-menu-item aria-label="lieu" (click)="choosePlace(programInst)">
+                                        <mat-icon>place</mat-icon>
+                                        <span>Lieu</span>
+                                    </button>
+                                </mat-menu>
+                            </div>
+
 
 
                             <!--   <button mat-button color="accent" (click)="deleteCursus(programInst)">

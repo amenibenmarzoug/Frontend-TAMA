@@ -1,0 +1,90 @@
+<div id="academy-courses" class="page-layout simple">
+
+    <!-- HEADER -->
+    <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="center center">
+
+        <div class="hero-text">
+            <mat-icon class="hero-icon">school</mat-icon>
+            <h1 [@animate]="{value:'*',params:{delay:'100ms', y:'25px'}}">
+                Bienvenue à la plateforme TAMA <br>
+            </h1>
+            <h3 [@animate]="{value:'*',params:{delay:'100ms', y:'25px'}}">
+            </h3>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-24">
+
+        <div fxLayout="column" fxLayoutAlign="center">
+
+            <div class="filters" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+                fxLayoutAlign.gt-xs="space-between center">
+
+                <mat-form-field appearance="outline" floatLabel="always" class="course-search">
+                    <mat-label>Chercher un Programme</mat-label>
+                    <input matInput placeholder="Entrer le titre du programme..." [(ngModel)]="searchTerm"
+                        (input)="filterCoursesByTerm()">
+                </mat-form-field>
+
+             
+                <!-- ADD EVENT BUTTON -->
+                <button mat-fab class="add-event-button mat-accent" aria-label="Add event"
+                    [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}" (click)="newProgram()">
+                    <mat-icon>add</mat-icon>
+                </button>
+                <!-- / ADD EVENT BUTTON -->
+            </div>
+
+
+            <div class="courses" fxLayout="row wrap" fxLayoutAlign="center" [@animateStagger]="{value:'50'}">
+
+                <div class="course" *ngFor="let program of filteredPrograms" fxFlex="100" fxFlex.gt-xs="50"
+                    fxFlex.gt-sm="33" [ngClass]="program.category" [@animate]="{value:'*',params:{y:'100%'}}">
+
+                    <div class="course-content" fxLayout="column" fxFlex="1 1 auto">
+
+                        <div class="header" fxLayout="row" fxLayoutAlign="center center"
+                            [ngClass]="program.category + '-bg'">
+
+                         
+
+                        </div>
+
+                        <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex="1 1 auto">
+                            <div class="h1">{{program.programName}}</div>
+                            <br>
+                            <div class="updated">Nombre de jours: {{program.nbDaysProg}}
+
+                            </div>
+                        </div>
+
+                        <div class="footer" fxLayout="row" fxLayoutAlign="center center">
+                            <button mat-button color="accent" (click)="goToProgramModule(program.id)">
+                                Détails
+                            </button>
+                            <button mat-button color="accent" (click)="editCourse(program)">
+                                Modifier
+                            </button>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="no-courses" *ngIf="filteredPrograms.length === 0">
+                    Aucun Programme Trouvé!
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

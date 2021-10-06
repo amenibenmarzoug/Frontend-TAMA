@@ -108,6 +108,21 @@ export class ProgramsInstService {
         });
     }
 
+
+    addProgramSpec(programInst): Promise<any> {
+        return new Promise((resolve, reject) => {
+           // programInst.program = program;
+            this._httpClient.post(AUTH_API +'program', programInst)
+                .subscribe(response => {
+                    this.getProgramsInst();
+                    resolve(response);
+
+
+                    
+                });
+        });
+    }
+
     addClass(programInst,program): Observable<any>{
         programInst.program = program;
 
