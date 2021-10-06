@@ -16,6 +16,10 @@
     <!-- CONTENT -->
     <div class="content p-24">
 
+                                   
+        
+</div>
+    <div class="content p-24">
 
 
 
@@ -30,12 +34,15 @@
                     errorMessage="Veuillez naviguer via les boutons Suivant et Précédent"
                     [hasError]="!buttonSuiv1Selected">
 
+                   
                     <form fxLayout="column" [formGroup]="horizontalStepperStep1">
 
                         <ng-template matStepLabel>Date de la Séance</ng-template>
 
 
                         <div fxFlex="1 0 auto" fxLayout="column">
+                            
+            
 
                             <div class="nav-item" aria-label="Formations">
                                 <mat-form-field appearance="outline" class="w-100-p">
@@ -107,7 +114,14 @@
                                     </mat-error>
 
                                 </mat-form-field>
+
+                                
+                                
+
+                               
                             </div>
+                            
+                            
 
 
 
@@ -141,7 +155,7 @@
                                         {{formErrorsStepper1.courseSessionName}}</mat-error>
 
                                 </mat-form-field>
-
+                                <!--
                                 <mat-form-field>
                                     <mat-placeholder>Date et Heure Début</mat-placeholder>
                                     <mat-datetimepicker-toggle [for]="datetimePickerBegin" matSuffix>
@@ -155,8 +169,20 @@
                                         (dateInput)="addEvent($event)">
                                     <mat-error *ngIf="formErrorsStepper1.courseSessionBeginDate">
                                         {{formErrorsStepper1.courseSessionBeginDate}}</mat-error>
+                                </mat-form-field>-->
 
-                                </mat-form-field>
+                                
+                                <div class="nav-item" aria-label="Date de la séance">
+                                    <mat-form-field  class="w-100-p">
+                                        <mat-label>Date de la séance </mat-label>
+                                        <input matInput [matDatepicker]="startDatePicker" name="start" formControlName="courseSessionDate"
+                                        required  (blur)="onValueChangedStepper1()" autocomplete="false" 
+                                        [min]="programBeginDate" [max]="programEndDate" (dateInput)="addDate($event)" >
+                                        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                                        <mat-datepicker #startDatePicker></mat-datepicker>
+                                    </mat-form-field>
+                                 </div>
+
                                 <div class="content mb-24" *ngIf="testDate" [hidden]="!testDate">
                                     <div class="message-box error">
                                         Ce groupe a déjà une séance pour cette date.
@@ -167,6 +193,8 @@
                                         C'est un jour férié. Veuillez changer la date.
                                     </div>
                                 </div>
+
+                                
                                 <mat-form-field>
                                     <mat-placeholder>Date et Heure Fin</mat-placeholder>
                                     <mat-datetimepicker-toggle [for]="datetimePickerEnd" matSuffix>
@@ -178,8 +206,39 @@
                                         required (blur)="onValueChangedStepper1()" autocomplete="false">
                                     <mat-error *ngIf="formErrorsStepper1.courseSessionEndDate">
                                         {{formErrorsStepper1.courseSessionEndDate}}</mat-error>
-
                                 </mat-form-field>
+                                
+
+                                <div class="nav-item" aria-label="Heure de la séance">
+                                    <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">
+                                        <mat-label>Heure Début</mat-label>
+                                        <input matInput type="time"  name="startTime" formControlName="courseSessionBeginTime"
+                                        (blur)="addTime($event)" >
+                                        <mat-error *ngIf="formErrorsStepper1.courseSessionBeginTime">
+                                            {{formErrorsStepper1.courseSessionBeginTime}}</mat-error>
+                                        
+                                     
+                                    </mat-form-field>
+                                                              
+                                    <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">
+                                        <mat-label>Heure Fin</mat-label>
+                                        <input matInput type="time" name="endTime" formControlName="courseSessionEndTime"
+                                        (blur)="checkTime()" >
+                                        <mat-error *ngIf="formErrorsStepper1.courseSessionTime">{{formErrorsStepper1.courseSessionTime}}
+                                        </mat-error>
+                                     
+                                    </mat-form-field>
+                           
+                            </div>
+                            <div class="nav-item" aria-label="ErreurHeure">
+                                
+                                <div class="content mb-24" *ngIf="timeNotValid" [hidden]="!timeNotValid">
+                                    <div class="message-box error">
+                                       L'heure de fin choisie n'est pas valide!
+                                    </div>
+                                </div>
+
+                            </div>
 
                             </div>
                         </div>
