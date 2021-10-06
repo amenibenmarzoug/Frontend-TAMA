@@ -97,6 +97,10 @@ import{MainComponent4} from '../academy/classes-detail/tabs/theme-detail-classe/
 import {ClasseParticipantsComponent} from './classes/classe-participants/classe-participants.component'
 import {ClasseParticipantListComponent} from './classes/classe-participants/classe-participants-list/classe-participant-list.component'
 import { ClasseParticipantsService } from './classes/classe-participants/classe-participants.service'
+import { NgxMatDateFormats, NgxMatDatetimePickerModule, NgxMatTimepickerModule, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
+import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+
 
 registerLocaleData(localeFr, 'fr');
 
@@ -110,6 +114,18 @@ export const MY_FORMATS = {
        
     }
 };
+
+const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
+    parse: {
+      dateInput: "l, LTS"
+    },
+    display: {
+      dateInput: "l, LTS",
+      monthYearLabel: "MMM YYYY",
+      dateA11yLabel: "LL",
+      monthYearA11yLabel: "MMMM YYYY"
+    }
+  };
 
 const routes = [
     {
@@ -283,15 +299,7 @@ const routes = [
         //ClasseParticipantsComponent
 
         ClasseParticipantListComponent,
-        ClasseParticipantsComponent
-       
-        
-        
-
-        
-
-
-
+        ClasseParticipantsComponent,
         
     ],
     imports     : [
@@ -324,6 +332,10 @@ const routes = [
         MatNativeDatetimeModule,
         CommonModule,
         FormsModule,
+
+        NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatMomentModule ,
+
+        NgxMaterialTimepickerModule
         
 
 
@@ -341,6 +353,7 @@ const routes = [
         EditSessionService,
        // ClasseParticipantsService,
         ClasseParticipantsService,
+        { provide: NGX_MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS },
         {provide: LOCALE_ID, useValue: 'fr' },
         {
             provide: DateAdapter,
