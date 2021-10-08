@@ -115,7 +115,9 @@ import { MainModuleSpecComponent } from './program-spec-detail/tabs/module-spec/
 import { SelectedBarThemeDetailSpecComponent } from './program-spec-detail/tabs/theme-detail-spec/selected-bar-theme-detail-spec/selected-bar-theme-detail-spec.component';
 import { MainThemeDetailSpecComponent } from './program-spec-detail/tabs/theme-detail-spec/sidebars/main-theme-detail-spec/main-theme-detail-spec.component';
 import { ThemeDetailSpecFormComponent } from './program-spec-detail/tabs/theme-detail-spec/theme-detail-spec-form/theme-detail-spec-form.component';
-import { ThemeDetailSpecListComponent } from './program-spec-detail/tabs/theme-detail-spec/theme-detail-spec-list/theme-detail-spec-list.component'
+import { ThemeDetailSpecListComponent } from './program-spec-detail/tabs/theme-detail-spec/theme-detail-spec-list/theme-detail-spec-list.component';
+import { ThemeDetailClasseFormComponent } from './classes-detail/tabs/theme-detail-classe/theme-detail-classe-form/theme-detail-classe-form.component';
+import { ModuleClassFormComponent } from './classes-detail/tabs/module-classe/module-class-form/module-class-form.component'
 
 registerLocaleData(localeFr, 'fr');
 
@@ -327,7 +329,9 @@ const routes = [
         SelectedBarThemeDetailSpecComponent,
         MainThemeDetailSpecComponent,
         ThemeDetailSpecFormComponent,
-        ThemeDetailSpecListComponent
+        ThemeDetailSpecListComponent,
+        ThemeDetailClasseFormComponent,
+        ModuleClassFormComponent
        
         
         
