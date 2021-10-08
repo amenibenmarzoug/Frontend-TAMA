@@ -173,7 +173,7 @@
 
                                 
                                 <div class="nav-item" aria-label="Date de la séance">
-                                    <mat-form-field  class="w-100-p">
+                                    <mat-form-field  class="w-100-p" appearance="outline">
                                         <mat-label>Date de la séance </mat-label>
                                         <input matInput [matDatepicker]="startDatePicker" name="start" formControlName="courseSessionDate"
                                         required  (blur)="onValueChangedStepper1()" autocomplete="false" 
@@ -194,7 +194,7 @@
                                     </div>
                                 </div>
 
-                                
+                                <!--
                                 <mat-form-field>
                                     <mat-placeholder>Date et Heure Fin</mat-placeholder>
                                     <mat-datetimepicker-toggle [for]="datetimePickerEnd" matSuffix>
@@ -207,8 +207,8 @@
                                     <mat-error *ngIf="formErrorsStepper1.courseSessionEndDate">
                                         {{formErrorsStepper1.courseSessionEndDate}}</mat-error>
                                 </mat-form-field>
-                                
-
+                                -->
+                            
                                 <div class="nav-item" aria-label="Heure de la séance">
                                     <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">
                                         <mat-label>Heure Début</mat-label>
@@ -364,7 +364,7 @@
                             Précédent
                         </button>
                         <button mat-raised-button matStepperNext type="button" color="accent"
-                            [disabled]="!horizontalStepperStep3.valid || selectedClassRoom==null"
+                            [disabled]="!horizontalStepperStep3.valid "
                             (click)="sendClassroom()">
                             Suivant
                         </button>
@@ -385,17 +385,21 @@
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
                         *ngIf="selectedTrainer!=null && session!=null"> Séance: {{session.sessionName}}
                         {{session.themeDetailInstance.themeDetail.themeDetailName}}</div>
-                    <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
-                        *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null && session.trainer.gender=='Féminin'">
+                        <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
+                        *ngIf="selectedTrainer!=null && session!=null && session.trainer.gender=='Féminin'">
                         Formatrice:
                         {{selectedTrainer.firstName}} {{selectedTrainer.lastName}}</div>
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
-                        *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null && session.trainer.gender=='Masculin'">
+                        *ngIf="selectedTrainer!=null && session!=null && session.trainer.gender=='Masculin'">
                         Formateur:
                         {{selectedTrainer.firstName}} {{selectedTrainer.lastName}}</div>
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
-                        *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null"> Date:
+                        *ngIf="selectedTrainer!=null && session!=null "> Date:
                         {{session.sessionBeginDate | date:'fullDate'}} </div>
+                    <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
+                        *ngIf="place!=null">
+                        Lieu:
+                        {{place}}</div>
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
                         *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null && session.classRoom.institution!=null">
                         Salle:

@@ -582,7 +582,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   }
 
   sendDate(): void {
-
+    this.place=null;
     console.log("prog prog prog");
     console.log(this.horizontalStepperStep1.value.program.place);
     let pl=JSON.parse(this.horizontalStepperStep1.value.program.place);
