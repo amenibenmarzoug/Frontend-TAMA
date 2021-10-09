@@ -136,7 +136,7 @@ export const navigationAdmin: FuseNavigation[] = [
         id: 'classrooms-manager',
         title: 'Salles',
         type: 'item',
-        icon: 'school',
+        icon: 'meeting_room',
         url: '/apps/classrooms-manager'
     },
 
