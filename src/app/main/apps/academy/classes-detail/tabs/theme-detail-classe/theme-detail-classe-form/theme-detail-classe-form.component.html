@@ -23,8 +23,8 @@
                     <!-- <input ngDefaultControl name="moduleInstanceName" formControlName="moduleInstanceName" matInput required> -->
                     <mat-select formControlName="themeDetail" (selectionChange)="getModuleForm($event.value)">
                        
-                        <mat-option *ngFor="let module of themedetails" [value]="module">
-                            {{ module.themeDetailName}} 
+                        <mat-option *ngFor="let themDetail of themedetails" [value]="themDetail">
+                            {{ themDetail.themeDetailName}} 
                         </mat-option>
                     </mat-select>
                 </mat-form-field>

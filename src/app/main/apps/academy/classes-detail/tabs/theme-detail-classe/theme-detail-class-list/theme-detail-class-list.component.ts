@@ -121,7 +121,7 @@ export class ThemeDetailClassListComponent implements OnInit {
           }
       });
       this._themeDetailsService.getThemeDetailDaysAffected();
-      this.oldDaysAffectedValue=themeDetail.nbDaysThemeDetail;
+      this.oldDaysAffectedValue=themeDetail.nbDaysthemeDetailInst;
       this._themeDetailsService.oldDaysAffectedNumber=this.oldDaysAffectedValue;
 
       this.dialogRef.afterClosed()

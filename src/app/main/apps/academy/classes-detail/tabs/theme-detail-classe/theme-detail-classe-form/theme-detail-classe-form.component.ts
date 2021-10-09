@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 import { ProgramInstDetailService } from 'app/main/apps/academy/program-inst-detail/program-inst-detail.service';
 import { ThemeDetailInst } from 'app/main/apps/academy/program-inst-detail/tabs/theme-detail-inst/themeDetailsInst.model';
+import Swal from 'sweetalert2';
 import { ClassesDetailService } from '../../../classes-detail.service';
 
 @Component({
@@ -89,16 +90,16 @@ createThemeDetailForm(): FormGroup
 }
 
 getModuleForm(event){
-  this._themeDetailsService.module=event;
+  this._themeDetailsService.themeDetailInst=event;
   this.themeDetail.themeDetailInstName = event.themeDetailName;
-  this.themeDetail.nbDaysthemeDetailInst=event.nbDaysThemeDetail;
+  this.themeDetail.nbDaysthemeDetailInst=event.nbDaysthemeDetailInst;
   
 }
 
 closeNewThemeDetailForm(){
   this.actualDaysNumberAffected = this._themeDetailsService.actualDaysAffectedPerThemeDetail+ Number(this.themeDetail.nbDaysthemeDetailInst)  ; 
 
-  if (this.actualDaysNumberAffected > Number(this._themeDetailsService.module.nbDaysModuleInstance)) {
+  if (this.actualDaysNumberAffected > Number(this._themeDetailsService.moduleInst.nbDaysModuleInstance)) {
     this.themeDetailAlert("Vous avez dépassé le nombre des jours du Module concerné");
     console.log(`Exceeded`);
     
@@ -110,12 +111,18 @@ closeNewThemeDetailForm(){
 }
 
 closeEditThemeDetailForm(){
+
   this.oldDaysAffectedValue=this._themeDetailsService.oldDaysAffectedNumber
-  this.actualDaysNumberAffected=this._themeDetailsService.actualDaysAffectedPerThemeDetail -this.oldDaysAffectedValue+ Number(this.themeDetail.nbDaysthemeDetailInst)  ; 
+  console.log(this.oldDaysAffectedValue);
+
+  this.actualDaysNumberAffected=this._themeDetailsService.actualDaysAffectedPerThemeDetail -this.oldDaysAffectedValue+ Number(this.themeDetailForm.value.nbDaysthemeDetailInst)  ; 
+  console.log(this.actualDaysNumberAffected)
+  console.log(this._themeDetailsService.actualDaysAffectedPerThemeDetail)
+  console.log(this._themeDetailsService.moduleInst.nbDaysModuleInstance)
   // case where the modified days number exceeded the limit
-  if(this.actualDaysNumberAffected > Number(this._themeDetailsService.module.nbDaysModuleInstance)) {
+  if(this.actualDaysNumberAffected > Number(this._themeDetailsService.moduleInst.nbDaysModuleInstance)) {
                           
-    this.themeDetailAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total");
+    this.ErrorMessage("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total");
     console.log(`Exceeded`);
 
   }
@@ -142,5 +149,17 @@ themeDetailAlert(message): void {
       this.alertDialog = null;
   });
 }
+
+ErrorMessage(message): void {
+  Swal.fire(
+    {
+      title: message,
+      icon: 'error',
+      showCancelButton: false,
+      confirmButtonColor: '#38a9ff',
+      //cancelButtonColor: '#d33',
+      confirmButtonText: 'Retour'
+    }
+  )}
 
 }
