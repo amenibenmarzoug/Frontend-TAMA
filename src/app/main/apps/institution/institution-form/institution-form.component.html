@@ -61,7 +61,7 @@
             <div fxLayout="row" fxLayoutAlign="start start">
 
                 <mat-form-field appearance="outline" fxFlex="100">
-                    <mat-label>Cité</mat-label>
+                    <mat-label>Ville</mat-label>
                     <mat-select formControlName="city" required>
                         <mat-option *ngFor="let city of cities" [value]="city">
                             {{city}}
@@ -69,7 +69,7 @@
 
                     </mat-select>
                     <mat-icon matSuffix class="secondary-text">outlined_flag</mat-icon>
-                    <mat-error>Country is required!</mat-error>
+                    <mat-error>Le champ Ville est requise!</mat-error>
                 </mat-form-field>
 
 

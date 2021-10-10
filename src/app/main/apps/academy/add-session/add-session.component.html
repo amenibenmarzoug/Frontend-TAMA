@@ -173,7 +173,7 @@
 
                                 
                                 <div class="nav-item" aria-label="Date de la séance">
-                                    <mat-form-field  class="w-100-p" appearance="outline">
+                                    <mat-form-field appearance="outline" class="w-100-p">
                                         <mat-label>Date de la séance </mat-label>
                                         <input matInput [matDatepicker]="startDatePicker" name="start" formControlName="courseSessionDate"
                                         required  (blur)="onValueChangedStepper1()" autocomplete="false" 
@@ -234,7 +234,7 @@
                                 
                                 <div class="content mb-24" *ngIf="timeNotValid" [hidden]="!timeNotValid">
                                     <div class="message-box error">
-                                       L'heure de fin choisie n'est pas valide!
+                                       L'heure  choisie n'est pas valide!
                                     </div>
                                 </div>
 
@@ -244,7 +244,8 @@
                         </div>
                         <div fxLayout="row" fxLayoutAlign="center center">
                             <button mat-raised-button matStepperNext type="button" color="accent" (click)="sendDate()"
-                                [disabled]="!horizontalStepperStep1.valid ||selectedThemeDet==null|| selectedModule==null || selectedTheme==null ">
+                                [disabled]="!horizontalStepperStep1.valid ||selectedThemeDet==null||
+                                 selectedModule==null || selectedTheme==null || timeNotValid ">
                                 Suivant
                             </button>
                         </div>
@@ -257,7 +258,7 @@
                     errorMessage="Veuillez naviguer via les boutons Suivant et Précédent"
                     [hasError]="!buttonSuiv2Selected">
 
-                    <form fxLayout="column" [formGroup]="horizontalStepperStep2">
+                    <!--<form fxLayout="column" [formGroup]="horizontalStepperStep2"> -->
 
                         <ng-template matStepLabel>Choisir un formateur</ng-template>
 
@@ -287,7 +288,7 @@
                             </button>
                         </div>
 
-                    </form>
+                 <!--   </form>-->
                 </mat-step>
 
                 <mat-step #matstep [stepControl]="horizontalStepperStep3" [completed]="matStep.selected"
@@ -304,7 +305,7 @@
                             </div>
                         </div>
                         <div fxFlex="1 0 auto" fxLayout="column" *ngIf="place==null">
-                            <form fxLayout="column" [formGroup]="institutionForm" *ngIf="place==null">
+                           
                                 <!--   <div fxLayout="row" fxLayoutAlign="start center">
                                 <mat-form-field appearance="outline" fxFlex>
                                     <mat-label>Institutions/Entreprises</mat-label>
@@ -353,7 +354,6 @@
                                 </div>
 
 
-                            </form>
                         </div>
 
                     </form>

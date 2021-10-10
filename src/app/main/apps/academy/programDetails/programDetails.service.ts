@@ -301,15 +301,15 @@ export class ProgramDetailsService implements Resolve<any>
                         }
                     }
                     else {
-                        this.modules = response;
+                        this.modules = [];
                     }
                     if (this.searchTextModule && this.searchTextModule !== '') {
                         this.modules = FuseUtils.filterArrayByString(this.modules, this.searchTextModule);
                     }
 
-                    this.modules = this.modules.map(module => {
+                   /* this.modules = this.modules.map(module => {
                         return new Module(module);
-                    });
+                    });*/
 
                     this.onmoduleChanged.next(this.modules);
                     resolve(this.modules);
