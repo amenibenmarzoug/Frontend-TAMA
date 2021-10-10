@@ -297,30 +297,16 @@ export class AddSessionComponent implements OnInit, OnDestroy {
 
      
      
-    this.horizontalStepperStep3 = new FormGroup({
+    this.horizontalStepperStep3 = this._formBuilder.group({
+      institution: ['', Validators.required],
+      classroom: ['', Validators.required],
      
-    })
-
+    });
+/*
     this.institutionForm=this._formBuilder.group({
-      institution: [this.session.classRoom.institution.institutionName, Validators.required],
-      classroom: [this.session.classRoom.classRoomName, Validators.required],});
-
-    // Vertical Stepper form stepper
-    this.verticalStepperStep1 = this._formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required]
-    });
-
-    this.verticalStepperStep2 = this._formBuilder.group({
-      address: ['', Validators.required]
-    });
-
-    this.verticalStepperStep3 = this._formBuilder.group({
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      postalCode: ['', [Validators.required, Validators.maxLength(5)]]
-    });
-
+      institution: ['', Validators.required],
+      classroom: ['', Validators.required],});
+*/
     this.horizontalStepperStep1.valueChanges
       .subscribe(data => this.onValueChangedStepper1(data));
   }
@@ -347,7 +333,9 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     this.courseBeginTime.setHours(Number(this.beginHour.substring(0,2))) ;
     this.courseBeginTime.setMinutes(Number(this.beginHour.substring(3,5))) ;
     console.log(this.courseBeginTime);
-    
+    if (this.endHour != undefined){
+      this.checkTime()
+    }
 
   }
   checkTime(){

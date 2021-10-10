@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { EditSessionService } from 'app/main/apps/academy/edit-session/edit-session.service';
 import { Session } from 'app/main/apps/academy/add-session/session.model';
+import {MyClasses} from 'app/main/apps/classrooms/classrooms.model'
+import { Institution } from 'app/shared/models/institution.model';
 
 import { CursusCoursessService } from 'app/main/apps/cursus/courses/coursess.service';
 import { CursusCoursesComponent } from 'app/main/apps/cursus/courses/courses.component';
@@ -177,6 +179,9 @@ export class EditSessionComponent implements OnInit, OnDestroy {
 
     },
   }
+  chosenClassroom: any;
+  sessionClassroom: MyClasses;
+  sessionInstitution: Institution;
   /**
    * Constructor
    *
@@ -281,6 +286,8 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       this.currentCity = this.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location;
       this._addSessionService.currentCity = this.currentCity;
 
+     
+
       /*setTimeout(() => {
         this._addSessionService.getInstitutions().then(() => {
           this.institutions = this._addSessionService.institutions;
@@ -288,7 +295,15 @@ export class EditSessionComponent implements OnInit, OnDestroy {
         }
         );
       });*/
+
+      this.courseBeginTime=new Date(this.session.sessionBeginDate);
+      this.courseEndTime=new Date (this.session.sessionEndDate);
+     
+      //this.courseBeginTime.setHours(Number(this.beginHour.substring(0,2))) ;
+      //this.courseBeginTime.setMinutes(Number(this.beginHour.substring(3,5))) ;
       
+
+
       this.program=this.session.themeDetailInstance.moduleInstance.themeInstance.programInstance
       
       this.programBeginDate=this.program.beginDate;
@@ -307,8 +322,8 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       //  });
     });
 
-    this.courseDate=new Date(this._addSessionService.session.sessionBeginDate ); 
-    this.courseDateMinHour=new Date (this._addSessionService.session.sessionBeginDate ); 
+    this.courseDate=new Date(this.session.sessionBeginDate ); 
+    this.courseDateMinHour=new Date (this.session.sessionBeginDate ); 
     this.courseDateMinHour.setHours(this.courseDate.getHours(), this.courseDate.getMinutes()+this.minSessionDuration); 
     this.courseDateMaxHour.setFullYear(this.courseDate.getFullYear(), this.courseDate.getMonth(), this.courseDate.getDate())
  
@@ -337,23 +352,11 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       .subscribe(themeDetails => {
         this.themeDetails = themeDetails;
       });
-    // Reactive Form
-    this.form = this._formBuilder.group({
-      company: [
-        {
-          value: 'Google',
-          disabled: true
-        }, Validators.required
-      ],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      address: ['', Validators.required],
-      address2: ['', Validators.required],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      postalCode: ['', [Validators.required, Validators.maxLength(5)]],
-      country: ['', Validators.required]
-    });
+      this._addSessionService.onInstitutionsChanged
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(institutions => {
+        this.institutions = institutions;
+      });
 
     // Horizontal Stepper form steps
     this.horizontalStepperStep1 = this.createForm();
@@ -363,37 +366,59 @@ export class EditSessionComponent implements OnInit, OnDestroy {
      });*/
 
     this.horizontalStepperStep3 = this._formBuilder.group({
-      //choice: ['',Validators.required],
-     
-
+      institution: [this.session.classRoom.institution, Validators.required],
+      classroom: [this.session.classRoom, Validators.required],
     });
+    console.log("Horizentaaalll")
+    console.log("Horizentaaalll")
+    console.log(this.horizontalStepperStep3.getRawValue())
 
-    if(this.session.classRoom!=null){
-    this.institutionForm=this._formBuilder.group({
-      institution: ['', Validators.required],
-      classroom: ['', Validators.required],})
+    this.sessionClassroom=this.session.classRoom;
+    this.sessionInstitution= this.sessionClassroom.institution
 
-    }
-    // Vertical Stepper form stepper
-    this.verticalStepperStep1 = this._formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required]
-    });
+    const toSelect = this.institutions.find(p => p.id == this.sessionInstitution.id);
+    this.horizontalStepperStep3.get('institution').setValue(toSelect);
+    console.log("instititution from stepper*****")
+    console.log(this.horizontalStepperStep3.get('institution').value)
 
-    this.verticalStepperStep2 = this._formBuilder.group({
-      address: ['', Validators.required]
-    });
-
-    this.verticalStepperStep3 = this._formBuilder.group({
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      postalCode: ['', [Validators.required, Validators.maxLength(5)]]
-    });
-
+/*    
     this.horizontalStepperStep1.valueChanges
-      .subscribe(data => this.onValueChangedStepper1(data));
+      .subscribe(data => this.onValueChangedStepper1(data));*/
 
     //this.stepper.selected.completed = false;
+    /*
+    this.sessionClassroom=this.session.classRoom;
+    this.sessionInstitution= this.sessionClassroom.institution
+    console.log("onInit")
+    console.log("this.Classroommmm in init")
+    console.log(this.sessionClassroom)
+
+    if (this.sessionInstitution !== undefined)
+    {
+    const toSelect = this.institutions.find(p => p.id == this.sessionInstitution.id);
+    this.horizontalStepperStep3.get('institution').setValue(toSelect);
+    console.log("instititution *****")
+    console.log(this.horizontalStepperStep3.get('institution').value)
+    }
+    */
+
+
+    /*
+    if (this.sessionClassroom !== undefined)
+    {
+    const toSelect = this.classRooms.find(p => p.id == this.sessionClassroom.id);
+    this.horizontalStepperStep3.get('classroom').setValue(this.sessionClassroom);
+    console.log("classroom *****")
+    console.log(toSelect)
+    console.log(this.horizontalStepperStep3.get('classroom').value)
+    console.log("Horizentaaalll")
+    console.log(this.horizontalStepperStep3.getRawValue())
+
+    }
+    */
+
+    
+
   }
 
   /**
@@ -440,10 +465,11 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     console.log("courseTime");
     console.log(this.beginHour)
     console.log(typeof this.beginHour);
-    this.courseBeginTime=new Date();
+    //this.courseBeginTime=new Date();
     this.courseBeginTime.setHours(Number(this.beginHour.substring(0,2))) ;
     this.courseBeginTime.setMinutes(Number(this.beginHour.substring(3,5))) ;
     console.log(this.courseBeginTime);
+    this.checkTime(); 
     
 
   }
@@ -451,7 +477,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     this.endHour=this.horizontalStepperStep1.getRawValue().courseSessionEndTime
     this.timeNotValid= false ; 
 
-    this.courseEndTime=new Date();
+    this.courseEndTime=new Date(this.courseDate);
     this.courseEndTime.setHours(Number(this.endHour.substring(0,2))) ;
     this.courseEndTime.setMinutes(Number(this.endHour.substring(3,5))) ;
 
@@ -461,6 +487,9 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       console.log("end time less than begin date")
       this.timeNotValid=true;
     }
+    console.log("time not valid")
+    console.log(this.timeNotValid)
+    /*
     //assign the date and beginHour - endHour to the session corresponding fields
     this.session.sessionBeginDate=new Date (this.courseDate)
     this.session.sessionEndDate=new Date (this.courseDate)
@@ -469,6 +498,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     console.log("session date after update")
     console.log(this.session.sessionBeginDate)
     console.log(this.session.sessionEndDate)
+    */
     
 
   }
@@ -542,7 +572,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     console.log(this.stepper.steps);
   }
 
-  selectInstitution(institutionId): void {
+  selectInstitution(institution): void {
     this.selectedClassRoom = null;
     console.log("chosen institution");
     this._addSessionService.getClassRooms();
@@ -550,11 +580,11 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     this.classRooms = this._addSessionService.classRooms;
     console.log(this.classRooms);
     this.chosenInstitutionName = this.currentInstitution;
-    this._addSessionService.chosenInstitutionId = institutionId;
+    this._addSessionService.chosenInstitutionId = institution.id;
     console.log(this.currentInstitution);
     this.filteredClassrooms = [];
     this.classRooms.forEach(contact => {
-      if (contact.institution.id == institutionId) {
+      if (contact.institution.id == institution.id) {
         if (!this.filteredClassrooms.includes(contact))
           this.filteredClassrooms.push(contact);
       }
@@ -631,10 +661,11 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       );
     });
    
-    console.log(this.institutions);
+    console.log(this.horizontalStepperStep3.getRawValue());
   }
 
   sendDate(): void {
+   
     console.log("STEPS");
     console.log(this.stepper.steps);
     console.log("prog prog prog");
@@ -644,7 +675,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     if(pl!=null){
       this.place=pl.name;
     }
-    this._addSessionService.selectedDate = this.horizontalStepperStep1.value.courseSessionBeginDate;
+    this._addSessionService.selectedDate = this.horizontalStepperStep1.value.courseSessionDate;
     console.log(this._addSessionService.selectedDate);
     console.log(this._addSessionService.selectedDate.getDay());
     switch (this._addSessionService.selectedDate.getDay()) {
@@ -679,7 +710,10 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   sendClassroom(): void {
     
     this.buttonSuiv3Selected=true;
+    if(this.currentClassroom != null )
+    {
     this.session.classRoom = this.currentClassroom;
+    }
   }
 
   finishHorizontalStepper(): void {

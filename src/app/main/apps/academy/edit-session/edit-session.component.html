@@ -197,7 +197,7 @@
                                 
                                 <div class="content mb-24" *ngIf="timeNotValid" [hidden]="!timeNotValid">
                                     <div class="message-box error">
-                                       L'heure de fin choisie n'est pas valide!
+                                       L'heure choisie n'est pas valide!
                                     </div>
                                 </div>
 
@@ -207,7 +207,7 @@
                         </div>
                         <div fxLayout="row" fxLayoutAlign="center center">
                             <button id='button1' mat-raised-button matStepperNext type="button" color="accent"
-                                (click)="sendDate()" [disabled]="!horizontalStepperStep1.valid ">
+                                (click)="sendDate()" [disabled]="!horizontalStepperStep1.valid || timeNotValid ">
                                 Suivant
                             </button>
                         </div>
@@ -287,7 +287,7 @@
                             </div>
                         </div>
                         <div fxFlex="1 0 auto" fxLayout="column" *ngIf="place==null">
-                            <form fxLayout="column" [formGroup]="institutionForm" *ngIf="place==null">
+                            
                                 <!--   <div fxLayout="row" fxLayoutAlign="start center">
                                 <mat-form-field appearance="outline" fxFlex>
                                     <mat-label>Institutions/Entreprises</mat-label>
@@ -308,13 +308,12 @@
                                 <div class="nav-item" aria-label="Formations">
                                     <mat-form-field appearance="outline" class="w-100-p">
                                         <mat-label>Institutions</mat-label>
-                                        <mat-select formControlName="institution"
-                                            (selectionChange)="selectInstitution($event.value)">
+                                        <mat-select formControlName="institution" (selectionChange)="selectInstitution($event.value)">
 
                                             <mat-option *ngFor="let institution of institutions"
-                                                [value]="institution.id">
+                                                [value]="institution ">
 
-                                                {{ institution.institutionName }}
+                                                 {{ institution.institutionName }}
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>
@@ -336,7 +335,7 @@
                                 </div>
 
 
-                            </form>
+                        
                         </div>
 
                     </form>

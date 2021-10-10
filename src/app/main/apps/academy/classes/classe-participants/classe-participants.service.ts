@@ -80,7 +80,7 @@ export class ClasseParticipantsService implements Resolve<any>
      */
     getContacts(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'participants/class/' + this.classeId)
+            this._httpClient.get(AUTH_API + 'participants/classId/' + this.classeId)
                 .subscribe((response: any) => {
 
                     this.participants = response;
