@@ -15,6 +15,7 @@ import{ProgramInstDetailService} from '../../../../program-inst-detail/program-i
 import{ClassesService} from '../../../../classes.service';
 import{ClassesDetailService} from '../../../classes-detail.service';
 import { ModuleInst } from 'app/main/apps/academy/program-inst-detail/tabs/module-inst/moduleInst.model';
+import { ModuleClassFormComponent } from '../module-class-form/module-class-form.component';
 @Component({
   selector: 'app-modules-inst-list',
   templateUrl: './modules-inst-list.component.html',
@@ -130,7 +131,7 @@ this._moduleInstService.onFilterChangedModuleInst
    * @param contact
    */
   editModule(module): void {
-      this.dialogRef = this._matDialog.open(ModuleFormComponent, {
+      this.dialogRef = this._matDialog.open(ModuleClassFormComponent, {
           panelClass: 'module-form-dialog',
           data: {
               module: module,

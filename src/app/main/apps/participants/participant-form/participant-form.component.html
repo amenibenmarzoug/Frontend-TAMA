@@ -28,7 +28,7 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Nom</mat-label>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <input name="lastNameP" formControlName="lastNameP" matInput>
+                    <input name="lastNameP" formControlName="lastNameP" matInput required>
                 </mat-form-field>
             </div>
 
@@ -58,7 +58,7 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Numéro</mat-label>
                     <mat-icon matSuffix class="secondary-text">phone</mat-icon>
-                    <input formControlName="phoneNumber" matInput>
+                    <input formControlName="phoneNumber" matInput required>
                 </mat-form-field>
             </div>
 
@@ -66,7 +66,7 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Email</mat-label>
                     <mat-icon matSuffix class="secondary-text">email</mat-icon>
-                    <input name="email" formControlName="email" matInput type="email">
+                    <input name="email" formControlName="email" matInput type="email" required>
                 </mat-form-field>
             </div>
             <!--
@@ -173,7 +173,7 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>NombreAnnéeExpérienceProfessionelle</mat-label>
                     
-                    <input type ="number" formControlName="experience" matInput required>
+                    <input type ="number" formControlName="experience" matInput >
                 </mat-form-field>
             </div>
    
@@ -297,7 +297,7 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Position Actuelle </mat-label>
                     <mat-icon matSuffix class="secondary-text">work</mat-icon>
-                    <input name="currentPosition" formControlName="currentPosition" matInput>
+                    <input name="currentPosition" formControlName="currentPosition" matInput required>
                 </mat-form-field>
             </div>
 
@@ -325,12 +325,12 @@
         </button> -->
 
         <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(contactForm)"
-            aria-label="SAVE">
+            aria-label="SAVE" [disabled]="contactForm.invalid">
             Ajouter
         </button>
 
         <button *ngIf="action === 'edit'" mat-button class="save-button"
-            (click)="matDialogRef.close(['save',contactForm])" aria-label="SAVE">
+            (click)="matDialogRef.close(['save',contactForm])" aria-label="SAVE" [disabled]="contactForm.invalid">
             Enregistrer
         </button>
 

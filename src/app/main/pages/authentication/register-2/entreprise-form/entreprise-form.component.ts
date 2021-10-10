@@ -56,6 +56,7 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
     'webSite': '',
     'positionM':'',
     'participNumber':'',
+    'provider':''
 
   };
 
@@ -121,6 +122,9 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
     },
     'classe': {
       'required': 'La classe est requise.',
+    },
+    'provider': {
+      'required': 'Ce champ est requis.',
     },
     'participNumber':{
       'required': 'Le nombre de participants est requis.',
@@ -188,6 +192,7 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
         webSite: new FormControl(),
         positionM:new FormControl(),
         participNumber:new FormControl(),
+        provider: new FormControl(),
       
       }),
 
@@ -221,7 +226,7 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
       webSite: ['', [Validators.required, Validators.pattern(url)]],
       classe: ['',Validators.required],
       participNumber:['', [Validators.required, Validators.pattern(code)]],
-
+      provider: ['',Validators.required],
     });
 
 
@@ -239,8 +244,13 @@ export class EntrepriseFormComponent implements OnInit, OnDestroy {
 
   }
 
-  sendClasse(event) { }
+  sendClasse(event) { 
+    this.rForm.patchValue({class:event});
+  }
 
+  selectProvider(event){
+    this.rForm.patchValue({provider:event});
+}
   onSubmit() {
     /*this.feedback = this.feedbackForm.value;
     console.log(this.feedback);

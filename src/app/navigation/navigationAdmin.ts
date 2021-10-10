@@ -121,7 +121,7 @@ export const navigationAdmin: FuseNavigation[] = [
         id: 'Entreprises',
         title: 'Entreprises',
         type: 'item',
-        icon: 'account_box',
+        icon: 'business',
         url: '/apps/entreprises'
 
     },
@@ -136,7 +136,7 @@ export const navigationAdmin: FuseNavigation[] = [
         id: 'classrooms-manager',
         title: 'Salles',
         type: 'item',
-        icon: 'school',
+        icon: 'meeting_room',
         url: '/apps/classrooms-manager'
     },
 

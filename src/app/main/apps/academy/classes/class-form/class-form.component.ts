@@ -151,6 +151,7 @@ export class ClassFormComponent implements OnInit {
   action: string;
   //course:AcademyCoursesComponent;
   programInst: ProgramInst;
+  programDeBase : Program ; 
   event: CalendarEvent;
   programInstForm: FormGroup;
   dialogTitle: string;
@@ -176,10 +177,15 @@ export class ClassFormComponent implements OnInit {
 
     if (this.action === 'edit') {
       this.dialogTitle = 'Modifier la Classe';
-      //console.log("_data.programInst");
-      //console.log(_data.programInst);
+      console.log("_data.programInst");
+      console.log(_data.programInst);
       this.programInst = _data.programInst;
       this._programInstService.program = this.programInst.program;
+      this.programDeBase=this.programInst.program
+      console.log("programde basee");
+      console.log(this.programDeBase);
+
+      //this.programInstForm.get('program').setValue(this.programInst.program.programName);
 
     }
     else {
@@ -190,6 +196,7 @@ export class ClassFormComponent implements OnInit {
     }
 
     this.programInstForm = this.createProgramInstForm();
+    
     this._unsubscribeAll = new Subject();
     this.programs = this._programInstService.programs;
 
@@ -200,6 +207,16 @@ export class ClassFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+    console.log("onInit")
+    console.log("this.programdeBase in init")
+    console.log(this.programDeBase)
+    if (this.programDeBase !== undefined)
+    {
+    const toSelect = this.programs.find(p => p.id == this.programDeBase.id);
+    this.programInstForm.get('program').setValue(toSelect);
+    console.log(this.programInstForm.get('program'))
+    }
 
   }
 
@@ -266,7 +283,6 @@ export class ClassFormComponent implements OnInit {
 
   }
   getProgramForm(event) {
-
     this._programInstService.program = event;
     this.programInst.nbDaysProgInst = event.nbDaysProg;
     this.programInst.programInstName = event.programName;

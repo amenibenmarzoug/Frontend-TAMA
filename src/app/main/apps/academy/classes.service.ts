@@ -19,6 +19,8 @@ export class ClassesService {
 
     onCategoriesChanged: BehaviorSubject<any>;
     onProgramsInstChanged: BehaviorSubject<any>;
+    onEnterprisesChanged: BehaviorSubject<any>;
+
     onProgramChanged: BehaviorSubject<any>;
     programsInst: ProgramInst[];
     id: number;
@@ -26,6 +28,7 @@ export class ClassesService {
     programInstId: any;
     program: any;
     programs: Program[];
+    enterprises:any[];
     lastprogramInst: any;
     themes: Thematique[];
     onThemeChanged: BehaviorSubject<any>;
@@ -63,6 +66,7 @@ export class ClassesService {
         // Set the defaults
         this.onCategoriesChanged = new BehaviorSubject({});
         this.onProgramsInstChanged = new BehaviorSubject({});
+        this.onEnterprisesChanged = new BehaviorSubject({});
         this.onProgramChanged = new BehaviorSubject({});
         this.onThemeChanged = new BehaviorSubject({});
         this.onmoduleInstChanged = new BehaviorSubject([]);
@@ -91,6 +95,7 @@ export class ClassesService {
                 // this.getCategories(),
                 this.getProgramsInst(),
                 this.getPrograms(),
+                this.getEnterprises(),
                 // this.getThemes(),
 
                 this.getModulesInst(),
@@ -176,6 +181,24 @@ export class ClassesService {
         });
     }
 
+    getEnterprises(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'entreprises')
+                .subscribe((response: any) => {
+                    this.enterprises = response;
+                    this.enterprises = this.enterprises.filter(enterprise => {
+                        // return this.user.frequentContacts.includes(_contact.id);
+                        if (enterprise.provider == true) {
+                            return true;
+                        }
+                        return false;
+                    });
+                    this.onEnterprisesChanged.next(this.enterprises);
+                    resolve(this.enterprises);
+                }, reject);
+        }
+        );
+    }
 
 
 
@@ -498,6 +521,21 @@ export class ClassesService {
           //  console.log(programInst);
             this._httpClient.put(AUTH_API + 'programsInst', programInst)
                 .subscribe(response => {
+                    this.getProgramsInst();
+                    resolve(response);
+                });
+        });
+    }
+
+    updateClass(programInst): Promise<any> {
+
+        return new Promise((resolve, reject) => {
+        
+           console.log("CLASS SERVICE");
+           console.log(programInst);
+            this._httpClient.put(AUTH_API + 'programsInst', programInst)
+                .subscribe(response => {
+                    console.log(response);
                     this.getProgramsInst();
                     resolve(response);
                 });

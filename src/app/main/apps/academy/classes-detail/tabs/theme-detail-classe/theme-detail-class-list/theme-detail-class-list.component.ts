@@ -12,6 +12,7 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 import { ThemeDetailFormComponent } from '../../../../programDetails/tabs/themeDetail/theme-detail-form/theme-detail-form.component';
 import { ProgramDetailsService } from '../../../../programDetails/programDetails.service';
 import{ClassesDetailService} from '../../.././classes-detail.service';
+import { ThemeDetailClasseFormComponent } from '../theme-detail-classe-form/theme-detail-classe-form.component';
 @Component({
   selector: 'app-theme-detail-class-list',
   templateUrl: './theme-detail-class-list.component.html',
@@ -33,6 +34,7 @@ export class ThemeDetailClassListComponent implements OnInit {
   dialogRef: any;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   id: number;
+  oldDaysAffectedValue: number ; 
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -111,13 +113,16 @@ export class ThemeDetailClassListComponent implements OnInit {
    * @param contact
    */
   editThemeDetail(themeDetail): void {
-      this.dialogRef = this._matDialog.open(ThemeDetailFormComponent, {
+      this.dialogRef = this._matDialog.open(ThemeDetailClasseFormComponent, {
           panelClass: 'theme-detail-form-dialog',
           data: {
               themeDetail: themeDetail,
               action: 'edit'
           }
       });
+      this._themeDetailsService.getThemeDetailDaysAffected();
+      this.oldDaysAffectedValue=themeDetail.nbDaysthemeDetailInst;
+      this._themeDetailsService.oldDaysAffectedNumber=this.oldDaysAffectedValue;
 
       this.dialogRef.afterClosed()
           .subscribe(response => {
@@ -132,6 +137,7 @@ export class ThemeDetailClassListComponent implements OnInit {
                    */
                   case 'save':
 
+                 
                       this._themeDetailsService.updateThemeDetail(formData.getRawValue(),this._themeDetailsService.module);
 
                       break;

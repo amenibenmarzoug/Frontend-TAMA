@@ -182,6 +182,7 @@ export class AuthenticationService implements Resolve<any>{
       managerPosition:entreprise.value.positionM,
       nbMinParticipants:entreprise.value.participNumber,
       programInstance: entreprise.value.classe,
+      provider: entreprise.value.provider,
     }, httpOptions);
   }
 

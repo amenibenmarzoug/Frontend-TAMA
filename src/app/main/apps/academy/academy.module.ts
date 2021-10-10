@@ -97,6 +97,7 @@ import{MainComponent4} from '../academy/classes-detail/tabs/theme-detail-classe/
 import {ClasseParticipantsComponent} from './classes/classe-participants/classe-participants.component'
 import {ClasseParticipantListComponent} from './classes/classe-participants/classe-participants-list/classe-participant-list.component'
 import { ClasseParticipantsService } from './classes/classe-participants/classe-participants.service';
+import { PlaceFormComponent } from './classes/place-form/place-form.component'
 import { ProgramSpecComponent } from './program-spec/program-spec.component';
 import { ProgramSpecFormComponent } from './program-spec/program-spec-form/program-spec-form.component'
 import {ProgramSpecService } from './program-spec.service';
@@ -114,7 +115,9 @@ import { MainModuleSpecComponent } from './program-spec-detail/tabs/module-spec/
 import { SelectedBarThemeDetailSpecComponent } from './program-spec-detail/tabs/theme-detail-spec/selected-bar-theme-detail-spec/selected-bar-theme-detail-spec.component';
 import { MainThemeDetailSpecComponent } from './program-spec-detail/tabs/theme-detail-spec/sidebars/main-theme-detail-spec/main-theme-detail-spec.component';
 import { ThemeDetailSpecFormComponent } from './program-spec-detail/tabs/theme-detail-spec/theme-detail-spec-form/theme-detail-spec-form.component';
-import { ThemeDetailSpecListComponent } from './program-spec-detail/tabs/theme-detail-spec/theme-detail-spec-list/theme-detail-spec-list.component'
+import { ThemeDetailSpecListComponent } from './program-spec-detail/tabs/theme-detail-spec/theme-detail-spec-list/theme-detail-spec-list.component';
+import { ThemeDetailClasseFormComponent } from './classes-detail/tabs/theme-detail-classe/theme-detail-classe-form/theme-detail-classe-form.component';
+import { ModuleClassFormComponent } from './classes-detail/tabs/module-classe/module-class-form/module-class-form.component'
 
 registerLocaleData(localeFr, 'fr');
 
@@ -128,6 +131,8 @@ export const MY_FORMATS = {
        
     }
 };
+
+
 
 const routes = [
     {
@@ -308,6 +313,8 @@ const routes = [
 
         ClasseParticipantListComponent,
         ClasseParticipantsComponent,
+        
+        PlaceFormComponent,
         ProgramSpecComponent,
         ProgramSpecFormComponent,
         ProgramSpecDetailComponent,
@@ -322,7 +329,9 @@ const routes = [
         SelectedBarThemeDetailSpecComponent,
         MainThemeDetailSpecComponent,
         ThemeDetailSpecFormComponent,
-        ThemeDetailSpecListComponent
+        ThemeDetailSpecListComponent,
+        ThemeDetailClasseFormComponent,
+        ModuleClassFormComponent
        
         
         
@@ -363,6 +372,7 @@ const routes = [
         MatNativeDatetimeModule,
         CommonModule,
         FormsModule,
+
         
 
 
@@ -382,6 +392,7 @@ const routes = [
         ProgramSpecDetailService,
        // ClasseParticipantsService,
         ClasseParticipantsService,
+        
         {provide: LOCALE_ID, useValue: 'fr' },
         {
             provide: DateAdapter,
