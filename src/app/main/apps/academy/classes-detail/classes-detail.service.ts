@@ -115,13 +115,13 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
 
     return new Promise<void>((resolve, reject) => {
         Promise.all([
-          // this.getThemeInst(),
+           this.getThemeInst(),
            this.getProgramInst(),
            this.getModules(),
           this.getModulesInst(),
-          this.getThemeDetail0(),
-          //this.getThemeDetail(),
-          this.getThemes()
+      //    this.getThemeDetail0(),
+          this.getThemeDetail(),     //Inst  ***
+    //      this.getThemes()
            
            
         ]).then(
@@ -242,25 +242,12 @@ addThemeInst(themeInst,theme): Promise<any> {
             });
     });
 }
-/*updateThemeInst(theme,program): Promise<any> {
-    console.log("programmmmm");
-    console.log(program);
-    theme.program = program;
-    console.log("themeee fel service");
-    console.log(theme);
-    return new Promise((resolve, reject) => {
-        this._httpClient.put(AUTH_API +'themeInst', theme)
-            .subscribe(response => {
-                this.lastprogramInst=response;//added by donia
-                resolve(response);
-            });
-    });
-}*/
+
 
 addClass(programInst,program): Observable<any>{
     this.program=program;
     programInst.program = program;
-    this.getThemes();
+   // this.getThemes();
 
 
    return this._httpClient.post(AUTH_API +'programsInst', programInst);
@@ -308,44 +295,6 @@ getThemes(): Promise<any> {
 
 
 
-/*addModuleInst2(themeInst,module): Promise<any> {
-    this.moduleClasse=new ModuleInst(module);
-    this.moduleClasse.module=module;
-    this.moduleClasse.moduleInstanceName=module.moduleName;
-    this.moduleClasse.nbDaysModuleInstance=module.nbDaysModule;
-    this.moduleClasse.themeInstance=themeInst;
-
-console.log(themeInst);
-    console.log("moduleee Classe ");
-    console.log(this.moduleClasse.themeInstance);
-    
-    return new Promise((resolve, reject) => {
-       
-        this._httpClient.post(AUTH_API +'moduleInstance', this.moduleClasse)
-            .subscribe(response => {
-                this.getModulesInst();
-                resolve(response);
-            });
-    });
-}*/
-
-/*AutoAddThemeInst(theme,program):Observable<any>{
-    
-    console.log("programmmmm");
-    console.log(program);
-    this.themeClasse=new ThematiqueInst(theme);
-    this.themeClasse.programInstance = program;
-    this.themeClasse.theme=theme;
-    this.themeClasse.themeInstName=theme.themeName;
-    this.themeClasse.nbDaysthemeInst=theme.nbDaysTheme;
-   // console.log("themeee fel service");
-    //console.log(this.themeClasse);
-
-   return this._httpClient.post(AUTH_API +'themeInst', this.themeClasse);
-   
-   
-}*/
-
 
 
 /**
@@ -367,94 +316,6 @@ deleteThemeInst(theme): Promise<any> {
 }
 
 
-/* ***********************module**********************/
-
-/**
- * Get Modules
- *
- * @returns {Promise<any>}
- */
-/*getModulesInst(): Promise<any> {
-    return new Promise((resolve, reject) => {
-        this._httpClient.get(AUTH_API +'moduleInstance')
-            .subscribe((response: any) => {
-
-                this.modulesInst = response;
-                this.themeInstId = this.filterByModule;
-
-                if (this.themeInstId != null) {
-                    if (this.filterByModule === 'Modules') {
-                    }
-                   else {
-
-                        this.modulesInst = this.modulesInst.filter(_module => {
-                            // return this.user.frequentContacts.includes(_contact.id);
-                            if (_module.themeInstance.id == this.themeInstId) {
-                                return true;
-                            }
-                            return false;
-                        });
-                    }
-                }
-                else {
-                    this.modulesInst = response;
-                }
-                if (this.searchTextModule && this.searchTextModule !== '') {
-                    this.modulesInst = FuseUtils.filterArrayByString(this.modulesInst, this.searchTextModule);
-                }
-
-                this.modulesInst = this.modulesInst.map(module => {
-                    return new ModuleInst(module);
-                });
-
-                this.onmoduleInstChanged.next(this.modulesInst);
-                resolve(this.modulesInst);
-            }, reject);
-    }
-    );
-}*/
-
-
-
-/*getModulesInst(): Promise<any> {
-    return new Promise((resolve, reject) => {
-        this._httpClient.get(AUTH_API +'moduleInstance')
-            .subscribe((response: any) => {
-
-                this.modulesInst = response;
-                this.themeInstId = this.filterByModule;
-
-                if (this.themeInstId != null) {
-                    if (this.filterByModule === 'Modules') {
-                    }
-                   else {
-
-                        this.modulesInst = this.modulesInst.filter(_module => {
-                            // return this.user.frequentContacts.includes(_contact.id);
-                            if (_module.themeInstance.id == this.themeInstId) {
-                                return true;
-                            }
-                            return false;
-                        });
-                    }
-                }
-                else {
-                    this.modulesInst = response;
-                }
-                if (this.searchTextModule && this.searchTextModule !== '') {
-                    this.modulesInst = FuseUtils.filterArrayByString(this.modulesInst, this.searchTextModule);
-                }
-
-                this.modulesInst = this.modulesInst.map(module => {
-                    return new ModuleInst(module);
-                });
-
-                this.onmoduleInstChanged.next(this.modulesInst);
-                resolve(this.modulesInst);
-            }, reject);
-    }
-    );
-}*/
 /**
 * Toggle selected modules by id
 *
@@ -881,15 +742,15 @@ getModulesInst(): Promise<any> {
                     }
                 }
                 else {
-                    this.modulesInst = response;
+                    this.modulesInst = [];
                 }
                 if (this.searchTextModule && this.searchTextModule !== '') {
                     this.modulesInst = FuseUtils.filterArrayByString(this.modulesInst, this.searchTextModule);
                 }
 
-                this.modulesInst = this.modulesInst.map(module => {
+             /*   this.modulesInst = this.modulesInst.map(module => {
                     return new ModuleInst(module);
-                });
+                });*/
 
                 this.onmoduleInstChanged.next(this.modulesInst);
                 resolve(this.modulesInst);
