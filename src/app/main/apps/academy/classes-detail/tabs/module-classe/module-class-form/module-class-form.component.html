@@ -40,7 +40,7 @@
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Nombre de jours</mat-label>
-                    <input ngDefaultControl name="nbDaysModuleInstance" formControlName="nbDaysModuleInstance" [(ngModel)]="moduleInst.nbDaysModuleInstance" matInput required>
+                    <input ngDefaultControl name="nbDaysModuleInstance" formControlName="nbDaysModuleInstance"  matInput required>
                     <mat-error *ngIf="moduleInstForm.get('nbDaysModuleInstance').hasError('pattern')">Entrer un numéro</mat-error>
                 </mat-form-field>
             </div>

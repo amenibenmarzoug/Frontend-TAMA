@@ -781,11 +781,11 @@ getThemeDetailDaysAffected(): Promise<any> {
     return new Promise((resolve, reject) => {
         this._httpClient.get(AUTH_API + 'moduleInst/themesDetailsInst', { params: id })
             .subscribe((response: any) => {
-                this.themeDetails = response;
-                this.themeDetails = this.themeDetails.map(themeDetail => {
+                this.themeDetailsInst = response;
+                this.themeDetailsInst = this.themeDetailsInst.map(themeDetail => {
                     this.actualDaysAffectedPerThemeDetail = this.actualDaysAffectedPerThemeDetail +
-                        Number(themeDetail.nbDaysThemeDetail);
-                    return new ThemeDetail(themeDetail);
+                        Number(themeDetail.nbDaysthemeDetailInst);
+                    return new ThemeDetailInst(themeDetail);
                 });
                 resolve(this.actualDaysAffectedPerThemeDetail);
 

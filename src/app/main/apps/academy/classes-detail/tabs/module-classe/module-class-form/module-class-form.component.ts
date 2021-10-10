@@ -93,7 +93,7 @@ createModuleInstForm(): FormGroup
 getModuleForm(event){
   this._moduleService.module=event;
   this.moduleInst.moduleInstanceName=event.moduleName;
-  this.moduleInst.nbDaysModuleInstance=event.nbDaysModule;
+  //this.moduleInst.nbDaysModuleInstance=event.nbDaysModule;
 }
 
 closeNewModuleForm(){
@@ -120,7 +120,7 @@ closeNewModuleForm(){
 closeEditModuleForm(){
   
   this.oldDaysAffectedValue= this._moduleService.oldDaysAffectedNumber
-  this.actualDaysNumberAffected=this._moduleService.actualDaysAffectedPerModule -this.oldDaysAffectedValue+ Number(this.moduleInst.nbDaysModuleInstance)  ; 
+  this.actualDaysNumberAffected=this._moduleService.actualDaysAffectedPerModule -this.oldDaysAffectedValue+ Number(this.moduleInstForm.value.nbDaysModuleInstance)  ; 
   // case where the modified days number exceeded the limit
   if(this.actualDaysNumberAffected > this._moduleService.themeInst.nbDaysthemeInst) {
                           
@@ -131,6 +131,7 @@ closeEditModuleForm(){
   }
   else 
   {
+    console.log("SAVE")
     this.matDialogRef.close(['save',this.moduleInstForm])
   }
 }
