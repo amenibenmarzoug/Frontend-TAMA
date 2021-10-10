@@ -31,7 +31,7 @@ moduleId:any;
 moduleInstId:any;
 modulesInst:ModuleInst[];
 themeDetailsInst: ThemeDetailInst[];
-moduleInst:Module;
+moduleInst:ModuleInst;
 themeInst: ThematiqueInst;
 themeClasse:ThematiqueInst;
 themeDetailInst: ThemeDetailInst; 
@@ -548,7 +548,7 @@ updateModuleInst(moduleInst,themeInst,module): Promise<any> {
     moduleInst.themeInstance=themeInst;
     moduleInst.module = module;
     return new Promise((resolve, reject) => {
-        this._httpClient.put(AUTH_API + 'module', module)
+        this._httpClient.put(AUTH_API + 'moduleInstance', moduleInst)
             .subscribe(response => {
                 this.getModulesInst();
                 resolve(response);
@@ -763,13 +763,33 @@ addThemeDetail(themeDetail, module): Promise<any> {
 }
 
 updateThemeDetail(themeDetail,module): Promise<any> {
-    themeDetail.module=module;
+    themeDetail.moduleInstance=module;
     return new Promise((resolve, reject) => {
-        this._httpClient.put(AUTH_API + 'themeDetail', themeDetail)
+        this._httpClient.put(AUTH_API + 'themeDetailInst', themeDetail)
             .subscribe(response => {
                 this.getThemeDetail();
                 resolve(response);
             });
+    });
+}
+
+
+getThemeDetailDaysAffected(): Promise<any> {
+
+    let id = new HttpParams().set('id', this.moduleId);
+    this.actualDaysAffectedPerThemeDetail = 0;
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API + 'moduleInst/themesDetailsInst', { params: id })
+            .subscribe((response: any) => {
+                this.themeDetails = response;
+                this.themeDetails = this.themeDetails.map(themeDetail => {
+                    this.actualDaysAffectedPerThemeDetail = this.actualDaysAffectedPerThemeDetail +
+                        Number(themeDetail.nbDaysThemeDetail);
+                    return new ThemeDetail(themeDetail);
+                });
+                resolve(this.actualDaysAffectedPerThemeDetail);
+
+            }, reject);
     });
 }
 

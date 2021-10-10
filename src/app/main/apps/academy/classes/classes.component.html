@@ -109,7 +109,7 @@
 
                                 <mat-menu #moreMenu="matMenu">
                                   
-                                    <button mat-menu-item aria-label="lieu" (click)="choosePlace(programInst)">
+                                    <button mat-menu-item aria-label="lieu" (click)="choosePlace(programInst)" [disabled]="programInst.place!=null">
                                         <mat-icon>place</mat-icon>
                                         <span>Lieu</span>
                                     </button>

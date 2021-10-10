@@ -46,7 +46,7 @@ export class ThemeDetailInstFormComponent  {
 
     if ( this.action === 'edit' )
     {
-        this.dialogTitle = 'Modifier Module';
+        this.dialogTitle = 'Modifier Thème de la journée';
         this.themeDetail = _data.themeDetail;
         this.themeDetail.moduleInstance=_data.themeDetail.module ; 
         this._themeDetailsService.module = this.themeDetail.moduleInstance;

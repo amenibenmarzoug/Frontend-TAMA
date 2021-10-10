@@ -13,15 +13,15 @@
     <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef> Nom et Prénom </mat-header-cell>
         <mat-cell *matCellDef="let contact">
-            <p class="text-truncate font-weight-600">{{contact.firstNameP}} {{contact.lastNameP}}</p>
+            <p class="font-weight-600">{{contact.firstNameP}} {{contact.lastNameP}}</p>
         </mat-cell>
     </ng-container>
 
 
     <!-- Age Column -->
-    <ng-container matColumnDef="age">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Age</mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm >
+    <ng-container matColumnDef="age"  >
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm class="cell-age">Age</mat-header-cell>
+        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm class="cell-age" >
             <p class="age text-truncate">
               {{contact.age}}
             </p>
@@ -30,9 +30,9 @@
 
 
      <!-- Professional Experience Column -->
-    <ng-container matColumnDef="experience">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>ExpériencePro. </mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
+    <ng-container matColumnDef="experience" >
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md class="cell-experience">ExpériencePro. </mat-header-cell>
+        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md class="cell-experience">
             <p class="phone text-truncate">
                 {{contact.experience}}
             </p>
@@ -42,7 +42,7 @@
 
     <!-- Company Column -->
     <ng-container  matColumnDef="company">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Entreprise</mat-header-cell>
+         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Entreprise</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
             <p *ngIf="contact.entreprise!=null"  class="company text-truncate">
              {{contact.entreprise.enterpriseName}}
@@ -57,7 +57,7 @@
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Classe</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
             <p *ngIf="contact.programInstance!=null" class="company">
-                {{contact.programInstance.programInstName}} {{contact.programInstance.location}}
+                {{contact.programInstance.programInstName}} 
             </p>
         </mat-cell>
     </ng-container>

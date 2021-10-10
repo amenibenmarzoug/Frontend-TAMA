@@ -169,7 +169,6 @@
                                         (dateInput)="addEvent($event)">
                                     <mat-error *ngIf="formErrorsStepper1.courseSessionBeginDate">
                                         {{formErrorsStepper1.courseSessionBeginDate}}</mat-error>
-
                                 </mat-form-field>-->
 
                                 
@@ -207,10 +206,9 @@
                                         required (blur)="onValueChangedStepper1()" autocomplete="false">
                                     <mat-error *ngIf="formErrorsStepper1.courseSessionEndDate">
                                         {{formErrorsStepper1.courseSessionEndDate}}</mat-error>
-
                                 </mat-form-field>
                                 -->
-
+                            
                                 <div class="nav-item" aria-label="Heure de la séance">
                                     <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">
                                         <mat-label>Heure Début</mat-label>
@@ -366,7 +364,7 @@
                             Précédent
                         </button>
                         <button mat-raised-button matStepperNext type="button" color="accent"
-                            [disabled]="!horizontalStepperStep3.valid || selectedClassRoom==null"
+                            [disabled]="!horizontalStepperStep3.valid "
                             (click)="sendClassroom()">
                             Suivant
                         </button>
@@ -387,17 +385,21 @@
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
                         *ngIf="selectedTrainer!=null && session!=null"> Séance: {{session.sessionName}}
                         {{session.themeDetailInstance.themeDetail.themeDetailName}}</div>
-                    <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
-                        *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null && session.trainer.gender=='Féminin'">
+                        <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
+                        *ngIf="selectedTrainer!=null && session!=null && session.trainer.gender=='Féminin'">
                         Formatrice:
                         {{selectedTrainer.firstName}} {{selectedTrainer.lastName}}</div>
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
-                        *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null && session.trainer.gender=='Masculin'">
+                        *ngIf="selectedTrainer!=null && session!=null && session.trainer.gender=='Masculin'">
                         Formateur:
                         {{selectedTrainer.firstName}} {{selectedTrainer.lastName}}</div>
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
-                        *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null"> Date:
+                        *ngIf="selectedTrainer!=null && session!=null "> Date:
                         {{session.sessionBeginDate | date:'fullDate'}} </div>
+                    <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
+                        *ngIf="place!=null">
+                        Lieu:
+                        {{place}}</div>
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
                         *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null && session.classRoom.institution!=null">
                         Salle:
