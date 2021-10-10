@@ -77,8 +77,8 @@
                     <mat-label >Spécialité</mat-label>
                     <mat-select multiple=""  [(value)]="contact.specifications" (selectionChange)="sendSpecifications(contact)" formControlname="specifications">
                        
-                        <mat-option *ngFor="let specification of specifications" [value]="specification.moduleName">
-                            {{specification.theme.themeName}}- {{specification.moduleName}}
+                        <mat-option *ngFor="let specification of specifications" [value]="specification">
+                            {{specification}}
                         </mat-option>
                     </mat-select>
                     <mat-error>Spécialié est requise!</mat-error>

@@ -34,7 +34,11 @@ export class TrainerFormComponent {
     ) {
         // Set the defaults
         this.action = _data.action;
-        this.specifications=this._serviceTrainer.modules;
+        this._serviceTrainer.onModulesChanged.subscribe((modules)=>{
+            this.specifications=modules;
+        })
+       
+        console.log(this.specifications)
         if (this.action === 'edit') {
             this.dialogTitle = 'Modifier Formateur';
             

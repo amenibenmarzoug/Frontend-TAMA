@@ -161,7 +161,7 @@ export class TrainerService implements Resolve<any>
 
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'module')
+            this._httpClient.get(AUTH_API + 'modulesNames')
                 .subscribe((response: any) => {
                     console.log("MODULES");
                     console.log(response);
