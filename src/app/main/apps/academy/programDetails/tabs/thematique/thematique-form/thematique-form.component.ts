@@ -40,7 +40,7 @@ export class ThematiqueFormComponent implements OnInit {
 
 
     if (this.action === 'edit') {
-      this.dialogTitle = 'Edit Thèmatique';
+      this.dialogTitle = 'Modifier Thèmatique';
       this.theme = _data.theme;
       this._programDetailsService.program = this.theme.program;
 

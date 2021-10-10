@@ -30,7 +30,7 @@ export class ProgramFormComponent implements OnInit {
 
   if ( this.action === 'edit' )
   {
-      this.dialogTitle = 'Edit Programme';
+      this.dialogTitle = 'Modifier Programme';
       this.program = _data.program;
      
   }

@@ -39,7 +39,7 @@ export class ThematiqueInstFormComponent implements OnInit {
 
 
     if (this.action === 'edit') {
-      this.dialogTitle = 'Edit Thèmatique Dédiée';
+      this.dialogTitle = 'Modifier Thème';
       this.themeInst = _data.themeInst;
       this._programDetailsService.programInst=this.themeInst.programInstance;
       this._programDetailsService.theme  = this.themeInst.theme;
@@ -48,7 +48,7 @@ export class ThematiqueInstFormComponent implements OnInit {
     }
     else {
 
-      this.dialogTitle = 'Nouveau Thème Dédié';
+      this.dialogTitle = 'Nouveau Thème ';
       this.themeInst = new ThematiqueInst({});
 
     }
