@@ -14,6 +14,7 @@ import { ProgramDetailsService } from '../../../programDetails/programDetails.se
 import{ProgramInstDetailService} from '../../program-inst-detail.service';
 import {ThemeDetailInstFormComponent} from '../../tabs/theme-detail-inst/theme-detail-form/theme-detail-form.component';
 import { ModuleInst } from '../module-inst/moduleInst.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-theme-detail-inst',
@@ -101,7 +102,8 @@ export class ThemeDetailInstComponent implements OnInit {
       if ((this._themeDetailsService.module == null)) {
           
           console.log(this._themeDetailsService.module);
-          this.addThemeDetailAlert("Veuillez choisir le ModuleInst");
+          //this.addThemeDetailAlert("Veuillez choisir le ModuleInst");
+          this.ErrorMessage("Veuillez choisir le Module")
       }
 
       else {
@@ -129,7 +131,7 @@ export class ThemeDetailInstComponent implements OnInit {
 
                   this.actualDaysNumberAffected = this._themeDetailsService.actualDaysAffectedPerThemeDetail+ Number(this.themeDetail.nbDaysthemeDetailInst)  ; 
                   console.log("this.actualDaysNumberAffected  from serviice"+ this.actualDaysNumberAffected)
-                  console.log("this._themeDetailsService.module.nbDaysModuleInstance "+ this._themeDetailsService.module.nbDaysModuleInstance)
+                  console.log("this._themeDetailsService.module.nbDaysModuleInstance "+ this._themeDetailsService.module)
                     if (this.actualDaysNumberAffected > Number(this._themeDetailsService.module.nbDaysModuleInstance)) {
                         this.addThemeDetailAlert("Vous avez dépassé le nombre des jours du Module concerné");
                         console.log(`Exceeded`);
@@ -188,6 +190,20 @@ console.log(this.selectedModule);
    */
   toggleSidebar(name): void {
       this._fuseSidebarService.getSidebar(name).toggleOpen();
+  }
+
+  ErrorMessage(message): void {
+    Swal.fire(
+      {
+        title: message,
+        icon: 'error',
+        showCancelButton: false,
+        confirmButtonColor: '#38a9ff',
+        //cancelButtonColor: '#d33',
+        confirmButtonText: 'Retour'
+      }
+  )
+  
   }
 
 }

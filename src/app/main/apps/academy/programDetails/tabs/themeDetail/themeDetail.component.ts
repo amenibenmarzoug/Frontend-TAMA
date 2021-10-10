@@ -11,6 +11,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
 import {ThemeDetailFormComponent} from '../themeDetail/theme-detail-form/theme-detail-form.component';
 import { ProgramDetailsService } from '../../programDetails.service';
+import Swal from 'sweetalert2';
 @Component({
     selector     : 'themeDetail',
     templateUrl  : './themeDetail.component.html',
@@ -94,8 +95,10 @@ export class ThemeDetailComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
 
     addNewThemeDetail(): void {
-        if ((this._themeDetailsService.module == null)) {
-            this.addThemeDetailAlert("Veuillez choisir le Module");
+        if ((this._themeDetailsService.module == null )) {
+            console.log(this._themeDetailsService.module);
+            //this.addThemeDetailAlert("Veuillez choisir un Module");
+            this.ErrorMessage("Veuillez choisir un Module");
         }
 
         else {
@@ -115,13 +118,13 @@ export class ThemeDetailComponent implements OnInit, OnDestroy
                         return;
                     }
                     this.themeDetail = response.getRawValue();
-                    this.actualDaysNumberAffected = this._themeDetailsService.actualDaysAffectedPerThemeDetail+ Number(this.themeDetail.nbDaysThemeDetail)  ; 
+                    /*this.actualDaysNumberAffected = this._themeDetailsService.actualDaysAffectedPerThemeDetail+ Number(this.themeDetail.nbDaysThemeDetail)  ; 
 
                     if (this.actualDaysNumberAffected > Number(this._themeDetailsService.module.nbDaysModule)) {
                         this.addThemeDetailAlert("Vous avez dépassé le nombre des jours du Module concerné");
                         console.log(`Exceeded`);
                         return; 
-                    }
+                    }*/
 
                     this.confirmAddThemeDetail();
 
@@ -173,4 +176,18 @@ export class ThemeDetailComponent implements OnInit, OnDestroy
     toggleSidebar(name): void {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
+
+    ErrorMessage(message): void {
+        Swal.fire(
+          {
+            title: message,
+            icon: 'error',
+            showCancelButton: false,
+            confirmButtonColor: '#38a9ff',
+            //cancelButtonColor: '#d33',
+            confirmButtonText: 'Retour'
+          }
+      )
+      
+      }
 }

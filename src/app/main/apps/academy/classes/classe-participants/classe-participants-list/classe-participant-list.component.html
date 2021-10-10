@@ -1,0 +1,97 @@
+<mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let participant">
+            <mat-checkbox [(ngModel)]="checkboxes[participant.id]"
+                (ngModelChange)="onSelectedChange(participant.id.toString())" (click)="$event.stopPropagation()">
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="number">
+        <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+        <mat-cell *matCellDef="let participant; let i = index;" class="row">
+            <p class="text-truncate">{{i+1}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Nom et Prénom </mat-header-cell>
+        <mat-cell *matCellDef="let participant">
+            <p class="text-truncate font-weight-600">{{participant.firstNameP}} {{participant.lastNameP}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef> Email</mat-header-cell>
+        <mat-cell *matCellDef="let participant">
+            <p class="text-truncate font-weight-600">{{participant.email}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- phoneNumber Column -->
+    <ng-container matColumnDef="phone">
+        <mat-header-cell *matHeaderCellDef> Téléphone</mat-header-cell>
+        <mat-cell *matCellDef="let participant">
+            <p class="text-truncate font-weight-600">{{participant.phoneNumber}}</p>
+        </mat-cell>
+    </ng-container>
+
+
+    <!-- Professional Experience Column -->
+    <ng-container matColumnDef="experience">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>ExpériencePro. </mat-header-cell>
+        <mat-cell *matCellDef="let participant" fxHide fxShow.gt-md>
+            <p class="phone text-truncate">
+                {{participant.experience}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+
+    <!-- Company Column -->
+    <ng-container matColumnDef="company">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Entreprise</mat-header-cell>
+        <mat-cell *matCellDef="let participant" fxHide fxShow.gt-md>
+            <p *ngIf="participant.entreprise!=null" class="company text-truncate">
+                {{participant.entreprise.enterpriseName}}
+            </p>
+            <p *ngIf="participant.entreprise==null" class="company text-truncate">
+                aucune
+            </p>
+        </mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="level">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Niveau Management</mat-header-cell>
+        <mat-cell *matCellDef="let participant" fxHide fxShow.gt-md>
+            <p class="company text-truncate">
+                {{participant.level}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+ <!-- Action Column -->
+ <ng-container matColumnDef="action">
+    <mat-header-cell *matHeaderCellDef  fxShow.gt-xs>Action</mat-header-cell>
+    <mat-cell *matCellDef="let task" fxHide fxShow.gt-xs>
+        <div fxFlex="row">
+            <!-- <button (click)="$event.stopPropagation();">
+                <mat-icon color="success" (click)="editContact(contact)">create</mat-icon>
+            </button> -->
+            <button (click)="$event.stopPropagation();">
+                <mat-icon color="warn" (click)="deleteParticipant(participant.id)">delete</mat-icon>
+            </button>
+        </div>
+    </mat-cell>
+</ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let participant; columns: displayedColumns;" class="participant"
+        [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+
+
+</mat-table>

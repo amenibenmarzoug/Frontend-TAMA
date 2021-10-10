@@ -1,107 +1,132 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators, ReactiveFormsModule, FormControl }from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ParticipantsService } from 'app/main/apps/participants/participants.service';
+import { Participant } from 'app/main/apps/participants/participant.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
-  
-import { MyParticipant } from 'app/main/apps/cursus/participants/participant.model';
 @Component({
-  selector: 'app-participant-form',
-  templateUrl: './participant-form.component.html',
-  styleUrls: ['./participant-form.component.scss'],
-  encapsulation: ViewEncapsulation.None
-
+    selector: 'app-participant-form',
+    templateUrl: './participant-form.component.html',
+    styleUrls: ['./participant-form.component.scss'],
+    encapsulation: ViewEncapsulation.None
 
 })
-export class ParticipantFormComponent{
+export class ParticipantFormComponent {
+    formErrorsP = {
+        'firstNameP': '',
+        'lastNameP': '',
+        'level': '',
+        'gender': '',
+        'birthdateP': '',
+        'educationLevel': ''
+    };
 
-  action: string;
-  contact:MyParticipant;
-  contactForm: FormGroup;
-  dialogTitle: string;
+    validationMessagesP = {
 
-  /**
-   * Constructor
-   *
-   * @param {MatDialogRef<MyParticipantFormComponent>} matDialogRef
-   * @param _data
-   * @param {FormBuilder} _formBuilder
-   */
-  constructor(
-      public matDialogRef: MatDialogRef<ParticipantFormComponent>,
-      @Inject(MAT_DIALOG_DATA) private _data: any,
-      private _formBuilder: FormBuilder
-  )
-  {
-      // Set the defaults
-      this.action = _data.action;
+        'genderP': {
+            'required': 'Sexe est obligatoire !',
 
-      if ( this.action === 'edit' )
-      {
-          this.dialogTitle = 'Modifier Participant ';
-          this.contact = _data.contact;
-      }
-      else
-      {
-          this.dialogTitle = 'Ajouter Participant';
-          this.contact = new MyParticipant({});
-          
-      }
+        }
 
-      this.contactForm = this.createContactForm();
-  }
+    }
+    cities: string[] = [
+        'Tunis', 'Ariana', 'Ben Arous', 'Manouba', 'Nabeul', 'Zaghouan', 'Bizerte', 'Béja', 'Jendouba', 'Kef', 'Siliana',
+        'Sousse', 'Monastir', 'Mahdia', 'Sfax', 'Kairouan', 'Kasserine', 'Sidi Bouzid', 'Gabès', 'Mednine', 'Tataouine', 'Gafsa', 'Tozeur', 'Kebili'
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
+    ];
 
-  /**
-   * Create contact form
-   *
-   * @returns {FormGroup}
-   */
-  createContactForm(): FormGroup
-  {
-      return this._formBuilder.group({
-          id      : [this.contact.id],
-          firstNameP    : [this.contact.firstNameP, Validators.required],
-          lastNameP: [this.contact.lastNameP, Validators.required],
-          level: [this.contact.level, Validators.required],
-          gender: [this.contact.gender, Validators.required],
-          company : [this.contact.entreprise],
-          currentPosition: [this.contact.currentPosition, Validators.required],
-          email   : [this.contact.email, Validators.required],
-          phoneNumber   : [this.contact.phoneNumber, Validators.required],
-        //   address : [this.contact.address],
-          street :[this.contact.street, Validators.required],
-          city    : [this.contact.city, Validators.required],
-          postalCode: [this.contact.postalCode, Validators.required],
-          birthday: [this.contact.birthday, Validators.required],
-          //password :[this.contact.phoneNumber],
-          notes   : [this.contact.notes] ,
-          educationLevel : [this.contact.educationLevel, Validators.required]
+    action: string;
+    contact: Participant;
+    contactForm: FormGroup;
+    dialogTitle: string;
+    entreprises: any[];
+    classes: any[];
+    courses: any[];
+    private _unsubscribeAll: Subject<any>;
+    /**
+     * Constructor
+     *
+     * @param {MatDialogRef<ParticipantFormComponent>} matDialogRef
+     * @param _data
+     * @param {FormBuilder} _formBuilder
+     * @param {ParticipantsService} _ParticipantsService
+     */
+    constructor(
+        public matDialogRef: MatDialogRef<ParticipantFormComponent>,
+        @Inject(MAT_DIALOG_DATA) private _data: any,
+        private _formBuilder: FormBuilder,
+        private _ParticipantsService: ParticipantsService
+    ) {
+        // Set the defaults
+        this.action = _data.action;
 
-      });
+        if (this.action === 'edit') {
+            this.dialogTitle = 'Modifier Participant';
+            this.contact = _data.contact;
+            this._ParticipantsService.entreprise = this.contact.entreprise;
+            this._ParticipantsService.classe = this.contact.programInstance;
+            //  this._ParticipantsService.cursus = this.contact.cursus;
+        }
+        else {
+            this.dialogTitle = 'Nouveau Participant';
+            this.contact = new Participant({});
+        }
+
+        this.contactForm = this.createContactForm();
+        this._unsubscribeAll = new Subject();
+        this.entreprises = this._ParticipantsService.entreprises;
+        this.classes = this._ParticipantsService.classes;
+        // this.courses = this._ParticipantsService.courses;
+
+
+    }
+
+
+
+
+
+    /**
+     * Create contact form
+     *
+     * @returns {FormGroup}
+     */
+    createContactForm(): FormGroup {
+        return this._formBuilder.group({
+            id: [this.contact.id],
+            firstNameP: [this.contact.firstNameP],
+            lastNameP: [this.contact.lastNameP],
+            level: [this.contact.level, Validators.required],
+            gender: [this.contact.gender, Validators.required],
+            company: [this.contact.entreprise],
+            classe: [this.contact.programInstance],
+            currentPosition: [this.contact.currentPosition],
+            email: [this.contact.email],
+            phoneNumber: [this.contact.phoneNumber],
+           
+            city: [this.contact.city],
+           
+            birthday: [this.contact.birthday],
+            notes: [this.contact.notes],
+            educationLevel: [this.contact.educationLevel],
+
+        });
 
 
 
     }
-    formErrorsP = {
-        'firstNameP': '',
-        'lastNameP': '',
-        'level' :'' , 
-        'gender': '',
-        'birthdateP': ''
-    };
-     // console.log(this.contact.phoneNumber) ;
-     onValueChangedP(data?: any) {
-        if (! this.contactForm) { return; }
-        const form =  this.contactForm;
-        for (const field in  this.contactForm) {
-            if ( this.contactForm.hasOwnProperty(field)) {
+
+
+    // tslint:disable-next-line:typedef
+    onValueChangedP(data?: any) {
+        if (!this.contactForm) { return; }
+        const form = this.contactForm;
+        for (const field in this.contactForm) {
+            if (this.contactForm.hasOwnProperty(field)) {
                 // clear previous error message (if any)
                 this.contactForm[field] = '';
                 const control = form.get(field);
-               // console.log(control)
                 if (control && (control.dirty || control.touched) && !control.valid) {
                     const messages = this.validationMessagesP[field];
                     for (const key in control.errors) {
@@ -112,22 +137,22 @@ export class ParticipantFormComponent{
                 }
             }
         }
-    } 
-    validationMessagesP = {
-
-        'genderP': {
-            'required': 'Gender is required.',
-
-        }
     }
-    cities: String[] = [
-        'Tunis', 'Ariana', 'Ben Arous', 'Manouba','Nabeul', 'Zaghouan', 'Bizerte', 'Béja', 'Jendouba', 'Kef', 'Siliana',
-        'Sousse', 'Monastir', 'Mahdia', 'Sfax', 'Kairouan','Kasserine','Sidi Bouzid', 'Gabès', 'Mednine','Tataouine','Gafsa','Tozeur','Kebili'
-        
-      ];
+   
 
-  }
-  
+    // tslint:disable-next-line:typedef
+    getEntrepriseForm(event) {
+
+        this._ParticipantsService.entreprise = event;
+    }
+   
+    // tslint:disable-next-line:typedef
+    getClasseForm(event) {
+
+        this._ParticipantsService.classe = event;
+    }
+   
 
 
 
+}

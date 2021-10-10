@@ -6,8 +6,9 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FuseUtils } from '@fuse/utils';
 
 import { MyEquipments } from './ressources.model';
+import {environment} from 'environments/environment';
 
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 
 const USER_KEY = 'auth-user';
 
@@ -66,7 +67,7 @@ export class RessourcesService implements Resolve<any>
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {
         
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
 
             Promise.all([
                // this.getContacts(),
@@ -293,7 +294,7 @@ export class RessourcesService implements Resolve<any>
         const contactIndex = this.contacts.indexOf(id);
         this.contacts.splice(contactIndex, 1);
             this.onContactsChanged.next(this.contacts);
-        this._httpClient.delete(`http://localhost:8080/api/equipment/${id}`)
+        this._httpClient.delete(AUTH_API + `equipment/${id}`)
             .subscribe(response => {
                // this.getContacts();
               

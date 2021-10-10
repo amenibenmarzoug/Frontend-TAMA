@@ -14,7 +14,8 @@ import{ThematiqueInst} from '../program-inst-detail/tabs/thematique-inst/themati
 import{ModuleInst} from '../program-inst-detail/tabs/module-inst/moduleInst.model';
 import{ThemeDetailInst} from '../program-inst-detail/tabs/theme-detail-inst/themeDetailsInst.model';
 import { ProgramInst } from '../programInst.model';
-const AUTH_API = 'http://localhost:8080/api/';
+import {environment} from 'environments/environment';
+const AUTH_API = environment.backend_url+ 'api/';
 @Injectable({
   providedIn: 'root'
 })
@@ -30,7 +31,7 @@ moduleId:any;
 moduleInstId:any;
 modulesInst:ModuleInst[];
 themeDetailsInst: ThemeDetailInst[];
-moduleInst:Module;
+moduleInst:ModuleInst;
 themeInst: ThematiqueInst;
 themeClasse:ThematiqueInst;
 themeDetailInst: ThemeDetailInst; 
@@ -70,6 +71,13 @@ modulesOfTheme : Module[];
 moduleClasse: ModuleInst;
 program:any;
 themesOfProgram : Thematique[];
+
+actualDaysNumberAffected = 0 ; 
+oldDaysAffectedNumber=0 ; 
+
+actualDaysAffectedPerModule=0;
+actualDaysAffectedPerThemeDetail=0;
+
 /**
  * Constructor
  *
@@ -105,13 +113,14 @@ constructor(
  */
 resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
 
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
         Promise.all([
           // this.getThemeInst(),
            this.getProgramInst(),
            this.getModules(),
           this.getModulesInst(),
           this.getThemeDetail0(),
+          //this.getThemeDetail(),
           this.getThemes()
            
            
@@ -144,27 +153,13 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
     });
 }
 
-/* getThemes(): Promise<any>
-{
-  
-   
-     return new Promise((resolve, reject) => {
-            this._httpClient.get('http://localhost:8080/api/themes')
-            .subscribe((response: any) => {
-              
-                this.onThemeChanged.next(response);
-                this.themes=response;
-                resolve(response);
-            }, reject);
-        }
-    );
-}*/
+
 getModules(): Promise<any>
 {
   
    
      return new Promise((resolve, reject) => {
-            this._httpClient.get('http://localhost:8080/api/module')
+            this._httpClient.get(environment.backend_url+ 'api/module')
             .subscribe((response: any) => {
               
                 this.onModuleChanged.next(response);
@@ -185,7 +180,7 @@ getProgramInst(): Promise<any>
   
    
      return new Promise((resolve, reject) => {
-            this._httpClient.get('http://localhost:8080/api/programsInst')
+            this._httpClient.get(environment.backend_url+ 'api/programsInst')
             .subscribe((response: any) => {
                 this.onProgramInstChanged.next(response);
                 this.programsInst=response;
@@ -247,7 +242,7 @@ addThemeInst(themeInst,theme): Promise<any> {
             });
     });
 }
-updateThemeInst(theme,program): Promise<any> {
+/*updateThemeInst(theme,program): Promise<any> {
     console.log("programmmmm");
     console.log(program);
     theme.program = program;
@@ -260,7 +255,7 @@ updateThemeInst(theme,program): Promise<any> {
                 resolve(response);
             });
     });
-}
+}*/
 
 addClass(programInst,program): Observable<any>{
     this.program=program;
@@ -313,7 +308,7 @@ getThemes(): Promise<any> {
 
 
 
-addModuleInst2(themeInst,module): Promise<any> {
+/*addModuleInst2(themeInst,module): Promise<any> {
     this.moduleClasse=new ModuleInst(module);
     this.moduleClasse.module=module;
     this.moduleClasse.moduleInstanceName=module.moduleName;
@@ -332,7 +327,7 @@ console.log(themeInst);
                 resolve(response);
             });
     });
-}
+}*/
 
 /*AutoAddThemeInst(theme,program):Observable<any>{
     
@@ -379,7 +374,7 @@ deleteThemeInst(theme): Promise<any> {
  *
  * @returns {Promise<any>}
  */
-getModulesInst(): Promise<any> {
+/*getModulesInst(): Promise<any> {
     return new Promise((resolve, reject) => {
         this._httpClient.get(AUTH_API +'moduleInstance')
             .subscribe((response: any) => {
@@ -417,7 +412,49 @@ getModulesInst(): Promise<any> {
             }, reject);
     }
     );
-}
+}*/
+
+
+
+/*getModulesInst(): Promise<any> {
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API +'moduleInstance')
+            .subscribe((response: any) => {
+
+                this.modulesInst = response;
+                this.themeInstId = this.filterByModule;
+
+                if (this.themeInstId != null) {
+                    if (this.filterByModule === 'Modules') {
+                    }
+                   else {
+
+                        this.modulesInst = this.modulesInst.filter(_module => {
+                            // return this.user.frequentContacts.includes(_contact.id);
+                            if (_module.themeInstance.id == this.themeInstId) {
+                                return true;
+                            }
+                            return false;
+                        });
+                    }
+                }
+                else {
+                    this.modulesInst = response;
+                }
+                if (this.searchTextModule && this.searchTextModule !== '') {
+                    this.modulesInst = FuseUtils.filterArrayByString(this.modulesInst, this.searchTextModule);
+                }
+
+                this.modulesInst = this.modulesInst.map(module => {
+                    return new ModuleInst(module);
+                });
+
+                this.onmoduleInstChanged.next(this.modulesInst);
+                resolve(this.modulesInst);
+            }, reject);
+    }
+    );
+}*/
 /**
 * Toggle selected modules by id
 *
@@ -511,7 +548,7 @@ updateModuleInst(moduleInst,themeInst,module): Promise<any> {
     moduleInst.themeInstance=themeInst;
     moduleInst.module = module;
     return new Promise((resolve, reject) => {
-        this._httpClient.put(AUTH_API + 'module', module)
+        this._httpClient.put(AUTH_API + 'moduleInstance', moduleInst)
             .subscribe(response => {
                 this.getModulesInst();
                 resolve(response);
@@ -561,7 +598,7 @@ deleteModule(id): Promise<any> {
         const moduleIndex = this.modulesInst.indexOf(id);
         this.modulesInst.splice(moduleIndex, 1);
         this.onmoduleInstChanged.next(this.modulesInst);
-        this._httpClient.delete(`http://localhost:8080/api/module/${id}`)
+        this._httpClient.delete(AUTH_API + `module/${id}`)
             .subscribe(response => {
                 resolve(response);
             });
@@ -594,17 +631,15 @@ getThemeDetail0(): Promise<any> {
     }
     );
 }
-/**
- * Get Modules
- *
- * @returns {Promise<any>}
- */
+
+
 getThemeDetail(): Promise<any> {
     return new Promise((resolve, reject) => {
         this._httpClient.get(AUTH_API +'themeDetailInst')
             .subscribe((response: any) => {
 
                 this.themeDetailsInst = response;
+               
                 this.moduleId = this.filterByThemeDetail;
 
                 if (this.moduleId != null) {
@@ -728,13 +763,33 @@ addThemeDetail(themeDetail, module): Promise<any> {
 }
 
 updateThemeDetail(themeDetail,module): Promise<any> {
-    themeDetail.module=module;
+    themeDetail.moduleInstance=module;
     return new Promise((resolve, reject) => {
-        this._httpClient.put(AUTH_API + 'themeDetail', themeDetail)
+        this._httpClient.put(AUTH_API + 'themeDetailInst', themeDetail)
             .subscribe(response => {
                 this.getThemeDetail();
                 resolve(response);
             });
+    });
+}
+
+
+getThemeDetailDaysAffected(): Promise<any> {
+
+    let id = new HttpParams().set('id', this.moduleId);
+    this.actualDaysAffectedPerThemeDetail = 0;
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API + 'moduleInst/themesDetailsInst', { params: id })
+            .subscribe((response: any) => {
+                this.themeDetailsInst = response;
+                this.themeDetailsInst = this.themeDetailsInst.map(themeDetail => {
+                    this.actualDaysAffectedPerThemeDetail = this.actualDaysAffectedPerThemeDetail +
+                        Number(themeDetail.nbDaysthemeDetailInst);
+                    return new ThemeDetailInst(themeDetail);
+                });
+                resolve(this.actualDaysAffectedPerThemeDetail);
+
+            }, reject);
     });
 }
 
@@ -758,7 +813,7 @@ deleteThemeDetail(id): Promise<any> {
         const themeDetailIndex = this.themeDetailsInst.indexOf(id);
         this.themeDetailsInst.splice(themeDetailIndex, 1);
         this.onThemeDetailInstChanged.next(this.themeDetailsInst);
-        this._httpClient.delete(`http://localhost:8080/api/themeDetail/${id}`)
+        this._httpClient.delete(AUTH_API + `themeDetail/${id}`)
             .subscribe(response => {
                 resolve(response);
             });
@@ -781,7 +836,85 @@ deleteSelectedThemeDetail(): void {
 
 
 
+getModuleDaysAffected(): Promise<any> {
+
+    let id = new HttpParams().set('id', this.themeInstId);
+    this.actualDaysAffectedPerModule=0;
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API + 'themeInst/modulesInst', { params: id })
+            .subscribe((response: any) => {
+                this.modulesInst = response;
+                this.modulesInst = this.modulesInst.map(module => {
+                    this.actualDaysAffectedPerModule=this.actualDaysAffectedPerModule+Number(module.nbDaysModuleInstance) ; 
+                    return new ModuleInst(module);
+                });
+                resolve(this.actualDaysAffectedPerModule);
+
+            }, reject);
+    });
+}
 
 
 
+updateThemeInst(theme,program): Promise<any> {
+    this.actualDaysNumberAffected= this.actualDaysNumberAffected - this.oldDaysAffectedNumber
+                                    +Number(theme.nbDaysthemeInst)  ;
+    console.log("programmmmm");
+    console.log(program);
+    theme.program = program;
+    console.log("themeee fel service");
+    console.log(theme);
+    return new Promise((resolve, reject) => {
+        this._httpClient.put(AUTH_API +'themeInst', theme)
+            .subscribe(response => {
+                this.lastprogramInst=response;//added by donia
+                resolve(response);
+            });
+    });
+}
+
+
+
+
+getModulesInst(): Promise<any> {
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API +'moduleInstance')
+            .subscribe((response: any) => {
+
+                this.modulesInst = response;
+                console.log("ModuleInst fel class service");
+                console.log(this.modulesInst);
+                this.themeInstId = this.filterByModule;
+
+                if (this.themeInstId != null) {
+                    if (this.filterByModule === 'Modules') {
+                    }
+                   else {
+
+                        this.modulesInst = this.modulesInst.filter(_module => {
+                            // return this.user.frequentContacts.includes(_contact.id);
+                            if (_module.themeInstance.id == this.themeInstId) {
+                                return true;
+                            }
+                            return false;
+                        });
+                    }
+                }
+                else {
+                    this.modulesInst = response;
+                }
+                if (this.searchTextModule && this.searchTextModule !== '') {
+                    this.modulesInst = FuseUtils.filterArrayByString(this.modulesInst, this.searchTextModule);
+                }
+
+                this.modulesInst = this.modulesInst.map(module => {
+                    return new ModuleInst(module);
+                });
+
+                this.onmoduleInstChanged.next(this.modulesInst);
+                resolve(this.modulesInst);
+            }, reject);
+    }
+    );
+}
 }

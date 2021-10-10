@@ -16,7 +16,7 @@ import { navigationParticipant } from 'app/navigation/navigationParticipant';
 import { navigationEntreprise } from 'app/navigation/navigationEntreprise';
 import { navigationTrainer } from 'app/navigation/navigationTrainer';
 import { navigationAdmin } from 'app/navigation/navigationAdmin';
-import { navigationInstitution} from 'app/navigation/navigationInstitution';
+import { navigationInstitution } from 'app/navigation/navigationInstitution';
 
 
 import { locale as navigationEnglish } from 'app/navigation/i18n/en';
@@ -40,7 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
     showPartBoard = false;
     showAdminBoard = false;
     showTrainerBoard = false;
-    showInstitutionBoard= false;
+    showInstitutionBoard = false;
 
     showModeratorBoard = false;
     email: string;
@@ -76,41 +76,37 @@ export class AppComponent implements OnInit, OnDestroy {
         private tokenStorageService: TokenStorageService,
         private serviceLogin: Login2Service
     ) {
-         //setTimeout(() => {
-        // this.navigation = navigation;
- 
-         // Register the navigation to the service
-         this._fuseNavigationService.register('test', this.navigation);
- 
-         // Set the main navigation as our current navigation
-         this._fuseNavigationService.setCurrentNavigation('test');
- 
-         // Add languages
-         this._translateService.addLangs(['en', 'tr','fr']);
- 
-         // Set the default language
-         this._translateService.setDefaultLang('fr');
- 
-         // Set the navigation translations
-         this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
- 
-         // Use a language
-         this._translateService.use('fr'); 
-        //}, 1000);
 
 
-       /* this.serviceLogin.receivedFilter.subscribe((param: string[]) => {
-            this.roles = param;
-            console.log("Roles")
-            console.log(this.roles)
+        // Register the navigation to the service
+        this._fuseNavigationService.register('test', this.navigation);
+
+        // Set the main navigation as our current navigation
+        this._fuseNavigationService.setCurrentNavigation('test');
+
+        // Add languages
+        this._translateService.addLangs(['en', 'tr', 'fr']);
+
+        // Set the default language
+        this._translateService.setDefaultLang('fr');
+
+        // Set the navigation translations
+        this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
+
+        // Use a language
+        this._translateService.use('fr');
 
 
-        })*/
+        /* this.serviceLogin.receivedFilter.subscribe((param: string[]) => {
+             this.roles = param;
+             console.log("Roles")
+             console.log(this.roles)
+ 
+ 
+         })*/
 
 
-        //setTimeout(() => {
         this.isLoggedIn = !!this.tokenStorageService.getToken()
-        //}, 1000);
 
 
         console.log(this.isLoggedIn);
@@ -122,18 +118,13 @@ export class AppComponent implements OnInit, OnDestroy {
             this.showAdminBoard = this.roles.includes('MANAGER');
             this.showTrainerBoard = this.roles.includes('TRAINER');
             this.showPartBoard = this.roles.includes('PARTICIPANT');
-            this.showInstitutionBoard=this.roles.includes('INSTITUTION');
+            this.showInstitutionBoard = this.roles.includes('INSTITUTION');
 
 
         }
 
-        console.log("here")
-        console.log(this.showEntrepBoard)
-        if (this.showEntrepBoard) {//this.showEntrepBoard = this.roles.includes('');
+        if (this.showEntrepBoard) {
 
-            //this.showModeratorBoard = this.roles.includes('ROLE_MODERATOR');
-
-            console.log("entreprise")
 
             // Get default navigation
             this.navigation = navigationEntreprise;
@@ -145,7 +136,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this._fuseNavigationService.setCurrentNavigation('entr');
 
             // Add languages
-            this._translateService.addLangs(['en', 'tr','fr']);
+            this._translateService.addLangs(['en', 'tr', 'fr']);
 
             // Set the default language
             this._translateService.setDefaultLang('fr');
@@ -154,9 +145,9 @@ export class AppComponent implements OnInit, OnDestroy {
             this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
 
             // Use a language
-            this._translateService.use('fr'); 
+            this._translateService.use('fr');
         }
-      
+
 
         else if (this.showTrainerBoard) {
             // Get default navigation
@@ -169,7 +160,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this._fuseNavigationService.setCurrentNavigation('trainer');
 
             // Add languages
-            this._translateService.addLangs(['en', 'tr','fr']);
+            this._translateService.addLangs(['en', 'tr', 'fr']);
 
             // Set the default language
             this._translateService.setDefaultLang('fr');
@@ -178,7 +169,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
 
             // Use a language
-            this._translateService.use('fr'); 
+            this._translateService.use('fr');
         }
         else if (this.showPartBoard) {
 
@@ -192,7 +183,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this._fuseNavigationService.setCurrentNavigation('participant');
 
             // Add languages
-            this._translateService.addLangs(['en', 'tr','fr']);
+            this._translateService.addLangs(['en', 'tr', 'fr']);
 
             // Set the default language
             this._translateService.setDefaultLang('fr');
@@ -201,10 +192,9 @@ export class AppComponent implements OnInit, OnDestroy {
             this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
 
             // Use a language
-            this._translateService.use('fr'); 
+            this._translateService.use('fr');
         }
         else if (this.showAdminBoard) {
-            console.log("manager")
             // Get default navigation
             this.navigation = navigationAdmin;
 
@@ -215,7 +205,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this._fuseNavigationService.setCurrentNavigation('main');
 
             // Add languages
-            this._translateService.addLangs(['en', 'tr','fr']);
+            this._translateService.addLangs(['en', 'tr', 'fr']);
 
             // Set the default language
             this._translateService.setDefaultLang('fr');
@@ -224,7 +214,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
 
             // Use a language
-            this._translateService.use('fr'); 
+            this._translateService.use('fr');
 
 
         }
@@ -240,7 +230,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this._fuseNavigationService.setCurrentNavigation('institution');
 
             // Add languages
-            this._translateService.addLangs(['en', 'tr','fr']);
+            this._translateService.addLangs(['en', 'tr', 'fr']);
 
             // Set the default language
             this._translateService.setDefaultLang('fr');
@@ -249,7 +239,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this._fuseTranslationLoaderService.loadTranslations(navigationEnglish, navigationTurkish);
 
             // Use a language
-            this._translateService.use('fr'); 
+            this._translateService.use('fr');
         }
         /*switch (this.roles) {
        case ["PARTICIPANT"] :{

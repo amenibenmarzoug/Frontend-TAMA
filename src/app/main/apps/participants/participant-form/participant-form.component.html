@@ -28,7 +28,7 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Nom</mat-label>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <input name="lastNameP" formControlName="lastNameP" matInput>
+                    <input name="lastNameP" formControlName="lastNameP" matInput required>
                 </mat-form-field>
             </div>
 
@@ -52,61 +52,13 @@
 
                 </mat-form-field>
             </div>
-            <div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
-                <mat-form-field appearance="outline" fxFlex class="pr-4">
-                    <mat-label>Entreprise</mat-label>
-                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <mat-select (selectionChange)="getEntrepriseForm($event.value)">
-                       
-                        <mat-option *ngFor="let entreprise of entreprises" [value]="entreprise">
-                            {{ entreprise.enterpriseName}} 
-                        </mat-option>
-                    </mat-select>
 
-                    <mat-error *ngIf="formErrorsP.gender">{{formErrorsP.gender}}</mat-error>
-
-
-
-                </mat-form-field>
-            </div>
-
-            <div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
-                <mat-form-field appearance="outline" fxFlex class="pr-4">
-                    <mat-label>Groupe</mat-label>
-                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <mat-select (selectionChange)="getGroupForm($event.value)">
-                       
-                        <mat-option *ngFor="let groupe of groups" [value]="groupe">
-                            {{ groupe.groupName}} 
-                        </mat-option>
-                    </mat-select>
-
-                    
-                </mat-form-field>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
-                <mat-form-field appearance="outline" fxFlex class="pr-4">
-                    <mat-label>Classe</mat-label>
-                    <mat-icon matSuffix class="secondary-text">school</mat-icon>
-                    <mat-select (selectionChange)="getCursusForm($event.value)">
-                       
-                        <mat-option *ngFor="let cursus of courses" [value]="cursus">
-                            {{ cursus.programInstName}} 
-                        </mat-option>
-                    </mat-select>
-
-                    
-                </mat-form-field>
-            </div>
-            
-
-            
 
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Numéro</mat-label>
                     <mat-icon matSuffix class="secondary-text">phone</mat-icon>
-                    <input formControlName="phoneNumber" matInput>
+                    <input formControlName="phoneNumber" matInput required>
                 </mat-form-field>
             </div>
 
@@ -114,17 +66,35 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Email</mat-label>
                     <mat-icon matSuffix class="secondary-text">email</mat-icon>
-                    <input name="email" formControlName="email" matInput type="email">
+                    <input name="email" formControlName="email" matInput type="email" required>
                 </mat-form-field>
             </div>
+            <!--
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Date de Naissance</mat-label>
-                    <input matInput [matDatepicker]="birthdayDatePicker" name="birthday" formControlName="birthday">
+                    <input matInput [matDatepicker]="birthdayDatePicker" name="birthday" formControlName="birthday"  >
                     <mat-datepicker-toggle matSuffix [for]="birthdayDatePicker"></mat-datepicker-toggle>
-                    <mat-datepicker #birthdayDatePicker></mat-datepicker>
+                    <mat-datepicker #birthdayDatePicker startView="multi-year" panelClass="year-picker"></mat-datepicker>
                 </mat-form-field>
+                
             </div>
+            -->
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Année de Naissance</mat-label>
+                    <input  matInput [(ngModel)]="chosenYearDate" [matDatepicker]="Picker" [max]="currentDate"
+                     name="birthday" formControlName="birthday" />
+                <mat-datepicker-toggle matSuffix [for]="Picker" ></mat-datepicker-toggle>
+                <mat-datepicker #Picker startView="multi-year" panelClass="year-picker" 
+                 (yearSelected)="chosenYearHandler($event, Picker)"></mat-datepicker>
+
+                </mat-form-field>
+                
+            </div>
+
+           
+            
 
             <!-- <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
@@ -135,10 +105,10 @@
             </div> -->
             <div fxLayout="row" fxLayoutAlign="start center">
                 <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Rue</mat-label>
+                    <mat-label>Adresse</mat-label>
                     <mat-icon matSuffix class="secondary-text">home</mat-icon>
-                    <input name="street" formControlName="street" matInput >
-                  
+                    <input name="street" formControlName="street" matInput>
+
                 </mat-form-field>
             </div>
 
@@ -146,25 +116,98 @@
 
                 <mat-form-field appearance="outline" fxFlex="100">
                     <mat-label>Ville</mat-label>
-                    <mat-select formControlName="city" >
+                    <mat-select formControlName="city">
                         <mat-option *ngFor="let city of cities" [value]="city">
                             {{city}}
                         </mat-option>
 
                     </mat-select>
                     <mat-icon matSuffix class="secondary-text">outlined_flag</mat-icon>
-                    
+
                 </mat-form-field>
 
-               
+
                 <mat-form-field appearance="outline" fxFlex="33">
                     <mat-label>Code Postal </mat-label>
-                    <input matInput #postalCode formControlName="postalCode" maxlength="5 " >
+                    <input matInput #postalCode formControlName="postalCode" maxlength="5 ">
                     <mat-icon matSuffix class="secondary-text ">markunread_mailbox</mat-icon>
 
-                   
+
                 </mat-form-field>
 
+            </div>
+       <!--      <div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
+                <mat-form-field appearance="outline" fxFlex class="pr-4">
+                <mat-radio-group aria-label="Choisir" fxFlex class="pr-4" >
+                    <mat-radio-button  formControlName="particType" value="1">Employé</mat-radio-button>
+                    <mat-radio-button value="2">Etudiant</mat-radio-button>
+                </mat-radio-group>
+            </mat-form-field>
+            </div> -->
+            <div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
+                <mat-form-field appearance="outline" fxFlex class="pr-4">
+                    <mat-label>Employé ou Etudiant/Nouveau recruté </mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <mat-select formControlName="particType" required (selectionChange)="sendType($event.value)">
+                       
+                        <mat-option [value]="'Employé'">
+                            Employé
+                        </mat-option>
+                        <mat-option [value]="'Etudiant/Nouveau recruté'">
+                            Etudiant/Nouveau recruté
+                        </mat-option>
+                       
+
+                    </mat-select>
+
+
+
+
+                    <mat-error *ngIf="formErrorsP.gender">{{formErrorsP.level}}</mat-error>
+
+
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start" *ngIf="particpantType=='Employé'">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>NombreAnnéeExpérienceProfessionelle</mat-label>
+                    
+                    <input type ="number" formControlName="experience" matInput >
+                </mat-form-field>
+            </div>
+   
+            <div fxLayout="row" fxLayoutAlign="start center" class="pr-4" *ngIf="particpantType=='Employé'">
+                <mat-form-field appearance="outline" fxFlex class="pr-4">
+                    <mat-label>Entreprise</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <mat-select (selectionChange)="getEntrepriseForm($event.value)">
+
+                        <mat-option *ngFor="let entreprise of entreprises" [value]="entreprise">
+                            {{ entreprise.enterpriseName}}
+                        </mat-option>
+                    </mat-select>
+
+                    <mat-error *ngIf="formErrorsP.gender">{{formErrorsP.gender}}</mat-error>
+
+
+
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center" class="pr-4"  *ngIf="particpantType=='Etudiant/Nouveau recruté'">
+                <mat-form-field appearance="outline" fxFlex class="pr-4">
+                    <mat-label>Classe</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <mat-select (selectionChange)="getClasseForm($event.value)">
+
+                        <mat-option *ngFor="let classe of classes" [value]="classe">
+                            {{ classe.programInstName}} {{ classe.location}}
+                        </mat-option>
+                    </mat-select>
+
+
+                </mat-form-field>
             </div>
             <!-- <div fxLayout="row" fxLayoutAlign="start start" style="display:none !important;">
                 <mat-form-field appearance="outline" fxFlex>
@@ -191,8 +234,11 @@
             <div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
                 <mat-form-field appearance="outline" fxFlex class="pr-4">
                     <mat-label>Niveau Management </mat-label>
-                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <mat-icon matSuffix class="secondary-text">rate_review</mat-icon>
                     <mat-select formControlName="level" required>
+                        <mat-option [value]="'0'">
+                            0
+                        </mat-option>
                         <mat-option [value]="'0.5'">
                             0.5
                         </mat-option>
@@ -220,8 +266,8 @@
 
             <div fxLayout="row" fxLayoutAlign="start center" class="pr-4">
                 <mat-form-field appearance="outline" fxFlex class="pr-4">
-                    <mat-label>Niveau Éducation  </mat-label>
-                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <mat-label>Niveau Éducation </mat-label>
+                    <mat-icon matSuffix class="secondary-text">school</mat-icon>
                     <mat-select formControlName="educationLevel" required>
                         <mat-option [value]="'Bac'">
                             Bac
@@ -251,35 +297,40 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Position Actuelle </mat-label>
                     <mat-icon matSuffix class="secondary-text">work</mat-icon>
-                    <input name="currentPosition" formControlName="currentPosition" matInput>
+                    <input name="currentPosition" formControlName="currentPosition" matInput required>
                 </mat-form-field>
             </div>
 
 
 
-
+<!-- 
             <div fxLayout="row" class="textarea-wrapper" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Remarques</mat-label>
                     <textarea name="notes" formControlName="notes" matInput type="text" max-rows="4"></textarea>
                 </mat-form-field>
-            </div>
+            </div> -->
 
         </form>
+        
 
     </div>
 
+
     <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
 
-        <button *ngIf="action === 'edit'" mat-button class="mr-8" (click)="matDialogRef.close(['delete',contactForm])" aria-label="Delete" matTooltip="Delete">
+        <!-- <button *ngIf="action === 'edit'" mat-button class="mr-8" (click)="matDialogRef.close(['delete',contactForm])"
+            aria-label="Delete" matTooltip="Delete">
             Supprimer
-        </button>
+        </button> -->
 
-        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(contactForm)"  aria-label="SAVE">
+        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(contactForm)"
+            aria-label="SAVE" [disabled]="contactForm.invalid">
             Ajouter
         </button>
 
-        <button *ngIf="action === 'edit'" mat-button class="save-button" (click)="matDialogRef.close(['save',contactForm])" aria-label="SAVE">
+        <button *ngIf="action === 'edit'" mat-button class="save-button"
+            (click)="matDialogRef.close(['save',contactForm])" aria-label="SAVE" [disabled]="contactForm.invalid">
             Enregistrer
         </button>
 

@@ -4,9 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Session } from './session.model';
+import {environment} from 'environments/environment';
 
-
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = environment.backend_url+ 'api/';
 
 @Injectable()
 export class AddSessionService implements Resolve<any>{
@@ -32,6 +32,7 @@ export class AddSessionService implements Resolve<any>{
     sessionsByProgram:any[];
     checkboxes:{};
     events: any[];
+    freeDays: any[];
     unavailableTrainersId: any[];
     unavailableClassroomsId: any[];
     trainers: any[];
@@ -95,6 +96,7 @@ export class AddSessionService implements Resolve<any>{
                 this.getThemeInst(),
                 this.getSessions(),
                 this.getEvents(),
+                this.getFreeDays()
 
             ]).then(
                 ([files]) => {
@@ -382,9 +384,36 @@ export class AddSessionService implements Resolve<any>{
         });
     }
 
-    saveCourseSessionAndEvent(session, event): Promise<any> {
-        //console.log("result");
-        //console.log(contact);
+    getFreeDays(): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+
+
+            this._httpClient.get(AUTH_API + 'event')
+                .subscribe((response: any) => {
+
+                    this.freeDays = response;
+                    //console.log("GET EVENTS");
+                   // console.log(this.events);
+                    //this.onEventsUpdated.next(this.events);
+                    this.freeDays = this.freeDays.filter(_event => {
+                        
+                            if (_event.freeDay == true) {
+                               
+                                return true;
+                            }
+                        
+                        return false;
+                    });
+                    resolve(this.freeDays);
+                }, reject);
+        });
+    }
+
+
+    saveCourseSessionAndEvent(session): Promise<any> {
+      
 
         console.log(session);
         return new Promise((resolve, reject) => {
@@ -392,15 +421,8 @@ export class AddSessionService implements Resolve<any>{
             this._httpClient.post(AUTH_API + 'session', session)
                 .subscribe(response => {
 
-                    //  this.onCoursesSessionSaved.next(response);
-                    console.log(response);
-                    //  this.courseSession = response;
-                    //  this.courseSessionId = this.courseSession.id;
-                    event.session = response;
-                    this.addEvent(event);
-
-                    console.log("event in update");
-                    console.log(event);
+                   
+                
                     console.log(response);
                   
 

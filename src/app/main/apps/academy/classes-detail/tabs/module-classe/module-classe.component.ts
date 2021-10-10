@@ -11,7 +11,8 @@ import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import{ProgramInstDetailService} from '../../../program-inst-detail/program-inst-detail.service';
 import { ModuleInstFormComponent } from '../../../program-inst-detail/tabs/module-inst/module-form/module-form.component';
-
+import{ClassesDetailService} from '../../classes-detail.service'
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-module-classe',
   templateUrl: './module-classe.component.html',
@@ -40,7 +41,7 @@ export class ModuleClasseComponent implements OnInit {
    * @param {MatDialog} _matDialog
    */
   constructor(
-      private _moduleInstService: ProgramInstDetailService,
+      private _moduleInstService: ClassesDetailService,
       private _fuseSidebarService: FuseSidebarService,
       private _matDialog: MatDialog
   ) {
@@ -101,7 +102,9 @@ export class ModuleClasseComponent implements OnInit {
 
   addNewModule(): void {
       if ((this._moduleInstService.themeInst == null)) {
-          this.addModuleAlert("Veuillez choisir le thèmeInst");
+          //this.addModuleAlert("Veuillez choisir le thèmeInst");
+          this.ErrorMessage("Veuillez choisir la thématique")
+          
       }
 
       else {
@@ -170,6 +173,20 @@ export class ModuleClasseComponent implements OnInit {
    */
   toggleSidebar(name): void {
       this._fuseSidebarService.getSidebar(name).toggleOpen();
+  }
+
+  ErrorMessage(message): void {
+    Swal.fire(
+      {
+        title: message,
+        icon: 'error',
+        showCancelButton: false,
+        confirmButtonColor: '#38a9ff',
+        //cancelButtonColor: '#d33',
+        confirmButtonText: 'Retour'
+      }
+  )
+  
   }
 
 

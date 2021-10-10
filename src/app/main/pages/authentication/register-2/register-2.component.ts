@@ -343,17 +343,7 @@ export class Register2Component implements OnInit, OnDestroy {
     }
 
     onSubmit() {
-		/*this.feedback = this.feedbackForm.value;
-		console.log(this.feedback);
-		this.feedbackservice.submitFeedback(this.feedback)
-		.subscribe(feedback => {
-			this.feedback = feedback; 
-		});
-        console.log(this.TrainerForm.value);
-        console.log("data TRAINER FORM");
-        console.log(this.TrainerForm);*/
-        console.log("data USER FORM");
-        console.log(this.rForm);
+
         if (this.rForm.value.userRole == "Trainer") {
             this.authService.registerTrainer(this.TrainerForm, this.rForm).subscribe(
                 data => {
@@ -387,7 +377,7 @@ export class Register2Component implements OnInit, OnDestroy {
                 }
                 else
                 if (this.rForm.value.userRole == "Participant") {
-                    this.authService.registerParticipant(this.ParticipantForm, this.rForm).subscribe(
+                    this.authService.registerParticipant(this.ParticipantForm).subscribe(
                         data => {
                             console.log("data on submit");
                             console.log(data);

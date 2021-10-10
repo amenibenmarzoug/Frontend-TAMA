@@ -3,11 +3,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Cursus } from 'app/main/apps/cursus/cursus.model';
-
+import {environment} from 'environments/environment';
 
 const USER_KEY = 'auth-user';
 
-const AUTH_API1 = 'http://localhost:8080/api/';
+const AUTH_API1 = environment.backend_url+ 'api/';
 @Injectable()
 export class CursusCoursesPartService implements Resolve<any>
 
@@ -53,7 +53,7 @@ export class CursusCoursesPartService implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {   //let role = JSON.parse(sessionStorage.getItem(USER_KEY)),
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
 
             Promise.all([
                
@@ -90,7 +90,7 @@ export class CursusCoursesPartService implements Resolve<any>
        
          return new Promise((resolve, reject) => {
             id = JSON.parse(sessionStorage.getItem(USER_KEY)).id ;
-                this._httpClient.get('http://localhost:8080/api/participants/'+id )
+                this._httpClient.get(environment.backend_url+ 'api/participants/'+id )
                 .subscribe((response: any) => {
                    console.log("response");
                     

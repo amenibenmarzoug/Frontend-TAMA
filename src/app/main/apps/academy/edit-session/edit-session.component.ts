@@ -40,6 +40,10 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   horizontalStepperStep1: FormGroup;
   horizontalStepperStep2: FormGroup;
   horizontalStepperStep3: FormGroup;
+  //institutionForm: FormGroup;
+  enterpriseForm: FormGroup;
+  institutionForm:FormGroup;
+
 
   // Vertical Stepper
   verticalStepperStep1: FormGroup;
@@ -53,9 +57,13 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   datetotry: Date;
   courseDate: Date;
   courseDateMaxHour: Date;
+  courseDateMinHour: Date;
   events: any[] = [];
   cursusBeginDate: Date;
   cursusEndDate: Date;
+  minSessionDuration: number = 45;
+
+
   classRooms: any[];
   institutions: any[];
   currentInstitution: string;
@@ -83,14 +91,25 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   selectedTrainers: any[] = [];
   selectedTrainer: any;
   selectedModule: any;
+  freeDays:any[];
+  isFreeDay:boolean;
+  labelDisabled: boolean = true;
   session: Session;
   isDisabled: boolean = true;
+  place:string;
   event: CalendarEventModel;
   alertDialog: MatDialogRef<AlertDialogComponent>;
   // Private
   private _unsubscribeAll: Subject<any>;
   private sub: any;
   currentStep: any;
+  buttonSuiv1Selected:boolean=false;
+  buttonSuiv2Selected:boolean=false;
+  buttonSuiv3Selected:boolean=false;
+  buttonSuiv4Selected:boolean=false;
+  buttonPrec2Selected:boolean=false;
+  buttonPrec3Selected:boolean=false;
+  buttonPrec4Selected:boolean=false;
 
   formErrorsStepper1 = {
 
@@ -146,11 +165,13 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   constructor(
     private _addSessionService: EditSessionService, private route: ActivatedRoute, private _formBuilder: FormBuilder, private _matDialog: MatDialog, private translate: TranslateService, private dateAdapter: DateAdapter<Date>
   ) {
-    this.sub = this.route.params.subscribe(params => {
-      this.sessionId = +params['id'];
-      this.session = new Session(this._addSessionService.session);
 
-      console.log("THIS SESSION hhhhh");
+    this.sub = this.route.params.subscribe(params => {
+      this.sessionId = Number(localStorage.getItem('sessionId'));
+      console.log("SESSION ID INIT");
+      console.log(this.sessionId);
+      this.session = new Session(JSON.parse(localStorage.getItem('session')));
+      console.log("THIS SESSION");
       console.log(this.session);
       /*  this._addSessionService.getSessionsById(this.sessionId).then(() => {
          this.session = new Session(this._addSessionService.session);
@@ -163,12 +184,11 @@ export class EditSessionComponent implements OnInit, OnDestroy {
        }
        ); */
     });
-    //this.dateAdapter.setLocale('fr');
+    this.dateAdapter.setLocale('fr');
     this.courseDateMaxHour = new Date();
-    this.courseDateMaxHour.setHours(23, 59, 59);
-    this.events.push(new Date());
-    this.courseDate = this.events[this.events.length - 1];
-    this.courseDateMaxHour.setFullYear(this.courseDate.getFullYear(), this.courseDate.getMonth(), this.courseDate.getDate())
+    this.courseDateMaxHour.setHours(23, 59, 59);   
+
+    
 
     // Set the private defaults
     this._unsubscribeAll = new Subject();
@@ -188,36 +208,73 @@ export class EditSessionComponent implements OnInit, OnDestroy {
 
 
     this.sub = this.route.params.subscribe(params => {
-      this.sessionId = +params['id'];
-      this._addSessionService.sessionId=this.sessionId;
-      this._addSessionService.getSessionsById(this.sessionId).then(() => {
-        this.session = new Session(this._addSessionService.session);
-        this._addSessionService.getEventBySessionId(this.sessionId).then(() => {
-          this.event = new CalendarEventModel(this._addSessionService.event);
-        });
+      this.sessionId = Number(localStorage.getItem('sessionId'));
+      console.log("SESSION ID INIT");
+      console.log(this.sessionId);
+      this.session = new Session(JSON.parse(localStorage.getItem('session')));
+      console.log("THIS SESSION");
+      console.log(this.session);
+      //this.sessionId = +params['id'];
+      //  this._addSessionService.sessionId=this.sessionId;
+      //  this._addSessionService.getSessionsById(this.sessionId).then(() => {
+      //this.session = new Session(this._addSessionService.session);
+      this._addSessionService.getEventBySessionId(this.sessionId).then(() => {
 
-        console.log("THIS SESSION");
-        console.log(this.session);
-        this.selectedTrainerHere = this.session.trainer;
-        this.selectedThemeDet = this.session.themeDetailInstance;
-        this.selectedModule = this.session.themeDetailInstance.moduleInstance;
-        this._addSessionService.selectedModule = this.selectedModule;
-        this.selectedTheme = this.session.themeDetailInstance.moduleInstance.themeInstance;
-        this.currentCity = this._addSessionService.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location;
-        this._addSessionService.currentCity = this.currentCity;
-        console.log(this._addSessionService.session.themeDetailInstance.moduleInstance.themeInstance.programInstance);
+      });
+      this._addSessionService.getFreeDays().then(() => {
+        this.freeDays = this._addSessionService.freeDays;
+  
+      }
+      );
+     /* console.log("SELECTED DAY IN CONSTRUCTOR");
+      this._addSessionService.selectedDate = this.session.sessionBeginDate;
+      console.log(this._addSessionService.selectedDate);
+      console.log(this._addSessionService.selectedDate.getDay());
+      switch (this._addSessionService.selectedDate.getDay()) {
+        case 0: this._addSessionService.selectedDay = "DIMANCHE"; break;
+        case 1: this._addSessionService.selectedDay = "LUNDI"; break;
+        case 2: this._addSessionService.selectedDay = "MARDI"; break;
+        case 3: this._addSessionService.selectedDay = "MERCREDI"; break;
+        case 4: this._addSessionService.selectedDay = "JEUDI"; break;
+        case 5: this._addSessionService.selectedDay = "VENDREDI"; break;
+        case 6: this._addSessionService.selectedDay = "SAMEDI"; break;
+      }
+      console.log("SELECTED DAY IN CONSTRUCTOR");
+      console.log(this._addSessionService.selectedDay);
+      setTimeout(() => {
+        this._addSessionService.getTrainers().then(() => { this.allTrainers = this._addSessionService.trainers; });
+      });*/
 
-        this._addSessionService.getInstitutions();
-        this.institutions = this._addSessionService.institutions;
-        this._addSessionService.getSessionsByProgram(this._addSessionService.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id).then(() => {
-          this.sessionsByProgram = this._addSessionService.sessionsByProgram;
+      this.selectedTrainerHere = this.session.trainer;
+      this.selectedThemeDet = this.session.themeDetailInstance;
+      this.selectedModule = this.session.themeDetailInstance.moduleInstance;
+      this._addSessionService.selectedModule = this.selectedModule;
+      this.selectedTheme = this.session.themeDetailInstance.moduleInstance.themeInstance;
+      this.currentCity = this.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location;
+      this._addSessionService.currentCity = this.currentCity;
+
+      /*setTimeout(() => {
+        this._addSessionService.getInstitutions().then(() => {
+          this.institutions = this._addSessionService.institutions;
 
         }
         );
+      });*/
+
+      this._addSessionService.getSessionsByProgram(this.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id).then(() => {
+        this.sessionsByProgram = this._addSessionService.sessionsByProgram;
+
       }
       );
+
+      //  });
     });
 
+    this.courseDate=new Date(this._addSessionService.session.sessionBeginDate ); 
+    this.courseDateMinHour=new Date (this._addSessionService.session.sessionBeginDate ); 
+    this.courseDateMinHour.setHours(this.courseDate.getHours(), this.courseDate.getMinutes()+this.minSessionDuration); 
+    this.courseDateMaxHour.setFullYear(this.courseDate.getFullYear(), this.courseDate.getMonth(), this.courseDate.getDate())
+ 
     this._addSessionService.onClassRoomsChanged
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(classRooms => {
@@ -269,12 +326,17 @@ export class EditSessionComponent implements OnInit, OnDestroy {
      });*/
 
     this.horizontalStepperStep3 = this._formBuilder.group({
-      institution: [this._addSessionService.session.classRoom.institution.institutionName, Validators.required],
-      classroom: [this._addSessionService.session.classRoom.classRoomName, Validators.required],
-
+      //choice: ['',Validators.required],
+     
 
     });
 
+    if(this.session.classRoom!=null){
+    this.institutionForm=this._formBuilder.group({
+      institution: ['', Validators.required],
+      classroom: ['', Validators.required],})
+
+    }
     // Vertical Stepper form stepper
     this.verticalStepperStep1 = this._formBuilder.group({
       firstName: ['', Validators.required],
@@ -293,6 +355,8 @@ export class EditSessionComponent implements OnInit, OnDestroy {
 
     this.horizontalStepperStep1.valueChanges
       .subscribe(data => this.onValueChangedStepper1(data));
+
+    //this.stepper.selected.completed = false;
   }
 
   /**
@@ -309,33 +373,53 @@ export class EditSessionComponent implements OnInit, OnDestroy {
 
 
     return this._formBuilder.group({
-      program: [{ value: this._addSessionService.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.program.programName + " - " + this._addSessionService.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location, disabled: true }, Validators.required],
-      module: [{ value: this._addSessionService.session.themeDetailInstance.moduleInstance.moduleInstanceName, disabled: true }, Validators.required],
-      theme: [{ value: this._addSessionService.session.themeDetailInstance.moduleInstance.themeInstance.themeInstName, disabled: true }, Validators.required],
-      themeDet: [{ value: this._addSessionService.session.themeDetailInstance.themeDetailInstName, disabled: true }, Validators.required],
-      courseSessionName: [this._addSessionService.session.sessionName, Validators.required],
-      courseSessionBeginDate: [new Date(this._addSessionService.session.sessionBeginDate), Validators.required],
-      courseSessionEndDate: [new Date(this._addSessionService.session.sessionEndDate), Validators.required],
+      program: [{ value: this.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName+ " - " + this.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location, disabled: true }, Validators.required],
+      module: [{ value: this.session.themeDetailInstance.moduleInstance.moduleInstanceName, disabled: true }, Validators.required],
+      theme: [{ value: this.session.themeDetailInstance.moduleInstance.themeInstance.themeInstName, disabled: true }, Validators.required],
+      themeDet: [{ value: this.session.themeDetailInstance.themeDetailInstName, disabled: true }, Validators.required],
+      courseSessionName: [this.session.sessionName, Validators.required],
+      courseSessionBeginDate: [new Date(this.session.sessionBeginDate), Validators.required],
+      courseSessionEndDate: [new Date(this.session.sessionEndDate), Validators.required],
 
 
     });
   }
 
-  addEvent(event: MatDatepickerInputEvent<Date>) {
+  selectChoice(event){
+    console.log("choice");
 
+    console.log(event);
+  }
+
+  addEvent(event: MatDatepickerInputEvent<Date>) {
+    this.isFreeDay=false;
     this._addSessionService.deselectContacts();
     this.testDate = false;
     this.events.push(event.value);
     this.courseDate = this.events[this.events.length - 1];
+    this.courseDateMinHour = this.events[this.events.length - 1];
+    this.courseDateMinHour.setHours(this.courseDate.getHours(), this.courseDate.getMinutes() + this.minSessionDuration);
+    console.log("couerse min dateeee"); console.log(this.courseDateMinHour);
     this.courseDateMaxHour.setFullYear(this.courseDate.getFullYear(), this.courseDate.getMonth(), this.courseDate.getDate())
-    
+
 
     this.sessionsByProgram.forEach(session => {
       let d = new Date(session.sessionBeginDate);
 
-      if((session.id!=this.sessionId)&& (this.courseDate.toDateString() === d.toDateString())) {
-        
+      if ((session.id != this.sessionId) && (this.courseDate.toDateString() === d.toDateString())) {
+
         this.testDate = true;
+      }
+
+
+    });
+    this.freeDays.forEach(day => {
+      let start = new Date(day.start);
+      let end = new Date(day.end);
+
+      if ((this.courseDate.toDateString() === end.toDateString())||(this.courseDate.toDateString() === start.toDateString())) {
+        this.isFreeDay=true;
+        
       }
 
 
@@ -347,6 +431,9 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     // console.log(this.courseDateMaxHour) ; 
   }
 
+  disableLabel1(): void {
+    console.log(this.stepper.steps);
+  }
 
   selectInstitution(institutionId): void {
     this.selectedClassRoom = null;
@@ -372,7 +459,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
 
   }
 
- 
+
 
   selectClassroom(event): void {
     this.selectedClassRoom = event;
@@ -392,6 +479,8 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   }
 
   selectedTrainerButton(): void {
+    //console.log("BUTTON")
+    // console.log(document.getElementById('button1'));
     this._addSessionService.getClassRooms();
     this._addSessionService.selectedContacts.forEach(select => {
       this.selectedTrainers.push(select.toString());
@@ -410,20 +499,34 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       }
 
     });
-
+    this.buttonSuiv2Selected=true;
     this.session.sessionName = this.horizontalStepperStep1.value.courseSessionName;
     this.session.sessionBeginDate = this.horizontalStepperStep1.value.courseSessionBeginDate;
     this.session.sessionEndDate = this.horizontalStepperStep1.value.courseSessionEndDate;
     this.session.trainer = this.selectedTrainer;
     this.session.themeDetailInstance = this.selectedThemeDet;
 
-    this._addSessionService.getInstitutions();
-    this.institutions = this._addSessionService.institutions;
+    setTimeout(() => {
+      this._addSessionService.getInstitutions().then(() => {
+        this.institutions = this._addSessionService.institutions;
+
+      }
+      );
+    });
+   
     console.log(this.institutions);
   }
 
   sendDate(): void {
+    console.log("STEPS");
+    console.log(this.stepper.steps);
+    console.log("prog prog prog");
 
+    let pl=JSON.parse(this.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.place);
+    console.log(pl)
+    if(pl!=null){
+      this.place=pl.name;
+    }
     this._addSessionService.selectedDate = this.horizontalStepperStep1.value.courseSessionBeginDate;
     console.log(this._addSessionService.selectedDate);
     console.log(this._addSessionService.selectedDate.getDay());
@@ -436,13 +539,12 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       case 5: this._addSessionService.selectedDay = "VENDREDI"; break;
       case 6: this._addSessionService.selectedDay = "SAMEDI"; break;
     }
+    this.buttonSuiv1Selected=true;
     console.log(this._addSessionService.selectedDay);
     setTimeout(() => {
       this._addSessionService.getTrainers().then(() => { this.allTrainers = this._addSessionService.trainers; });
     });
-    //this.allTrainers=this._addSessionService.trainers;
 
-    //console.log(this._addSessionService.selectedModule);
 
   }
   // -----------------------------------------------------------------------------------------------------
@@ -458,34 +560,37 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   }
 
   sendClassroom(): void {
-
+    
+    this.buttonSuiv3Selected=true;
     this.session.classRoom = this.currentClassroom;
   }
 
   finishHorizontalStepper(): void {
 
-    console.log(this.selectedTrainer);
-    console.log(this.currentClassroom);
-    console.log(this.horizontalStepperStep1);
 
 
-    console.log(this.session);
-    console.log(this.selectedThemeDet);
 
 
-    this.event.title = this.session.sessionName;
-    this.event.start = this.session.sessionBeginDate;
-    this.event.end = this.session.sessionEndDate;
-    console.log(this.event);
     setTimeout(() => {
-      this._addSessionService.updateCourseSessionAndEvent(this.session, this.event).then(() => {
+      this._addSessionService.updateCourseSessionAndEvent(this.session).then(() => {
         this._addSessionService.getEvents();
         window.location.reload();
       });
-    }, 5);
+    });
 
 
 
+  }
+  PrecButton2(): void {
+    this.buttonSuiv1Selected=false;
+  }
+
+  PrecButton3(): void {
+    this.buttonSuiv2Selected=false;
+  }
+
+  PrecButton4(): void {
+    this.buttonSuiv3Selected=false;
   }
 
   onValueChangedStepper1(data?: any) {
@@ -507,11 +612,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       }
     }
   }
-  /**
-   * Finish the vertical stepper
-   */
-  finishVerticalStepper(): void {
-    alert('You have finished the vertical stepper!');
-  }
+
 
 }
+

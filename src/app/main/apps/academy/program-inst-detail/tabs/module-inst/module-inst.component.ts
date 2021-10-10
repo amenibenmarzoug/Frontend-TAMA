@@ -10,6 +10,7 @@ import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import{ProgramInstDetailService} from '../../../program-inst-detail/program-inst-detail.service';
 import { ModuleInstFormComponent } from './module-form/module-form.component';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-module-inst',
   templateUrl: './module-inst.component.html',
@@ -94,7 +95,8 @@ export class ModuleInstComponent implements OnInit {
 
   addNewModule(): void {
       if ((this._moduleInstService.themeInst == null)) {
-          this.addModuleAlert("Veuillez choisir le thèmeInst");
+          //this.addModuleAlert("Veuillez choisir le thèmeInst");
+          this.ErrorMessage("Veuillez choisir la thématique")
       }
 
       else {
@@ -114,13 +116,13 @@ export class ModuleInstComponent implements OnInit {
                       return;
                   }
                   this.module = response.getRawValue();
-                  this.actualDaysNumberAffected = this._moduleInstService.actualDaysAffectedPerModule+ Number(this.module.nbDaysModuleInstance)  ; 
+                  /*this.actualDaysNumberAffected = this._moduleInstService.actualDaysAffectedPerModule+ Number(this.module.nbDaysModuleInstance)  ; 
 
                     if (this.actualDaysNumberAffected > this._moduleInstService.themeInst.nbDaysthemeInst) {
                         this.addModuleAlert("Vous avez dépassé le nombre des jours de la thématique");
                         console.log(`Exceeded`);
                         return; 
-                    }
+                    }*/
 
                   this.confirmAddModule();
 
@@ -171,6 +173,20 @@ export class ModuleInstComponent implements OnInit {
    */
   toggleSidebar(name): void {
       this._fuseSidebarService.getSidebar(name).toggleOpen();
+  }
+
+  ErrorMessage(message): void {
+    Swal.fire(
+      {
+        title: message,
+        icon: 'error',
+        showCancelButton: false,
+        confirmButtonColor: '#38a9ff',
+        //cancelButtonColor: '#d33',
+        confirmButtonText: 'Retour'
+      }
+  )
+  
   }
 
 }

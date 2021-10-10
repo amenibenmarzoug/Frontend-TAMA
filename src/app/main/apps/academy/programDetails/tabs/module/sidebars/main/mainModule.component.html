@@ -17,7 +17,7 @@
                 <div class="nav-item" aria-label="inbox">
                     <a class="nav-link" matRipple (click)="changeFilter('all')"
                        [ngClass]="{'active accent':filterBy ==='all'}">
-                        <span class="title">Tous les Thématiques</span>
+                        <span class="title">Toutes les Thématiques</span>
                     </a>
                 </div>
 
@@ -27,9 +27,9 @@
                         <mat-label>Theme</mat-label>
                         <mat-select [(ngModel)]="currentCategory"
                                     (selectionChange)="changeFilter($event.value)">
-                            <mat-option [value]="'all'">
+                          <!--   <mat-option [value]="'all'">
                                 Tous
-                            </mat-option>
+                            </mat-option> -->
                             <mat-option *ngFor="let category of theme" [value]="category">
                                 {{ category.themeName }}
                             </mat-option>

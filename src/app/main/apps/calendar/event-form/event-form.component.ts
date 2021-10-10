@@ -7,6 +7,11 @@ import { MatColors } from '@fuse/mat-colors';
 
 import { CalendarEventModel } from 'app/main/apps/calendar/event.model';
 import { MyEvent } from '../mycalendar-utils';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { DateAdapter } from '@angular/material/core';
+
+registerLocaleData(localeFr, 'fr');
 
 @Component({
     selector     : 'calendar-event-form-dialog',
@@ -18,7 +23,7 @@ import { MyEvent } from '../mycalendar-utils';
 export class CalendarEventFormDialogComponent
 {
     action: string;
-    event: MyEvent;
+    event: CalendarEventModel;
     eventForm: FormGroup;
     dialogTitle: string;
     presetColors = MatColors.presets;
@@ -33,9 +38,10 @@ export class CalendarEventFormDialogComponent
     constructor(
         public matDialogRef: MatDialogRef<CalendarEventFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,private dateAdapter: DateAdapter<Date>
     )
     {
+        this.dateAdapter.setLocale('fr');
         this.event = _data.event;
         this.action = _data.action;
 
@@ -45,11 +51,13 @@ export class CalendarEventFormDialogComponent
         }
         else
         {
-            /*this.dialogTitle = 'New Event';
+            this.dialogTitle = 'Jour Férié';
+            console.log(_data._formBuilder),
             this.event = new CalendarEventModel({
+               
                 start: _data.date,
                 end  : _data.date
-            });*/
+            });
         }
 
         this.eventForm = this.createEventForm();

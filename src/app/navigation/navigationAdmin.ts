@@ -48,12 +48,12 @@ export const navigationAdmin: FuseNavigation[] = [
             },
              {
                 id: 'programsD',
-                 title: 'Programme Dédié',
+                 title: 'Programme Spécifique',
                  type: 'item',
                  url  : '/apps/academy/programsD',
 
 
-             },
+             }, 
              {
                 id: 'class',
                  title: 'Classes',
@@ -121,7 +121,7 @@ export const navigationAdmin: FuseNavigation[] = [
         id: 'Entreprises',
         title: 'Entreprises',
         type: 'item',
-        icon: 'account_box',
+        icon: 'business',
         url: '/apps/entreprises'
 
     },
@@ -132,14 +132,22 @@ export const navigationAdmin: FuseNavigation[] = [
         icon: 'account_balance',
         url: '/apps/institution'
     },
-
     {
-        id: 'groups',
-        title: 'Groupes',
+        id: 'classrooms-manager',
+        title: 'Salles',
         type: 'item',
-        icon: 'account_box',
-        url: '/apps/groups'
+        icon: 'school',
+        url: '/apps/classrooms-manager'
     },
+
+   
+    // {
+    //     id: 'groups',
+    //     title: 'Groupes',
+    //     type: 'item',
+    //     icon: 'account_box',
+    //     url: '/apps/groups'
+    // },
 
   /*  {
         id       : 'file-manager',

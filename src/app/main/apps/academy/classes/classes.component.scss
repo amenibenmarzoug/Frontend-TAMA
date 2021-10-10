@@ -81,7 +81,7 @@
 
         .courses {
             width: 100%;
-            max-width: 1400px;
+            max-width: 120%;
             margin: 0 auto;
 
             .no-courses {
@@ -110,9 +110,16 @@
 
                     .header {
                         padding: 16px 24px;
-                        height: 64px !important;
+                        height: 60px !important;
                         min-height: 64px !important;
                         max-height: 64px !important;
+                        &.validatedClass-true {
+                            background: mat-color($mat-blue, 500);
+                        }
+
+                        &.validatedClass-false {
+                            background: mat-color($mat-amber, 100);
+                        }
 
                         &.web-bg {
                             background: mat-color($mat-blue, 500);

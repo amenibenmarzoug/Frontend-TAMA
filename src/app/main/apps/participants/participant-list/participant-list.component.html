@@ -13,78 +13,72 @@
     <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef> Nom et Prénom </mat-header-cell>
         <mat-cell *matCellDef="let contact">
-            <p class="text-truncate font-weight-600">{{contact.firstNameP}} {{contact.lastNameP}}</p>
+            <p class="font-weight-600">{{contact.firstNameP}} {{contact.lastNameP}}</p>
         </mat-cell>
     </ng-container>
 
 
-    <!-- Email Column -->
-    <ng-container matColumnDef="email">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Email</mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm>
-            <p class="email text-truncate">
-                {{contact.email}}
+    <!-- Age Column -->
+    <ng-container matColumnDef="age"  >
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm class="cell-age">Age</mat-header-cell>
+        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm class="cell-age" >
+            <p class="age text-truncate">
+              {{contact.age}}
             </p>
         </mat-cell>
     </ng-container>
 
-    <!-- Phone Column -->
-    <ng-container matColumnDef="phone">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Numéro </mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
+
+     <!-- Professional Experience Column -->
+    <ng-container matColumnDef="experience" >
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md class="cell-experience">ExpériencePro. </mat-header-cell>
+        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md class="cell-experience">
             <p class="phone text-truncate">
-                {{contact.phoneNumber}}
+                {{contact.experience}}
             </p>
         </mat-cell>
     </ng-container>
-
-    <!-- Job Title Column -->
-    <ng-container matColumnDef="currentPosition" >
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>
-             Position</mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
-            <p class="job-title text-truncate">
-                {{contact.currentPosition}}
-            </p>
-        </mat-cell>
-    </ng-container>
-   <!--  <ng-container matColumnDef="abandon">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Abandonner</mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
-            <p class="job-title text-truncate">
-                {{contact.abandon}}
-            </p>
-        </mat-cell>
-    </ng-container> -->
+ 
 
     <!-- Company Column -->
     <ng-container  matColumnDef="company">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Entreprise</mat-header-cell>
+         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Entreprise</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
             <p *ngIf="contact.entreprise!=null"  class="company text-truncate">
              {{contact.entreprise.enterpriseName}}
             </p>
+            <p *ngIf="contact.entreprise==null"  class="company text-truncate">
+                aucune
+               </p>
         </mat-cell>
     </ng-container>
     <!-- Company Column -->
-    <ng-container matColumnDef="groupe">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Groupe</mat-header-cell>
+    <ng-container matColumnDef="classe">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Classe</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
-            <p *ngIf="contact.groupe!=null" class="company text-truncate">
-                {{contact.groupe.groupName}}
+            <p *ngIf="contact.programInstance!=null" class="company">
+                {{contact.programInstance.programInstName}} 
             </p>
         </mat-cell>
     </ng-container>
-    <ng-container matColumnDef="cursus">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Programme</mat-header-cell>
+    <!-- Company Column -->
+    <ng-container matColumnDef="statut">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Statut</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
-            <p *ngIf="contact.programInstance!=null" class="company text-truncate">
-                {{contact.programInstance.programInstName}}
+            <p  class="company" [ngStyle]="{'background-color': getRowColor(contact.status)}" *ngIf="contact.status=='WAITING'">
+                EN ATTENTE
             </p>
+            <p  class="company" [ngStyle]="{'background-color': getRowColor(contact.status)}" *ngIf="contact.status=='ACCEPTED'">
+                ACCEPTE
+            </p>
+        <!--     <p  class="company" [ngStyle]="{'background-color': getRowColor(contact.status)}">
+                {{contact.status}} 
+            </p> -->
         </mat-cell>
     </ng-container>
+    
     <ng-container matColumnDef="level">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Niveau</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Niveau Management</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
             <p class="company text-truncate">
                 {{contact.level}}
@@ -108,10 +102,7 @@
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
-                    <button mat-menu-item aria-label="remove" (click)="deleteContact(contact.id)">
-                        <mat-icon>delete</mat-icon>
-                        <span>Supprimer</span>
-                    </button>
+                
                     <button mat-menu-item aria-label="check" (click)="ValidateContact(contact)">
                         <mat-icon *ngIf="contact.validated ">check</mat-icon>
                         <mat-icon *ngIf="!contact.validated ">close</mat-icon>
@@ -128,4 +119,6 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let contact; columns: displayedColumns;" class="contact" (click)="editContact(contact)" [ngClass]="{'accent-50':checkboxes[contact.id]}" [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>
+  
+
 </mat-table>

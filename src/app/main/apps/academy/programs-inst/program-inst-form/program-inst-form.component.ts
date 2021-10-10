@@ -15,13 +15,18 @@ export class ProgramInstFormComponent implements OnInit {
  
   action: string;
   //course:AcademyCoursesComponent;
-    programInst:ProgramInst;
+   // programInst:ProgramInst;
+   programInst:ProgramInst;
     event: CalendarEvent;
     programInstForm: FormGroup;
     dialogTitle: string;
     programs:any[] ;
     private _unsubscribeAll: Subject<any>;
-    
+    cities: String[] = [
+      'Tunis', 'Ariana', 'Ben Arous', 'Manouba','Nabeul', 'Zaghouan', 'Bizerte', 'Béja', 'Jendouba', 'Kef', 'Siliana',
+      'Sousse', 'Monastir', 'Mahdia', 'Sfax', 'Kairouan','Kasserine','Sidi Bouzid', 'Gabès', 'Mednine','Tataouine','Gafsa','Tozeur','Kebili'
+      
+    ];
 
   constructor(
     public matDialogRef: MatDialogRef<ProgramInstFormComponent>,
@@ -36,7 +41,7 @@ export class ProgramInstFormComponent implements OnInit {
 
   if ( this.action === 'edit' )
   {
-      this.dialogTitle = 'Modifier le Programme Dédié';
+      this.dialogTitle = 'Modifier la classe';
       this.programInst = _data.programInst;
       this._programInstService.program = this.programInst.program;
      
@@ -44,7 +49,7 @@ export class ProgramInstFormComponent implements OnInit {
   else
   {
 
-      this.dialogTitle = 'Nouveau Programme Dédié';
+      this.dialogTitle = 'Nouvelle classe';
       this.programInst = new ProgramInst({});
       
     }

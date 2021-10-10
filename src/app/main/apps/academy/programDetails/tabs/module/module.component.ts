@@ -10,6 +10,7 @@ import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { ModuleFormComponent } from 'app/main/apps/academy/programDetails/tabs/module/module-form/module-form.component'
 import { ProgramDetailsService } from '../../programDetails.service';
+import Swal from 'sweetalert2';
 @Component({
     selector: 'module',
     templateUrl: './module.component.html',
@@ -104,7 +105,8 @@ export class ModuleComponent implements OnInit, OnDestroy {
         
 
         if ((this._moduleService.theme == null)) {
-            this.addModuleAlert("Veuillez choisir le thème");
+            //this.addModuleAlert("Veuillez choisir le thème");
+            this.ErrorMessage("Veuillez choisir le thème")
         }
 
         else {
@@ -125,12 +127,12 @@ export class ModuleComponent implements OnInit, OnDestroy {
                     }
                     this.module = response.getRawValue();
                     this.actualDaysNumberAffected = this._moduleService.actualDaysAffectedPerModule+ Number(this.module.nbDaysModule)  ; 
-
+                    /*
                     if (this.actualDaysNumberAffected > this._moduleService.theme.nbDaysTheme) {
                         this.addModuleAlert("Vous avez dépassé le nombre des jours de la thématique");
                         console.log(`Exceeded`);
                         return; 
-                    }
+                    }*/
                     this.confirmAddModule();
 
                 });
@@ -182,5 +184,18 @@ export class ModuleComponent implements OnInit, OnDestroy {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
 
+    ErrorMessage(message): void {
+        Swal.fire(
+          {
+            title: message,
+            icon: 'error',
+            showCancelButton: false,
+            confirmButtonColor: '#38a9ff',
+            //cancelButtonColor: '#d33',
+            confirmButtonText: 'Retour'
+          }
+      )
+      
+      }
 
 }

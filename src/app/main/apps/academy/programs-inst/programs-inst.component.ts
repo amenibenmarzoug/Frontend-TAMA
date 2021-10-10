@@ -33,6 +33,12 @@ export class ProgramsInstComponent implements OnInit {
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   duration: any;
 
+  cities: String[] = [
+    'Tunis', 'Ariana', 'Ben Arous', 'Manouba','Nabeul', 'Zaghouan', 'Bizerte', 'Béja', 'Jendouba', 'Kef', 'Siliana',
+    'Sousse', 'Monastir', 'Mahdia', 'Sfax', 'Kairouan','Kasserine','Sidi Bouzid', 'Gabès', 'Mednine','Tataouine','Gafsa','Tozeur','Kebili'
+    
+  ];
+
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -75,8 +81,7 @@ export class ProgramsInstComponent implements OnInit {
           .subscribe(courses => {
               this.filteredPrograms = this.programsFilteredByCategory = this.programs = courses;
 
-              console.log("programInst fel progInst");
-              console.log(courses);
+             
           });
   }
 
@@ -185,6 +190,8 @@ export class ProgramsInstComponent implements OnInit {
                    */
                   case 'save':
 
+                 
+                  console.log(this._academyProgramsInstService.program);
                       this._academyProgramsInstService.updateProgramInst(formData.getRawValue(),this._academyProgramsInstService.program);
 
                       break;
@@ -199,7 +206,7 @@ export class ProgramsInstComponent implements OnInit {
               }
           });
   }
-  goToProgramModuleInst(id) {
+ goToProgramModuleInst(id) {
       this.router.navigate(['/apps/academy/programInstDetails', id]);
       console.log("programInst id" + id)
   }
