@@ -244,7 +244,7 @@ export class ClassesComponent implements OnInit {
 
     choosePlace(programInst):void{
         this.dialogRef = this.dialog.open(PlaceFormComponent, {
-            height: '40%',
+            height: '50%',
             width: '30%',
             panelClass: 'contact-form-dialog',
             data: {
