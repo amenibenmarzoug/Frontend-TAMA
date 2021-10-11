@@ -74,8 +74,17 @@ export class ProgramsService implements Resolve<any>
             this._httpClient.get(AUTH_API + 'programs')
                 .subscribe((response: any) => {
                     this.programs = response;
-                    this.onProgramsChanged.next(response);
-                    resolve(response);
+                    this.programs=  this.programs.filter(program => {
+                        if(program.specificProgram==false) {
+                            return true ; 
+                        }
+                        return false;
+                    }
+                        
+                    )
+  
+                    this.onProgramsChanged.next(this.programs);
+                    resolve(this.programs);
                 }, reject);
         });
     }

@@ -1,4 +1,4 @@
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EntreprisesService } from 'app/main/apps/entreprises/entreprises.service';
@@ -15,7 +15,7 @@ import { takeUntil } from 'rxjs/operators';
     encapsulation: ViewEncapsulation.None
 
 })
-export class EntrepriseFormComponent {
+export class EntrepriseFormComponent implements OnInit {
     alertDialog: MatDialogRef<AlertDialogComponent>;
     action: string;
     contact: Entreprise;
@@ -23,6 +23,8 @@ export class EntrepriseFormComponent {
     dialogTitle: string;
     entreprises: any[];
     classes: any[];
+    classe : any ; 
+    prestataireDeSalle: any ; 
     private _unsubscribeAll: Subject<any>;
     /**
      * Constructor
@@ -49,6 +51,8 @@ export class EntrepriseFormComponent {
             this.contact = _data.contact;
             console.log("edit");
             console.log( _data)
+            this.classe= this.contact.programInstance ; 
+            this.prestataireDeSalle=this.contact.provider
         }
         else {
             this.dialogTitle = 'Nouvelle Entreprise';
@@ -63,7 +67,20 @@ export class EntrepriseFormComponent {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
+    ngOnInit(): void {
+    
+        console.log("onInit")
+        console.log("this.classee  in init")
+        console.log(this.classe)
+        console.log (this.prestataireDeSalle)
+        if (this.classe !== undefined)
+        {
+        const toSelect = this.classes.find(p => p.id == this.classe.id);
+        this.contactForm.get('programInstance').setValue(toSelect);
+        console.log(this.contactForm.get('programInstance'))
+        }
+    
+      }
     //ngOnInit() : void {
 
     //this.entreprises=this._ParticipantsService.entreprises;

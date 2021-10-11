@@ -298,8 +298,8 @@ export class AddSessionComponent implements OnInit, OnDestroy {
      
      
     this.horizontalStepperStep3 = this._formBuilder.group({
-      institution: ['', Validators.required],
-      classroom: ['', Validators.required],
+      institution: [''],
+      classroom: [''],
      
     });
 /*

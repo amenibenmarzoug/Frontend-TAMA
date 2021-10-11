@@ -366,13 +366,13 @@ export class EditSessionComponent implements OnInit, OnDestroy {
      });*/
 
     this.horizontalStepperStep3 = this._formBuilder.group({
-      institution: [this.session.classRoom.institution, Validators.required],
-      classroom: [this.session.classRoom, Validators.required],
+      institution: [this.session.classRoom.institution],
+      classroom: [this.session.classRoom],
     });
     console.log("Horizentaaalll")
     console.log("Horizentaaalll")
     console.log(this.horizontalStepperStep3.getRawValue())
-
+    if (this.session.classRoom != null || this.session.classRoom !="" ){
     this.sessionClassroom=this.session.classRoom;
     this.sessionInstitution= this.sessionClassroom.institution
 
@@ -380,6 +380,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     this.horizontalStepperStep3.get('institution').setValue(toSelect);
     console.log("instititution from stepper*****")
     console.log(this.horizontalStepperStep3.get('institution').value)
+  }
 
 /*    
     this.horizontalStepperStep1.valueChanges

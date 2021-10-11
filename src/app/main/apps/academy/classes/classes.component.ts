@@ -305,7 +305,7 @@ export class ClassesComponent implements OnInit {
                      * Save
                      */
                     case 'save':
-                        this._academyProgramsInstService.updateProgramInst(formData.getRawValue(), this._academyProgramsInstService.program);
+                        this._academyProgramsInstService.updateProgramInst(programInst, this._academyProgramsInstService.program);
 
                         break;
                     /**
