@@ -53,7 +53,7 @@ export class ProgramSpecFormComponent implements OnInit {
     }
     this.programSpecForm = this.createProgramSpecForm();
     this._unsubscribeAll = new Subject();
-    this.programs=this._programSpecService.programs;
+    this.programs=this._programSpecService.basicPrograms;
 
         
 

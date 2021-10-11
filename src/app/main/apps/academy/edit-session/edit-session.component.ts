@@ -372,7 +372,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     console.log("Horizentaaalll")
     console.log("Horizentaaalll")
     console.log(this.horizontalStepperStep3.getRawValue())
-
+    if (this.session.classRoom != null || this.session.classRoom !="" ){
     this.sessionClassroom=this.session.classRoom;
     this.sessionInstitution= this.sessionClassroom.institution
 
@@ -380,6 +380,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     this.horizontalStepperStep3.get('institution').setValue(toSelect);
     console.log("instititution from stepper*****")
     console.log(this.horizontalStepperStep3.get('institution').value)
+  }
 
 /*    
     this.horizontalStepperStep1.valueChanges

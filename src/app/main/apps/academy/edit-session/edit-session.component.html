@@ -359,7 +359,7 @@
                 </mat-step>
 
                 <mat-step>
-
+                    
                     <ng-template matStepLabel>Confirmer</ng-template>
                     
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
@@ -388,7 +388,7 @@
                         *ngIf="selectedTrainer!=null && session!=null && session.classRoom!=null && session.classRoom.institution!=null">
                         Salle:
                         {{session.classRoom.classRoomName}} à {{session.classRoom.institution.institutionName}}</div>
-
+                     
                     <div fxLayout="row" fxLayoutAlign="center center">
                         <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent"
                             (click)="PrecButton4()">
@@ -399,6 +399,7 @@
                             Confirmer
                         </button>
                     </div>
+               
 
                 </mat-step>
 
