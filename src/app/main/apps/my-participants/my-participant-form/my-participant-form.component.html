@@ -70,11 +70,14 @@
             </div>
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Date de Naissance</mat-label>
-                    <input matInput [matDatepicker]="birthdayDatePicker" name="birthday" formControlName="birthday" required>
-                    <mat-datepicker-toggle matSuffix [for]="birthdayDatePicker"></mat-datepicker-toggle>
-                    <mat-datepicker #birthdayDatePicker></mat-datepicker>
-                </mat-form-field>
+                    <mat-label>Année de Naissance</mat-label>
+                    <input  matInput [(ngModel)]="chosenYearDate" [matDatepicker]="Picker" [max]="currentDate"
+                    name="birthday" formControlName="birthday" />
+               <mat-datepicker-toggle matSuffix [for]="Picker" ></mat-datepicker-toggle>
+               <mat-datepicker #Picker startView="multi-year" panelClass="year-picker" 
+                (yearSelected)="chosenYearHandler($event, Picker)"></mat-datepicker>
+
+               </mat-form-field>
             </div>
 
             <!-- <div fxLayout="row" fxLayoutAlign="start start">

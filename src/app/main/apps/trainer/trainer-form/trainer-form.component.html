@@ -22,7 +22,7 @@
                     <mat-label>Prénom</mat-label>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
                     <input name="firstName" formControlName="firstName" matInput required>
-                    <mat-error>firstName is required!</mat-error>
+                    <mat-error>Le Champ Prénom est requis</mat-error>
                 </mat-form-field>
             </div>
 
@@ -31,7 +31,7 @@
                     <mat-label>Nom</mat-label>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
                     <input name="lastName" formControlName="lastName" matInput required>
-                    <mat-error>LastName is required!</mat-error>
+                    <mat-error>Le champ Nom est requis ! </mat-error>
                 </mat-form-field>
             </div>
             <div fxLayout="row" fxLayoutAlign="start start">
@@ -39,7 +39,7 @@
                     <mat-label>Genre</mat-label>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
                     <!-- <input name="gender" formControlName="gender" matInput> -->
-                    <mat-select formControlName="gender">
+                    <mat-select formControlName="gender" required>
                         <mat-option [value]="'Masculin'">
                             Masculin
                         </mat-option>
@@ -75,13 +75,28 @@
 
                 <mat-form-field  appearance="outline" fxFlex>
                     <mat-label >Spécialité</mat-label>
-                    <mat-select multiple=""  [(value)]="contact.specifications" (selectionChange)="sendSpecifications(contact)" formControlname="specifications">
+                    <mat-select  (selectionChange)="chooseTheme($event.value)" formControlname="themes">
                        
-                        <mat-option *ngFor="let specification of specifications" [value]="specification">
-                            {{specification}}
+                        <mat-option *ngFor="let theme of themes" [value]="theme.id">
+                            {{theme.themeName}}
                         </mat-option>
                     </mat-select>
-                    <mat-error>Spécialié est requise!</mat-error>
+                    <mat-error>Thematique est requise!</mat-error>
+                </mat-form-field>
+
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <mat-form-field  appearance="outline" fxFlex>
+                    <mat-label >Modules</mat-label>
+                    <mat-select multiple=""  [(value)]="contact.specifications" (selectionChange)="sendSpecifications(contact)" formControlname="specifications" required>
+                       
+                        <mat-option *ngFor="let specification of specifications" [value]="specification.moduleName">
+                            {{specification.theme.themeName}}- {{specification.moduleName}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>Module est requis!</mat-error>
                 </mat-form-field>
 
             </div>
@@ -90,7 +105,7 @@
                     <mat-label>Adresse</mat-label>
                     <mat-icon matSuffix class="secondary-text">home</mat-icon>
                     <input name="street" formControlName="street" matInput required>
-                    <mat-error>Street is required!</mat-error>
+                    <mat-error>Le champ est Adresse est requis!</mat-error>
                 </mat-form-field>
             </div>
 
@@ -119,7 +134,7 @@
                     <input matInput #postalCode formControlName="postalCode" maxlength="5 " required>
                     <mat-icon matSuffix class="secondary-text ">markunread_mailbox</mat-icon>
 
-                    <mat-error>Postal Code is required!</mat-error>
+                    <mat-error>Le champ Code Postal est requis !</mat-error>
                 </mat-form-field>
 
             </div>
@@ -127,7 +142,7 @@
 
                 <mat-form-field  appearance="outline" fxFlex>
                     <mat-label >Jours de disponibilité</mat-label>
-                    <mat-select multiple=""  [(value)]="contact.disponibilityDays"  (selectionChange)="changeFilter(contact)" formControlname="disponibilityDays">
+                    <mat-select multiple=""  [(value)]="contact.disponibilityDays"  (selectionChange)="changeFilter(contact)" formControlname="disponibilityDays" required>
                        
                         <mat-option *ngFor="let day of days" [value]="day.day">
                           {{day.day}}

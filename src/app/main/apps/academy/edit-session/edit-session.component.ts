@@ -711,6 +711,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   sendClassroom(): void {
     
     this.buttonSuiv3Selected=true;
+    console.log(this.currentClassroom)
     if(this.currentClassroom != null )
     {
     this.session.classRoom = this.currentClassroom;

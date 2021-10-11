@@ -46,7 +46,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   verticalStepperStep1: FormGroup;
   verticalStepperStep2: FormGroup;
   verticalStepperStep3: FormGroup;
-  institutionForm:FormGroup;
+  institutionForm: FormGroup;
 
 
   //dateCourse: Date;
@@ -55,12 +55,12 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   //datetotry: Date;
 
   courseDate: Date;
-  courseBeginTime: Date ; 
-  courseEndTime: Date ; 
-  timeNotValid: boolean ; 
+  courseBeginTime: Date;
+  courseEndTime: Date;
+  timeNotValid: boolean;
   //matcher: MyErrorStateMatcher;
 
-  
+
   courseDateMaxHour: Date;
   courseDateMinHour: Date;
   events: any[] = [];
@@ -84,8 +84,8 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   currentCity: any;
   themes: any[];
   modules: any[];
-  freeDays:any[];
-  isFreeDay:boolean;
+  freeDays: any[];
+  isFreeDay: boolean;
   themeDetails: any[];
   testDate: boolean;
   chosenInstitutionName: string;
@@ -112,7 +112,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   buttonPrec3Selected: boolean = false;
   buttonPrec4Selected: boolean = false;
 
-  place:string;
+  place: string;
 
   formErrorsStepper1 = {
 
@@ -126,7 +126,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     'courseSessionBeginDate': '',
     'courseSessionEndDate': '',
     'courseSessionBeginTime': '',
-    'courseSessionTime':''
+    'courseSessionTime': ''
 
   };
 
@@ -169,7 +169,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       'required': "L'heure de fin est requise",
 
     },
-    
+
   }
   /**
    * Constructor
@@ -183,8 +183,8 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private dateAdapter: DateAdapter<Date>
   ) {
-   // this.matcher = new MyErrorStateMatcher();
-    this.timeNotValid=false ; 
+    // this.matcher = new MyErrorStateMatcher();
+    this.timeNotValid = false;
 
 
     this.dateAdapter.setLocale('fr');
@@ -285,9 +285,9 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       courseSessionBeginTime: ['', Validators.required],
       courseSessionEndTime: ['', Validators.required],
 
-      
+
       //courseSessionBeginDate: ['', Validators.required],
-     // courseSessionEndDate: ['', Validators.required],
+      // courseSessionEndDate: ['', Validators.required],
 
     });
 
@@ -320,43 +320,43 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     this._unsubscribeAll.complete();
   }
 
-  addTime(event: MatDatepickerInputEvent<Date>){
+  addTime(event: MatDatepickerInputEvent<Date>) {
     //console.log("timeeee");
-   // this.times.push(event.value);
+    // this.times.push(event.value);
     //console.log(event.value)
     //this.courseBeginTime = this.times[this.events.length - 1];
     this.beginHour = this.horizontalStepperStep1.getRawValue().courseSessionBeginTime
     console.log("courseTime");
     console.log(this.beginHour)
     console.log(typeof this.beginHour);
-    this.courseBeginTime=new Date();
-    this.courseBeginTime.setHours(Number(this.beginHour.substring(0,2))) ;
-    this.courseBeginTime.setMinutes(Number(this.beginHour.substring(3,5))) ;
+    this.courseBeginTime = new Date();
+    this.courseBeginTime.setHours(Number(this.beginHour.substring(0, 2)));
+    this.courseBeginTime.setMinutes(Number(this.beginHour.substring(3, 5)));
     console.log(this.courseBeginTime);
     if (this.endHour != undefined){
       this.checkTime()
     }
 
   }
-  checkTime(){
-    this.endHour=this.horizontalStepperStep1.getRawValue().courseSessionEndTime
-    this.timeNotValid= false ; 
+  checkTime() {
+    this.endHour = this.horizontalStepperStep1.getRawValue().courseSessionEndTime
+    this.timeNotValid = false;
 
-    this.courseEndTime=new Date();
-    this.courseEndTime.setHours(Number(this.endHour.substring(0,2))) ;
-    this.courseEndTime.setMinutes(Number(this.endHour.substring(3,5))) ;
+    this.courseEndTime = new Date();
+    this.courseEndTime.setHours(Number(this.endHour.substring(0, 2)));
+    this.courseEndTime.setMinutes(Number(this.endHour.substring(3, 5)));
 
     console.log(this.courseEndTime);
     console.log(this.courseBeginTime);
-    if (this.courseEndTime.getTime()< this.courseBeginTime.getTime()){
+    if (this.courseEndTime.getTime() < this.courseBeginTime.getTime()) {
       console.log("end time less than begin date")
-      this.timeNotValid=true;
+      this.timeNotValid = true;
     }
-    
+
 
   }
   addDate(event: MatDatepickerInputEvent<Date>) {
-    this.isFreeDay=false;
+    this.isFreeDay = false;
     this._addSessionService.deselectContacts();
     this.testDate = false;
 
@@ -364,7 +364,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     this.courseDate = this.events[this.events.length - 1];
     console.log("courseDate");
     console.log(this.courseDate)
-    
+
     this.sessionsByProgram.forEach(session => {
       let d = new Date(session.sessionBeginDate);
       if (this.courseDate.toDateString() === d.toDateString()) {
@@ -375,8 +375,8 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       let start = new Date(day.start);
       let end = new Date(day.end);
 
-      if ((this.courseDate.toDateString() === end.toDateString())||(this.courseDate.toDateString() === start.toDateString())) {
-        this.isFreeDay=true;
+      if ((this.courseDate.toDateString() === end.toDateString()) || (this.courseDate.toDateString() === start.toDateString())) {
+        this.isFreeDay = true;
       }
     });
   }
@@ -384,7 +384,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
 
 
   addEvent(event: MatDatepickerInputEvent<Date>) {
-    this.isFreeDay=false;
+    this.isFreeDay = false;
     this._addSessionService.deselectContacts();
     this.testDate = false;
     this.events.push(event.value);
@@ -408,15 +408,15 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       let start = new Date(day.start);
       let end = new Date(day.end);
 
-      if ((this.courseDate.toDateString() === end.toDateString())||(this.courseDate.toDateString() === start.toDateString())) {
-        this.isFreeDay=true;
-        
+      if ((this.courseDate.toDateString() === end.toDateString()) || (this.courseDate.toDateString() === start.toDateString())) {
+        this.isFreeDay = true;
+
       }
 
 
     });
-    
-      
+
+
   }
 
 
@@ -464,8 +464,8 @@ export class AddSessionComponent implements OnInit, OnDestroy {
 
     }
     );
-    this.programBeginDate=program.beginDate;
-    this.programEndDate=program.endDate;
+    this.programBeginDate = program.beginDate;
+    this.programEndDate = program.endDate;
 
 
   }
@@ -569,13 +569,13 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   }
 
   sendDate(): void {
-    this.place=null;
+    this.place = null;
     console.log("prog prog prog");
     console.log(this.horizontalStepperStep1.value.program.place);
-    let pl=JSON.parse(this.horizontalStepperStep1.value.program.place);
+    let pl = JSON.parse(this.horizontalStepperStep1.value.program.place);
     console.log(pl)
-    if(pl!=null){
-      this.place=pl.name;
+    if (pl != null) {
+      this.place = pl.name;
     }
     this._addSessionService.selectedDate = this.horizontalStepperStep1.value.courseSessionDate;
     console.log(this._addSessionService.selectedDate);
