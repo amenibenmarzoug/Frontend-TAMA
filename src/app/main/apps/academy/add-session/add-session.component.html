@@ -383,6 +383,11 @@
                         Etes vous sûr des données suivantes? :
                     </div>
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
+                    *ngIf="selectedTrainer!=null && session!=null ">
+                    Classe:
+                    {{session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName}}</div>
+                 
+                    <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
                         *ngIf="selectedTrainer!=null && session!=null"> Séance: {{session.sessionName}}
                         {{session.themeDetailInstance.themeDetail.themeDetailName}}</div>
                         <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"

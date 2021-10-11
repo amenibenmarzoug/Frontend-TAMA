@@ -75,13 +75,28 @@
 
                 <mat-form-field  appearance="outline" fxFlex>
                     <mat-label >Spécialité</mat-label>
-                    <mat-select multiple=""  [(value)]="contact.specifications" (selectionChange)="sendSpecifications(contact)" formControlname="specifications">
+                    <mat-select  (selectionChange)="chooseTheme($event.value)" formControlname="themes">
                        
-                        <mat-option *ngFor="let specification of specifications" [value]="specification">
-                            {{specification}}
+                        <mat-option *ngFor="let theme of themes" [value]="theme.id">
+                            {{theme.themeName}}
                         </mat-option>
                     </mat-select>
-                    <mat-error>Spécialié est requise!</mat-error>
+                    <mat-error>Thematique est requise!</mat-error>
+                </mat-form-field>
+
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <mat-form-field  appearance="outline" fxFlex>
+                    <mat-label >Modules</mat-label>
+                    <mat-select multiple=""  [(value)]="contact.specifications" (selectionChange)="sendSpecifications(contact)" formControlname="specifications" required>
+                       
+                        <mat-option *ngFor="let specification of specifications" [value]="specification.moduleName">
+                            {{specification.theme.themeName}}- {{specification.moduleName}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>Module est requis!</mat-error>
                 </mat-form-field>
 
             </div>
@@ -127,7 +142,7 @@
 
                 <mat-form-field  appearance="outline" fxFlex>
                     <mat-label >Jours de disponibilité</mat-label>
-                    <mat-select multiple=""  [(value)]="contact.disponibilityDays"  (selectionChange)="changeFilter(contact)" formControlname="disponibilityDays">
+                    <mat-select multiple=""  [(value)]="contact.disponibilityDays"  (selectionChange)="changeFilter(contact)" formControlname="disponibilityDays" required>
                        
                         <mat-option *ngFor="let day of days" [value]="day.day">
                           {{day.day}}

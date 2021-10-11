@@ -548,16 +548,8 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     
     
     //assign the date and beginHour - endHour to the session corresponding fields
-<<<<<<< HEAD
     this.session.sessionBeginDate=new Date (this.courseDate)
     this.session.sessionEndDate=new Date (this.courseDate)
-=======
-    this.session.sessionBeginDate = new Date(this.courseDate)
-    this.session.sessionEndDate = new Date(this.courseDate)
-
-    this.session.sessionBeginDate = new Date(this.courseDate)
-    this.session.sessionEndDate = new Date(this.courseDate)
->>>>>>> e44c71e3ce44efb2898f0d855ab85580e5092b3f
     this.session.sessionBeginDate.setHours(this.courseBeginTime.getHours(), this.courseBeginTime.getMinutes());
     this.session.sessionEndDate.setHours(this.courseEndTime.getHours(), this.courseEndTime.getMinutes());
 

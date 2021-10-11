@@ -16,6 +16,7 @@ export class TrainerFormComponent {
     action: string;
     contact: Contact;
     specifications:any[];
+    themes:any[];
     days: any[] = Days;
     contactForm: FormGroup;
     dialogTitle: string;
@@ -38,6 +39,9 @@ export class TrainerFormComponent {
             this.specifications=modules;
         })
        
+        this._serviceTrainer.onThemesChanged.subscribe((themes)=>{
+            this.themes=themes;
+        })
         console.log(this.specifications)
         if (this.action === 'edit') {
             this.dialogTitle = 'Modifier Formateur';
@@ -57,6 +61,15 @@ export class TrainerFormComponent {
         console.log(filter);
         //this._serviceTrainer.specifications = filter.specifications;
        this._serviceTrainer.disponibilities=filter.disponibilityDays;
+    }
+
+
+    chooseTheme(themeId): void {
+        console.log("themeId");
+        console.log(themeId);
+        //this._serviceTrainer.specifications = filter.specifications;
+       this._serviceTrainer.themeId=themeId;
+       this._serviceTrainer.getModules();
     }
 
     sendSpecifications(spec): void {
@@ -87,7 +100,8 @@ export class TrainerFormComponent {
             street: [this.contact.street],
             city: [this.contact.city],
             postalCode: [this.contact.postalCode],
-            disponibilityDays: [this.contact.disponibilityDays]
+            disponibilityDays: [this.contact.disponibilityDays],
+            theme:['']
 
         });
     }
