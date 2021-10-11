@@ -366,8 +366,8 @@ export class EditSessionComponent implements OnInit, OnDestroy {
      });*/
 
     this.horizontalStepperStep3 = this._formBuilder.group({
-      institution: [this.session.classRoom.institution, Validators.required],
-      classroom: [this.session.classRoom, Validators.required],
+      institution: [this.session.classRoom.institution],
+      classroom: [this.session.classRoom],
     });
     console.log("Horizentaaalll")
     console.log("Horizentaaalll")
@@ -710,6 +710,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
   sendClassroom(): void {
     
     this.buttonSuiv3Selected=true;
+    console.log(this.currentClassroom)
     if(this.currentClassroom != null )
     {
     this.session.classRoom = this.currentClassroom;

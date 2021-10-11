@@ -242,7 +242,7 @@ export class ProgramDetailsService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.put(AUTH_API + 'theme', theme)
                 .subscribe(response => {
-                    this.getThemes();
+                    this.getThemesPerProgram();
                     resolve(response);
                 });
         });
