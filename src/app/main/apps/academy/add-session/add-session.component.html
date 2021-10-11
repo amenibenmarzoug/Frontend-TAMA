@@ -100,7 +100,7 @@
                             </div>
                             <div class="nav-item" aria-label="Thème de la journée">
                                 <mat-form-field appearance="outline" class="w-100-p">
-                                    <mat-label>Thème de la journée</mat-label>
+                                    <mat-label>Sujet</mat-label>
                                     <mat-select formControlName="themeDet"
                                         (selectionChange)="selectThemeDetail($event.value)"
                                         (blur)="onValueChangedStepper1()" required>
@@ -382,6 +382,9 @@
                         *ngIf="selectedTrainer!=null && session!=null">
                         Etes vous sûr des données suivantes? :
                     </div>
+                    <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
+                        *ngIf="selectedTrainer!=null && session!=null"> Classe: {{session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName}}
+                       </div>
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
                         *ngIf="selectedTrainer!=null && session!=null"> Séance: {{session.sessionName}}
                         {{session.themeDetailInstance.themeDetail.themeDetailName}}</div>
