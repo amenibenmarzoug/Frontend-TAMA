@@ -1,8 +1,8 @@
 <mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}">
     <!-- Checkbox Column -->
     <ng-container matColumnDef="checkbox">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let contact">
+        <mat-header-cell *matHeaderCellDef class="checkbox-class"></mat-header-cell>
+        <mat-cell *matCellDef="let contact" class="checkbox-class">
             <mat-checkbox [(ngModel)]="checkboxes[contact.id]" (ngModelChange)="onSelectedChange(contact.id.toString())" (click)="$event.stopPropagation()">
             </mat-checkbox>
         </mat-cell>
@@ -12,7 +12,7 @@
     <!-- Name Column -->
     <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef>Nom et Prénom</mat-header-cell>
-        <mat-cell *matCellDef="let contact">
+        <mat-cell *matCellDef="let contact" >
             <p class="text-truncate font-weight-600">{{contact.firstName}} {{contact.lastName}}</p>
         </mat-cell>
     </ng-container>
@@ -42,9 +42,13 @@
     <ng-container matColumnDef="specification">
         <mat-header-cell *matHeaderCellDef fxShow.gt-lg>Spécialité</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxShow.gt-lg>
-            <p class="job-title ">
-                {{contact.specifications}}
-            </p>
+            <div *ngFor="let specification of contact.specifications">
+                <div class="job-title ">
+                    {{specification}}
+                </div>
+            </div>
+
+          
         </mat-cell>
     </ng-container>
 

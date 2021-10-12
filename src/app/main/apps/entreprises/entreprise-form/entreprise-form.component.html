@@ -146,7 +146,7 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Classe</mat-label>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <mat-select formControlName="programInstance" (selectionChange)="sendClasse($event.value)" required
+                    <mat-select formControlName="programInstance" (selectionChange)="sendClasse($event.value)" 
                         (blur)="onValueChanged()">
 
                         <mat-option *ngFor="let classe of classes" [value]="classe">
@@ -161,7 +161,7 @@
             <div fxLayout="row" fxLayoutAlign="start center">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Nombre de participants à inscrire</mat-label>
-                    <input matInput formControlName="nbMinParticipants" required (blur)="onValueChanged()">
+                    <input matInput formControlName="nbMinParticipants"  (blur)="onValueChanged()">
                     <mat-icon matSuffix class="secondary-text">looks_one</mat-icon>
 
                     <mat-error *ngIf="formErrors.participNumber">{{formErrors.participNumber}}</mat-error>

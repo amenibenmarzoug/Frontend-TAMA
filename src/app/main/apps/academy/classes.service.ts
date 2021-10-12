@@ -512,10 +512,9 @@ export class ClassesService {
 
 
 
-    updateProgramInst(programInst, program): Promise<any> {
+    updateProgramInst(programInst): Promise<any> {
 
         return new Promise((resolve, reject) => {
-            programInst.program = program;
             console.log("program on the update");
             console.log(programInst);
           //  console.log(programInst);

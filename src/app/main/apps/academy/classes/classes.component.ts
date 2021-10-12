@@ -18,6 +18,7 @@ import { ThematiqueInst } from '../program-inst-detail/tabs/thematique-inst/them
 import { ClasseParticipantsService } from './classe-participants/classe-participants.service';
 import { ClasseParticipantsComponent } from './classe-participants/classe-participants.component';
 import { PlaceFormComponent } from './place-form/place-form.component';
+import { ProgramInst } from '../programInst.model';
 
 @Component({
     selector: 'app-classes',
@@ -305,7 +306,14 @@ export class ClassesComponent implements OnInit {
                      * Save
                      */
                     case 'save':
-                        this._academyProgramsInstService.updateProgramInst(programInst, this._academyProgramsInstService.program);
+                        console.log("this program inst")
+                        console.log(programInst)
+                        let newProgramInst=new ProgramInst(formData.getRawValue());
+                        newProgramInst.id=programInst.id;
+                        newProgramInst.place=programInst.place;
+                        newProgramInst.program=programInst.program;
+                        newProgramInst.validated=programInst.validated;
+                        this._academyProgramsInstService.updateProgramInst(newProgramInst);
 
                         break;
                     /**

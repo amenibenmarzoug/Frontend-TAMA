@@ -29,7 +29,7 @@ contacts-contact-list {
             padding: 8px;
 
             .mat-cell {
-                min-width: 0;
+                min-width: 0px;
 
                 &.mat-column-detail-button {
                     flex: 0 1 auto;
@@ -56,4 +56,14 @@ contacts-contact-list {
         top: calc(100vh - 120px);
         bottom: auto;
     }
+}
+
+.cell{
+    width:30%;
+    margin-right: 200px;
+    
+}
+
+.checkbox-class{
+    margin-right:-5em;
 }
