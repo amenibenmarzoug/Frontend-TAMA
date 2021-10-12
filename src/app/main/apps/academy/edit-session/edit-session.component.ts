@@ -172,11 +172,12 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     },
     'courseSessionBeginTime': {
       'required': "L'heure de début est requise",
+      'pattern': "L 'heure doit être sous ce format aa:bb. Exp : 08:00 "
 
     },
     'courseSessionEndTime': {
       'required': "L'heure de fin est requise",
-
+      'pattern': "L 'heure doit être sous ce format aa:bb. Exp : 08:00 "
     },
   }
   chosenClassroom: any;
@@ -434,6 +435,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
 
   createForm(): FormGroup {
 
+    const time="[0-9]{2}:[0-9]{2}"
 
     return this._formBuilder.group({
       program: [{ value: this.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName+ " - " + this.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location, disabled: true }, Validators.required],
@@ -445,8 +447,8 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       //courseSessionEndDate: [new Date(this.session.sessionEndDate), Validators.required],
 
       courseSessionDate: [new Date(this.session.sessionBeginDate), Validators.required],
-      courseSessionBeginTime: [this.beginHour, Validators.required],
-      courseSessionEndTime: [this.endHour, Validators.required],
+      courseSessionBeginTime: [this.beginHour, [Validators.required, Validators.pattern(time)]],
+      courseSessionEndTime: [this.endHour, [Validators.required, Validators.pattern(time)]],
 
 
     });

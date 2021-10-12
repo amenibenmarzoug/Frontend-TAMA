@@ -1,9 +1,10 @@
 <mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}">
     <!-- Checkbox Column -->
     <ng-container matColumnDef="checkbox">
-        <mat-header-cell *matHeaderCellDef class="checkbox-class"></mat-header-cell>
-        <mat-cell *matCellDef="let contact" class="checkbox-class">
-            <mat-checkbox [(ngModel)]="checkboxes[contact.id]" (ngModelChange)="onSelectedChange(contact.id.toString())" (click)="$event.stopPropagation()">
+        <mat-header-cell *matHeaderCellDef class="checkbox-cell"></mat-header-cell>
+        <mat-cell *matCellDef="let contact" class="checkbox-cell">
+            <mat-checkbox [(ngModel)]="checkboxes[contact.id]" (ngModelChange)="onSelectedChange(contact.id.toString())"
+                (click)="$event.stopPropagation()">
             </mat-checkbox>
         </mat-cell>
     </ng-container>
@@ -11,16 +12,16 @@
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef>Nom et Prénom</mat-header-cell>
-        <mat-cell *matCellDef="let contact" >
-            <p class="text-truncate font-weight-600">{{contact.firstName}} {{contact.lastName}}</p>
+        <mat-header-cell *matHeaderCellDef class="name-cell">Nom et Prénom</mat-header-cell>
+        <mat-cell *matCellDef="let contact" class="name-cell">
+            <p class="font-weight-600">{{contact.firstName}} {{contact.lastName}}</p>
         </mat-cell>
     </ng-container>
 
     <!-- Email Column -->
-    <ng-container matColumnDef="email">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Email</mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm>
+    <ng-container matColumnDef="email" >
+        <mat-header-cell *matHeaderCellDef class="name-cell" fxShow.gt-sm>Email</mat-header-cell>
+        <mat-cell *matCellDef="let contact" class="name-cell" fxShow.gt-sm>
             <p class="email text-truncate">
                 {{contact.email}}
             </p>
@@ -39,26 +40,29 @@
 
 
     <!-- Job Title Column -->
-    <ng-container matColumnDef="specification">
-        <mat-header-cell *matHeaderCellDef fxShow.gt-lg>Spécialité</mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxShow.gt-lg>
-            <div *ngFor="let specification of contact.specifications">
-                <div class="job-title ">
-                    {{specification}}
-                </div>
-            </div>
+ 
 
-          
-        </mat-cell>
-    </ng-container>
-
-    <!-- Company Column -->
-    <ng-container matColumnDef="address">
+   
+  <!--   <ng-container matColumnDef="address">
         <mat-header-cell *matHeaderCellDef fxShow.gt-lg>Adresse</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxShow.gt-lg>
             <p class="company text-truncate">
                 {{contact.street}}, {{contact.city}}, {{contact.postalCode}}
             </p>
+        </mat-cell>
+    </ng-container> -->
+
+    <ng-container matColumnDef="specification">
+        <mat-header-cell *matHeaderCellDef fxShow.gt-lg class="speciality-cell" fxLayoutAlign="center center">Spécialité</mat-header-cell>
+        <mat-cell *matCellDef="let contact" fxShow.gt-lg class="speciality-cell">
+            <ng-container >
+                <ul >
+                    <li *ngFor="let specification of contact.specifications">
+                        <span> {{specification}} </span>
+                    </li>
+                </ul>
+
+            </ng-container>
         </mat-cell>
     </ng-container>
 
@@ -68,21 +72,22 @@
         <mat-cell *matCellDef="let contact">
             <div fxFlex="row" fxLayoutAlign="end center">
                 <button mat-icon-button (click)="$event.stopPropagation();" aria-label="Toggle star">
-                    <mat-icon *ngIf="contact.validated " class="amber-fg" >star</mat-icon>
-                    <mat-icon *ngIf="!contact.validated"class="secondary-text" >star_border</mat-icon>
+                    <mat-icon *ngIf="contact.validated " class="amber-fg">star</mat-icon>
+                    <mat-icon *ngIf="!contact.validated" class="secondary-text">star_border</mat-icon>
                 </button>
-                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More" (click)="$event.stopPropagation();">
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                    (click)="$event.stopPropagation();">
                     <mat-icon class="secondary-text">more_vert</mat-icon>
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
-                   <!--  <button mat-menu-item aria-label="remove" (click)="deleteContact(contact.id)">
+                    <!--  <button mat-menu-item aria-label="remove" (click)="deleteContact(contact.id)">
                         <mat-icon>delete</mat-icon>
                         <span>Supprimer</span>
                     </button> -->
-                    <button mat-menu-item aria-label="check"   [disabled]="disabled"  (click)="ValidateContact(contact)">
-                        <mat-icon *ngIf="contact.validated "   >check</mat-icon>
-                        <mat-icon *ngIf="!contact.validated "  >close</mat-icon>
+                    <button mat-menu-item aria-label="check" [disabled]="disabled" (click)="ValidateContact(contact)">
+                        <mat-icon *ngIf="contact.validated ">check</mat-icon>
+                        <mat-icon *ngIf="!contact.validated ">close</mat-icon>
                         <span>Créer un compte</span>
                     </button>
                 </mat-menu>
@@ -94,6 +99,7 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let contact; columns: displayedColumns;" class="contact" (click)="editContact(contact)" [ngClass]="{'accent-50':checkboxes[contact.id]}" [@animate]="{value:'*',params:{y:'100%'}}">
+    <mat-row *matRowDef="let contact; columns: displayedColumns;" class="contact" (click)="editContact(contact)"
+        [ngClass]="{'accent-50':checkboxes[contact.id]}" [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>
 </mat-table>

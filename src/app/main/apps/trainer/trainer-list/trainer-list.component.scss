@@ -64,6 +64,19 @@ contacts-contact-list {
     
 }
 
-.checkbox-class{
-    margin-right:-5em;
+.checkbox-cell{
+    margin-right:-3em;
 }
+
+.speciality-cell{
+    
+    flex: 9rem;
+    min-width: 9rem; 
+}
+
+.name-cell{
+    
+    flex: 7rem;
+    min-width: 9rem; 
+}
+
