@@ -88,12 +88,12 @@
 
             <div fxLayout="row" fxLayoutAlign="start center">
 
-                <mat-form-field  appearance="outline" fxFlex>
+                <mat-form-field  appearance="outline" fxFlex class="module-option" >
                     <mat-label >Modules</mat-label>
                     <mat-select multiple=""  [(value)]="contact.specifications" (selectionChange)="sendSpecifications(contact)" formControlname="specifications" required>
                        
                         <mat-option *ngFor="let specification of specifications" [value]="specification.moduleName">
-                            {{specification.theme.themeName}}- {{specification.moduleName}}
+                           {{specification.moduleName}}
                         </mat-option>
                     </mat-select>
                     <mat-error>Module est requis!</mat-error>
