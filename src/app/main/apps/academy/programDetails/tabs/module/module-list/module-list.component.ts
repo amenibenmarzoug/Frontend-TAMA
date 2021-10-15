@@ -154,6 +154,8 @@ export class ModuleListComponent implements OnInit, OnDestroy {
                             break; 
                         }*/
                         this._moduleService.updateModule(formData.getRawValue(),this._moduleService.theme);
+                        console.log("update Module lekbir")
+                            console.log(formData.getRawValue())
 
                         break;
                     /**

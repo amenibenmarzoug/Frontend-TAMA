@@ -16,11 +16,10 @@
     <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
 
         <form [formGroup]="themeDetailForm">
+            <!--
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Titre theme Detail</mat-label>
-                    <!-- <mat-icon matSuffix class="secondary-text">font_download</mat-icon> -->
-                    <!-- <input ngDefaultControl name="moduleInstanceName" formControlName="moduleInstanceName" matInput required> -->
                     <mat-select formControlName="themeDetail" (selectionChange)="getModuleForm($event.value)">
                        
                         <mat-option *ngFor="let themDetail of themedetails" [value]="themDetail">
@@ -29,6 +28,7 @@
                     </mat-select>
                 </mat-form-field>
             </div>
+        -->
 
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>

@@ -15,11 +15,13 @@ export class ProgramSpecService {
 
   onCategoriesChanged: BehaviorSubject<any>;
   onProgramsChanged: BehaviorSubject<any>;
+  onBasicProgramsChanged : BehaviorSubject<any>;
 
   programs: Program[];
   id: number;
   program: Program;
   programId: any;
+    basicPrograms: any;
 
 
 
@@ -34,6 +36,7 @@ export class ProgramSpecService {
       // Set the defaults
       this.onCategoriesChanged = new BehaviorSubject({});
       this.onProgramsChanged = new BehaviorSubject({});
+      this.onBasicProgramsChanged= new BehaviorSubject({});
 
   }
 
@@ -53,7 +56,8 @@ export class ProgramSpecService {
 
           Promise.all([
               //this.getCategories(),
-              this.getPrograms()
+              this.getPrograms(),
+              this.getBasePrograms()
           ]).then(
               () => {
                   resolve();
@@ -72,16 +76,54 @@ export class ProgramSpecService {
    *
    * @returns {Promise<any>}
    */
+  //get specific programs   //this.programs : specific ones 
   getPrograms(): Promise<any> {
       return new Promise((resolve, reject) => {
           this._httpClient.get(AUTH_API + 'programs')
               .subscribe((response: any) => {
                   this.programs = response;
-                  this.onProgramsChanged.next(response);
-                  resolve(response);
+                  this.programs=  this.programs.filter(program => {
+                      if(program.specificProgram==true) {
+                          return true ; 
+                      }
+                      return false;
+                  }
+                      
+                  )
+
+                  this.onProgramsChanged.next(this.programs);
+                  resolve(this.programs);
               }, reject);
       });
   }
+
+
+  /**
+   * Get Base Programs
+   *
+   * @returns {Promise<any>}
+   */
+  //get basic programs 
+  getBasePrograms(): Promise<any> {
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API + 'programs')
+            .subscribe((response: any) => {
+                this.basicPrograms = response;
+                this.basicPrograms=  this.basicPrograms.filter(program => {
+                    if(program.specificProgram==false) {
+                        return true ; 
+                    }
+                    return false;
+                }
+                    
+                )
+
+                this.onBasicProgramsChanged.next(this.basicPrograms);
+                resolve(this.basicPrograms);
+            }, reject);
+    });
+}
+
   /**
    * Update contact
    *
@@ -105,7 +147,7 @@ export class ProgramSpecService {
        // programInst.program = program;
        //console.log("programSpeeeeeeeeeec");
        //console.log(programSpec);
-               this._httpClient.post(AUTH_API +'program', programSpec)
+               this._httpClient.post(AUTH_API +'specificProgram', programSpec)
             .subscribe(response => {
                 this.getPrograms();
                 resolve(response);

@@ -242,7 +242,8 @@ export class ProgramDetailsService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.put(AUTH_API + 'theme', theme)
                 .subscribe(response => {
-                    this.getThemes();
+                    //this.getThemes();
+                    this.getThemesPerProgram();
                     resolve(response);
                 });
         });
@@ -298,18 +299,20 @@ export class ProgramDetailsService implements Resolve<any>
                                 }
                                 return false;
                             });
+
+                            
                         }
                     }
                     else {
-                        this.modules = response;
+                        this.modules = [];
                     }
                     if (this.searchTextModule && this.searchTextModule !== '') {
                         this.modules = FuseUtils.filterArrayByString(this.modules, this.searchTextModule);
                     }
 
-                    this.modules = this.modules.map(module => {
+                   /* this.modules = this.modules.map(module => {
                         return new Module(module);
-                    });
+                    });*/
 
                     this.onmoduleChanged.next(this.modules);
                     resolve(this.modules);

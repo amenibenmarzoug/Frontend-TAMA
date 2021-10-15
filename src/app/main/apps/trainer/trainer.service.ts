@@ -35,6 +35,9 @@ export class TrainerService implements Resolve<any>
     searchText: string;
     filterBy: string;
     id: number;
+    onThemesChanged:  BehaviorSubject<any>;
+    themes:any[];
+    themeId:number;
 
     /**
      * Constructor
@@ -49,6 +52,7 @@ export class TrainerService implements Resolve<any>
         this.onSelectedContactsChanged = new BehaviorSubject([]);
         this.onUserDataChanged = new BehaviorSubject([]);
         this.onModulesChanged = new BehaviorSubject([]);
+        this.onThemesChanged= new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
     }
@@ -71,6 +75,7 @@ export class TrainerService implements Resolve<any>
                 this.getContacts(),
                 this.getUserData(),
                 this.getModules(),
+                this.getThemes()
             ]).then(
                 ([files]) => {
 
@@ -157,11 +162,11 @@ export class TrainerService implements Resolve<any>
         );
     }
 
-    getModules(): Promise<any> {
+   /* getModules(): Promise<any> {
 
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'module')
+            this._httpClient.get(AUTH_API + 'modulesNames')
                 .subscribe((response: any) => {
                     console.log("MODULES");
                     console.log(response);
@@ -171,7 +176,54 @@ export class TrainerService implements Resolve<any>
                 }, reject);
         }
         );
+    }*/
+
+    getModules(): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'module')
+                .subscribe((response: any) => {
+                  
+                    this.onModulesChanged.next( this.modules);
+                    if(this.themeId!=null){
+                        this.modules = response;
+                        this.modules=this.modules.filter(module =>{
+                            if(module.theme.id==this.themeId){
+                                return true;
+                            }
+                            return false;
+                        })
+                    }
+                    else{
+                        this.modules=[];
+                    }
+                    console.log("MODULES");
+                    console.log(this.modules);
+                    this.onModulesChanged.next( this.modules);
+                    resolve( this.modules);
+                }, reject);
+        }
+        );
     }
+
+    getThemes(): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'themes')
+                .subscribe((response: any) => {
+                    console.log("Themes");
+                    console.log(response);
+                
+                    this.onThemesChanged.next(response);
+                    this.themes = response;
+                    resolve(response);
+                }, reject);
+        }
+        );
+    }
+
 
     /**
      * Toggle selected contact by id

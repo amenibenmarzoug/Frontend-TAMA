@@ -18,12 +18,18 @@ export class PlaceFormComponent implements OnInit {
   dialogTitle: string;
   programInst: ProgramInst;
   enterprises: any[];
+  place:string;
 
   constructor(@Inject(MAT_DIALOG_DATA) private _data: any, public matDialogRef: MatDialogRef<PlaceFormComponent>,
     private classService: ClassesService) {
     this.action = _data.action;
     this.dialogTitle = 'Lieu de la formation';
     this.programInst = _data.programInst;
+    let pl=JSON.parse(this.programInst.place);
+    console.log(pl)
+    if(pl!=null){
+      this.place=pl.name;
+    }
 
     console.log("programins");
     console.log(this.programInst);

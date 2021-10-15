@@ -39,15 +39,16 @@ export class ThematiqueInstFormComponent implements OnInit {
 
 
     if (this.action === 'edit') {
-      this.dialogTitle = 'Edit Thèmatique Dédiée';
+      this.dialogTitle = 'Modifier Thème';
       this.themeInst = _data.themeInst;
       this._programDetailsService.programInst=this.themeInst.programInstance;
       this._programDetailsService.theme  = this.themeInst.theme;
+      console.log(this.themeInst)
 
     }
     else {
 
-      this.dialogTitle = 'Nouveau Thème Dédié';
+      this.dialogTitle = 'Nouveau Thème ';
       this.themeInst = new ThematiqueInst({});
 
     }
@@ -55,9 +56,21 @@ export class ThematiqueInstFormComponent implements OnInit {
     this._unsubscribeAll = new Subject();
     // this.programs=this._programDetailsService.programs;
     this.themes = this._programDetailsService.themes;
+    console.log("this.themes")
+    console.log(this.themes)
   }
 
   ngOnInit(): void {
+
+    console.log("onInit")
+    console.log("this.programdeBase in init")
+    console.log(this.themeInst.theme)
+    if (this.themeInst.theme !== undefined)
+    {
+    const toSelect = this.themes.find(p => p.id == this.themeInst.theme.id);
+    this.themeInstForm.get('theme').setValue(toSelect);
+    console.log(this.themeInstForm.get('theme'))
+    }
   }
 
 

@@ -26,7 +26,7 @@ export class TrainerListComponent implements OnInit, OnDestroy
     contacts: any;
     user: any;
     dataSource: FilesDataSource | null;
-    displayedColumns = ['checkbox', 'name', 'email', 'phone', 'specification', 'address', 'buttons'];
+    displayedColumns = ['checkbox', 'name', 'email', 'phone','specification', 'buttons'];
     selectedContacts: any[];
     checkboxes: {};
     dialogRef: any;

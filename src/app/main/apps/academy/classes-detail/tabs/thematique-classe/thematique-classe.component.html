@@ -10,7 +10,7 @@
                 fxLayoutAlign.gt-xs="space-between center">
 
                 <mat-form-field appearance="outline" floatLabel="always" class="course-search">
-                    <mat-label>Chercher une Thématique</mat-label>
+                    <mat-label>Chercher un Thème</mat-label>
                     <input matInput placeholder="Entrer le titre du thème..." [(ngModel)]="searchTerm"
                         (input)="filterThemesByTerm()">
                 </mat-form-field>
@@ -41,7 +41,7 @@
                             <div class="h3">{{themeInst.themeInstName}}</div>
                             <div class="updated">Nombre du Jours :  {{themeInst.nbDaysthemeInst}}</div>
                             <div class="updated">Theme lié :  {{themeInst.theme.themeName}}</div>
-                            <div class="updated">ProgrammeInst lié: {{themeInst.programInstance.programInstName}}</div>
+                            <div class="updated">Classe liée: {{themeInst.programInstance.programInstName}}</div>
                             
                         </div>
 

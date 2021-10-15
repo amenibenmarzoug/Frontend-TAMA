@@ -278,12 +278,12 @@ export class EntreprisesService implements Resolve<any>
 
     } */
 
-    updateContact1(contact, classe): Observable<any> {
-        console.log(this.classe.location);
-        if (this.classe != null) {
-            contact.programInstance = classe;
-        }
-        this.classe = null;
+    updateContact1(contact): Observable<any> {
+        //console.log(this.classe.location);
+        //if (this.classe != null) {
+        //    contact.programInstance = classe;
+       // }
+        //this.classe = null;
         console.log(contact);
         this.getContacts();
         return this._httpClient.put(AUTH_API + 'entreprises', contact);

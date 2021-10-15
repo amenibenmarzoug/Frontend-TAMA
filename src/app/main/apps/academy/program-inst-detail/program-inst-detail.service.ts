@@ -296,6 +296,8 @@ export class ProgramInstDetailService {
             this._httpClient.get(AUTH_API +'themes')
                 .subscribe((response: any) => {
                     this.themes = response;
+                    console.log("themes in service")
+                    console.log(this.themes)
                     this.onThemeChanged.next(response);
                     resolve(response);
 

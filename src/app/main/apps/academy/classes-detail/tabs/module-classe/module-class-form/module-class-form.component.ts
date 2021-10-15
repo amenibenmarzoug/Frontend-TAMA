@@ -56,7 +56,7 @@ alertDialog: any;
     }
     else
     {
-        this.dialogTitle = 'Nouveau Module Dédié';
+        this.dialogTitle = 'Nouveau Module ';
      
         this.moduleInst = new ModuleInst({});
 

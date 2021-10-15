@@ -1,14 +1,37 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators, ReactiveFormsModule, FormControl }from '@angular/forms';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
   
 import { MyParticipant } from 'app/main/apps/my-participants/my-participant.model';
+
+export const MY_FORMATS = {
+    parse: {
+      dateInput: 'YYYY',
+    },
+    display: {
+      dateInput: 'YYYY',
+      monthYearLabel: 'YYYY',
+      monthYearA11yLabel: 'YYYY',
+    },
+  };
+
 @Component({
   selector: 'app-my-participant-form',
   templateUrl: './my-participant-form.component.html',
   styleUrls: ['./my-participant-form.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ],
 
 
 })
@@ -18,6 +41,10 @@ export class MyParticipantFormComponent{
   contact:MyParticipant;
   contactForm: FormGroup;
   dialogTitle: string;
+  chosenYearDate: Date;
+  currentDate: Date ; 
+
+
 
   /**
    * Constructor
@@ -29,11 +56,14 @@ export class MyParticipantFormComponent{
   constructor(
       public matDialogRef: MatDialogRef<MyParticipantFormComponent>,
       @Inject(MAT_DIALOG_DATA) private _data: any,
-      private _formBuilder: FormBuilder
+      private _formBuilder: FormBuilder,
+      private dateAdapter: DateAdapter<Date>
   )
   {
       // Set the defaults
       this.action = _data.action;
+      this.dateAdapter.setLocale('fr');
+      this.currentDate=new Date()
 
       if ( this.action === 'edit' )
       {
@@ -113,6 +143,16 @@ export class MyParticipantFormComponent{
             }
         }
     } 
+
+    chosenYearHandler(event, input){
+        let { _d } = event;
+        this.contactForm["birthday"] = _d;
+        this.chosenYearDate=_d
+        
+        console.log(this.contactForm["birthday"])
+        console.log(_d)
+        input._destroyPopup()
+      }
     validationMessagesP = {
 
         'genderP': {

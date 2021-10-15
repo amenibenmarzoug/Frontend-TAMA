@@ -26,8 +26,8 @@ export class ProgramInst{
         this.nbDaysProgInst=programInst.nbDaysProgInst || '';
         this.location = programInst.location || '';
         this.program = programInst.program || '';
-        this.beginDate=programInst.beginDate || '';
-        this.endDate=programInst.endDate || '';
+        this.beginDate=programInst.beginDate;
+        this.endDate=programInst.endDate;
         this.validated=programInst.validated || '';
         this.place=programInst.place || '';
         

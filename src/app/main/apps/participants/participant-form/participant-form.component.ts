@@ -94,8 +94,11 @@ export class ParticipantFormComponent {
         if (this.action === 'edit') {
             this.dialogTitle = 'Modifier Participant';
             this.contact = _data.contact;
+            console.log("contact to update")
+            console.log(this.contact)
             this._ParticipantsService.entreprise = this.contact.entreprise;
             this._ParticipantsService.classe = this.contact.programInstance;
+            this.chosenYearDate= this.contact.birthday
         }
         else {
             this.dialogTitle = 'Nouveau Participant';

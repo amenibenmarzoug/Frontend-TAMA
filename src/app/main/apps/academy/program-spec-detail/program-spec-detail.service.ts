@@ -293,6 +293,8 @@ export class ProgramSpecDetailService {
                   this.modules = response;
                   this.allModules = response; 
                   this.themeId = this.filterByModule;
+                  console.log("this.themeId")
+                  console.log(this.themeId)
 
                   if (this.themeId != null) {
                       if (this.filterByModule === 'Modules') {
@@ -306,18 +308,20 @@ export class ProgramSpecDetailService {
                               }
                               return false;
                           });
+                          console.log("Modulesssssss i service")
+                            console.log(this.modules)
                       }
                   }
                   else {
-                      this.modules = response;
+                      this.modules = [];
                   }
                   if (this.searchTextModule && this.searchTextModule !== '') {
                       this.modules = FuseUtils.filterArrayByString(this.modules, this.searchTextModule);
                   }
 
-                  this.modules = this.modules.map(module => {
+                  /*this.modules = this.modules.map(module => {
                       return new Module(module);
-                  });
+                  });*/
 
                   this.onmoduleChanged.next(this.modules);
                   resolve(this.modules);
