@@ -244,12 +244,14 @@ export class ClassesComponent implements OnInit {
                     millisecond:0
                   })
 
+                  if (newClass.endDate != null) {
                   newClass.endDate.set({ 
                     hour:21,
                     minute:0,
                     second:0,
                     millisecond:0
                   })
+                }
 
                 console.log("classe Form")
                 console.log(newClass)
@@ -359,9 +361,15 @@ export class ClassesComponent implements OnInit {
                         newProgramInst.validated=programInst.validated;
 
                         newProgramInst.beginDate=new Date (formData.getRawValue().beginDate)
-                        newProgramInst.endDate=new Date (formData.getRawValue().endDate)
                         newProgramInst.beginDate.setHours(1,0,0)
+                        
+                        
+
+                        if (newProgramInst.endDate != null) {
+                        newProgramInst.endDate=new Date (formData.getRawValue().endDate)
                         newProgramInst.endDate.setHours(22,0,0)
+                        }
+                        
                         console.log("after updateee")
                         console.log(newProgramInst)
                         this._academyProgramsInstService.updateProgramInst(newProgramInst);
