@@ -207,11 +207,41 @@ export class TrainerService implements Resolve<any>
         );
     }
 
+    getModulesNames(themes): Promise<any> {
+
+        //let themesList=[]
+        //themesList.push(themes);
+        return new Promise((resolve, reject) => {
+            this._httpClient.post(AUTH_API + 'modulesNamesPerThemes', themes)
+                .subscribe((response: any) => {
+                  
+                   this.modules=response;
+                    /*if(this.themeId!=null){
+                        this.modules = response;
+                        this.modules=this.modules.filter(module =>{
+                            if(module.theme.id==this.themeId){
+                                return true;
+                            }
+                            return false;
+                        })
+                    }
+                    else{
+                        this.modules=[];
+                    }*/
+                    console.log("MODULES");
+                    console.log(this.modules);
+                    this.onModulesChanged.next( this.modules);
+                    resolve( this.modules);
+                }, reject);
+        }
+        );
+    }
+
     getThemes(): Promise<any> {
 
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'themes')
+            this._httpClient.get(AUTH_API + 'themesNames')
                 .subscribe((response: any) => {
                     console.log("Themes");
                     console.log(response);

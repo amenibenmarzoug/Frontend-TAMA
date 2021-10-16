@@ -64,12 +64,13 @@ export class TrainerFormComponent {
     }
 
 
-    chooseTheme(themeId): void {
-        console.log("themeId");
-        console.log(themeId);
+    chooseTheme(theme): void {
+        console.log("theme");
+        console.log(theme);
         //this._serviceTrainer.specifications = filter.specifications;
-       this._serviceTrainer.themeId=themeId;
-       this._serviceTrainer.getModules();
+       //this._serviceTrainer.themeId=themeId;
+       this._serviceTrainer.getModulesNames(theme);
+       //this._serviceTrainer.getModules();
     }
 
     sendSpecifications(spec): void {
