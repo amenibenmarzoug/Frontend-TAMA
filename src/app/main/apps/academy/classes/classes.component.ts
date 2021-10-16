@@ -236,8 +236,25 @@ export class ClassesComponent implements OnInit {
                 if (!response) {
                     return;
                 }
+                const newClass=response.getRawValue()
+                newClass.beginDate.set({ 
+                    hour:1,
+                    minute:0,
+                    second:0,
+                    millisecond:0
+                  })
 
-                this._academyProgramsInstService.addClass(response.getRawValue(), this._academyProgramsInstService.program);
+                  newClass.endDate.set({ 
+                    hour:21,
+                    minute:0,
+                    second:0,
+                    millisecond:0
+                  })
+
+                console.log("classe Form")
+                console.log(newClass)
+
+                this._academyProgramsInstService.addClass(newClass, this._academyProgramsInstService.program);
 
             });
     }
@@ -299,20 +316,54 @@ export class ClassesComponent implements OnInit {
                 if (!response) {
                     return;
                 }
+
                 const actionType: string = response[0];
                 const formData: FormGroup = response[1];
+                /*
+                const updatedClass=response.getRawValue()
+                updatedClass.beginDate.set({ 
+                    hour:1,
+                    minute:0,
+                    second:0,
+                    millisecond:0
+                  })
+
+                  updatedClass.endDate.set({ 
+                    hour:21,
+                    minute:0,
+                    second:0,
+                    millisecond:0
+                  })
+
+                console.log("classe Form")
+                console.log(updatedClass)
+                */
                 switch (actionType) {
+
+                    
                     /**
                      * Save
                      */
                     case 'save':
                         console.log("this program inst")
                         console.log(programInst)
+
+                        
+                        
                         let newProgramInst=new ProgramInst(formData.getRawValue());
+                    
+
                         newProgramInst.id=programInst.id;
                         newProgramInst.place=programInst.place;
                         newProgramInst.program=programInst.program;
                         newProgramInst.validated=programInst.validated;
+
+                        newProgramInst.beginDate=new Date (formData.getRawValue().beginDate)
+                        newProgramInst.endDate=new Date (formData.getRawValue().endDate)
+                        newProgramInst.beginDate.setHours(1,0,0)
+                        newProgramInst.endDate.setHours(22,0,0)
+                        console.log("after updateee")
+                        console.log(newProgramInst)
                         this._academyProgramsInstService.updateProgramInst(newProgramInst);
 
                         break;

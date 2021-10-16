@@ -157,7 +157,7 @@ export class ProgramsInstComponent implements OnInit {
               if (!response) {
                   return;
               }
-
+              
               this._academyProgramsInstService.addProgramInst(response.getRawValue(),this._academyProgramsInstService.program);
           });
   }

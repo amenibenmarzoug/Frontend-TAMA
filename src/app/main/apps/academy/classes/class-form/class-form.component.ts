@@ -192,6 +192,9 @@ export class ClassFormComponent implements OnInit {
 
       this.dialogTitle = 'Nouvelle Classe';
       this.programInst = new ProgramInst({});
+      //this.programInst.beginDate = new Date()
+      //this.programInst.endDate = new Date()
+      
 
     }
 
