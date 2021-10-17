@@ -19,19 +19,7 @@ import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 import { Moment } from 'moment';
 
-/*export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    dateDebutLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    dateDebutA11yLabel: 'MMMM YYYY',
-  },
-};*/
 
-//const moment = _moment;
 
 @Component({
   selector: 'app-class-form',
@@ -52,102 +40,6 @@ import { Moment } from 'moment';
 })
 export class ClassFormComponent implements OnInit {
 
-
-  /*chosenYearHandler(normalizedYear: Moment) {
-    if (this.programInst.id != null) {
-      this.programInstForm.value.beginDate = moment();
-    }
-    
-    const ctrlValue = this.programInstForm.value.beginDate;
-    //const ctrlValue = this.date.value;
-    ctrlValue.year(normalizedYear.year());
-    this.programInstForm.setValue({
-      id: this.programInstForm.value.id,
-      programInstName: this.programInstForm.value.programInstName,
-      nbDaysProgInst: this.programInstForm.value.nbDaysProgInst,
-      location: this.programInstForm.value.location,
-      program: this.programInstForm.value.program,
-      beginDate: ctrlValue,
-      endDate:this.programInstForm.value.endDate,
-    });
-    //this.programInstForm.value.dateDebut.setValue(ctrlValue);
-  
-
-  }
-
-  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
-  
-    const ctrlValue = this.programInstForm.value.beginDate;
-    ctrlValue.month(normalizedMonth.month());
-    this.programInstForm.setValue({
-      id: this.programInstForm.value.id,
-      programInstName: this.programInstForm.value.programInstName,
-      nbDaysProgInst: this.programInstForm.value.nbDaysProgInst,
-      location: this.programInstForm.value.location,
-      program: this.programInstForm.value.program,
-      beginDate: ctrlValue,
-      endDate:this.programInstForm.value.endDate,
-    });
-    
-    this.programInst.beginDate = this.programInstForm.value.beginDate;
-    datepicker.close();
-  }
-
-  chosenYearEndHandler(normalizedYear: Moment) {
-
-    if (this.programInst.id != null) {
-      this.programInstForm.value.endDate = moment();
-    }
-    
-    const ctrlValue = this.programInstForm.value.endDate;
-    //const ctrlValue = this.date.value;
-    ctrlValue.year(normalizedYear.year());
-    this.programInstForm.setValue({
-      id: this.programInstForm.value.id,
-      programInstName: this.programInstForm.value.programInstName,
-      nbDaysProgInst: this.programInstForm.value.nbDaysProgInst,
-      location: this.programInstForm.value.location,
-      program: this.programInstForm.value.program,
-      endDate: ctrlValue,
-      beginDate:this.programInstForm.value.beginDate,
-    });
-    console.log("FORM");
-    console.log(this.programInstForm.value);
-  }
-
-  chosenMonthEndHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
-    const ctrlValue = this.programInstForm.value.endDate;
-    ctrlValue.month(normalizedMonth.month());
-    this.programInstForm.setValue({
-      id: this.programInstForm.value.id,
-      programInstName: this.programInstForm.value.programInstName,
-      nbDaysProgInst: this.programInstForm.value.nbDaysProgInst,
-      location: this.programInstForm.value.location,
-      program: this.programInstForm.value.program,
-      endDate: ctrlValue,
-      beginDate:this.programInstForm.value.beginDate,
-    });
-    
-    this.programInst.endDate = this.programInstForm.value.endDate;
-    console.log("FORM");
-    console.log(this.programInstForm.value);
-    datepicker.close();
-  }*/
-
-  /*  chosenYearHandler(normalizedYear: Moment) {
-      console.log("DATE");
-      console.log( this.date.value);
-      const ctrlValue = this.date.value;
-      ctrlValue.year(normalizedYear.year());
-      this.date.setValue(ctrlValue);
-    }
-  
-    chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
-      const ctrlValue = this.date.value;
-      ctrlValue.month(normalizedMonth.month());
-      this.date.setValue(ctrlValue);
-      datepicker.close();
-    }*/
   action: string;
   //course:AcademyCoursesComponent;
   programInst: ProgramInst;
@@ -168,8 +60,8 @@ export class ClassFormComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) private _data: any,
 
     private _formBuilder: FormBuilder,
-    //private _programInstService1: ProgramsInstService,
-    private _programInstService: ClassesService,private dateAdapter: DateAdapter<Date>
+    private _programInstService: ClassesService,
+    private dateAdapter: DateAdapter<Date>
   ) {
     // Set the defaults
     this.action = _data.action;
@@ -177,15 +69,16 @@ export class ClassFormComponent implements OnInit {
 
     if (this.action === 'edit') {
       this.dialogTitle = 'Modifier la Classe';
-      console.log("_data.programInst");
-      console.log(_data.programInst);
+  //   console.log("_data.programInst");
+   //   console.log(_data.programInst);
       this.programInst = _data.programInst;
       this._programInstService.program = this.programInst.program;
-      this.programDeBase=this.programInst.program
-      console.log("programde basee");
-      console.log(this.programDeBase);
+      this.programDeBase=this.programInst.program ; 
 
-      //this.programInstForm.get('program').setValue(this.programInst.program.programName);
+    //  console.log("programde basee");
+    //  console.log(this.programDeBase);
+
+    
 
     }
     else {
@@ -208,52 +101,20 @@ export class ClassFormComponent implements OnInit {
 
   ngOnInit(): void {
     
-    console.log("onInit")
-    console.log("this.programdeBase in init")
-    console.log(this.programDeBase)
+   // console.log("onInit")
+   // console.log("this.programdeBase in init")
+   // console.log(this.programDeBase)
     if (this.programDeBase !== undefined)
     {
     const toSelect = this.programs.find(p => p.id == this.programDeBase.id);
     this.programInstForm.get('program').setValue(toSelect);
-    console.log(this.programInstForm.get('program'))
+   // console.log(this.programInstForm.get('program'))
     }
 
   }
 
 
- /* createProgramInstForm(): FormGroup {
-    console.log("PROGERAMM");
-    console.log(this.programInst);
-    // if(this.programInst.id==null){
-    return this._formBuilder.group({
-      id: [this.programInst.id],
-      programInstName: [this.programInst.programInstName],
-      nbDaysProgInst: [this.programInst.nbDaysProgInst],
-      location: [this.programInst.location],
-      program: [this.programInst.program, Validators.required],
-      beginDate: [moment()],
-      //dateDebut: [this.programInst.dateDebut],
-
-    });
-
-    // }
-      else{
-         return this._formBuilder.group({
-           id: [this.programInst.id],
-           programInstName: [this.programInst.programInstName],
-           nbDaysProgInst: [this.programInst.nbDaysProgInst],
-           location: [this.programInst.location],
-           program: [this.programInst.program, Validators.required],
-           //dateDebut: [moment()],
-           dateDebut: [new Date(this.programInst.dateDebut)],
-     
-         });
-     
-       }
-
-
-  }*/
-
+ 
   createProgramInstForm(): FormGroup {
     if (this.programInst.id == null) {
       return new FormGroup({
@@ -282,6 +143,7 @@ export class ClassFormComponent implements OnInit {
     }
 
   }
+
   getProgramForm(event) {
     this._programInstService.program = event;
     this.programInst.nbDaysProgInst = event.nbDaysProg;
