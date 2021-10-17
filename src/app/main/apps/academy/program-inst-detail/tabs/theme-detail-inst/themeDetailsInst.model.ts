@@ -1,5 +1,5 @@
 
-import{ThemeDetail} from '../../../programDetails/tabs/themeDetail/theme-detail.model';
+import { ThemeDetail } from 'app/shared/models/themeDetail.model';
 import{ModuleInst} from '../../../program-inst-detail/tabs/module-inst/moduleInst.model';
 export class ThemeDetailInst
 {

@@ -133,7 +133,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
 
 
     /**
-     * New contact
+     * New program
      */
     newProgram(): void {
         this.dialogRef = this.dialog.open(ProgramFormComponent, {
@@ -155,11 +155,11 @@ export class ProgramsComponent implements OnInit, OnDestroy {
 
 
     /**
-      * Edit contact
+      * Edit program
       *
-      * @param contact
+      * @param program
       */
-    editCourse(program): void {
+    editProgram(program): void {
         this.dialogRef = this.dialog.open(ProgramFormComponent, {
             panelClass: 'cursus-form-dialog',
             data: {
@@ -189,7 +189,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
                      */
                     case 'delete':
 
-                        this.deleteCursus(program.id);
+                        this.deleteProgram(program.id);
 
                         break;
                 }
@@ -200,7 +200,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
         console.log("program id" + id)
     }
 
-    deleteCursus(contact): void {
+    deleteProgram(program): void {
         this.dialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
@@ -209,7 +209,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
 
         this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._academyProgramsService.deleteProgram(contact);
+                this._academyProgramsService.deleteProgram(program);
             }
             this.dialogRef = null;
         });

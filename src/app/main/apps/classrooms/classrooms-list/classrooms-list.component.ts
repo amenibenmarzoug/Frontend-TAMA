@@ -24,11 +24,11 @@ export class ClassroomsListComponent implements OnInit, OnDestroy
     @ViewChild('dialogContent')
     dialogContent: TemplateRef<any>;
 
-    contacts: any;
+    classrooms: any;
     user: any;
     dataSource: FilesDataSource | null;
     displayedColumns = ['checkbox', 'name', 'capacity','equipments', 'buttons'];
-    selectedContacts: any[];
+    selectedClasses: any[];
     checkboxes: {};
     dialogRef: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
@@ -64,18 +64,18 @@ export class ClassroomsListComponent implements OnInit, OnDestroy
     {
         this.dataSource = new FilesDataSource(this._classroomsService);
 
-        this._classroomsService.onContactsChanged
+        this._classroomsService.onClassroomsChanged
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(contacts => {
-                this.contacts = contacts;
+            .subscribe(classrooms => {
+                this.classrooms = classrooms;
 
                 this.checkboxes = {};
-                contacts.map(contact => {
-                    this.checkboxes[contact.id] = false;
+                classrooms.map(classroom => {
+                    this.checkboxes[classroom.id] = false;
                 });
             });
 
-        this._classroomsService.onSelectedContactsChanged
+        this._classroomsService.onSelectedClassroomsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedContacts => {
                 for ( const id in this.checkboxes )
@@ -87,19 +87,14 @@ export class ClassroomsListComponent implements OnInit, OnDestroy
 
                     this.checkboxes[id] = selectedContacts.includes(id.toString());
                 }
-                this.selectedContacts = selectedContacts;
+                this.selectedClasses = selectedContacts;
             });
 
-        this._classroomsService.onUserDataChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(user => {
-                this.contacts = user;
-            });
 
         this._classroomsService.onFilterChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(() => {
-              this._classroomsService.deselectContacts();
+              this._classroomsService.deselectClassrooms();
             });
     }
 
@@ -122,12 +117,12 @@ export class ClassroomsListComponent implements OnInit, OnDestroy
      *
      * @param contact
      */
-    editContact(contact): void
+    editContact(classroom): void
     {
         this.dialogRef = this._matDialog.open(ClassroomsFormComponent, {
             panelClass: 'contact-form-dialog',
             data      : {
-                contact: contact,
+                classroom: classroom,
                 action : 'edit'
             }
         });
@@ -147,7 +142,7 @@ export class ClassroomsListComponent implements OnInit, OnDestroy
                      */
                     case 'save':
 
-                        this._classroomsService.updateContact1(formData.getRawValue());
+                        this._classroomsService.updateClassroom(formData.getRawValue());
 
                         break;
                     /**
@@ -155,7 +150,7 @@ export class ClassroomsListComponent implements OnInit, OnDestroy
                      */
                     case 'delete':
 
-                        this.deleteContact(contact.id);
+                        this.deleteClassroom(classroom.id);
 
                         break;
                 }
@@ -167,7 +162,7 @@ export class ClassroomsListComponent implements OnInit, OnDestroy
     /**
      * Delete Contact
      */
-    deleteContact(id): void
+    deleteClassroom(id): void
   {
       this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
           disableClose: false
@@ -179,7 +174,7 @@ export class ClassroomsListComponent implements OnInit, OnDestroy
           if ( result )
           { 
               console.log(id)
-              this._classroomsService.deleteContact(id);
+              this._classroomsService.deleteClassroom(id);
           }
           this.confirmDialogRef = null;
       });
@@ -191,29 +186,12 @@ export class ClassroomsListComponent implements OnInit, OnDestroy
      *
      * @param contactId
      */
-    onSelectedChange(contactId): void
+    onSelectedChange(classroomId): void
     {
-        this._classroomsService.toggleSelectedContact(contactId);
+        this._classroomsService.toggleSelectedClassroom(classroomId);
     }
 
-    /**
-     * Toggle star
-     *
-     * @param contactId
-     */
-    toggleStar(contactId): void
-    {
-        if ( this.user.starred.includes(contactId) )
-        {
-            this.user.starred.splice(this.user.starred.indexOf(contactId), 1);
-        }
-        else
-        {
-            this.user.starred.push(contactId);
-        }
-
-       this._classroomsService.updateUserData(this.user);
-    }
+    
 }
 
 export class FilesDataSource extends DataSource<any>
@@ -236,7 +214,7 @@ export class FilesDataSource extends DataSource<any>
      */
     connect(): Observable<any[]>
     {
-        return this._classroomsService.onContactsChanged;
+        return this._classroomsService.onClassroomsChanged;
     }
 
     /**

@@ -13,28 +13,26 @@ import { RessourcesFormComponent } from '../ressources-form/ressources-form.comp
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-    selector     : 'contacts-contact-list',
-    templateUrl  : './ressources-list.component.html',
-    styleUrls    : ['./ressources-list.component.scss'],
+    selector: 'contacts-contact-list',
+    templateUrl: './ressources-list.component.html',
+    styleUrls: ['./ressources-list.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations
 })
-export class RessourcesListComponent implements OnInit, OnDestroy
-{
+export class RessourcesListComponent implements OnInit, OnDestroy {
     @ViewChild('dialogContent')
     dialogContent: TemplateRef<any>;
 
-    contacts: any;
-    user: any;
+    equipments: any;
     dataSource: FilesDataSource | null;
     displayedColumns = ['checkbox', 'name', 'quantity'];
-    selectedContacts: any[];
+    selectedEquipments: any[];
     checkboxes: {};
     dialogRef: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-    id:number;
-    equipmentId:number;
-    private sub:any;
+    id: number;
+    equipmentId: number;
+    private sub: any;
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -49,8 +47,7 @@ export class RessourcesListComponent implements OnInit, OnDestroy
         public _matDialog: MatDialog,
         private route: ActivatedRoute
 
-    )
-    {
+    ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
     }
@@ -62,61 +59,53 @@ export class RessourcesListComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
-        this.sub = this.route.params.subscribe(params =>{
+    ngOnInit(): void {
+        this.sub = this.route.params.subscribe(params => {
             this.equipmentId = +params['id'];
-           
+
         });
         this._ressourcesService.equipmentId = this.equipmentId;
         console.log(this.equipmentId);
-        this._ressourcesService.getContacts();
+        this._ressourcesService.getEquipments();
         this.dataSource = new FilesDataSource(this._ressourcesService);
 
-        this._ressourcesService.onContactsChanged
+        this._ressourcesService.onEquipmentsChanged
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(contacts => {
-                this.contacts = contacts;
+            .subscribe(equipments => {
+                this.equipments = equipments;
 
                 this.checkboxes = {};
-                contacts.map(contact => {
-                    this.checkboxes[contact.id] = false;
+                equipments.map(equipment => {
+                    this.checkboxes[equipment.id] = false;
                 });
             });
 
-        this._ressourcesService.onSelectedContactsChanged
+        this._ressourcesService.onSelectedEquipmentsChanged
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(selectedContacts => {
-                for ( const id in this.checkboxes )
-                {
-                    if ( !this.checkboxes.hasOwnProperty(id) )
-                    {
+            .subscribe(selectedEquipments => {
+                for (const id in this.checkboxes) {
+                    if (!this.checkboxes.hasOwnProperty(id)) {
                         continue;
                     }
 
-                    this.checkboxes[id] = selectedContacts.includes(id.toString());
+                    this.checkboxes[id] = selectedEquipments.includes(id.toString());
                 }
-                this.selectedContacts = selectedContacts;
+                this.selectedEquipments = selectedEquipments;
             });
 
-        this._ressourcesService.onUserDataChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(user => {
-                this.contacts = user;
-            });
+
 
         this._ressourcesService.onFilterChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(() => {
-              this._ressourcesService.deselectContacts();
+                this._ressourcesService.deselectEquipments();
             });
     }
 
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -127,36 +116,33 @@ export class RessourcesListComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Edit contact
+     * Edit equipment
      *
-     * @param contact
+     * @param equipment
      */
-    editContact(contact): void
-    {
+    editEquipment(equipment): void {
         this.dialogRef = this._matDialog.open(RessourcesFormComponent, {
-            panelClass: 'contact-form-dialog',
-            data      : {
-                contact: contact,
-                action : 'edit'
+            panelClass: 'equipment-form-dialog',
+            data: {
+                equipment: equipment,
+                action: 'edit'
             }
         });
 
         this.dialogRef.afterClosed()
             .subscribe(response => {
-                if ( !response )
-                {
+                if (!response) {
                     return;
                 }
                 const actionType: string = response[0];
                 const formData: FormGroup = response[1];
-                switch ( actionType )
-                {
+                switch (actionType) {
                     /**
                      * Save
                      */
                     case 'save':
 
-                        this._ressourcesService.updateContact1(formData.getRawValue());
+                        this._ressourcesService.updateEquipment(formData.getRawValue());
 
                         break;
                     /**
@@ -164,7 +150,7 @@ export class RessourcesListComponent implements OnInit, OnDestroy
                      */
                     case 'delete':
 
-                        this.deleteContact(contact.id);
+                        this.deleteEquipment(equipment.id);
 
                         break;
                 }
@@ -172,55 +158,35 @@ export class RessourcesListComponent implements OnInit, OnDestroy
     }
 
     /**
-     * Delete Contact
+     * Delete equipment
      */
-    deleteContact(id): void
-  {
-      this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
-          disableClose: false
-      });
+    deleteEquipment(id): void {
+        this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
+            disableClose: false
+        });
 
-      this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
 
-      this.confirmDialogRef.afterClosed().subscribe(result => {
-          if ( result )
-          { 
-              console.log(id)
-              this._ressourcesService.deleteContact(id);
-          }
-          this.confirmDialogRef = null;
-      });
+        this.confirmDialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                console.log(id)
+                this._ressourcesService.deleteEquipment(id);
+            }
+            this.confirmDialogRef = null;
+        });
 
-  }
+    }
 
     /**
      * On selected change
      *
-     * @param contactId
+     * @param equipmentId
      */
-    onSelectedChange(contactId): void
-    {
-        this._ressourcesService.toggleSelectedContact(contactId);
+    onSelectedChange(equipmentId): void {
+        this._ressourcesService.toggleSelectedEquipment(equipmentId);
     }
 
-    /**
-     * Toggle star
-     *
-     * @param contactId
-     */
-    toggleStar(contactId): void
-    {
-        if ( this.user.starred.includes(contactId) )
-        {
-            this.user.starred.splice(this.user.starred.indexOf(contactId), 1);
-        }
-        else
-        {
-            this.user.starred.push(contactId);
-        }
-
-       this._ressourcesService.updateUserData(this.user);
-    }
+   
 }
 
 export class FilesDataSource extends DataSource<any>
@@ -232,8 +198,7 @@ export class FilesDataSource extends DataSource<any>
      */
     constructor(
         private _classroomsService: RessourcesService
-    )
-    {
+    ) {
         super();
     }
 
@@ -241,15 +206,13 @@ export class FilesDataSource extends DataSource<any>
      * Connect function called by the table to retrieve one stream containing the data to render.
      * @returns {Observable<any[]>}
      */
-    connect(): Observable<any[]>
-    {
-        return this._classroomsService.onContactsChanged;
+    connect(): Observable<any[]> {
+        return this._classroomsService.onEquipmentsChanged;
     }
 
     /**
      * Disconnect
      */
-    disconnect(): void
-    {
+    disconnect(): void {
     }
 }

@@ -1,4 +1,4 @@
-import { MyClasses } from 'app/main/apps/classrooms/classrooms.model';
+import { ClassRoom } from 'app/shared/models/classroom.model';
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,7 +22,7 @@ import Swal from 'sweetalert2';
     animations: fuseAnimations
 })
 export class ClassroomsManagerComponent implements OnInit, OnDestroy {
-    classes: MyClasses[] = [];;
+    classes: ClassRoom[] = [];;
     dialogRef: any;
     hasSelectedContacts: boolean;
     searchInput: FormControl;

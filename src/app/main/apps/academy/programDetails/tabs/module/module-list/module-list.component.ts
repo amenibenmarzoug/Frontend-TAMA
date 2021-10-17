@@ -30,7 +30,7 @@ export class ModuleListComponent implements OnInit, OnDestroy {
     modules: any;
     user: any;
     dataSource: FilesDataSource | null;
-    displayedColumns = ['checkbox', 'moduleName', 'nbDaysModule','theme', 'buttons'];
+    displayedColumns = ['checkbox', 'moduleName', 'nbDaysModule', 'theme', 'buttons'];
     selectedModules: any[];
     checkboxes: {};
     dialogRef: any;
@@ -38,8 +38,8 @@ export class ModuleListComponent implements OnInit, OnDestroy {
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     id: number;
 
-    actualDaysNumberAffected : number ; 
-    oldDaysAffectedValue: number ; 
+    actualDaysNumberAffected: number;
+    oldDaysAffectedValue: number;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -127,8 +127,8 @@ export class ModuleListComponent implements OnInit, OnDestroy {
         });
 
         this._moduleService.getModuleDaysAffected();
-        this.oldDaysAffectedValue=module.nbDaysModule;
-        this._moduleService.oldDaysAffectedNumber=this.oldDaysAffectedValue;
+        this.oldDaysAffectedValue = module.nbDaysModule;
+        this._moduleService.oldDaysAffectedNumber = this.oldDaysAffectedValue;
 
         this.dialogRef.afterClosed()
             .subscribe(response => {
@@ -142,20 +142,20 @@ export class ModuleListComponent implements OnInit, OnDestroy {
                      * Save
                      */
                     case 'save':
-                       /*this.actualDaysNumberAffected=this._moduleService.actualDaysAffectedPerModule
-                                                    -this.oldDaysAffectedValue+ Number(formData.getRawValue().nbDaysModule)  ; 
-                        // case where the modified days number exceeded the limit
-                        if(this.actualDaysNumberAffected > this._moduleService.theme.nbDaysTheme) {
-                            
-                            this.updateModuleAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
-                            console.log(`Exceeded`);
-                            this._moduleService.getModules(); 
-                            
-                            break; 
-                        }*/
-                        this._moduleService.updateModule(formData.getRawValue(),this._moduleService.theme);
+                        /*this.actualDaysNumberAffected=this._moduleService.actualDaysAffectedPerModule
+                                                     -this.oldDaysAffectedValue+ Number(formData.getRawValue().nbDaysModule)  ; 
+                         // case where the modified days number exceeded the limit
+                         if(this.actualDaysNumberAffected > this._moduleService.theme.nbDaysTheme) {
+                             
+                             this.updateModuleAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
+                             console.log(`Exceeded`);
+                             this._moduleService.getModules(); 
+                             
+                             break; 
+                         }*/
+                        this._moduleService.updateModule(formData.getRawValue(), this._moduleService.theme);
                         console.log("update Module lekbir")
-                            console.log(formData.getRawValue())
+                        console.log(formData.getRawValue())
 
                         break;
                     /**
@@ -212,7 +212,7 @@ export class ModuleListComponent implements OnInit, OnDestroy {
         this._moduleService.toggleSelectedModule(moduleId);
     }
 
-    
+
 }
 
 export class FilesDataSource extends DataSource<any>

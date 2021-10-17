@@ -9,13 +9,13 @@ import { ProgramInstDetailService } from '../../../program-inst-detail.service';
 
 
 @Component({
-  selector: 'app-selected-bar-module-inst',
-  templateUrl: './selected-bar-module-inst.component.html',
-  styleUrls: ['./selected-bar-module-inst.component.scss']
+    selector: 'app-selected-bar-module-inst',
+    templateUrl: './selected-bar-module-inst.component.html',
+    styleUrls: ['./selected-bar-module-inst.component.scss']
 })
-export class SelectedBarModuleInstComponent implements OnInit,OnDestroy {
+export class SelectedBarModuleInstComponent implements OnInit, OnDestroy {
 
-  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     hasSelectedModules: boolean;
     isIndeterminate: boolean;
     selectedModules: string[];
@@ -32,8 +32,7 @@ export class SelectedBarModuleInstComponent implements OnInit,OnDestroy {
     constructor(
         private _moduleInstService: ProgramInstDetailService,
         public _matDialog: MatDialog
-    )
-    {
+    ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
     }
@@ -45,8 +44,7 @@ export class SelectedBarModuleInstComponent implements OnInit,OnDestroy {
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         this._moduleInstService.onSelectedModulesChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedModules => {
@@ -61,8 +59,7 @@ export class SelectedBarModuleInstComponent implements OnInit,OnDestroy {
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -75,24 +72,21 @@ export class SelectedBarModuleInstComponent implements OnInit,OnDestroy {
     /**
      * Select all
      */
-    selectAll(): void
-    {
-       this._moduleInstService.selectModules();
+    selectAll(): void {
+        this._moduleInstService.selectModules();
     }
 
     /**
      * Deselect all
      */
-    deselectAll(): void
-    {
+    deselectAll(): void {
         this._moduleInstService.deselectModules();
     }
 
     /**
      * Delete selected contacts
      */
-    deleteSelectedModules(): void
-    {
+    deleteSelectedModules(): void {
         this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
@@ -101,8 +95,7 @@ export class SelectedBarModuleInstComponent implements OnInit,OnDestroy {
 
         this.confirmDialogRef.afterClosed()
             .subscribe(result => {
-                if ( result )
-                {
+                if (result) {
                     this._moduleInstService.deleteSelectedModule();
                 }
                 this.confirmDialogRef = null;

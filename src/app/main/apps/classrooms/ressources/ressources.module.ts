@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatTableModule } from '@angular/material/table';
+import { MatHeaderRowDef, MatRowDef, MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
 
@@ -20,7 +20,6 @@ import { RessourcesComponent } from './ressources.component';
 import { RessourcesService } from './ressources.service';
 import { RessourcesListComponent } from './ressources-list/ressources-list.component';
 import { SelectedBarComponent } from './selected-bar/selected-bar.component';
-import { MainComponent } from './sidebars/main/main.component';
 import { RessourcesFormComponent } from './ressources-form/ressources-form.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -42,7 +41,6 @@ const routes: Routes = [
         RessourcesComponent,
         RessourcesListComponent,
         SelectedBarComponent,
-        MainComponent,
         RessourcesFormComponent
     ],
     imports        : [

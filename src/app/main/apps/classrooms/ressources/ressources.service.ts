@@ -5,10 +5,10 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { FuseUtils } from '@fuse/utils';
 
-import { MyEquipments } from './ressources.model';
-import {environment} from 'environments/environment';
+import { Equipment } from 'app/shared/models/equipment.model';
+import { environment } from 'environments/environment';
 
-const AUTH_API = environment.backend_url+ 'api/';
+const AUTH_API = environment.backend_url + 'api/';
 
 const USER_KEY = 'auth-user';
 
@@ -16,25 +16,23 @@ const USER_KEY = 'auth-user';
 
 @Injectable({
     providedIn: 'root'
-  })
+})
 
 export class RessourcesService implements Resolve<any>
 {
 
-    onContactsChanged: BehaviorSubject<any>;
-    onSelectedContactsChanged: BehaviorSubject<any>;
-    onUserDataChanged: BehaviorSubject<any>;
+    onEquipmentsChanged: BehaviorSubject<any>;
+    onSelectedEquipmentsChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
 
-    contacts: MyEquipments[];
-    user: any;
-    selectedContacts: string[] = [];
+    equipments: Equipment[];
+    selectedEquipments: string[] = [];
 
     searchText: string;
     filterBy: string;
-    id : number ;
-    equipmentId:any;
+    id: number;
+    equipmentId: any;
 
     /**
      * Constructor
@@ -43,12 +41,10 @@ export class RessourcesService implements Resolve<any>
      */
     constructor(
         private _httpClient: HttpClient
-    )
-    {
+    ) {
         // Set the defaults
-        this.onContactsChanged = new BehaviorSubject([]);
-        this.onSelectedContactsChanged = new BehaviorSubject([]);
-        this.onUserDataChanged = new BehaviorSubject([]);
+        this.onEquipmentsChanged = new BehaviorSubject([]);
+        this.onSelectedEquipmentsChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
     }
@@ -64,25 +60,22 @@ export class RessourcesService implements Resolve<any>
      * @param {RouterStateSnapshot} state
      * @returns {Observable<any> | Promise<any> | any}
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
-    {
-        
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
+
         return new Promise<void>((resolve, reject) => {
 
             Promise.all([
-               // this.getContacts(),
-                this.getUserData()
             ]).then(
                 ([files]) => {
 
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
-                        this.getContacts();
+                        this.getEquipments();
                     });
 
                     this.onFilterChanged.subscribe(filter => {
                         this.filterBy = filter;
-                        this.getContacts();
+                        this.getEquipments();
                     });
 
                     resolve();
@@ -94,85 +87,51 @@ export class RessourcesService implements Resolve<any>
     }
 
     /**
-     * Get contacts
+     * Get Equipments
      *
      * @returns {Promise<any>}
      */
-    getContacts(): Promise<any>
-    {
+    getEquipments(): Promise<any> {
         let id = new HttpParams().set('id', this.equipmentId);
         return new Promise((resolve, reject) => {
-                this._httpClient.get(AUTH_API + 'classroom/equipments',{params:id})
-                    .subscribe((response: any) => {
+            this._httpClient.get(AUTH_API + 'classroom/equipments', { params: id })
+                .subscribe((response: any) => {
 
-                        this.contacts = response;
+                    this.equipments = response;
 
-                        if ( this.filterBy === 'starred' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.starred.includes(_contact.id);
-                            });
-                        }
+                 
 
-                        if ( this.filterBy === 'frequent' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.frequentContacts.includes(_contact.id);
-                            });
-                        }
+                    if (this.searchText && this.searchText !== '') {
+                        this.equipments = FuseUtils.filterArrayByString(this.equipments, this.searchText);
+                    }
 
-                        if ( this.searchText && this.searchText !== '' )
-                        {
-                            this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
-                        }
+                    this.equipments = this.equipments.map(equipment => {
+                        return new Equipment(equipment);
+                    });
 
-                        this.contacts = this.contacts.map(contact => {
-                            return new MyEquipments(contact);
-                        });
-
-                        this.onContactsChanged.next(this.contacts);
-                        resolve(this.contacts);
-                    }, reject);
-            }
+                    this.onEquipmentsChanged.next(this.equipments);
+                    resolve(this.equipments);
+                }, reject);
+        }
         );
     }
 
-    /**
-     * Get user data
-     *
-     * @returns {Promise<any>}
-     */
-    getUserData(): Promise<any>
-    {
-        return new Promise((resolve, reject) => {
-                this._httpClient.get(AUTH_API + 'classroom')
-                    .subscribe((response: any) => {
-                        this.user = response;
-                        this.onUserDataChanged.next(this.user);
-                        resolve(this.user);
-                    }, reject);
-            }
-        );
-    }
 
     /**
-     * Toggle selected contact by id
+     * Toggle selected equipment by id
      *
      * @param id
      */
-    toggleSelectedContact(id): void
-    {
-        // First, check if we already have that contact as selected...
-        if ( this.selectedContacts.length > 0 )
-        {
-            const index = this.selectedContacts.indexOf(id);
+    toggleSelectedEquipment(id): void {
+        // First, check if we already have that equipment as selected...
+        if (this.selectedEquipments.length > 0) {
+            const index = this.selectedEquipments.indexOf(id);
 
-            if ( index !== -1 )
-            {
-                this.selectedContacts.splice(index, 1);
+            if (index !== -1) {
+                this.selectedEquipments.splice(index, 1);
 
                 // Trigger the next event
-                this.onSelectedContactsChanged.next(this.selectedContacts);
+                this.onSelectedEquipmentsChanged.next(this.selectedEquipments);
 
                 // Return
                 return;
@@ -180,149 +139,120 @@ export class RessourcesService implements Resolve<any>
         }
 
         // If we don't have it, push as selected
-        this.selectedContacts.push(id);
+        this.selectedEquipments.push(id);
 
         // Trigger the next event
-        this.onSelectedContactsChanged.next(this.selectedContacts);
+        this.onSelectedEquipmentsChanged.next(this.selectedEquipments);
     }
 
     /**
      * Toggle select all
      */
-    toggleSelectAll(): void
-    {
-        if ( this.selectedContacts.length > 0 )
-        {
-           this.deselectContacts();
+    toggleSelectAll(): void {
+        if (this.selectedEquipments.length > 0) {
+            this.deselectEquipments();
         }
-        else
-        {
-            this.selectContacts();
+        else {
+            this.selectEquipment();
         }
     }
 
     /**
-     * Select contacts
+     * Select equipment
      *
      * @param filterParameter
      * @param filterValue
      */
-    selectContacts(filterParameter?, filterValue?): void
-    {
-       this.selectedContacts = [];
+    selectEquipment(filterParameter?, filterValue?): void {
+        this.selectedEquipments = [];
 
-        // If there is no filter, select all contacts
-        if ( filterParameter === undefined || filterValue === undefined )
-        {
-            this.selectedContacts = [];
-            this.contacts.map(contact => {
-                this.selectedContacts.push(contact.id.toString());
-                console.log(contact.id)
+        // If there is no filter, select all equipment
+        if (filterParameter === undefined || filterValue === undefined) {
+            this.selectedEquipments = [];
+            this.equipments.map(equipment => {
+                this.selectedEquipments.push(equipment.id.toString());
             });
         }
 
         // Trigger the next event
-        this.onSelectedContactsChanged.next(this.selectedContacts);
+        this.onSelectedEquipmentsChanged.next(this.selectedEquipments);
     }
 
     /**
-     * Update contact
+     * Update equipment
      *
-     * @param contact
+     * @param equipment
      * @returns {Promise<any>}
      */
-    updateContact(contact): Promise<any>
-    {
+    addEquipment(equipment): Promise<any> {
         return new Promise((resolve, reject) => {
             let id = new HttpParams().set('id', this.equipmentId);
-            this._httpClient.post(AUTH_API + 'equipmentsClassroom' , contact,{ params: id })
+            this._httpClient.post(AUTH_API + 'equipmentsClassroom', equipment, { params: id })
                 .subscribe(response => {
-                    this.getContacts();
+                    this.getEquipments();
                     resolve(response);
                 });
         });
     }
-    updateContact1(contact): Promise<any>
-    {
+    updateEquipment(equipment): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.put(AUTH_API + 'equipmentClassroom'  , contact )
+            this._httpClient.put(AUTH_API + 'equipmentClassroom', equipment)
                 .subscribe(response => {
-                    this.getContacts();
-                    resolve(response);
-                });
-        });
-    }
-     /**
-     * Update user data
-     *
-     * @param userData
-     * @returns {Promise<any>}
-     */
-    updateUserData(userData): Promise<any>
-    {
-        return new Promise((resolve, reject) => {
-            this._httpClient.post('api/contacts-user/' + this.user.id, {...userData})
-                .subscribe(response => {
-                    this.getUserData();
-                    this.getContacts();
+                    this.getEquipments();
                     resolve(response);
                 });
         });
     }
 
+
     /**
-     * Deselect contacts
+     * Deselect equipment
      */
-   deselectContacts(): void
-    {
-        this.selectedContacts = [];
+    deselectEquipments(): void {
+        this.selectedEquipments = [];
 
         // Trigger the next event
-        this.onSelectedContactsChanged.next(this.selectedContacts);
+        this.onSelectedEquipmentsChanged.next(this.selectedEquipments);
     }
 
     /**
-     * Delete contact
+     * Delete equipment
      *
      * @param id
      */
-    deleteContact(id):Promise<any>
-    {   console.log(id)  ;
-        
-     
-       return new Promise((resolve, reject) => {
-        const contactIndex = this.contacts.indexOf(id);
-        this.contacts.splice(contactIndex, 1);
-            this.onContactsChanged.next(this.contacts);
-        this._httpClient.delete(AUTH_API + `equipment/${id}`)
-            .subscribe(response => {
-               // this.getContacts();
-              
-                resolve(response);
-            });
-    }); 
+    deleteEquipment(id): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            const equipmentIndex = this.equipments.indexOf(id);
+            this.equipments.splice(equipmentIndex, 1);
+            this.onEquipmentsChanged.next(this.equipments);
+            this._httpClient.delete(AUTH_API + `equipment/${id}`)
+                .subscribe(response => {
+
+                    resolve(response);
+                });
+        });
     }
 
 
-   /**
-     * Delete selected contacts
-     */
-    deleteSelectedContacts(): void
-    {
-        for ( const contactId of this.selectedContacts )
-        {
-            const contact = this.contacts.find(_contact => {
-                return _contact.id === Number(contactId);
-                 
+    /**
+      * Delete selected equipments
+      */
+    deleteSelectedEquipments(): void {
+        for (const equipmentId of this.selectedEquipments) {
+            const equipment = this.equipments.find(_equipment => {
+                return _equipment.id === Number(equipmentId);
+
             });
-            this.deleteContact(Number(contactId)) ;
-            const contactIndex = this.contacts.indexOf(contact);
-            this.contacts.splice(contactIndex, 1);
-           
+            this.deleteEquipment(Number(equipmentId));
+            const equipmentIndex = this.equipments.indexOf(equipment);
+            this.equipments.splice(equipmentIndex, 1);
+
         }
-        this.onContactsChanged.next(this.contacts);
-        this.deselectContacts();
+        this.onEquipmentsChanged.next(this.equipments);
+        this.deselectEquipments();
     }
-  
+
 
 }

@@ -8,14 +8,13 @@
         </mat-toolbar-row>
 
         <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
-            <img [src]="contact.avatar" class="avatar contact-avatar huge m-0"/>
-            <div class="contact-name mt-8">{{contact.classRoomName}}</div>
+            <div class="contact-name mt-8">{{classroom.classRoomName}}</div>
         </mat-toolbar-row>
     </mat-toolbar>
 
     <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
 
-        <form [formGroup]="contactForm">
+        <form [formGroup]="classroomForm">
 
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
@@ -41,7 +40,7 @@
                     <input name="fees" formControlName="fees" matInput>
                 </mat-form-field>
             </div>
-           
+
 
         </form>
 
@@ -49,15 +48,16 @@
 
     <div mat-dialog-actions class="m-0 p-16 " fxLayout="row " fxLayoutAlign="end center ">
 
-    <!--     <button *ngIf="action==='edit' " mat-button class="mr-8 " (click)="matDialogRef.close([ 'delete',contactForm]) " aria-label="Delete " matTooltip="Delete ">
-            Supprimer
-        </button> -->
 
-        <button *ngIf="action !=='edit' " mat-button class="save-button " (click)="matDialogRef.close(contactForm) " [disabled]="contactForm.invalid " aria-label="SAVE ">
+
+        <button *ngIf="action !=='edit' " mat-button class="save-button " (click)="matDialogRef.close(classroomForm) "
+            [disabled]="classroomForm.invalid " aria-label="SAVE ">
             Ajouter
         </button>
 
-        <button *ngIf="action==='edit' " mat-button class="save-button " (click)="matDialogRef.close([ 'save',contactForm]) " [disabled]="contactForm.invalid " aria-label="SAVE ">
+        <button *ngIf="action==='edit' " mat-button class="save-button "
+            (click)="matDialogRef.close([ 'save',classroomForm]) " [disabled]="classroomForm.invalid "
+            aria-label="SAVE ">
             Enregistrer
         </button>
 

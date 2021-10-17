@@ -89,15 +89,7 @@
                             </button -->
                             <a class="link" *ngIf="entreprise.cursus===null" [routerLink]="'/apps/cursus/cursus-participants'" (click)="getCursus(course)">COMMENCER</a> 
                             <a class="link"   [routerLink]="'/apps/cursus/courses/' + course.id+'/'+course.cursusName" (click)="getCursus(course)">DETAILS</a>
-                            <!--button mat-button color="accent" (click)="editCourse(course)">
-                                EDIT
-                            </button>
-
-
-                            <button mat-button color="accent" (click)="deleteCursus(course)">
-                                DELETE
-                            </button-->
-
+                           
                         </div>
 
                     </div>

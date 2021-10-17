@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dial
 import { FormBuilder, FormControl, FormGroup,Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { ProgramSpecDetailService} from '../../../program-spec-detail.service';
-import { Thematique } from '../../../../programDetails/tabs/thematique/thematique.model';
+import { Theme } from 'app/shared/models/theme.model';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 
 
@@ -18,7 +18,7 @@ export class ThematiqueSpecFormComponent implements OnInit {
 
   action: string;
 
-  themeSpec:  Thematique;
+  themeSpec:  Theme;
   themeInstForm: FormGroup;
   dialogTitle: string;
   programsInst:any[] ;
@@ -51,7 +51,7 @@ export class ThematiqueSpecFormComponent implements OnInit {
     else {
 
       this.dialogTitle = 'Nouveau Thème Dédié';
-      this.themeSpec = new Thematique({});
+      this.themeSpec = new Theme({});
 
     }
     this.themeInstForm = this.createThemeInstForm();
