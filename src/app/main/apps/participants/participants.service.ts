@@ -22,6 +22,7 @@ export class ParticipantsService implements Resolve<any>
     // onCursusChanged: BehaviorSubject<any>;
     onSelectedContactsChanged: BehaviorSubject<any>;
     onUserDataChanged: BehaviorSubject<any>;
+    onRegistrationChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
     participantType: string;
@@ -29,6 +30,7 @@ export class ParticipantsService implements Resolve<any>
     selectedContactsList: object[] = [];;
     user: any;
     selectedContacts: string[] = [];
+    registrations:any;
     entreprise: any;
     classe: any;
     // cursus: any;
@@ -52,7 +54,7 @@ export class ParticipantsService implements Resolve<any>
         // Set the defaults
         this.onContactsChanged = new BehaviorSubject([]);
         this.onEntrpriseChanged = new BehaviorSubject([]);
-        // this.onCursusChanged = new BehaviorSubject([]);
+        this.onRegistrationChanged = new BehaviorSubject([]);
         this.onClassesChanged = new BehaviorSubject([]);
         this.onSelectedContactsChanged = new BehaviorSubject([]);
         this.onUserDataChanged = new BehaviorSubject([]);
@@ -328,11 +330,12 @@ export class ParticipantsService implements Resolve<any>
         });
     }
     /** */
-    updateContact1(contact, entreprise, programInstance): Promise<any> {
+    updateContact1(contact, entreprise): Promise<any> {
         return new Promise((resolve, reject) => {
             contact.entreprise = entreprise;
-            contact.programInstance = programInstance;
-
+          
+            console.log("PARTICIPANT IN SERVICE");
+            console.log(contact);
             this._httpClient.put(environment.backend_url+ 'api/participants', contact)
                 .subscribe(response => {
                     this.getContacts();
@@ -408,6 +411,23 @@ export class ParticipantsService implements Resolve<any>
         this.deselectContacts();
     }
 
+    getRegistrationsByParticipantId(id): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'participantRegistrations/participant/' + id)
+                .subscribe((response: any) => {
+
+
+                    this.registrations = response;
+                    this.onRegistrationChanged.next(this.registrations);
+                    console.log("REGISTRATIONS");
+                    console.log(this.registrations);
+                    resolve(this.registrations);
+                }, reject);
+        }
+        );
+    }
 
     getAges(): Promise<any> {
         return new Promise((resolve, reject) => {

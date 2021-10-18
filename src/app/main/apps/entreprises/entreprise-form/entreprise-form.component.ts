@@ -240,7 +240,11 @@ export class EntrepriseFormComponent implements OnInit {
     };
 
     sendClasse(event) {
+        console.log("send classe")
         this._ParticipantsService.classe = event;
+        console.log(event);
+        this.contactForm.patchValue({programInstance:event});
+        console.log(this.contactForm.getRawValue());
     }
 
     selectProvider(event){

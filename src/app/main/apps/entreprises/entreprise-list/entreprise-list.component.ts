@@ -13,6 +13,7 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 import { EntreprisesService } from 'app/main/apps/entreprises/entreprises.service';
 import { EntrepriseFormComponent } from 'app/main/apps/entreprises/entreprise-form/entreprise-form.component';
 import { Entreprise } from 'app/main/apps/entreprises/entreprise.model';
+import { CompanyRegistrationListComponent } from '../company-registration-list/company-registration-list.component';
 @Component({
     selector: 'app-entreprise-list',
     templateUrl: './entreprise-list.component.html',
@@ -28,7 +29,7 @@ export class EntrepriseListComponent implements OnInit, OnDestroy {
     contacts: any;
     user: any;
     dataSource: FilesDataSource | null;
-    displayedColumns = ['checkbox', 'name', 'nameP', 'email', 'phone', 'website', 'classe', 'buttons'];
+    displayedColumns = ['checkbox', 'name', 'nameP', 'email', 'phone', 'buttons'];
     selectedContacts: any[];
     checkboxes: {};
     dialogRef: any;
@@ -247,6 +248,25 @@ export class EntrepriseListComponent implements OnInit, OnDestroy {
         //if(this.contact.abandon=true) {this._participantsService.updateUserData(this.contact)}
 
         // else {this._participantsService.updateUserData(this.contact);}
+    }
+
+    getRegistrationList(companyId): void {
+        this._entreprisesService.getRegistrationsByCompanyId(companyId);
+        this.dialogRef = this._matDialog.open(CompanyRegistrationListComponent, {
+            height: 'min-height:0',
+            width: '35%',
+            data: {
+                //programInst: programInst,
+                //action: 'edit'
+            }
+        });
+        this.dialogRef.afterClosed()
+            .subscribe(response => {
+                if (!response) {
+                    return;
+                }
+            })
+
     }
 }
 
