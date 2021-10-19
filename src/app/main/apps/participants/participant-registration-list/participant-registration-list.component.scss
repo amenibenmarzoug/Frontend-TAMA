@@ -58,10 +58,18 @@ contacts-contact-list {
     }
 }
 
+.registration-cell{
+    min-width: 0;
+}
+
 .waiting{
     background-color: yellow;
 }
 
 .accepted{
-    background-color: green;
+    background-color: rgb(70, 180, 70);
+}
+
+.refused{
+    background-color: red;
 }

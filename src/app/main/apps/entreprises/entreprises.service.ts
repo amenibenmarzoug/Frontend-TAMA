@@ -130,9 +130,9 @@ export class EntreprisesService implements Resolve<any>
                         this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
                     }
 
-                    this.contacts = this.contacts.map(contact => {
+                    /*this.contacts = this.contacts.map(contact => {
                         return new Entreprise(contact);
-                    });
+                    });*/
 
                     this.onContactsChanged.next(this.contacts);
                     resolve(this.contacts);

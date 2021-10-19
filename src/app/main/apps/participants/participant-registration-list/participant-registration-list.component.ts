@@ -23,7 +23,7 @@ export class ParticipantRegistrationListComponent implements OnInit, OnDestroy {
   dataSource: FilesDataSource | null;
   // dataSource :any[] ;
 
-  displayedColumns = ['classe','date','statut'];
+  displayedColumns = ['classe','date','statut','validate','refuse'];
 
   checkboxes: {};
   dialogRef: any;
@@ -84,26 +84,13 @@ export class ParticipantRegistrationListComponent implements OnInit, OnDestroy {
   // -----------------------------------------------------------------------------------------------------
 
  
-  /**
-   * Delete Contact
-   */
-   deleteParticipant(id): void {
-      // this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
-      //     disableClose: false
-      // });
-
-      // this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
-
-      // this.confirmDialogRef.afterClosed().subscribe(result => {
-      //     if (result) {
-      //         console.log(id)
-      //         this._participantsService.deleteContact(id);
-      //     }
-      //     this.confirmDialogRef = null;
-      // });
-
+  validateRegistration(registration){
+      this._participantService.validateRegistration(registration);
   }
 
+  refuseRegistration(registration){
+    this._participantService.refuseRegistration(registration);
+}
 }
 
 export class FilesDataSource extends DataSource<any>

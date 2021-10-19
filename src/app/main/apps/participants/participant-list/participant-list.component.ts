@@ -218,7 +218,7 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
         this._participantsService.getRegistrationsByParticipantId(participantId);
         this.dialogRef = this._matDialog.open(ParticipantRegistrationListComponent, {
             height: 'min-height:0',
-            width: '35%',
+            width: '45%',
             data: {
                 //programInst: programInst,
                 //action: 'edit'

@@ -461,5 +461,55 @@ export class ParticipantsService implements Resolve<any>
 
     }
 
+    getRegistrations(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(environment.backend_url+ 'api/participantRegistrations')
+                .subscribe((response: any) => {
+
+                    this.registrations = response;
+                    
+                    this.onRegistrationChanged.next(this.registrations);
+                    resolve(this.registrations);
+                }, reject);
+        }
+        );
+    }
+
+    
+
+    validateRegistration(registration): Promise<any> {
+        return new Promise((resolve, reject) => {
+          
+            console.log("registration IN SERVICE");
+            console.log(registration);
+            this._httpClient.put(environment.backend_url+ 'api/participantRegistrations/validate', registration)
+                .subscribe(response => {
+                    this.getRegistrationsByParticipantId(registration.participant.id);
+
+                    resolve(response);
+
+
+                });
+
+        });
+    }
+
+
+    refuseRegistration(registration): Promise<any> {
+        return new Promise((resolve, reject) => {
+          
+            console.log("registration REFUSE IN SERVICE");
+            console.log(registration);
+            this._httpClient.put(environment.backend_url+ 'api/participantRegistrations/refuse', registration)
+                .subscribe(response => {
+                    this.getRegistrationsByParticipantId(registration.participant.id);
+
+                    resolve(response);
+
+
+                });
+
+        });
+    }
 
 }

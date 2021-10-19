@@ -6,8 +6,8 @@
 
     <!-- Name Column -->
     <ng-container matColumnDef="classe">
-        <mat-header-cell *matHeaderCellDef>Classe</mat-header-cell>
-        <mat-cell *matCellDef="let registration">
+        <mat-header-cell *matHeaderCellDef class="registration-cell">Classe</mat-header-cell>
+        <mat-cell *matCellDef="let registration" class="registration-cell" >
             <p class="font-weight-600">{{registration.programinstance.programInstName}} </p>
         </mat-cell>
     </ng-container>
@@ -27,9 +27,32 @@
             <p  class="company accepted"  *ngIf="registration.status=='ACCEPTED'">
                 ACCEPTE
             </p>
-        <!--     <p  class="company" [ngStyle]="{'background-color': getRowColor(registration.status)}">
-                {{registration.status}} 
-            </p> -->
+             <p  class="company refused" *ngIf="registration.status=='REFUSED'">
+               REFUSE
+            </p> 
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="validate">
+        <mat-header-cell *matHeaderCellDef >Valider</mat-header-cell>
+        <mat-cell *matCellDef="let registration" >
+            <div fxFlex="row">
+               
+                <button mat-button (click)="validateRegistration(registration)">
+                    <mat-icon color="info" >done</mat-icon>
+                </button>
+            </div>
+        </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="refuse">
+        <mat-header-cell *matHeaderCellDef  fxShow.gt-xs>Refuser</mat-header-cell>
+        <mat-cell *matCellDef="let registration" fxHide fxShow.gt-xs>
+            <div fxFlex="row">
+                
+                <button mat-button (click)="refuseRegistration(registration)">
+                    <mat-icon color="warn" >clear</mat-icon>
+                </button>
+            </div>
         </mat-cell>
     </ng-container>
     

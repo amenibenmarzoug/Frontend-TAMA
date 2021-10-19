@@ -167,7 +167,8 @@ export class EntrepriseListComponent implements OnInit, OnDestroy {
                             },
                             err => {
 
-
+                                console.log("ERROR");
+                                console.log(err);
                                 this.addAlert(err.error.message, formData);
 
                             });
