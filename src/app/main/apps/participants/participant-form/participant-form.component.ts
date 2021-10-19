@@ -210,9 +210,12 @@ export class ParticipantFormComponent {
     // }
     chosenYearHandler(event, input){
         let { _d } = event;
-        this.contactForm["birthday"] = _d;
         this.chosenYearDate=_d
-        
+        //.chosenYearDate.setDate(2)
+        this.chosenYearDate.setMonth(1);
+        this.contactForm["birthday"] = this.chosenYearDate;
+       
+       
         console.log(this.contactForm["birthday"])
         console.log(_d)
         input._destroyPopup()

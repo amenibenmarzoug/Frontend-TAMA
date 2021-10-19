@@ -23,7 +23,7 @@ export class ParticipantRegistrationListComponent implements OnInit, OnDestroy {
   dataSource: FilesDataSource | null;
   // dataSource :any[] ;
 
-  displayedColumns = ['classe','date'];
+  displayedColumns = ['classe','date','statut'];
 
   checkboxes: {};
   dialogRef: any;

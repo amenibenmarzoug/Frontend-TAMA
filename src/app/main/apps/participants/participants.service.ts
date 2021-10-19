@@ -297,13 +297,13 @@ export class ParticipantsService implements Resolve<any>
     addParticipant(contact, entreprise, classe): Promise<any> {
         return new Promise((resolve, reject) => {
             contact.password = contact.phoneNumber;
-            if (entreprise == null) {
+            /*if (entreprise == null) {
                 contact.programInstance = classe;
             }
             else {
                 contact.entreprise = entreprise;
                 contact.programInstance = entreprise.programInstance;
-            }
+            }*/
             //contact.entreprise = entreprise;
             // contact.programInstance = classe;
             this._httpClient.post(environment.backend_url+ 'api/signupParticipantManag', contact)
