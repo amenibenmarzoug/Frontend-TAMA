@@ -3,13 +3,14 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CalendarEvent } from 'angular-calendar';
 import { Subject } from 'rxjs';
-import { ProgramInst } from '../../programInst.model';
-import { ProgramsInstService } from '../../programs-inst.service';
+
+import { ProgramInstance } from 'app/shared/models/programInstance.model'; 
+
 import { ClassesService } from '../../classes.service';
-import { Program } from '../../program.model';
+import { Program } from 'app/shared/models/program.model';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDatepicker } from '@angular/material/datepicker';
+
 
 // Depending on whether rollup is used, moment needs to be imported differently.
 // Since Moment.js doesn't have a default export, we normally need to import using the `* as`
@@ -17,7 +18,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
 // the `default as` syntax.
 import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
-import { Moment } from 'moment';
+
 
 
 
@@ -42,7 +43,7 @@ export class ClassFormComponent implements OnInit {
 
   action: string;
   //course:AcademyCoursesComponent;
-  programInst: ProgramInst;
+  programInst: ProgramInstance;
   programDeBase : Program ; 
   event: CalendarEvent;
   programInstForm: FormGroup;
@@ -84,7 +85,10 @@ export class ClassFormComponent implements OnInit {
     else {
 
       this.dialogTitle = 'Nouvelle Classe';
-      this.programInst = new ProgramInst({});
+      this.programInst = new ProgramInstance({});
+      //this.programInst.beginDate = new Date()
+      //this.programInst.endDate = new Date()
+      
 
     }
 
@@ -125,8 +129,7 @@ export class ClassFormComponent implements OnInit {
         program: new FormControl(this.programInst.program),
         beginDate: new FormControl(this.programInst.beginDate),
         endDate: new FormControl(this.programInst.endDate),
-        // dateDebut: new FormControl(this.programInst.dateDebut),
-
+       
       });
     }
     else {
@@ -136,7 +139,6 @@ export class ClassFormComponent implements OnInit {
         nbDaysProgInst: new FormControl(this.programInst.nbDaysProgInst),
         location: new FormControl(this.programInst.location),
         program: new FormControl(this.programInst.program),
-        //dateDebut: new FormControl(moment()),
         beginDate: new FormControl(this.programInst.beginDate),
         endDate:new FormControl(this.programInst.endDate),
       });

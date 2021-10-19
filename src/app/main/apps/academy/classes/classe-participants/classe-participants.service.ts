@@ -14,7 +14,7 @@ const USER_KEY = 'auth-user';
 @Injectable()
 export class ClasseParticipantsService implements Resolve<any>
 {
-    onContactsChanged: BehaviorSubject<any>;
+    onParticipantsChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     participantType: string;
     participants: Participant[];
@@ -34,7 +34,7 @@ export class ClasseParticipantsService implements Resolve<any>
         private _httpClient: HttpClient
     ) {
         // Set the defaults
-        this.onContactsChanged = new BehaviorSubject([]);
+        this.onParticipantsChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
 
     }
@@ -54,7 +54,7 @@ export class ClasseParticipantsService implements Resolve<any>
         return new Promise<void>((resolve, reject) => {
 
             Promise.all([
-                this.getContacts(),
+                this.getParticipantsOfClass(),
 
 
             ]).then(
@@ -62,7 +62,7 @@ export class ClasseParticipantsService implements Resolve<any>
 
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
-                        this.getContacts();
+                        this.getParticipantsOfClass();
                     });
 
                     resolve();
@@ -78,18 +78,14 @@ export class ClasseParticipantsService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getContacts(): Promise<any> {
+    getParticipantsOfClass(): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'participants/classId/' + this.classeId)
                 .subscribe((response: any) => {
 
                     this.participants = response;
-                     console.log("chfama hen" + this.participants)
-                    // this.participants = this.participants.map(contact => {
-                    //     return new Participant(contact);
-                    // });
 
-                    this.onContactsChanged.next(this.participants);
+                    this.onParticipantsChanged.next(this.participants);
                     resolve(this.participants);
                 }, reject);
         }
@@ -98,28 +94,21 @@ export class ClasseParticipantsService implements Resolve<any>
    
 
 
-
-
-
-
-
-
-
     /**
      * Delete contact
      *
      * @param id
      */
-    deleteContact(id): Promise<any> {
+    deleteParticipant(id): Promise<any> {
 
 
         return new Promise((resolve, reject) => {
             const contactIndex = this.participants.indexOf(id);
             this.participants.splice(contactIndex, 1);
-            this.onContactsChanged.next(this.participants);
+            this.onParticipantsChanged.next(this.participants);
             this._httpClient.delete(AUTH_API + `participants/${id}`)
                 .subscribe(response => {
-                    // this.getContacts();
+                    // this.getParticipantsOfClass();
 
                     resolve(response);
                 });

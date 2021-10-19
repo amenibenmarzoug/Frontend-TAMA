@@ -78,6 +78,9 @@ oldDaysAffectedNumber=0 ;
 actualDaysAffectedPerModule=0;
 actualDaysAffectedPerThemeDetail=0;
 
+onmoduleInstClassChanged : BehaviorSubject<any>; 
+  modulesInstProgram : Module[];
+
 /**
  * Constructor
  *
@@ -101,6 +104,7 @@ constructor(
     this.onSelectedModulesChanged = new BehaviorSubject([]);
    this.onModuleChanged = new BehaviorSubject([]);
    this.onThemeChanged= new BehaviorSubject([]);
+   this.onmoduleInstClassChanged = new BehaviorSubject([]);
 
 }
 
@@ -720,15 +724,13 @@ getModuleDaysAffected(): Promise<any> {
 updateThemeInst(theme,program): Promise<any> {
     this.actualDaysNumberAffected= this.actualDaysNumberAffected - this.oldDaysAffectedNumber
                                     +Number(theme.nbDaysthemeInst)  ;
-    console.log("programmmmm");
-    console.log(program);
+   
     theme.program = program;
-    console.log("themeee fel service");
-    console.log(theme);
+   
     return new Promise((resolve, reject) => {
         this._httpClient.put(AUTH_API +'themeInst', theme)
             .subscribe(response => {
-                this.lastprogramInst=response;//added by donia
+               // this.lastprogramInst=response;
                 resolve(response);
             });
     });
@@ -777,5 +779,26 @@ getModulesInst(): Promise<any> {
             }, reject);
     }
     );
+}
+
+
+
+
+getModulesInstOfClass(): Promise<any> {
+
+    let id = new HttpParams().set('id', this.programInstId);
+    
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API + 'modulesOfclass', { params: id })
+            .subscribe((response: any) => {
+
+                this.modulesInstProgram= response;
+             
+                this.onmoduleInstClassChanged.next(this.modulesInstProgram);
+                resolve(this.modulesInstProgram);
+            }, reject);
+    }
+    );
+
 }
 }

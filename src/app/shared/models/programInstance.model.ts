@@ -6,7 +6,7 @@ import { FuseUtils } from '../../../@fuse/utils';
 export class ProgramInstance{
 
     id: number;
-    programInstanceName: string;
+    programInstName: string;
     nbDaysProgInst: number;
     location:string;
     program:Program;
@@ -20,7 +20,7 @@ export class ProgramInstance{
     constructor(programInstance)
     {
         this.id = programInstance.id  ||  FuseUtils.generateGUID();;
-        this.programInstanceName=programInstance.programInstanceName || '';
+        this.programInstName=programInstance.programInstName || '';
         this.nbDaysProgInst=programInstance.nbDaysProgInst || '';
         this.location = programInstance.location || '';
         this.program = programInstance.program || '';

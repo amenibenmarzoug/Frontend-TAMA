@@ -75,10 +75,10 @@
 
                 <mat-form-field  appearance="outline" fxFlex>
                     <mat-label >Spécialité</mat-label>
-                    <mat-select  (selectionChange)="chooseTheme($event.value)" formControlname="themes">
+                    <mat-select multiple="" (selectionChange)="chooseTheme($event.value)" formControlname="themes">
                        
-                        <mat-option *ngFor="let theme of themes" [value]="theme.id">
-                            {{theme.themeName}}
+                        <mat-option *ngFor="let theme of themes" [value]="theme">
+                            {{theme}}
                         </mat-option>
                     </mat-select>
                     <mat-error>Thematique est requise!</mat-error>
@@ -92,8 +92,8 @@
                     <mat-label >Modules</mat-label>
                     <mat-select multiple=""  [(value)]="contact.specifications" (selectionChange)="sendSpecifications(contact)" formControlname="specifications" required>
                        
-                        <mat-option *ngFor="let specification of specifications" [value]="specification.moduleName">
-                           {{specification.moduleName}}
+                        <mat-option *ngFor="let specification of specifications" [value]="specification">
+                           {{specification}}
                         </mat-option>
                     </mat-select>
                     <mat-error>Module est requis!</mat-error>

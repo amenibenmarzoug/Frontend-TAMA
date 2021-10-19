@@ -180,7 +180,7 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
 
         this.dialogRef.afterClosed()
             .subscribe((response: FormGroup) => {
-                this.theme=response.getRawValue() ; 
+              
                 //console.log(this.theme) ; 
                // console.log(this.theme.nbDaysTheme) ;
          
@@ -191,6 +191,10 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
 
                     return;
                 }
+
+                this.theme=response.getRawValue() ; 
+
+                this.confirmAddTheme();
                /* if (this.actualDaysNumberAffected > this.programTotalDaysNumber) {
                     this.addThematiqueAlert("Vous avez dépassé le nombre des jours du Programme");
                     console.log(`Exceeded`);
@@ -198,9 +202,34 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
                     return; 
                 }*/
                 //if (response)
-            this._programDetailsService.addTheme(response.getRawValue());
             });
     }
+
+
+
+ 
+
+confirmAddTheme(): void {
+
+this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+disableClose: false
+});
+
+this.confirmDialogRef.componentInstance.confirmMessage = 'Voulez vous enregistrer les données entrées?';
+
+this.confirmDialogRef.afterClosed().subscribe(result => {
+if (result) {
+  console.log("ajout theme avec succès");
+
+  this._programDetailsService.addTheme(this.theme);
+
+}
+this.confirmDialogRef = null;
+});
+
+}
+
+
 
 
     /**

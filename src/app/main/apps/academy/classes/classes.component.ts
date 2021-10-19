@@ -7,7 +7,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FormGroup } from '@angular/forms';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { CalendarEventFormDialogComponent } from 'app/main/apps/calendar/event-form/event-form.component';
+
 
 import { Router } from '@angular/router';
 import { ClassesService } from '../../academy/classes.service';
@@ -18,7 +18,7 @@ import { ThematiqueInst } from '../program-inst-detail/tabs/thematique-inst/them
 import { ClasseParticipantsService } from './classe-participants/classe-participants.service';
 import { ClasseParticipantsComponent } from './classe-participants/classe-participants.component';
 import { PlaceFormComponent } from './place-form/place-form.component';
-import { ProgramInst } from '../programInst.model';
+import { ProgramInstance } from 'app/shared/models/programInstance.model';
 
 @Component({
     selector: 'app-classes',
@@ -41,18 +41,12 @@ export class ClassesComponent implements OnInit {
     duration: any;
 
     themes: any[];
-    lastprogInst: any;
 
 
     themesFilteredByCategory: any[];
     filteredThemes: any[];
 
-    modulesInst: ModuleInst[];
 
-    modules: Module[];
-    hasSelectedModules: boolean;
-    modulesOfTheme: Module[];
-    lastThemeInst: ThematiqueInst;
     cities: String[] = [
         'Tunis', 'Ariana', 'Ben Arous', 'Manouba', 'Nabeul', 'Zaghouan', 'Bizerte', 'Béja', 'Jendouba', 'Kef', 'Siliana',
         'Sousse', 'Monastir', 'Mahdia', 'Sfax', 'Kairouan', 'Kasserine', 'Sidi Bouzid', 'Gabès', 'Mednine', 'Tataouine', 'Gafsa', 'Tozeur', 'Kebili'
@@ -70,7 +64,6 @@ export class ClassesComponent implements OnInit {
      * @param {ProgramsInstService} _academyProgramsInstService
      */
     constructor(
-        //  private _academyProgramsInstService:ProgramsInstService,
         private _academyProgramsInstService: ClassesService,
         public dialog: MatDialog,
         private router: Router,
@@ -106,8 +99,8 @@ export class ClassesComponent implements OnInit {
         // Subscribe to courses
         this._academyProgramsInstService.onProgramsInstChanged
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(courses => {
-                this.filteredPrograms = this.programsFilteredByCategory = this.programs = courses;
+            .subscribe(classes => {
+                this.filteredPrograms = this.programsFilteredByCategory = this.programs = classes;
             });
     }
 
@@ -223,7 +216,7 @@ export class ClassesComponent implements OnInit {
     /**
      * New contact
      */
-    newProgram(): void {
+    newClass(): void {
         this.dialogRef = this.dialog.open(ClassFormComponent, {
             panelClass: 'classe-form-dialog',
             data: {
@@ -236,8 +229,25 @@ export class ClassesComponent implements OnInit {
                 if (!response) {
                     return;
                 }
+                const newClass=response.getRawValue()
+                newClass.beginDate.set({ 
+                    hour:1,
+                    minute:0,
+                    second:0,
+                    millisecond:0
+                  })
 
-                this._academyProgramsInstService.addClass(response.getRawValue(), this._academyProgramsInstService.program);
+                  newClass.endDate.set({ 
+                    hour:21,
+                    minute:0,
+                    second:0,
+                    millisecond:0
+                  })
+
+                console.log("classe Form")
+                console.log(newClass)
+
+                this._academyProgramsInstService.addClass(newClass, this._academyProgramsInstService.program);
 
             });
     }
@@ -299,20 +309,36 @@ export class ClassesComponent implements OnInit {
                 if (!response) {
                     return;
                 }
+
                 const actionType: string = response[0];
                 const formData: FormGroup = response[1];
+               
                 switch (actionType) {
+
+                    
                     /**
                      * Save
                      */
                     case 'save':
                         console.log("this program inst")
                         console.log(programInst)
-                        let newProgramInst=new ProgramInst(formData.getRawValue());
+
+                        
+                        
+                        let newProgramInst=new ProgramInstance(formData.getRawValue());
+                    
+
                         newProgramInst.id=programInst.id;
                         newProgramInst.place=programInst.place;
                         newProgramInst.program=programInst.program;
                         newProgramInst.validated=programInst.validated;
+
+                        newProgramInst.beginDate=new Date (formData.getRawValue().beginDate)
+                        newProgramInst.endDate=new Date (formData.getRawValue().endDate)
+                        newProgramInst.beginDate.setHours(1,0,0)
+                        newProgramInst.endDate.setHours(22,0,0)
+                    //    console.log("after updateee")
+                     //   console.log(newProgramInst)
                         this._academyProgramsInstService.updateProgramInst(newProgramInst);
 
                         break;
@@ -321,7 +347,7 @@ export class ClassesComponent implements OnInit {
                      */
                     case 'delete':
 
-                        this.deleteCursus(programInst.id);
+                        this.deleteClass(programInst.id);
 
                         break;
                 }
@@ -341,7 +367,7 @@ export class ClassesComponent implements OnInit {
         this._academyProgramsInstService.cancelProgramInst(programInst);
     }
 
-    deleteCursus(contact): void {
+    deleteClass(contact): void {
         this.dialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });

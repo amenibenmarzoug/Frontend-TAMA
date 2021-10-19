@@ -15,8 +15,8 @@ export class MainComponent4 implements OnInit,OnDestroy {
     user: any;
     filterBy: string;
     categories: any[];
-    themeDetails: any[];
-    module: any[];
+    themeDetailsInst: any[];
+    modulesInst: any[];
     themeDetailFilteredByCategory: any[];
     filteredThemeDetails: any[];
     currentCategory: string;
@@ -54,15 +54,24 @@ export class MainComponent4 implements OnInit,OnDestroy {
             this._themeDetailsService.onThemeDetailInstChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(themeDetail => {
-                this.themeDetails = themeDetail;
+                this.themeDetailsInst = themeDetail;
             });
-            this._themeDetailsService.onmoduleInstChanged
+          /*  this._themeDetailsService.onmoduleInstChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(module => {
-                this.module = module;
+                this.modulesInst = module;
                 console.log("module changed in sidebar instance??")
-                console.log(this.module)
+                console.log(this.modulesInst)
+            });*/
+
+            this._themeDetailsService.getModulesInstOfClass(); 
+            this._themeDetailsService.onmoduleInstClassChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(module => {
+
+                this.modulesInst = module;
             });
+
 
            
     }
@@ -97,15 +106,14 @@ export class MainComponent4 implements OnInit,OnDestroy {
         // Filter
         if ( this.currentCategory === 'all' )
         {
-            this.themeDetailFilteredByCategory = this.themeDetails;
-            this.filteredThemeDetails = this.themeDetails;
+            this.themeDetailFilteredByCategory = this.themeDetailsInst;
+            this.filteredThemeDetails = this.themeDetailsInst;
         }
         else
         {
 
-            this.themeDetailFilteredByCategory = this.themeDetails.filter((themeDetail) => {
-               // this._moduleInstService.themeInst = module.themeInstance;
-                //this._themeDetailsService.th=themeDetail.module;
+            this.themeDetailFilteredByCategory = this.themeDetailsInst.filter((themeDetail) => {
+               
                 this._themeDetailsService.module=themeDetail.module;
                 return themeDetail.module.moduleName === this.currentCategory;
             });

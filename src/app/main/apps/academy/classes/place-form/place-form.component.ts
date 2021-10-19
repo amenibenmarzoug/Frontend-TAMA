@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ClassesService } from '../../classes.service';
-import { ProgramInst } from '../../programInst.model';
+import { ProgramInstance } from 'app/shared/models/programInstance.model';
 
 @Component({
   selector: 'app-place-form',
@@ -16,7 +16,7 @@ export class PlaceFormComponent implements OnInit {
 
   placeForm: FormGroup;
   dialogTitle: string;
-  programInst: ProgramInst;
+  programInst: ProgramInstance;
   enterprises: any[];
   place:string;
 

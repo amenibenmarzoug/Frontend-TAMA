@@ -2,7 +2,7 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
-import {Module} from 'app/main/apps/academy/programDetails/tabs/module/module.model'
+import {Module} from 'app/shared/models/module.model' ;
 import { Subject } from 'rxjs';
 import { ProgramSpecDetailService } from '../../../program-spec-detail.service';
 

@@ -9,7 +9,6 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
-import{ProgramInstDetailService} from '../../../program-inst-detail/program-inst-detail.service';
 import { ModuleInstFormComponent } from '../../../program-inst-detail/tabs/module-inst/module-form/module-form.component';
 import{ClassesDetailService} from '../../classes-detail.service'
 import Swal from 'sweetalert2';
@@ -25,7 +24,7 @@ export class ModuleClasseComponent implements OnInit {
   dialogRef: any;
   hasSelectedModules: boolean;
   searchInput: FormControl;
-  themeId: number;
+  
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -76,11 +75,7 @@ export class ModuleClasseComponent implements OnInit {
               this._moduleInstService.onSearchTextChangedModuleInst.next(searchText);
           });
 
-         /* this._moduleInstService.onModuleChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(modules => {
-              this.modules = modules;
-          });*/
+       
 
           
   }

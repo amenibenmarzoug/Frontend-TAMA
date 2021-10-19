@@ -47,8 +47,7 @@ export class SelectModuleComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
-    console.log("Immmm fel maiiin");
-    
+   
       this.filterBy = this._moduleInstService1.filterByModule || 'all';
 
 
@@ -89,6 +88,7 @@ export class SelectModuleComponent implements OnInit {
    * @param filter
    */
   changeFilter(filter): void {
+      
       this.filterBy = filter.id;
       this._moduleInstService.themeInst = filter;
       this._moduleInstService.onFilterChangedModuleInst.next(this.filterBy);

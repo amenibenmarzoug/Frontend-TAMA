@@ -1,13 +1,13 @@
 
-import{Module} from '../../../programDetails/tabs/module/module.model';
-import{ThematiqueInst} from '../../tabs/thematique-inst/thematiqueInst.model';
+import{Module} from '../models/module.model';
+import{ThemeInstance} from '../models/themeInstance.model';
 
 export class ModuleInstance {
     id: any;
     moduleInstanceName: string;
     nbDaysModuleInstance: number;
     module:Module;
-    themeInstance: ThematiqueInst;
+    themeInstance: ThemeInstance;
     
     /**
      * Constructor
@@ -27,3 +27,7 @@ export class ModuleInstance {
         }
     }
 }
+
+
+
+
