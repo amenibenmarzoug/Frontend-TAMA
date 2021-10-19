@@ -281,7 +281,7 @@ export class ClassesComponent implements OnInit {
 
 
     listeDesParticipants(programInst): void {
-        this._participantService.classeId = programInst;
+        this._participantService.getParticipantsByProgramInstanceId(programInst);
         this.dialogRef = this.dialog.open(ClasseParticipantsComponent, {
             height: '80%',
             width: '60%',

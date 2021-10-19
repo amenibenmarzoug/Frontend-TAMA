@@ -140,11 +140,11 @@
             </div>
             <div fxLayout="row" fxLayoutAlign="start center">
 
-                <mat-form-field  appearance="outline" fxFlex>
+                <mat-form-field  appearance="outline" fxFlex >
                     <mat-label >Jours de disponibilité</mat-label>
                     <mat-select multiple=""  [(value)]="contact.disponibilityDays"  (selectionChange)="changeFilter(contact)" formControlname="disponibilityDays" required>
                        
-                        <mat-option *ngFor="let day of days" [value]="day.day">
+                        <mat-option *ngFor="let day of days" [value]="day.day" >
                           {{day.day}}
                         </mat-option>
                     </mat-select>
