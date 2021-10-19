@@ -97,7 +97,6 @@ export class TrainerFormComponent {
             phoneNumber: [this.contact.phoneNumber],
             //address   : [this.contact.address],
             gender: [this.contact.gender],
-            password: [this.contact.password],
             street: [this.contact.street],
             city: [this.contact.city],
             postalCode: [this.contact.postalCode],

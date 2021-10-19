@@ -229,7 +229,6 @@ export class InstitutionService implements Resolve<any>
      */
     updateContact(contact): Promise<any>
     {
-        contact.password = contact.phoneNumber;
         return new Promise((resolve, reject) => {
 
             this._httpClient.post(AUTH_API + 'auth/signupInstitution' , contact)

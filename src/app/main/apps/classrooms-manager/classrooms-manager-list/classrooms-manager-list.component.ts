@@ -1,5 +1,5 @@
 import { ClassroomsManagerService } from './../classrooms-manager.service';
-import { MyClasses } from 'app/main/apps/classrooms/classrooms.model';
+import { ClassRoom } from 'app/shared/models/classroom.model';
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -32,7 +32,7 @@ export class ClassroomsManagerListComponent implements OnInit, OnDestroy {
     selectedContacts: any[];
     checkboxes: {};
     dialogRef: any;
-    contact: MyClasses
+    contact: ClassRoom
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     id: number;
 

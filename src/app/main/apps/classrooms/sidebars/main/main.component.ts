@@ -41,11 +41,7 @@ export class MainComponent implements OnInit, OnDestroy
     {
         this.filterBy = this._classroomsService.filterBy || 'all';
 
-        this._classroomsService.onUserDataChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(user => {
-                this.user = user;
-            });
+       
     }
 
     /**

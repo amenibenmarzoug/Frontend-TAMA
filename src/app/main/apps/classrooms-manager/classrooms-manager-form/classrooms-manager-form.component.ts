@@ -1,4 +1,4 @@
-import { MyClasses } from './../../classrooms/classrooms.model';
+import { ClassRoom } from 'app/shared/models/classroom.model';
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -17,7 +17,7 @@ export class ClassroomsManagerFormComponent {
 
 
     action: string;
-    contact: MyClasses;
+    contact: ClassRoom;
     contactForm: FormGroup;
     dialogTitle: string;
     institutions: any[];
@@ -56,7 +56,7 @@ export class ClassroomsManagerFormComponent {
                 this.dialogTitle = 'Nouvelle Salle au sein de : ' 
             }
             
-            this.contact = new MyClasses({});
+            this.contact = new ClassRoom({});
         }
 
         this.contactForm = this.createContactForm();

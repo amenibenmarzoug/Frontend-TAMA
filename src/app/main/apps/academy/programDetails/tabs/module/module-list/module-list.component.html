@@ -1,11 +1,10 @@
-<mat-table #table [dataSource]="dataSource"
-           [@animateStagger]="{value:'50'}">
+<mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}">
     <!-- Checkbox Column -->
     <ng-container matColumnDef="checkbox">
         <mat-header-cell *matHeaderCellDef> </mat-header-cell>
         <mat-cell *matCellDef="let module">
             <mat-checkbox [(ngModel)]="checkboxes[module.id]" (ngModelChange)="onSelectedChange(module.id.toString())"
-                          (click)="$event.stopPropagation()">
+                (click)="$event.stopPropagation()">
             </mat-checkbox>
         </mat-cell>
     </ng-container>
@@ -14,8 +13,8 @@
     <!-- Name Column -->
     <ng-container matColumnDef="moduleName">
         <mat-header-cell *matHeaderCellDef fxShow.gt-sm>Titre Module</mat-header-cell>
-       <mat-cell *matCellDef="let module" fxShow.gt-sm>
-        <p class="font-weight-600">{{module.moduleName}}</p>
+        <mat-cell *matCellDef="let module" fxShow.gt-sm>
+            <p class="font-weight-600">{{module.moduleName}}</p>
         </mat-cell>
     </ng-container>
 
@@ -23,34 +22,36 @@
     <ng-container matColumnDef="nbDaysModule">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Nombre de jours</mat-header-cell>
         <mat-cell *matCellDef="let module" fxHide fxShow.gt-sm>
-            <p >
+            <p>
                 {{module.nbDaysModule}}
             </p>
         </mat-cell>
     </ng-container>
     <!-- Company Column -->
-    <ng-container  matColumnDef="theme">
+    <ng-container matColumnDef="theme">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Theme</mat-header-cell>
         <mat-cell *matCellDef="let module" fxHide fxShow.gt-md>
-           <span> <p *ngIf="module.theme!=null"  class="company">
-             {{module.theme.themeName}}
-            </p></span>
+            <span>
+                <p *ngIf="module.theme!=null" class="company">
+                    {{module.theme.themeName}}
+                </p>
+            </span>
         </mat-cell>
     </ng-container>
 
-   
 
-  
+
+
 
     <!-- Buttons Column -->
     <ng-container matColumnDef="buttons">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let module">
             <div fxFlex="row" fxLayoutAlign="end center">
-                
+
 
                 <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
-                        (click)="$event.stopPropagation();">
+                    (click)="$event.stopPropagation();">
                     <mat-icon class="secondary-text">more_vert</mat-icon>
                 </button>
                 <mat-menu #moreMenu="matMenu">
@@ -58,10 +59,7 @@
                         <mat-icon>edit</mat-icon>
                         <span>Modifier</span>
                     </button>
-                   <!--  <button mat-menu-item aria-label="remove" (click)="deleteModule(module.id)">
-                        <mat-icon>delete</mat-icon>
-                        <span>Supprimer</span>
-                    </button> -->
+                  
                 </mat-menu>
 
             </div>
@@ -70,12 +68,7 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let module; columns: displayedColumns;"
-             class="contact"
-             
-             [ngClass]="{'accent-50':checkboxes[module.id]}"
-             [@animate]="{value:'*',params:{y:'100%'}}">
+    <mat-row *matRowDef="let module; columns: displayedColumns;" class="contact"
+        [ngClass]="{'accent-50':checkboxes[module.id]}" [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>
 </mat-table>
-
-

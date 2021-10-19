@@ -161,7 +161,7 @@ export class ProgramSpecComponent implements OnInit {
     * @param contact
     */
    
-   editCourse(program): void {
+   editProgram(program): void {
       this.dialogRef = this.dialog.open(ProgramSpecFormComponent, {
           panelClass: 'cursus-form-dialog',
           data: {

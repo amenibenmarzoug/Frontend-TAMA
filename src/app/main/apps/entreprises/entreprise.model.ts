@@ -32,7 +32,6 @@ export class Entreprise
             this.id = contact.id || '';
             this.enterpriseName = contact.enterpriseName || '';
             this.website = contact.website || '';
-            //this.password = contact.password || '';
             this.phoneNumber = contact.phoneNumber || '';
             this.email = contact.email || '';
             this.managerFirstName=contact.managerFirstName || '';
