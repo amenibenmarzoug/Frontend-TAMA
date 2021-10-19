@@ -29,7 +29,7 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
     dataSource: FilesDataSource | null;
     // dataSource :any[] ;
 
-    displayedColumns = ['checkbox', 'name','age','experience','level', 'company', 'classe','statut', 'buttons'];
+    displayedColumns = ['checkbox', 'name','age','experience','level', 'company', 'buttons'];
 
     selectedContacts: any[];
     checkboxes: {};
