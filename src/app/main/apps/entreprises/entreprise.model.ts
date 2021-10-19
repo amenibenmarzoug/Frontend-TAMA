@@ -41,7 +41,7 @@ export class Entreprise
             this.city = contact.city || '';
             this.postalCode = contact.postalCode || '';
             //this.roles = contact.roles || '';
-            this.programInstance=contact.programInstance || '';
+            this.programInstance=contact.programInstance;
             this.validated = contact.validated || '';
             this.managerPosition=contact.managerPosition || '';
             this.nbMinParticipants=contact.nbMinParticipants || '';

@@ -109,7 +109,7 @@ export class EntreprisesComponent implements OnInit  , OnDestroy {
                     return;
                 }
                 
-                this._entrepriseService.addEntreprise(response.getRawValue(),this._entrepriseService.classe);
+                this._entrepriseService.addEntreprise(response.getRawValue());
             });
     }
 

@@ -104,8 +104,11 @@ export class ParticipantsComponent implements OnInit, OnDestroy {
                 if (!response) {
                     return;
                 }
-                
-                this._participantsService.addParticipant(response.getRawValue(), this._participantsService.entreprise, this._participantsService.classe);
+                let participant=new Participant(response.getRawValue());
+                participant.status='WAITING';
+                console.log("PARTICIPANT");
+                console.log(participant);
+                this._participantsService.addParticipant(participant, this._participantsService.entreprise, this._participantsService.classe);
 
             });
     }
