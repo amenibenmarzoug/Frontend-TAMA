@@ -324,7 +324,6 @@ export class TrainerService implements Resolve<any>
      * @returns {Promise<any>}
      */
     updateContact(contact): Promise<any> {
-        contact.password = contact.phoneNumber;
         if (this.disponibilities != null) {
             contact.disponibilityDays = this.disponibilities;
 

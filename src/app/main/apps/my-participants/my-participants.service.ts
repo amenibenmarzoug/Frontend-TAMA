@@ -262,7 +262,6 @@ export class MyParticipantsService implements Resolve<any>
 
     updateContact(contact): Promise<any> {
         return new Promise((resolve, reject) => {
-            contact.password = contact.phoneNumber;
             let id = JSON.parse(sessionStorage.getItem(USER_KEY)).id;
             const params = new HttpParams().set('id', id);
             console.log(contact);
