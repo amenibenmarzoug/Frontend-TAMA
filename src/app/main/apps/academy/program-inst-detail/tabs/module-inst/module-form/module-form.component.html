@@ -8,7 +8,7 @@
         </mat-toolbar-row>
 
         <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
-            
+
             <div class="contact-name mt-8">{{moduleInst.moduleInstanceName}} </div>
         </mat-toolbar-row>
     </mat-toolbar>
@@ -16,32 +16,35 @@
     <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
 
         <form [formGroup]="moduleInstForm">
-            
+
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Titre Module Dédié</mat-label>
                     <mat-select formControlName="module" (selectionChange)="getModuleForm($event.value)">
-                       
+
                         <mat-option *ngFor="let module of modules" [value]="module">
-                            {{ module.moduleName}} 
+                            {{ module.moduleName}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-            
+
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Titre Module Dédié</mat-label>
-                    
-                    <input  name="moduleInstanceName" formControlName="moduleInstanceName" matInput [(ngModel)]="moduleInst.moduleInstanceName" required>
+
+                    <input name="moduleInstanceName" formControlName="moduleInstanceName" matInput
+                        [(ngModel)]="moduleInst.moduleInstanceName" required>
                 </mat-form-field>
             </div>
 
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Nombre de jours</mat-label>
-                    <input ngDefaultControl name="nbDaysModuleInstance" formControlName="nbDaysModuleInstance" [(ngModel)]="moduleInst.nbDaysModuleInstance" matInput required>
-                    <mat-error *ngIf="moduleInstForm.get('nbDaysModuleInstance').hasError('pattern')">Entrer un numéro</mat-error>
+                    <input ngDefaultControl name="nbDaysModuleInstance" formControlName="nbDaysModuleInstance"
+                        [(ngModel)]="moduleInst.nbDaysModuleInstance" matInput required>
+                    <mat-error *ngIf="moduleInstForm.get('nbDaysModuleInstance').hasError('pattern')">Entrer un numéro
+                    </mat-error>
                 </mat-form-field>
             </div>
 
@@ -51,30 +54,15 @@
 
     <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
 
-       <!--  <button *ngIf="action === 'edit'"
-                mat-button
-                class="mr-8"
-                (click)="matDialogRef.close(['delete',moduleInstForm])"
-                aria-label="Delete"
-                matTooltip="Delete">
-            Supprimer
-        </button> -->
 
-        <button *ngIf="action !== 'edit'"
-                mat-button
-                class="save-button"
-                (click)="closeNewModuleForm()"
-                [disabled]="moduleInstForm.invalid"
-                aria-label="SAVE">
+
+        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="closeNewModuleForm()"
+            [disabled]="moduleInstForm.invalid" aria-label="SAVE">
             Ajouter
         </button>
 
-        <button *ngIf="action === 'edit'"
-                mat-button
-                class="save-button"
-                (click)="closeEditModuleForm()"
-                [disabled]="moduleInstForm.invalid"
-                aria-label="SAVE">
+        <button *ngIf="action === 'edit'" mat-button class="save-button" (click)="closeEditModuleForm()"
+            [disabled]="moduleInstForm.invalid" aria-label="SAVE">
             Enregistrer
         </button>
 

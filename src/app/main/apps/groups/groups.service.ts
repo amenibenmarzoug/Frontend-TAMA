@@ -260,7 +260,6 @@ export class GroupsService implements Resolve<any>
      */
     updateContact(contact): Promise<any>
     {
-        contact.password = contact.phoneNumber;
         return new Promise((resolve, reject) => {
 
             this._httpClient.post(AUTH_API + 'groups' , contact)
@@ -425,7 +424,6 @@ export class GroupsService implements Resolve<any>
      */
     updateParticipant(contact): Promise<any>
     {
-        contact.password = contact.phoneNumber;
         return new Promise((resolve, reject) => {
 
             this._httpClient.post(AUTH_API + 'signupParticipantManag' , contact)

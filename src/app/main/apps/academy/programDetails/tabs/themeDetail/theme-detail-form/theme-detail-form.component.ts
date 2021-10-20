@@ -2,9 +2,8 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
-import {Module} from 'app/main/apps/academy/programDetails/tabs/module/module.model'
 import { ProgramDetailsService } from '../../../programDetails.service';
-import {ThemeDetail} from '../theme-detail.model';
+import {ThemeDetail} from 'app/shared/models/themeDetail.model';
 
 @Component({
   selector: 'app-theme-detail-form',

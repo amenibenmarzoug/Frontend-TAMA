@@ -10,21 +10,44 @@
 
             <div class="nav material2">
 
-               <!--  <div class="nav-item" aria-label="inbox">
+                 <div class="nav-item" aria-label="inbox">
                     <a class="nav-link" matRipple (click)="changeFilter('all')"
                        [ngClass]="{'active accent':filterBy ==='all'}">
-                        <span class="title">Tous les Participants</span>
+                        <span class="title">Tous</span>
                     </a>
-                </div> -->
+                </div> 
 
-                <div class="nav-item" aria-label="Pilier 1" (click)="changeFilter('with')">
-                    <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy ==='with'}">
+
+                <div class="nav-item" aria-label="Pilier 1" >
+                    <a class="nav-link" matRipple (click)="changeFilter('with')" [ngClass]="{'active accent':filterBy ==='with'}">
                         <div class="title">Avec Comptes</div>
                     </a>
                 </div>
-                <div class="nav-item" aria-label="Pilier 2" (click)="changeFilter('without')">
-                    <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy ==='without'}">
+                <div class="nav-item" aria-label="Pilier 2" >
+                    <a class="nav-link" matRipple (click)="changeFilter('without')"
+                    [ngClass]="{'active accent':filterBy ==='without'}">
                         <div class="title">Sans comptes</div>
+                    </a>
+                </div>
+
+                <div class="nav-item" aria-label="Soft Skills" >
+                    <a class="nav-link" matRipple (click)="getTrainersBySpecialisation('Soft Skills')" 
+                    [ngClass]="{'active accent':filterBy ==='Soft Skills'}">
+                        <div class="title">Soft Skills</div>
+                    </a>
+                </div>
+
+                <div class="nav-item" aria-label="LEAN" >
+                    <a class="nav-link" matRipple (click)="getTrainersBySpecialisation('LEAN')"
+                    [ngClass]="{'active accent':filterBy ==='LEAN'}">
+                        <div class="title">LEAN</div>
+                    </a>
+                </div>
+
+                <div class="nav-item" aria-label="PM" >
+                    <a class="nav-link" matRipple (click)="getTrainersBySpecialisation('Project Management')"
+                    [ngClass]="{'active accent':filterBy ==='Project Management'}">
+                        <div class="title">PM</div>
                     </a>
                 </div>
 

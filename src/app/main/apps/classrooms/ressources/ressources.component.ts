@@ -9,18 +9,16 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { RessourcesFormComponent } from './ressources-form/ressources-form.component';
 import { RessourcesService } from './ressources.service';
-import { MyEquipments } from './ressources.model';
 @Component({
-    selector     : 'app-ressources',
-    templateUrl  : './ressources.component.html',
-    styleUrls    : ['./ressources.component.scss'],
+    selector: 'app-ressources',
+    templateUrl: './ressources.component.html',
+    styleUrls: ['./ressources.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations
 })
-export class RessourcesComponent implements OnInit, OnDestroy
-{
+export class RessourcesComponent implements OnInit, OnDestroy {
     dialogRef: any;
-    hasSelectedContacts: boolean;
+    hasSelectedEquipments: boolean;
     searchInput: FormControl;
 
     // Private
@@ -37,8 +35,7 @@ export class RessourcesComponent implements OnInit, OnDestroy
         private _ressourcesService: RessourcesService,
         private _fuseSidebarService: FuseSidebarService,
         private _matDialog: MatDialog
-    )
-    {
+    ) {
         // Set the defaults
         this.searchInput = new FormControl('');
 
@@ -53,14 +50,12 @@ export class RessourcesComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {   
-        
-        
-        this._ressourcesService.onSelectedContactsChanged
+    ngOnInit(): void {
+
+        this._ressourcesService.onSelectedEquipmentsChanged
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(selectedContacts => {
-                this.hasSelectedContacts = selectedContacts.length > 0;
+            .subscribe(selectedEquipments => {
+                this.hasSelectedEquipments = selectedEquipments.length > 0;
             });
 
         this.searchInput.valueChanges
@@ -77,8 +72,7 @@ export class RessourcesComponent implements OnInit, OnDestroy
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Reset the search
         this._ressourcesService.onSearchTextChanged.next('');
 
@@ -92,26 +86,24 @@ export class RessourcesComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * New contact
+     * New equipment
      */
-    newContact(): void
-    {
+    newEquipment(): void {
         this.dialogRef = this._matDialog.open(RessourcesFormComponent, {
-            panelClass: 'contact-form-dialog',
-            data      : {
+            panelClass: 'equipment-form-dialog',
+            data: {
                 action: 'new'
             }
         });
 
         this.dialogRef.afterClosed()
             .subscribe((response: FormGroup) => {
-                console.log(response) ;
-                if ( !response )
-                {
+                console.log(response);
+                if (!response) {
                     return;
                 }
 
-                this._ressourcesService.updateContact(response.getRawValue());
+                this._ressourcesService.addEquipment(response.getRawValue());
             });
     }
 
@@ -120,8 +112,7 @@ export class RessourcesComponent implements OnInit, OnDestroy
      *
      * @param name
      */
-    toggleSidebar(name): void
-    {
+    toggleSidebar(name): void {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
 }

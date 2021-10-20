@@ -48,13 +48,14 @@ export class MainThemeDetailComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.filterBy = this._themeDetailsService.filterByThemeDetail || 'all';
 
-      
 
-            this._themeDetailsService.onThemeDetailChanged
+
+        this._themeDetailsService.onThemeDetailChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(themeDetail => {
                 this.themeDetails = themeDetail;
             });
+
           /*  this._themeDetailsService.onmoduleChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(module => {
@@ -69,8 +70,6 @@ export class MainThemeDetailComponent implements OnInit, OnDestroy {
             });
 
 
-
-           
     }
 
     /**
@@ -94,27 +93,25 @@ export class MainThemeDetailComponent implements OnInit, OnDestroy {
     changeFilter(filter): void {
         this.filterBy = filter.id;
         console.log(filter.id);
-     
-        this._themeDetailsService.module=filter;
+
+        this._themeDetailsService.module = filter;
         //console.log(this._themeDetailsService.module);
-  
+
         this._themeDetailsService.onFilterChangedThemeDetail.next(this.filterBy);
-    
+
     }
 
     filterThemeDetailsByCategory(): void {
         // Filter
-        if ( this.currentCategory === 'all' )
-        {
+        if (this.currentCategory === 'all') {
             this.themeDetailFilteredByCategory = this.themeDetails;
             this.filteredThemeDetails = this.themeDetails;
         }
-        else
-        {
+        else {
 
             this.themeDetailFilteredByCategory = this.themeDetails.filter((themeDetail) => {
-               
-                this._themeDetailsService.module=themeDetail.module;
+
+                this._themeDetailsService.module = themeDetail.module;
                 return themeDetail.module.moduleName === this.currentCategory;
             });
 
@@ -125,7 +122,7 @@ export class MainThemeDetailComponent implements OnInit, OnDestroy {
 
         // Re-filter by search term
         this.filterThemeDetailsByTerm();
-        
+
     }
 
     /**

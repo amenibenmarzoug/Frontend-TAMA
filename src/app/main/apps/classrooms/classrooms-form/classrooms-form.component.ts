@@ -2,7 +2,7 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { MyClasses } from 'app/main/apps/classrooms/classrooms.model';
+import { ClassRoom } from 'app/shared/models/classroom.model';
 
 
 @Component({
@@ -15,9 +15,9 @@ import { MyClasses } from 'app/main/apps/classrooms/classrooms.model';
 export class ClassroomsFormComponent
 {
     action: string;
-    contact: MyClasses;
+    classroom: ClassRoom;
     
-    contactForm: FormGroup;
+    classroomForm: FormGroup;
     dialogTitle: string;
 
     /**
@@ -39,15 +39,15 @@ export class ClassroomsFormComponent
         if ( this.action === 'edit' )
         {
             this.dialogTitle = 'Modifier Salle';
-            this.contact = _data.contact;
+            this.classroom = _data.contact;
         }
         else
         {
             this.dialogTitle = 'Ajouter Salle';
-            this.contact = new MyClasses({});
+            this.classroom = new ClassRoom({});
         }
 
-        this.contactForm = this.createContactForm();
+        this.classroomForm = this.createClassroomForm();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -59,13 +59,13 @@ export class ClassroomsFormComponent
      *
      * @returns {FormGroup}
      */
-    createContactForm(): FormGroup
+     createClassroomForm(): FormGroup
     {
         return this._formBuilder.group({
-            id      : [this.contact.id],
-            classRoomName:[this.contact.classRoomName],
-            fees : [this.contact.fees],
-            capacity   : [this.contact.capacity],
+            id      : [this.classroom.id],
+            classRoomName:[this.classroom.classRoomName],
+            fees : [this.classroom.fees],
+            capacity   : [this.classroom.capacity],
             
             
         });

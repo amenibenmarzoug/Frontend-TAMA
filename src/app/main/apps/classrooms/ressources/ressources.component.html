@@ -40,7 +40,7 @@
     <!-- / HEADER -->
 
     <!-- SELECTED BAR -->
-    <selected-bar class="accent-600" *ngIf="hasSelectedContacts" [@slideInTop]></selected-bar>
+    <selected-bar class="accent-600" *ngIf="hasSelectedEquipments" [@slideInTop]></selected-bar>
     <!-- / SELECTED BAR -->
 
     <!-- CONTENT -->
@@ -64,7 +64,7 @@
 </div>
 
 <!-- ADD CONTACT BUTTON -->
-<button mat-fab class="accent" id="add-contact-button" (click)="newContact()" aria-label="add contact" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+<button mat-fab class="accent" id="add-contact-button" (click)="newEquipment()" aria-label="add contact" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
     <mat-icon>add</mat-icon>
 </button>
 <!-- / ADD CONTACT BUTTON -->

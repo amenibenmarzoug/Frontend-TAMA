@@ -29,7 +29,7 @@
                         (input)="filterCoursesByTerm()">
                 </mat-form-field>
 
-             
+
                 <!-- ADD EVENT BUTTON -->
                 <!--button mat-fab class="add-event-button mat-accent" aria-label="Add event"
                     [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}" (click)="newProgram()">
@@ -51,10 +51,9 @@
 
                     <div class="course-content" fxLayout="column" fxFlex="1 1 auto">
 
-                        <div class="header" fxLayout="row" fxLayoutAlign="center center"
-                            [ngClass]="'program' + '-bg'"> 
+                        <div class="header" fxLayout="row" fxLayoutAlign="center center" [ngClass]="'program' + '-bg'">
 
-                         
+
 
                         </div>
 
@@ -70,7 +69,7 @@
                             <button mat-button color="accent" (click)="goToProgramModule(program.id)">
                                 Détails
                             </button>
-                            <button mat-button color="accent" (click)="editCourse(program)">
+                            <button mat-button color="accent" (click)="editProgram(program)">
                                 Modifier
                             </button>
 

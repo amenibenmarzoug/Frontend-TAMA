@@ -1,6 +1,5 @@
 import { FuseUtils } from '@fuse/utils';
 import { startOfDay, endOfDay } from 'date-fns';
-import { MyClasses } from '../../classrooms/classrooms.model';
 
 
 export class Session {

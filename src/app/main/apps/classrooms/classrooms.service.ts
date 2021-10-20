@@ -5,10 +5,10 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { FuseUtils } from '@fuse/utils';
 
-import { MyClasses } from './classrooms.model';
-import {environment} from 'environments/environment';
+import { ClassRoom } from 'app/shared/models/classroom.model';
+import { environment } from 'environments/environment';
 
-const AUTH_API = environment.backend_url+ 'api/';
+const AUTH_API = environment.backend_url + 'api/';
 
 const USER_KEY = 'auth-user';
 
@@ -16,24 +16,23 @@ const USER_KEY = 'auth-user';
 
 @Injectable({
     providedIn: 'root'
-  })
+})
 
 export class ClassroomsService implements Resolve<any>
 {
 
-    onContactsChanged: BehaviorSubject<any>;
-    onSelectedContactsChanged: BehaviorSubject<any>;
-    onUserDataChanged: BehaviorSubject<any>;
+    onClassroomsChanged: BehaviorSubject<any>;
+    onSelectedClassroomsChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
 
-    contacts: MyClasses[];
+    classrooms: ClassRoom[];
     user: any;
-    selectedContacts: string[] = [];
+    selectedClassrooms: string[] = [];
 
     searchText: string;
     filterBy: string;
-    id : number ;
+    id: number;
 
     /**
      * Constructor
@@ -42,12 +41,10 @@ export class ClassroomsService implements Resolve<any>
      */
     constructor(
         private _httpClient: HttpClient
-    )
-    {
+    ) {
         // Set the defaults
-        this.onContactsChanged = new BehaviorSubject([]);
-        this.onSelectedContactsChanged = new BehaviorSubject([]);
-        this.onUserDataChanged = new BehaviorSubject([]);
+        this.onClassroomsChanged = new BehaviorSubject([]);
+        this.onSelectedClassroomsChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
     }
@@ -63,24 +60,22 @@ export class ClassroomsService implements Resolve<any>
      * @param {RouterStateSnapshot} state
      * @returns {Observable<any> | Promise<any> | any}
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
-    {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
         return new Promise<void>((resolve, reject) => {
 
             Promise.all([
-                this.getContacts(),
-                this.getUserData()
+                this.getClassrooms(),
             ]).then(
                 ([files]) => {
 
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
-                        this.getContacts();
+                        this.getClassrooms();
                     });
 
                     this.onFilterChanged.subscribe(filter => {
                         this.filterBy = filter;
-                        this.getContacts();
+                        this.getClassrooms();
                     });
 
                     resolve();
@@ -96,69 +91,47 @@ export class ClassroomsService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getContacts(): Promise<any>
-    {
+    getClassrooms(): Promise<any> {
         this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
         const params = new HttpParams().set('id', this.user.id);
         console.log(this.user.id);
         return new Promise((resolve, reject) => {
-                this._httpClient.get(AUTH_API + 'classroom/institution',{params:params})
-                    .subscribe((response: any) => {
+            this._httpClient.get(AUTH_API + 'classroom/institution', { params: params })
+                .subscribe((response: any) => {
 
-                        this.contacts = response;
+                    this.classrooms = response;
 
-                        if ( this.searchText && this.searchText !== '' )
-                        {
-                            this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
-                        }
+                    if (this.searchText && this.searchText !== '') {
+                        this.classrooms = FuseUtils.filterArrayByString(this.classrooms, this.searchText);
+                    }
 
-                        this.contacts = this.contacts.map(contact => {
-                            return new MyClasses(contact);
-                        });
+                    this.classrooms = this.classrooms.map(contact => {
+                        return new ClassRoom(contact);
+                    });
 
-                        this.onContactsChanged.next(this.contacts);
-                        resolve(this.contacts);
-                    }, reject);
-            }
+                    this.onClassroomsChanged.next(this.classrooms);
+                    resolve(this.classrooms);
+                }, reject);
+        }
         );
     }
 
-    /**
-     * Get user data
-     *
-     * @returns {Promise<any>}
-     */
-    getUserData(): Promise<any>
-    {
-        return new Promise((resolve, reject) => {
-                this._httpClient.get(AUTH_API + 'classroom')
-                    .subscribe((response: any) => {
-                        this.user = response;
-                        this.onUserDataChanged.next(this.user);
-                        resolve(this.user);
-                    }, reject);
-            }
-        );
-    }
 
     /**
-     * Toggle selected contact by id
+     * Toggle selected classroom by id
      *
      * @param id
      */
-    toggleSelectedContact(id): void
-    {
+    toggleSelectedClassroom(id): void {
         // First, check if we already have that contact as selected...
-        if ( this.selectedContacts.length > 0 )
-        {
-            const index = this.selectedContacts.indexOf(id);
+        if (this.selectedClassrooms.length > 0) {
+            const index = this.selectedClassrooms.indexOf(id);
 
-            if ( index !== -1 )
-            {
-                this.selectedContacts.splice(index, 1);
+            if (index !== -1) {
+                this.selectedClassrooms.splice(index, 1);
 
                 // Trigger the next event
-                this.onSelectedContactsChanged.next(this.selectedContacts);
+                this.onSelectedClassroomsChanged.next(this.selectedClassrooms);
 
                 // Return
                 return;
@@ -166,24 +139,21 @@ export class ClassroomsService implements Resolve<any>
         }
 
         // If we don't have it, push as selected
-        this.selectedContacts.push(id);
+        this.selectedClassrooms.push(id);
 
         // Trigger the next event
-        this.onSelectedContactsChanged.next(this.selectedContacts);
+        this.onSelectedClassroomsChanged.next(this.selectedClassrooms);
     }
 
     /**
      * Toggle select all
      */
-    toggleSelectAll(): void
-    {
-        if ( this.selectedContacts.length > 0 )
-        {
-           this.deselectContacts();
+    toggleSelectAll(): void {
+        if (this.selectedClassrooms.length > 0) {
+            this.deselectClassrooms();
         }
-        else
-        {
-            this.selectContacts();
+        else {
+            this.selectClassrooms();
         }
     }
 
@@ -193,79 +163,57 @@ export class ClassroomsService implements Resolve<any>
      * @param filterParameter
      * @param filterValue
      */
-    selectContacts(filterParameter?, filterValue?): void
-    {
-       this.selectedContacts = [];
+    selectClassrooms(filterParameter?, filterValue?): void {
+        this.selectedClassrooms = [];
 
         // If there is no filter, select all contacts
-        if ( filterParameter === undefined || filterValue === undefined )
-        {
-            this.selectedContacts = [];
-            this.contacts.map(contact => {
-                this.selectedContacts.push(contact.id.toString());
-                console.log(contact.id)
+        if (filterParameter === undefined || filterValue === undefined) {
+            this.selectedClassrooms = [];
+            this.classrooms.map(classroom => {
+                this.selectedClassrooms.push(classroom.id.toString());
             });
         }
 
         // Trigger the next event
-        this.onSelectedContactsChanged.next(this.selectedContacts);
+        this.onSelectedClassroomsChanged.next(this.selectedClassrooms);
     }
 
     /**
-     * Update contact
+     * Update classroom
      *
-     * @param contact
+     * @param classroom
      * @returns {Promise<any>}
      */
-    updateContact(contact): Promise<any>
-    {
+    addClassroom(classroom): Promise<any> {
         return new Promise((resolve, reject) => {
             let id = JSON.parse(sessionStorage.getItem(USER_KEY)).id;
             const params = new HttpParams().set('id', id);
-            this._httpClient.post(AUTH_API + 'classroomInstitution' , contact,{ params: params })
+            this._httpClient.post(AUTH_API + 'classroomInstitution', classroom, { params: params })
                 .subscribe(response => {
-                    this.getContacts();
+                    this.getClassrooms();
                     resolve(response);
                 });
         });
     }
-    updateContact1(contact): Promise<any>
-    {
+    updateClassroom(classroom): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.put(AUTH_API + 'classroomInstitution'  , contact )
+            this._httpClient.put(AUTH_API + 'classroomInstitution', classroom)
                 .subscribe(response => {
-                    this.getContacts();
+                    this.getClassrooms();
                     resolve(response);
                 });
         });
     }
-     /**
-     * Update user data
-     *
-     * @param userData
-     * @returns {Promise<any>}
-     */
-    updateUserData(userData): Promise<any>
-    {
-        return new Promise((resolve, reject) => {
-            this._httpClient.post('api/contacts-user/' + this.user.id, {...userData})
-                .subscribe(response => {
-                    this.getUserData();
-                    this.getContacts();
-                    resolve(response);
-                });
-        });
-    }
+
 
     /**
      * Deselect contacts
      */
-   deselectContacts(): void
-    {
-        this.selectedContacts = [];
+    deselectClassrooms(): void {
+        this.selectedClassrooms = [];
 
         // Trigger the next event
-        this.onSelectedContactsChanged.next(this.selectedContacts);
+        this.onSelectedClassroomsChanged.next(this.selectedClassrooms);
     }
 
     /**
@@ -273,43 +221,40 @@ export class ClassroomsService implements Resolve<any>
      *
      * @param id
      */
-    deleteContact(id):Promise<any>
-    {   console.log(id)  ;
-        
-     
-       return new Promise((resolve, reject) => {
-        const contactIndex = this.contacts.indexOf(id);
-        this.contacts.splice(contactIndex, 1);
-            this.onContactsChanged.next(this.contacts);
-        this._httpClient.delete(AUTH_API + `classroom/${id}`)
-            .subscribe(response => {
-               // this.getContacts();
-              
-                resolve(response);
-            });
-    }); 
+    deleteClassroom(id): Promise<any> {
+        console.log(id);
+
+
+        return new Promise((resolve, reject) => {
+            const classroomIndex = this.classrooms.indexOf(id);
+            this.classrooms.splice(classroomIndex, 1);
+            this.onClassroomsChanged.next(this.classrooms);
+            this._httpClient.delete(AUTH_API + `classroom/${id}`)
+                .subscribe(response => {
+
+                    resolve(response);
+                });
+        });
     }
 
 
-   /**
-     * Delete selected contacts
-     */
-    deleteSelectedContacts(): void
-    {
-        for ( const contactId of this.selectedContacts )
-        {
-            const contact = this.contacts.find(_contact => {
-                return _contact.id === Number(contactId);
-                 
+    /**
+      * Delete selected contacts
+      */
+    deleteSelectedClassrooms(): void {
+        for (const classroomId of this.selectedClassrooms) {
+            const classroom = this.classrooms.find(_classroom => {
+                return _classroom.id === Number(classroomId);
+
             });
-            this.deleteContact(Number(contactId)) ;
-            const contactIndex = this.contacts.indexOf(contact);
-            this.contacts.splice(contactIndex, 1);
-           
+            this.deleteClassroom(Number(classroomId));
+            const classroomIndex = this.classrooms.indexOf(classroom);
+            this.classrooms.splice(classroomIndex, 1);
+
         }
-        this.onContactsChanged.next(this.contacts);
-        this.deselectContacts();
+        this.onClassroomsChanged.next(this.classrooms);
+        this.deselectClassrooms();
     }
-  
+
 
 }

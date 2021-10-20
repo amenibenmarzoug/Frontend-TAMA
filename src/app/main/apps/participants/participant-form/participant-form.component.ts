@@ -144,7 +144,7 @@ export class ParticipantFormComponent {
             currentPosition: [this.contact.currentPosition,Validators.required],
             experience : [this.contact.experience],
             email: [this.contact.email,Validators.required],
-            phoneNumber: [this.contact.phoneNumber,Validators.required],
+            phoneNumber: [this.contact.phoneNumber],
             street: [this.contact.street],
             city: [this.contact.city],
             postalCode: [this.contact.postalCode],

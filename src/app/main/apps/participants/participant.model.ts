@@ -20,18 +20,18 @@ export class Participant {
     entreprise: any;
     programInstance: any;
     educationLevel: string;
-    experience: number; 
+    experience: number;
     status: string;
     notes: string;
-    age:string
-
+    age: string
+    // age: number;
     /**
      * Constructor
      *
      * @param contact
      */
     constructor(contact) {
-       
+
         {
             this.id = contact.id || '';
             this.firstNameP = contact.firstNameP || '';
@@ -48,16 +48,22 @@ export class Participant {
             this.street = contact.street || '';
             this.city = contact.city || '';
             this.postalCode = contact.postalCode || '';
-            this.birthday = contact.birthday || '';
+            if (contact.birthday != null) {
+                this.birthday = contact.birthday || '';
+
+            }
+            else {
+                this.birthday = new Date();
+            }
             this.notes = contact.notes || '';
             this.educationLevel = contact.educationLevel || '';
             this.abandon = contact.abandon || '';
             this.gender = contact.gender || '';
             this.level = contact.level || '';
             this.validated = contact.validated || '';
-            this.experience= contact.experience || '';
-            this.status= contact.status || '';
-            this.age=contact.age || '';
+            this.experience = contact.experience || '';
+            this.status = contact.status || '';
+            this.age = contact.age || '';
             //this.age= contact.birthday.getFullYear()
             // this.password = contact.password;
         }

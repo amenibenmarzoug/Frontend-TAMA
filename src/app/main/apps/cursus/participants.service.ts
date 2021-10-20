@@ -269,7 +269,6 @@ export class ParticipantsService implements Resolve<any>
 
     updateContact2(contact): Promise<any> {
         return new Promise((resolve, reject) => {
-            contact.password = contact.phoneNumber;
             // contact.cursus=cursus ;
             let id = JSON.parse(sessionStorage.getItem(USER_KEY)).id;
             const params = new HttpParams().set('id', id);
@@ -288,8 +287,6 @@ export class ParticipantsService implements Resolve<any>
 
     updateContact(contact, cursusId): Promise<any> {
         return new Promise((resolve, reject) => {
-            contact.password = contact.phoneNumber;
-            // contact.cursus=cursus ;
             let id = JSON.parse(sessionStorage.getItem(USER_KEY)).id;
             // const params = new HttpParams().set('id', id);
             const param = new HttpParams({ fromObject: { 'id': id, 'cursusId': cursusId } });

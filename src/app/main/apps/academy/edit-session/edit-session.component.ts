@@ -3,12 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { EditSessionService } from 'app/main/apps/academy/edit-session/edit-session.service';
 import { Session } from 'app/main/apps/academy/add-session/session.model';
-import {MyClasses} from 'app/main/apps/classrooms/classrooms.model'
+import {ClassRoom} from 'app/shared/models/classroom.model'
 import { Institution } from 'app/shared/models/institution.model';
 
-import { CursusCoursessService } from 'app/main/apps/cursus/courses/coursess.service';
-import { CursusCoursesComponent } from 'app/main/apps/cursus/courses/courses.component';
-import { TokenStorageService } from 'app/main/pages/authentication/common-authentication/token-storage.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
@@ -181,7 +178,7 @@ export class EditSessionComponent implements OnInit, OnDestroy {
     },
   }
   chosenClassroom: any;
-  sessionClassroom: MyClasses;
+  sessionClassroom: ClassRoom;
   sessionInstitution: Institution;
   /**
    * Constructor

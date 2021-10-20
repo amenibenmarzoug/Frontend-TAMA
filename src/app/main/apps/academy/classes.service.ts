@@ -4,9 +4,9 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ProgramInst } from 'app/main/apps/academy/programInst.model';
 import { Program } from './program.model';
-import { Thematique } from './programDetails/tabs/thematique/thematique.model';
+import { Theme } from 'app/shared/models/theme.model';
 import { ModuleInst } from '../academy/program-inst-detail/tabs/module-inst/moduleInst.model';
-import { Module } from './programDetails/tabs/module/module.model';
+import { Module } from 'app/shared/models/module.model';
 import { FuseUtils } from '@fuse/utils';
 import {environment} from 'environments/environment';
 
@@ -29,12 +29,14 @@ export class ClassesService {
     program: any;
     programs: Program[];
     enterprises:any[];
-    
-    themes: Thematique[];
+
+    lastprogramInst: any;
+    themes: Theme[];
+
     onThemeChanged: BehaviorSubject<any>;
     programId: any;
 
-    themesOfProgram: Thematique[];
+    themesOfProgram: Theme[];
     modulesInst: ModuleInst[];
     onmoduleInstChanged: BehaviorSubject<any>;
     moduleClasse: ModuleInst;
@@ -131,7 +133,7 @@ export class ClassesService {
                 .subscribe((response: any) => {
                     this.themes = response;
                     this.themes = this.themes.map(theme => {
-                        return new Thematique(theme);
+                        return new Theme(theme);
                     });
                     this.onThemeChanged.next(this.themes);
                     resolve(this.themes);

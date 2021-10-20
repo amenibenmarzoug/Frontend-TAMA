@@ -1,6 +1,5 @@
 import { FuseUtils } from '@fuse/utils';
 import { startOfDay, endOfDay } from 'date-fns';
-import { MyClasses } from '../../classrooms/classrooms.model';
 
 
 export class Session {
@@ -28,8 +27,7 @@ export class Session {
             this.classRoom = contact.classRoom || '';
 
             this.sessionBeginDate = new Date(contact.sessionBeginDate) || startOfDay(new Date());
-            //this.institutionName= contact.classRoom.institution.institutionName || '';
-            //this.city=contact.classRoom.institution.city || '';
+
             this.sessionName = contact.sessionName || '';
             this.themeDetailInstance = contact.themeDetailInstance || '';
             this.sessionEndDate = new Date(contact.sessionEndDate) || endOfDay(new Date());;

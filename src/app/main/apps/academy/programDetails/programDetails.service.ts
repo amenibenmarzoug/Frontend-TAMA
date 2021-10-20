@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
-import { Module } from './tabs/module/module.model';
+import { Module } from '../../../../shared/models/module.model';
 import { FuseUtils } from '@fuse/utils';
-import { ThemeDetail } from './tabs/themeDetail/theme-detail.model';
+import { ThemeDetail } from 'app/shared/models/themeDetail.model';
 import { Program } from '../program.model';
-import { Thematique } from './tabs/thematique/thematique.model';
-import {environment} from 'environments/environment';
-const AUTH_API = environment.backend_url+ 'api/';
+import { Theme } from 'app/shared/models/theme.model';
+import { environment } from 'environments/environment';
+const AUTH_API = environment.backend_url + 'api/';
 
 @Injectable()
 export class ProgramDetailsService implements Resolve<any>
@@ -20,9 +20,9 @@ export class ProgramDetailsService implements Resolve<any>
     modules: Module[];
     modulesProgram : Module[];
     themeDetails: ThemeDetail[];
-   
+
     module: Module;
-    theme: Thematique;
+    theme: Theme;
     themeDetail: ThemeDetail;
     onFilterChangedModule: Subject<any>;
     onThemeDetailChanged: BehaviorSubject<any>;
@@ -38,7 +38,7 @@ export class ProgramDetailsService implements Resolve<any>
     onSelectedModulesChanged: BehaviorSubject<any>;  
     searchTextModule: string;
     searchTextThemeDetail: string;
-    themes: Thematique[];
+    themes: Theme[];
     programs: Program[];
     cursusId: any;
     programId: any;
@@ -143,7 +143,7 @@ export class ProgramDetailsService implements Resolve<any>
 
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get(environment.backend_url+ 'api/programs')
+            this._httpClient.get(environment.backend_url + 'api/programs')
                 .subscribe((response: any) => {
                     this.onProgramChanged.next(response);
                     this.programs = response;
@@ -192,7 +192,7 @@ export class ProgramDetailsService implements Resolve<any>
                     this.themes = response;
 
                     this.themes = this.themes.map(theme => {
-                        return new Thematique(theme);
+                        return new Theme(theme);
                     });
                     this.onThemeChanged.next(this.themes);
                     resolve(this.themes);
@@ -212,7 +212,7 @@ export class ProgramDetailsService implements Resolve<any>
 
                     this.themes = this.themes.map(theme => {
                         this.actualDaysNumberAffected = this.actualDaysNumberAffected + theme.nbDaysTheme;
-                        return new Thematique(theme);
+                        return new Theme(theme);
                     });
                     console.log("days affected in service l aady" + this.actualDaysNumberAffected);
                     resolve(this.actualDaysNumberAffected);
@@ -304,7 +304,7 @@ export class ProgramDetailsService implements Resolve<any>
                                 return false;
                             });
 
-                            
+
                         }
                     }
                     else {
@@ -314,9 +314,9 @@ export class ProgramDetailsService implements Resolve<any>
                         this.modules = FuseUtils.filterArrayByString(this.modules, this.searchTextModule);
                     }
 
-                   /* this.modules = this.modules.map(module => {
-                        return new Module(module);
-                    });*/
+                    /* this.modules = this.modules.map(module => {
+                         return new Module(module);
+                     });*/
 
                     this.onmoduleChanged.next(this.modules);
                     resolve(this.modules);
@@ -651,7 +651,7 @@ export class ProgramDetailsService implements Resolve<any>
     addThemeDetail(themeDetail, module): Promise<any> {
         return new Promise((resolve, reject) => {
             themeDetail.module = module;
-           
+
             this._httpClient.post(AUTH_API + 'themeDetail', themeDetail)
                 .subscribe(response => {
                     this.getThemeDetail();

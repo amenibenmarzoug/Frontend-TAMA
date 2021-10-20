@@ -31,8 +31,8 @@ export class ModuleComponent implements OnInit, OnDestroy {
     module: any;
 
 
-    actualDaysNumberAffected : number ; 
-   
+    actualDaysNumberAffected: number;
+
 
     /**
      * Constructor
@@ -76,14 +76,8 @@ export class ModuleComponent implements OnInit, OnDestroy {
             .subscribe(searchText => {
                 this._moduleService.onSearchTextChangedModule.next(searchText);
             });
-            
-           
 
 
-
-
-
-           
     }
 
     /**
@@ -102,7 +96,7 @@ export class ModuleComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     addNewModule(): void {
-        
+
 
         if ((this._moduleService.theme == null)) {
             //this.addModuleAlert("Veuillez choisir le thème");
@@ -126,7 +120,7 @@ export class ModuleComponent implements OnInit, OnDestroy {
                         return;
                     }
                     this.module = response.getRawValue();
-                    this.actualDaysNumberAffected = this._moduleService.actualDaysAffectedPerModule+ Number(this.module.nbDaysModule)  ; 
+                    this.actualDaysNumberAffected = this._moduleService.actualDaysAffectedPerModule + Number(this.module.nbDaysModule);
                     /*
                     if (this.actualDaysNumberAffected > this._moduleService.theme.nbDaysTheme) {
                         this.addModuleAlert("Vous avez dépassé le nombre des jours de la thématique");
@@ -186,16 +180,16 @@ export class ModuleComponent implements OnInit, OnDestroy {
 
     ErrorMessage(message): void {
         Swal.fire(
-          {
-            title: message,
-            icon: 'error',
-            showCancelButton: false,
-            confirmButtonColor: '#38a9ff',
-            //cancelButtonColor: '#d33',
-            confirmButtonText: 'Retour'
-          }
-      )
-      
-      }
+            {
+                title: message,
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonColor: '#38a9ff',
+                //cancelButtonColor: '#d33',
+                confirmButtonText: 'Retour'
+            }
+        )
+
+    }
 
 }
