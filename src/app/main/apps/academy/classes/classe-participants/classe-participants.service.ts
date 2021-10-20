@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FuseUtils } from '@fuse/utils';
 import { environment } from 'environments/environment';
 import { Participant } from 'app/main/apps/participants/participant.model';
+import { reject } from 'lodash';
 
 
 const AUTH_API = environment.backend_url + 'api/';
@@ -17,14 +18,15 @@ export class ClasseParticipantsService implements Resolve<any>
     onParticipantsChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     participantType: string;
-    participants: Participant[];
+    participants: Participant[]=[];
 
     user: any;
     classe: any;
     groupeId: number;
     searchText: string;
     id: number;
-    classeId: number
+    classeId: number ; 
+    registrations: any;
     /**
      * Constructor
      *
@@ -54,7 +56,9 @@ export class ClasseParticipantsService implements Resolve<any>
         return new Promise<void>((resolve, reject) => {
 
             Promise.all([
+
                 this.getParticipantsOfClass(),
+
 
 
             ]).then(
@@ -62,7 +66,9 @@ export class ClasseParticipantsService implements Resolve<any>
 
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
+
                         this.getParticipantsOfClass();
+
                     });
 
                     resolve();
@@ -78,7 +84,9 @@ export class ClasseParticipantsService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
+
     getParticipantsOfClass(): Promise<any> {
+
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'participants/classId/' + this.classeId)
                 .subscribe((response: any) => {
@@ -91,7 +99,7 @@ export class ClasseParticipantsService implements Resolve<any>
         }
         );
     }
-   
+
 
 
     /**
@@ -115,6 +123,32 @@ export class ClasseParticipantsService implements Resolve<any>
         });
     }
 
+    getParticipantsByProgramInstanceId(programInstanceId): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'participantRegistrations/programInst/' + programInstanceId)
+                .subscribe((response: any) => {
+                    this.participants=[];
+                    this.registrations=response;
+                    this.registrations = this.registrations.filter(registration =>{
+                        if (registration.status == 'ACCEPTED') {
+                            this.participants.push(registration.participant);
+                            return true;
+                        }
+                        return false;
+                    });
+                    
+                  
+                    // this.participants = this.participants.map(contact => {
+                    //     return new Participant(contact);
+                    // });
+
+                    this.onParticipantsChanged.next(this.participants);
+                    resolve(this.participants);
+                }, reject);
+        }
+        );
+
+    }
 
 
 

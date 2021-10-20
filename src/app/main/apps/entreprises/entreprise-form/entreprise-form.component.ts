@@ -69,16 +69,16 @@ export class EntrepriseFormComponent implements OnInit {
     // -----------------------------------------------------------------------------------------------------
     ngOnInit(): void {
     
-        console.log("onInit")
+        /*console.log("onInit")
         console.log("this.classee  in init")
         console.log(this.classe)
         console.log (this.prestataireDeSalle)
-        if (this.classe !== undefined)
+        if ((this.classe !== undefined) &&(this.classe!=null))
         {
         const toSelect = this.classes.find(p => p.id == this.classe.id);
         this.contactForm.get('programInstance').setValue(toSelect);
         console.log(this.contactForm.get('programInstance'))
-        }
+        }*/
     
       }
     //ngOnInit() : void {
@@ -240,7 +240,11 @@ export class EntrepriseFormComponent implements OnInit {
     };
 
     sendClasse(event) {
+        console.log("send classe")
         this._ParticipantsService.classe = event;
+        console.log(event);
+        this.contactForm.patchValue({programInstance:event});
+        console.log(this.contactForm.getRawValue());
     }
 
     selectProvider(event){

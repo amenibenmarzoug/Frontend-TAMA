@@ -60,7 +60,6 @@ export class ClasseParticipantListComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._participantsService.getParticipantsOfClass();
 
         this.dataSource = new FilesDataSource(this._participantsService);
        

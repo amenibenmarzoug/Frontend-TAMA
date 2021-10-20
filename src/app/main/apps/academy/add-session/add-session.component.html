@@ -148,14 +148,7 @@
                             [hidden]="sessionsByThemeDetail!=null && selectedThemeDet!=null && sessionsByThemeDetail.length>=selectedThemeDet.nbDaysthemeDetailInst">
                             <div fxFlex="1 0 auto" fxLayout="column">
 
-                                <mat-form-field appearance="outline" class="w-100-p">
-                                    <mat-label>Titre Scéance</mat-label>
-                                    <input matInput name="courseSessionName" formControlName="courseSessionName"
-                                        (blur)="onValueChangedStepper1()" required>
-                                    <mat-error *ngIf="formErrorsStepper1.courseSessionName">
-                                        {{formErrorsStepper1.courseSessionName}}</mat-error>
-
-                                </mat-form-field>
+                               
                                 <!--
                                 <mat-form-field>
                                     <mat-placeholder>Date et Heure Début</mat-placeholder>
@@ -174,7 +167,15 @@
 
 
                                 <div class="nav-item" aria-label="Date de la séance">
-                                    <mat-form-field appearance="outline" class="w-100-p">
+                                    <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">
+                                        <mat-label>Titre Scéance</mat-label>
+                                        <input matInput name="courseSessionName" formControlName="courseSessionName"
+                                            (blur)="onValueChangedStepper1()" required>
+                                        <mat-error *ngIf="formErrorsStepper1.courseSessionName">
+                                            {{formErrorsStepper1.courseSessionName}}</mat-error>
+    
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">
                                         <mat-label>Date de la séance </mat-label>
                                         <input matInput [matDatepicker]="startDatePicker" name="start"
                                             formControlName="courseSessionDate" required
@@ -314,13 +315,23 @@
                     <form fxLayout="column" [formGroup]="horizontalStepperStep3">
 
                         <ng-template matStepLabel>Choisir une salle</ng-template>
-
                         <div class="content mb-24" *ngIf="place!=null">
                             <div class="message-box warning">
                                 La formation se déroule à {{place}}
                             </div>
                         </div>
-                        <div fxFlex="1 0 auto" fxLayout="column" *ngIf="place==null">
+
+                        <div class="nav-item" aria-label="SallesNonDisponible">
+
+                            <div class="content mb-24" *ngIf="institutions === undefined || institutions.length == 0" >
+                                <div class="message-box error">
+                                    Il n'y a pas de salles disponible dans  {{currentCity}}  !
+                                </div>
+                            </div>
+
+                        </div>
+                        <div fxFlex="1 0 auto" fxLayout="column" 
+                        *ngIf="place==null && institutions !== undefined && institutions.length >0">
 
                             <!--   <div fxLayout="row" fxLayoutAlign="start center">
                                 <mat-form-field appearance="outline" fxFlex>

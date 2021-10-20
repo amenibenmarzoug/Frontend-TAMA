@@ -12,9 +12,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ClassesService } from '../../academy/classes.service';
 import { ClassFormComponent } from './class-form/class-form.component';
-import { ModuleInst } from '../program-inst-detail/tabs/module-inst/moduleInst.model';
-import { Module } from '../programDetails/tabs/module/module.model';
-import { ThematiqueInst } from '../program-inst-detail/tabs/thematique-inst/thematiqueInst.model';
+
 import { ClasseParticipantsService } from './classe-participants/classe-participants.service';
 import { ClasseParticipantsComponent } from './classe-participants/classe-participants.component';
 import { PlaceFormComponent } from './place-form/place-form.component';
@@ -237,12 +235,14 @@ export class ClassesComponent implements OnInit {
                     millisecond:0
                   })
 
+                  if (newClass.endDate != null) {
                   newClass.endDate.set({ 
                     hour:21,
                     minute:0,
                     second:0,
                     millisecond:0
                   })
+                }
 
                 console.log("classe Form")
                 console.log(newClass)
@@ -272,7 +272,7 @@ export class ClassesComponent implements OnInit {
 
 
     listeDesParticipants(programInst): void {
-        this._participantService.classeId = programInst;
+        this._participantService.getParticipantsByProgramInstanceId(programInst);
         this.dialogRef = this.dialog.open(ClasseParticipantsComponent, {
             height: '80%',
             width: '60%',
@@ -334,11 +334,19 @@ export class ClassesComponent implements OnInit {
                         newProgramInst.validated=programInst.validated;
 
                         newProgramInst.beginDate=new Date (formData.getRawValue().beginDate)
-                        newProgramInst.endDate=new Date (formData.getRawValue().endDate)
                         newProgramInst.beginDate.setHours(1,0,0)
+                        
+                        
+
+                        if (newProgramInst.endDate != null) {
+                        newProgramInst.endDate=new Date (formData.getRawValue().endDate)
                         newProgramInst.endDate.setHours(22,0,0)
+
                     //    console.log("after updateee")
                      //   console.log(newProgramInst)
+
+                        }
+        
                         this._academyProgramsInstService.updateProgramInst(newProgramInst);
 
                         break;
