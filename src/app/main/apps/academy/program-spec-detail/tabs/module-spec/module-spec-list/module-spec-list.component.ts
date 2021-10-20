@@ -67,6 +67,7 @@ export class ModuleSpecListComponent implements OnInit {
    */
   ngOnInit(): void {
      
+    this.dataSource = new FilesDataSource(this._moduleService);
 
       this._moduleService.onmoduleChanged
           .pipe(takeUntil(this._unsubscribeAll))
@@ -79,8 +80,7 @@ export class ModuleSpecListComponent implements OnInit {
               });
           });
 
-     this.dataSource = new FilesDataSource(this._moduleService);
-
+        
       this._moduleService.onSelectedModulesChanged
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(selectedModules => {
@@ -106,6 +106,7 @@ export class ModuleSpecListComponent implements OnInit {
    */
   ngOnDestroy(): void {
       // Unsubscribe from all subscriptions
+     
       this._unsubscribeAll.next();
       this._unsubscribeAll.complete();
   }
