@@ -123,6 +123,15 @@ const routes = [
         path        : 'ressource/:id',
         loadChildren: () => import('./classrooms/ressources/ressources.module').then(m => m.RessourcesModule)
     },
+
+    /*
+    {
+        path        : 'attendance',
+        loadChildren: () => import('./attendance/attendance.module').then(m => m.AttendanceModule)
+    },
+    */
+
+
    /* {
         path        : 'cursus-participants',
         loadChildren: () => import('./cursus/cursus-participants/cursus-participants.module').then(m => m.CursusParticipantsModule)

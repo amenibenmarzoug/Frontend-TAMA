@@ -54,6 +54,7 @@ export class AttendanceService implements Resolve<any>
     searchText: string;
     filterBy: any;
     id: number;
+    FilterByDate: any ; 
 
 
 
@@ -102,19 +103,21 @@ export class AttendanceService implements Resolve<any>
 
             Promise.all([
                 this.getUserData(),
-                this.getContacts()
+                //this.getContacts(),
+                this.getMySessions()
 
             ]).then(
                 ([files]) => {
 
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
-                        this.getContacts();
+                        //this.getContacts();
                     });
 
                     this.onFilterChanged.subscribe(filter => {
-                        this.filterBy = filter;
-                        this.getContacts();
+                        this.FilterByDate = filter;
+                        this.getMySessions();
+                        //this.getContacts();
                     });
 
                     resolve();
@@ -125,7 +128,6 @@ export class AttendanceService implements Resolve<any>
         });
     }
 
-
      /**
      * Get my Sessions 
      *
@@ -134,29 +136,32 @@ export class AttendanceService implements Resolve<any>
      //this function will return the sessions of the concerned trainer in a specific date chosen in the filter
      getMySessions(): Promise<any> {
         this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
-        //console.log(this.user.id) ; console.log(this.contact.validated) ;
-        //const params = new HttpParams().set('id', this.user.id);
+        console.log("trainer : "+(this.user.id).toString()) 
+        //; console.log(this.contact.validated) ;
+        //const params = new HttpParams().set('id', this.user.id);3
         //console.log(params);
         return new Promise((resolve, reject) => {
-
-            this._httpClient.get(environment.backend_url+ 'api/session/trainerId/', this.user.id)
+            
+            this._httpClient.get(environment.backend_url+ 'api/session/trainerId/'+this.user.id)
                 .subscribe((response: any) => {
                     console.log(response);
                     this.sessions = [];
                     
                     //filterBy would be the date selected by the trainer
                     console.log("THIS FILTEREDBY");
-                    console.log(this.filterBy);
-                    if (this.filterBy != null) {
+                    console.log(this.FilterByDate);
+                    if (this.FilterByDate != null) {
                         this.sessions = response;
                         this.sessions = this.sessions.filter(_session => {
-                            if (_session.sessionBeginDate.getDate() == this.filterBy.getDate()) {
+                            if (_session.sessionBeginDate.getDate() == this.FilterByDate.toDate().getDate()) {
 
                                 return true;
                             }
                             return false;
                         });
                     }
+                    console.log("Sessionss")
+                    console.log(this.sessions)
                     this.onSessionsChanged.next(this.sessions);
                     resolve(this.sessions);
                 }, reject);
@@ -231,7 +236,8 @@ export class AttendanceService implements Resolve<any>
     getContacts(): Promise<any> {
     this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
         //console.log(this.user.id) ; console.log(this.contact.validated) ;
-
+        this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
+        console.log("trainer : "+(this.user.id).toString()) 
         const params = new HttpParams().set('id', this.user.id);
         console.log(params);
         return new Promise((resolve, reject) => {
@@ -295,6 +301,8 @@ export class AttendanceService implements Resolve<any>
                 this._httpClient.get(environment.backend_url+ 'api/participants')
                     .subscribe((response: any) => {
                         this.user = response;
+                        console.log("get useer Data")
+                        console.log(this.user)
                         this.onUserDataChanged.next(this.user);
                         resolve(this.user);
                     }, reject);
