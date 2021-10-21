@@ -281,12 +281,13 @@ export class ClassesComponent implements OnInit {
 
 
     listeDesParticipants(programInst): void {
-        this._participantService.getParticipantsByProgramInstanceId(programInst);
+        this._participantService.getParticipantsByProgramInstanceId(programInst.id);
         this.dialogRef = this.dialog.open(ClasseParticipantsComponent, {
-            height: '80%',
+            height: '70%',
             width: '60%',
             panelClass: 'contact-form-dialog',
             data: {
+                title:programInst.programInstName
                 //programInst: programInst,
                 //action: 'edit'
             }

@@ -117,6 +117,7 @@ export class MainSessionsComponent implements OnInit {
      */
 
     selectProgram(program): void {
+        this._disponibilityTrainerService.getSessionsByProgramInstanceId(program.id);
         this.selectedTheme = null;
         this.filteredThemes = [];
         this.themes.forEach(theme => {

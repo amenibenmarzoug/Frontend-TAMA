@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
-import {environment} from 'environments/environment';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { environment } from 'environments/environment';
+import { ParticipantsService } from '../participants/participants.service';
 
-const AUTH_API = environment.backend_url+ 'api/';
+const AUTH_API = environment.backend_url + 'api/';
 const USER_KEY = 'auth-user';
 
 @Injectable()
@@ -12,6 +13,9 @@ export class CalendarService implements Resolve<any>
 {
     events: any;
     onEventsUpdated: Subject<any>;
+    onProgramInstanceChanged: BehaviorSubject<any>
+    onCompanyProgramInstanceChanged: BehaviorSubject<any>
+
     trainer: any;
     participant: any;
     institution: any;
@@ -25,6 +29,10 @@ export class CalendarService implements Resolve<any>
     courseSessions: any;
     user: any;
     userRole: any;
+    programInstances: any[] = [];
+    programInstancesId: any[];
+    companyProgramInstances: any;
+    companyProgramInstancesId: any[]=[];
 
     /**
      * Constructor
@@ -36,21 +44,30 @@ export class CalendarService implements Resolve<any>
     ) {
         // Set the defaults
         this.onEventsUpdated = new Subject();
+        this.onProgramInstanceChanged = new BehaviorSubject({});
+        this.onCompanyProgramInstanceChanged = new BehaviorSubject({});
         this.data = JSON.parse(sessionStorage.getItem(USER_KEY));
-        console.log(this.data);
         this.userId = this.data.id;
         this.userRole = this.data.roles;
-        console.log(this.userRole.includes("PARTICIPANT"));
-        if (this.userRole.includes("PARTICIPANT"))
+        if (this.userRole.includes("PARTICIPANT")) {
             this.getParticipantById(this.userId);
-        if (this.userRole.includes("TRAINER"))
+            this.getProgramInstanceByParticipantId(this.userId);
+        }
+        if (this.userRole.includes("TRAINER")) {
             this.getTrainerById(this.userId);
-        if (this.userRole.includes("ENTREPRISE"))
+        }
+        if (this.userRole.includes("ENTREPRISE")) {
             this.getEntrepriseById(this.userId);
-        if (this.userRole.includes("INSTITUTION"))
+            this.getProgramInstanceByCompanyId(this.userId)
+        }
+        if (this.userRole.includes("INSTITUTION")) {
             this.getInstitutionById(this.userId);
+        }
 
 
+        this.onProgramInstanceChanged.subscribe(programInstances => {
+            this.programInstances = programInstances;
+        })
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -91,7 +108,6 @@ export class CalendarService implements Resolve<any>
 
 
                     this.participant = response;
-                    console.log(this.participant);
                     resolve(response);
                 }, reject);
         }
@@ -107,7 +123,6 @@ export class CalendarService implements Resolve<any>
 
 
                     this.institution = response;
-                    console.log(this.participant);
                     resolve(response);
                 }, reject);
         }
@@ -123,7 +138,6 @@ export class CalendarService implements Resolve<any>
 
 
                     this.entreprise = response;
-                    console.log(this.participant);
                     resolve(response);
                 }, reject);
         }
@@ -144,24 +158,29 @@ export class CalendarService implements Resolve<any>
             this._httpClient.get(AUTH_API + 'event')
                 .subscribe((response: any) => {
 
-                    console.log("response");
-                    console.log(response);
+                  
                     this.events = response;
                     if (this.userRole.includes("PARTICIPANT")) {
-                        if ((this.participant.programInstance == null)|| this.participant.status=='WAITING') {
+                        if ((this.programInstances == null) || (this.programInstances.length == 0)) {
                             this.events = [];
+                          
                         }
                         else {
+                          
+                           
                             this.events = this.events.filter(_event => {
+
                                 if ((_event.session != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.validated == true)) {
-                                    if (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == this.participant.programInstance.id) {
-                                        //console.log("user trainer");
+
+                                    if (this.programInstancesId.includes(_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id)) {
                                         return true;
                                     }
+
+
                                 }
                                 else {
                                     if (_event.freeDay == true) {
-                                       
+
                                         return true;
                                     }
                                 }
@@ -179,13 +198,12 @@ export class CalendarService implements Resolve<any>
                         this.events = this.events.filter(_event => {
                             if ((_event.session != null) && (_event.session.trainer != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.validated == true)) {
                                 if (_event.session.trainer.id == this.userId) {
-                                    //console.log("user trainer");
                                     return true;
                                 }
                             }
                             else {
                                 if (_event.freeDay == true) {
-                                   
+
                                     return true;
                                 }
                             }
@@ -197,20 +215,20 @@ export class CalendarService implements Resolve<any>
                         this.events = [];
                     }
                     else if ((this.userRole.includes("ENTREPRISE"))) {
-                        if (this.entreprise.programInstance == null) {
+                        if ((this.companyProgramInstances == null) || (this.companyProgramInstances.length == 0)){
                             this.events = [];
                         }
                         else {
                             this.events = this.events.filter(_event => {
                                 if ((_event.session != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance != null) && (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.validated == true)) {
-                                    if (_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == this.entreprise.programInstance.id) {
-                                        //console.log("user trainer");
+                                    if (this.companyProgramInstancesId.includes(_event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id)) {
                                         return true;
                                     }
+
                                 }
                                 else {
                                     if (_event.freeDay == true) {
-                                       
+
                                         return true;
                                     }
                                 }
@@ -226,23 +244,68 @@ export class CalendarService implements Resolve<any>
                             }
                             else {
                                 if (_event.freeDay == true) {
-                                   
+
                                     return true;
                                 }
                             }
                             return false;
                         });
-                     
+
                     }
                     else {
                         this.events = [];
                     }
-                    console.log("GET EVENTS");
-                    console.log(this.events);
+                    
                     this.onEventsUpdated.next(this.events);
                     resolve(this.events);
                 }, reject);
         });
+    }
+
+    getProgramInstanceByParticipantId(id): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'participantRegistrations/programInstance/validated/participant/' + id)
+                .subscribe((response: any) => {
+
+
+                    this.programInstances = response;
+                    this.programInstancesId = [];
+                    this.programInstances.forEach(element => {
+                        this.programInstancesId.push(element.id)
+
+                    });
+                    this.onProgramInstanceChanged.next(this.programInstances);
+                   
+                    resolve(this.programInstances);
+                }, reject);
+        }
+        );
+
+    }
+
+    getProgramInstanceByCompanyId(id): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'companyRegistrations/programInstance/enterprise/' + id)
+                .subscribe((response: any) => {
+
+
+                    this.companyProgramInstances = response;
+                    this.companyProgramInstancesId = [];
+                    this.companyProgramInstances.forEach(element => {
+                        this.companyProgramInstancesId.push(element.id)
+
+                    });
+                    this.onCompanyProgramInstanceChanged.next(this.companyProgramInstances);
+             
+                    resolve(this.companyProgramInstances);
+                }, reject);
+        }
+        );
+
     }
 
     getTrainerById(id): Promise<any> {
@@ -267,8 +330,7 @@ export class CalendarService implements Resolve<any>
 
             this._httpClient.put(AUTH_API + 'event', event)
                 .subscribe(response => {
-                    console.log("update methode");
-                    console.log(event);
+             
                     this.getEvents();
                     resolve(response);
                 });
@@ -281,7 +343,7 @@ export class CalendarService implements Resolve<any>
             this._httpClient.post(AUTH_API + 'event', event)
                 .subscribe(response => {
 
-                    console.log(event);
+                   
                     this.getEvents();
                     resolve(response);
                 });
@@ -293,8 +355,6 @@ export class CalendarService implements Resolve<any>
 
             this._httpClient.post(AUTH_API + 'event/freeDay', event)
                 .subscribe(response => {
-
-                    console.log(event);
 
                     resolve(response);
                     this.getEvents();

@@ -8,9 +8,9 @@ import { catchError } from 'rxjs/operators';
 
 import { CourseSession } from 'app/main/apps/disponibility-trainer/courseSession.model';
 import { Contact } from 'app/main/apps/trainer/trainer.model';
-import {environment} from 'environments/environment';
+import { environment } from 'environments/environment';
 
-const AUTH_API = environment.backend_url+ 'api/';
+const AUTH_API = environment.backend_url + 'api/';
 
 @Injectable()
 export class AllSessionsService implements Resolve<any>
@@ -46,7 +46,7 @@ export class AllSessionsService implements Resolve<any>
     courseId: any;
     searchText: string;
     filterBy: any;
-    session:any;
+    session: any;
 
 
     /**
@@ -155,7 +155,40 @@ export class AllSessionsService implements Resolve<any>
                     this.onSpecificCourseSessionsChanged.next(this.contacts);
 
                     resolve(this.contacts);
-                  
+
+                }, reject);
+        }
+        );
+    }
+
+    getSessionsByProgramInstanceId(programInstanceId): Promise<any> {
+        /* console.log(this._httpClient.get<any[]>(AUTH_API + 'courseSession'));
+         return this._httpClient.get<any[]>(AUTH_API + 'courseSession')
+         .pipe(catchError(this.processHTTPMsgService.handleError));*/
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'session')
+                .subscribe((response: any) => {
+
+                    console.log(response);
+                    this.contacts=[];
+                    this.contacts = response;
+                    this.contacts = this.contacts.filter(_courseSession => {
+                        if (_courseSession.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == programInstanceId) {
+
+                            return true;
+                        }
+                        return false;
+                    });
+
+
+
+
+
+                    this.onSpecificCourseSessionsChanged.next(this.contacts);
+
+                    resolve(this.contacts);
+
                 }, reject);
         }
         );

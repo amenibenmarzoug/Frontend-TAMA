@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
@@ -27,6 +27,7 @@ export class ClasseParticipantsComponent implements OnInit, OnDestroy {
     dialogRef: any;
     hasSelectedContacts: boolean;
     searchInput: FormControl;
+    dialogTitle:string
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -41,11 +42,15 @@ export class ClasseParticipantsComponent implements OnInit, OnDestroy {
     constructor(
         private _participantsService: ClasseParticipantsService,
         private _fuseSidebarService: FuseSidebarService,
+        @Inject(MAT_DIALOG_DATA) private _data: any,
         private _matDialog: MatDialog,
         private router: Router,
 
     ) {
         // Set the defaults
+        this.dialogTitle=_data.title;
+        console.log("DATA TITLE");
+        console.log(_data)
         this.searchInput = new FormControl('');
 
         // Set the private defaults
