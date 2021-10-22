@@ -10,6 +10,7 @@ import { FuseConfirmDialogComponent } from '../../../../@fuse/components/confirm
 import { AlertDialogComponent } from '../../../../@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import { saveAs } from 'file-saver';
 
 
 import Swal from 'sweetalert2';
@@ -32,7 +33,7 @@ export class AttendanceComponent implements OnInit {
   courseSessionsDispon: any[] = [];
   trainersDispo: any[] = [];
 
-  fileName: String ; 
+  fileName: String;
   /*
   disponibilities: Disponibility[] = [];
   disponibilitiesAdded: Disponibility[] = [];
@@ -43,7 +44,7 @@ export class AttendanceComponent implements OnInit {
   test: boolean;
   // Private
   private _unsubscribeAll: Subject<any>;
-    fileUrl: any;
+  fileUrl: any;
 
   /**
    * Constructor
@@ -53,17 +54,17 @@ export class AttendanceComponent implements OnInit {
    * @param {MatDialog} _matDialog
    */
   constructor(
-      private attendanceService: AttendanceService,
-      private _fuseSidebarService: FuseSidebarService,
-      private _matDialog: MatDialog,
-      private sanitizer: DomSanitizer
+    private attendanceService: AttendanceService,
+    private _fuseSidebarService: FuseSidebarService,
+    private _matDialog: MatDialog,
+    private sanitizer: DomSanitizer
   ) {
-      // Set the defaults
-      this.fileName="file1.txt"
-      this.searchInput = new FormControl('');
+    // Set the defaults
+   // this.fileName = "liste_presence.pdf";
+    this.searchInput = new FormControl('');
 
-      // Set the private defaults
-      this._unsubscribeAll = new Subject();
+    // Set the private defaults
+    this._unsubscribeAll = new Subject();
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -82,23 +83,34 @@ export class AttendanceComponent implements OnInit {
               this.hasSelectedContacts = selectedContacts.length > 0;
           }); */
 
-      this.searchInput.valueChanges
-          .pipe(
-              takeUntil(this._unsubscribeAll),
-              debounceTime(300),
-              distinctUntilChanged()
-          )
-          .subscribe(searchText => {
-              this.attendanceService.onSearchTextChanged.next(searchText);
-          });
+    this.searchInput.valueChanges
+      .pipe(
+        takeUntil(this._unsubscribeAll),
+        debounceTime(300),
+        distinctUntilChanged()
+      )
+      .subscribe(searchText => {
+        this.attendanceService.onSearchTextChanged.next(searchText);
+      });
 
-          
+
   }
 
   printAttendanceList() {
-    const data = 'some text';
-    const blob = new Blob([data], { type: 'application/octet-stream' });
 
+    if (this.attendanceService.session != null) {
+      this.attendanceService.generateReport(this.attendanceService.session.id).then((data) => {
+        console.log("REPORT");
+        console.log(data);
+        //const data = 'some text';
+        this.fileName="liste_presence_"+this.attendanceService.session.sessionName+".pdf"
+        //const blob = new Blob([data], { type: 'application/pdf' });
+        saveAs(data, "liste_presence_"+this.attendanceService.session.sessionName+".pdf")
+        
+        //this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(data));
+
+      });
+    }
     //this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
     //console.log(this.fileUrl)
   }
@@ -109,20 +121,20 @@ export class AttendanceComponent implements OnInit {
    * On destroy
    */
   ngOnDestroy(): void {
-      // Reset the search
+    // Reset the search
     /*  this._allSessionsService.onSearchTextChanged.next('');
       this._allSessionsService.deselectContacts();
       this._allSessionsService.courseId = null;
       this._allSessionsService.trainer = null;
       this._allSessionsService.filterBy = null;
       this._allSessionsService.contacts = [];*/
-      // Unsubscribe from all subscriptions
+    // Unsubscribe from all subscriptions
 
 
-      /*
-      this._allSessionsService.filterBy = null;
-      this._unsubscribeAll.next();
-      this._unsubscribeAll.complete();*/
+    /*
+    this._allSessionsService.filterBy = null;
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();*/
 
   }
 
@@ -136,7 +148,7 @@ export class AttendanceComponent implements OnInit {
    * @param name
    */
   toggleSidebar(name): void {
-      this._fuseSidebarService.getSidebar(name).toggleOpen();
+    this._fuseSidebarService.getSidebar(name).toggleOpen();
   }
 
   ErrorMessage(message): void {
@@ -149,8 +161,8 @@ export class AttendanceComponent implements OnInit {
         //cancelButtonColor: '#d33',
         confirmButtonText: 'Retour'
       }
-  )
-  
+    )
+
   }
 
 }

@@ -111,8 +111,8 @@ export class AttendanceListComponent implements OnInit  {
     this.attendanceService.markAbsent(attendance) ; 
 }
 
-markNotifiedAbsent(attendance){
-    this.attendanceService.markNotifiedAbsent(attendance) ; 
+markJustifiedAbsent(attendance){
+    this.attendanceService.markJustifiedAbsent(attendance) ; 
 }
 
 }

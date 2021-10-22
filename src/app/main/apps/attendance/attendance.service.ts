@@ -179,6 +179,22 @@ export class AttendanceService implements Resolve<any>
         );
     }
 
+    generateReport(sessionId) : Promise<any>
+    {
+        return new Promise((resolve, reject) => {
+                this._httpClient.get(AUTH_API+ 'attendance/generateReport/'+sessionId, {
+                    responseType: 'blob'})
+                    .subscribe((response: any) => {
+                        
+                        console.log("RESPONSE SERVICE");
+                        console.log(response);
+                        resolve(response);
+                    }, reject);
+            }
+        );
+    }
+
+
      /**
      * Get participants
      *
@@ -313,12 +329,12 @@ export class AttendanceService implements Resolve<any>
         });
     }
 
-    markNotifiedAbsent(attendance): Promise<any> {
+    markJustifiedAbsent(attendance): Promise<any> {
         return new Promise((resolve, reject) => {
           
             console.log("attendance IN SERVICE");
             console.log(attendance);
-            this._httpClient.put(AUTH_API+ 'attendance/markNotifiedAbsent', attendance)
+            this._httpClient.put(AUTH_API+ 'attendance/markJustifiedAbsent', attendance)
                 .subscribe(response => {
                     this.getAttendances();
 

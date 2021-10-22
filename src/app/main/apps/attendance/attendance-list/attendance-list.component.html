@@ -47,7 +47,7 @@
                 Absent
             </p>
 
-            <p class="text-truncate font-weight-600"  *ngIf="attendance.attendanceState === 'NOTIFIEDABSENT'"  >
+            <p class="text-truncate font-weight-600"  *ngIf="attendance.attendanceState === 'JUSTIFIEDABSENT'"  >
                 Absent Justifié
             </p>
         </mat-cell>
@@ -59,13 +59,13 @@
             <div fxFlex="row" *ngIf="attendance.attendanceState !='PRESENT' ">
                
                 <button mat-raised-button color="accent" (click)="markPresent(attendance)">
-                   Marquer Présent
+                    Présent
                 </button>
             </div>
             <div fxFlex="row"  *ngIf="attendance.attendanceState =='PRESENT' ">
                
                 <button mat-raised-button color="warn" (click)="markAbsent(attendance)">
-                    Marquer Absent
+                     Absent
                 </button>
             </div>
         </mat-cell>
@@ -73,16 +73,16 @@
     <ng-container matColumnDef="action2">
         <mat-header-cell *matHeaderCellDef  fxShow.gt-xs></mat-header-cell>
         <mat-cell *matCellDef="let attendance" fxHide fxShow.gt-xs>
-            <div fxFlex="row"  *ngIf="attendance.attendanceState !='NOTIFIEDABSENT' ">
+            <div fxFlex="row"  *ngIf="attendance.attendanceState !='JUSTIFIEDABSENT' ">
                 
-                <button mat-raised-button color="primary" (click)="markNotifiedAbsent(attendance)">
-                    Marquer Absent Justifié
+                <button mat-raised-button color="primary" (click)="markJustifiedAbsent(attendance)">
+                     Absent Justifié
                 </button>
             </div>
-            <div fxFlex="row"  *ngIf="attendance.attendanceState =='NOTIFIEDABSENT' ">
+            <div fxFlex="row"  *ngIf="attendance.attendanceState =='JUSTIFIEDABSENT' ">
                 
                 <button mat-raised-button  color="warn"(click)="markAbsent(attendance)">
-                    Marquer Absent
+                     Absent
                 </button>
             </div>
         </mat-cell>
