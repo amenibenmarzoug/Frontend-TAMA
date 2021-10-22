@@ -138,13 +138,14 @@ export class AttendanceService implements Resolve<any>
                     console.log(this.filterByDate);
                     if (this.filterByDate != null) {
                         this.sessions = response;
+                        
                         this.sessions = this.sessions.filter(_session => {
                             const courseBeginDate = new Date(_session.sessionBeginDate)
-                            if (courseBeginDate.getDate() == this.filterByDate.toDate().getDate()) {
-
+                            if (courseBeginDate.toDateString() == this.filterByDate.toDate().toDateString()) {
                                 return true;
                             }
                             return false;
+                            
                         });
                     }
                     console.log("Sessionss")
