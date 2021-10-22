@@ -15,9 +15,9 @@ import { AllSessionsService } from 'app/main/apps/academy/all-sessions/all-sessi
 export class SelectedBarComponent  implements OnInit {
 
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  hasSelectedContacts: boolean;
+  hasSelectedSessions: boolean;
   isIndeterminate: boolean;
-  selectedContacts: string[];
+  selectedSessions: string[];
 
 
   // Private
@@ -26,11 +26,11 @@ export class SelectedBarComponent  implements OnInit {
   /**
    * Constructor
    *
-   * @param {DisponibilityTrainerService} _disponibilityTrainerService
+   * @param {AllSessionsService} _allSessionsService
    * @param {MatDialog} _matDialog
    */
   constructor(
-    private _disponibilityTrainerService: AllSessionsService,
+    private _allSessionsService: AllSessionsService,
     public _matDialog: MatDialog
   ) {
     // Set the private defaults
@@ -46,13 +46,13 @@ export class SelectedBarComponent  implements OnInit {
    */
   ngOnInit(): void {
     
-    this._disponibilityTrainerService.onSelectedContactsChanged
+    this._allSessionsService.onSelectedSessionsChanged
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe(selectedContacts => {
-        this.selectedContacts = selectedContacts;
+      .subscribe(selectedSessions => {
+        this.selectedSessions = selectedSessions;
         setTimeout(() => {
-          this.hasSelectedContacts = selectedContacts.length > 0;
-          this.isIndeterminate = (selectedContacts.length !== this._disponibilityTrainerService.contacts.length && selectedContacts.length > 0);
+          this.hasSelectedSessions = selectedSessions.length > 0;
+          this.isIndeterminate = (selectedSessions.length !== this._allSessionsService.sessions.length && selectedSessions.length > 0);
         }, 0);
       });
   }
@@ -73,34 +73,17 @@ export class SelectedBarComponent  implements OnInit {
   /**
    * Select all
    */
-  selectAll(): void {
+/*  selectAll(): void {
     this._disponibilityTrainerService.selectContacts();
-  }
+  }*/
 
   /**
    * Deselect all
    */
-  deselectAll(): void {
+  /*deselectAll(): void {
     
     this._disponibilityTrainerService.deselectContacts();
-  }
+  }*/
 
-  /**
-   * Delete selected contacts
-   */
-  deleteSelectedContacts(): void {
-    this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
-      disableClose: false
-    });
-
-    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete all selected contacts?';
-
-    this.confirmDialogRef.afterClosed()
-      .subscribe(result => {
-        if (result) {
-          this._disponibilityTrainerService.deleteSelectedContacts();
-        }
-        this.confirmDialogRef = null;
-      });
-  }
+ 
 }

@@ -1,4 +1,4 @@
-<mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}">
+<mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}" >
     <!-- Checkbox Column -->
     <ng-container matColumnDef="checkbox">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
@@ -9,17 +9,24 @@
         </mat-cell>
     </ng-container>
     <ng-container matColumnDef="number">
-        <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-        <mat-cell *matCellDef="let participant; let i = index;" class="row">
-            <p class="text-truncate">{{i+1}}</p>
+        <mat-header-cell *matHeaderCellDef class="number-cell"  fxFlex="none"  fxLayoutAlign="center center"> No. </mat-header-cell>
+        <mat-cell *matCellDef="let participant; let i = index;" fxFlex="none" class="number-cell"  fxLayoutAlign="center center" >
+            <p >{{i+1}}</p>
         </mat-cell>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef> Nom et Prénom </mat-header-cell>
-        <mat-cell *matCellDef="let participant">
-            <p class="text-truncate font-weight-600">{{participant.firstNameP}} {{participant.lastNameP}}</p>
+        <mat-header-cell *matHeaderCellDef fxLayoutAlign="center center"  fxFlex="20" > Nom et Prénom </mat-header-cell>
+        <mat-cell *matCellDef="let participant" fxLayoutAlign="center center" fxFlex="20">
+            <p class="font-weight-600">{{participant.firstNameP}} {{participant.lastNameP}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="position"  >
+        <mat-header-cell *matHeaderCellDef fxLayoutAlign="center center" fxFlex="20"> Position </mat-header-cell>
+        <mat-cell *matCellDef="let participant" fxLayoutAlign="center center" fxFlex="20">
+            <p class="font-weight-600"  >{{participant.currentPosition}} </p>
         </mat-cell>
     </ng-container>
 
@@ -42,9 +49,9 @@
 
     <!-- Professional Experience Column -->
     <ng-container matColumnDef="experience">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>ExpériencePro. </mat-header-cell>
-        <mat-cell *matCellDef="let participant" fxHide fxShow.gt-md>
-            <p class="phone text-truncate">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md fxLayoutAlign="center center">Exp.Pro. </mat-header-cell>
+        <mat-cell *matCellDef="let participant" fxHide fxShow.gt-md fxLayoutAlign="center center">
+            <p  >
                 {{participant.experience}}
             </p>
         </mat-cell>
@@ -53,12 +60,12 @@
 
     <!-- Company Column -->
     <ng-container matColumnDef="company">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Entreprise</mat-header-cell>
-        <mat-cell *matCellDef="let participant" fxHide fxShow.gt-md>
-            <p *ngIf="participant.entreprise!=null" class="company text-truncate">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md fxLayoutAlign="center center"  fxFlex="20">Entreprise</mat-header-cell>
+        <mat-cell *matCellDef="let participant" fxHide fxShow.gt-md fxLayoutAlign="center center"  fxFlex="20"> 
+            <p *ngIf="participant.entreprise!=null" class="company ">
                 {{participant.entreprise.enterpriseName}}
             </p>
-            <p *ngIf="participant.entreprise==null" class="company text-truncate">
+            <p *ngIf="participant.entreprise==null" class="company ">
                 aucune
             </p>
         </mat-cell>
@@ -66,14 +73,22 @@
 
 
     <ng-container matColumnDef="level">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Niveau Management</mat-header-cell>
-        <mat-cell *matCellDef="let participant" fxHide fxShow.gt-md>
-            <p class="company text-truncate">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md fxLayoutAlign="center center">Niv Mgt</mat-header-cell>
+        <mat-cell *matCellDef="let participant" fxHide fxShow.gt-md fxLayoutAlign="center center">
+            <p class="company">
                 {{participant.level}}
             </p>
         </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="education">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md fxLayoutAlign="center center"  fxFlex="18">Niv Edu</mat-header-cell>
+        <mat-cell *matCellDef="let participant" fxHide fxShow.gt-md fxLayoutAlign="center center"  fxFlex="18">
+            <p class="company">
+                {{participant.educationLevel}}
+            </p>
+        </mat-cell>
+    </ng-container>
  <!-- Action Column -->
  <ng-container matColumnDef="action">
     <mat-header-cell *matHeaderCellDef  fxShow.gt-xs>Action</mat-header-cell>
