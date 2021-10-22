@@ -9,18 +9,17 @@ import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
-import {ThemeDetailFormComponent} from '../themeDetail/theme-detail-form/theme-detail-form.component';
+import { ThemeDetailFormComponent } from '../themeDetail/theme-detail-form/theme-detail-form.component';
 import { ProgramDetailsService } from '../../programDetails.service';
 import Swal from 'sweetalert2';
 @Component({
-    selector     : 'themeDetail',
-    templateUrl  : './themeDetail.component.html',
-    styleUrls    : ['./themeDetail.component.scss'],
+    selector: 'themeDetail',
+    templateUrl: './themeDetail.component.html',
+    styleUrls: ['./themeDetail.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations
 })
-export class ThemeDetailComponent implements OnInit, OnDestroy
-{
+export class ThemeDetailComponent implements OnInit, OnDestroy {
     dialogRef: any;
     hasSelectedThemeDetails: boolean;
     searchInput: FormControl;
@@ -32,7 +31,7 @@ export class ThemeDetailComponent implements OnInit, OnDestroy
     alertDialog: MatDialogRef<AlertDialogComponent>;
     themeDetail: any;
 
-    actualDaysNumberAffected : number ; 
+    actualDaysNumberAffected: number;
 
     /**
      * Constructor
@@ -95,7 +94,7 @@ export class ThemeDetailComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
 
     addNewThemeDetail(): void {
-        if ((this._themeDetailsService.module == null )) {
+        if ((this._themeDetailsService.module == null)) {
             console.log(this._themeDetailsService.module);
             //this.addThemeDetailAlert("Veuillez choisir un Module");
             this.ErrorMessage("Veuillez choisir un Module");
@@ -179,15 +178,15 @@ export class ThemeDetailComponent implements OnInit, OnDestroy
 
     ErrorMessage(message): void {
         Swal.fire(
-          {
-            title: message,
-            icon: 'error',
-            showCancelButton: false,
-            confirmButtonColor: '#38a9ff',
-            //cancelButtonColor: '#d33',
-            confirmButtonText: 'Retour'
-          }
-      )
-      
-      }
+            {
+                title: message,
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonColor: '#38a9ff',
+                //cancelButtonColor: '#d33',
+                confirmButtonText: 'Retour'
+            }
+        )
+
+    }
 }

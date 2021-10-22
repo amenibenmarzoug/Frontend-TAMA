@@ -8,13 +8,18 @@ import { fuseAnimations } from '../../../../@fuse/animations';
 import { FuseSidebarService } from '../../../../@fuse/components/sidebar/sidebar.service';
 import { FuseConfirmDialogComponent } from '../../../../@fuse/components/confirm-dialog/confirm-dialog.component';
 import { AlertDialogComponent } from '../../../../@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
+import { DomSanitizer } from '@angular/platform-browser';
+
 
 
 import Swal from 'sweetalert2';
+import { AttendanceService } from './attendance.service';
 @Component({
   selector: 'app-attendance',
   templateUrl: './attendance.component.html',
-  styleUrls: ['./attendance.component.scss']
+  styleUrls: ['./attendance.component.scss'],
+
+  animations: fuseAnimations
 })
 export class AttendanceComponent implements OnInit {
 
@@ -26,6 +31,8 @@ export class AttendanceComponent implements OnInit {
   courseSessions: any[] = [];
   courseSessionsDispon: any[] = [];
   trainersDispo: any[] = [];
+
+  fileName: String ; 
   /*
   disponibilities: Disponibility[] = [];
   disponibilitiesAdded: Disponibility[] = [];
@@ -36,6 +43,7 @@ export class AttendanceComponent implements OnInit {
   test: boolean;
   // Private
   private _unsubscribeAll: Subject<any>;
+    fileUrl: any;
 
   /**
    * Constructor
@@ -45,11 +53,13 @@ export class AttendanceComponent implements OnInit {
    * @param {MatDialog} _matDialog
    */
   constructor(
-      //private _allSessionsService: AllSessionsService,
+      private attendanceService: AttendanceService,
       private _fuseSidebarService: FuseSidebarService,
-      private _matDialog: MatDialog
+      private _matDialog: MatDialog,
+      private sanitizer: DomSanitizer
   ) {
       // Set the defaults
+      this.fileName="file1.txt"
       this.searchInput = new FormControl('');
 
       // Set the private defaults
@@ -70,7 +80,7 @@ export class AttendanceComponent implements OnInit {
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(selectedContacts => {
               this.hasSelectedContacts = selectedContacts.length > 0;
-          });
+          }); */
 
       this.searchInput.valueChanges
           .pipe(
@@ -79,22 +89,21 @@ export class AttendanceComponent implements OnInit {
               distinctUntilChanged()
           )
           .subscribe(searchText => {
-              this._allSessionsService.onSearchTextChanged.next(searchText);
+              this.attendanceService.onSearchTextChanged.next(searchText);
           });
 
-          */
+          
   }
 
-  bringList(): any {
+  printAttendanceList() {
+    const data = 'some text';
+    const blob = new Blob([data], { type: 'application/octet-stream' });
 
-    /*
-      if ((this._allSessionsService.trainerId == null) || (this._allSessionsService.courseId == null))
-          return false;
-      else
-          return true;
-          */
-
+    //this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+    //console.log(this.fileUrl)
   }
+
+
 
   /**
    * On destroy
@@ -119,171 +128,7 @@ export class AttendanceComponent implements OnInit {
 
   // -----------------------------------------------------------------------------------------------------
   // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
-
-  /**
-   * New contact
-   */
-
-  buttonSee() {
-
-    /*
-      this._allSessionsService.getDisponibilities();
-
-      this._allSessionsService.selectedContacts.forEach(select => {
-          this.selectedContacts.push(select.toString());
-
-      });
-      this.disponibilities = this._allSessionsService.disponibilities;
-      this.disponibilities.forEach(disponibility => {
-          this.courseSessionsDispon.push(disponibility.courseSession);
-          //  this.courseSessions.push(disponibility.courseSession);
-          this.trainersDispo.push(disponibility.trainer);
-
-      });
-
-      if ((this._allSessionsService.trainer == null) || (this._allSessionsService.courseId == null)) {
-          //this.chooseDispo("Veuillez choisir le formateur et la formation");
-          this.ErrorMessage("Veuillez choisir le formateur et la formation");
-      }
-      else {
-          if (this.selectedContacts.length == 0) {
-              //this.chooseDispo("Veuillez choisir la/les disponibilité(s)");
-              this.ErrorMessage("Veuillez choisir la/les disponibilité(s)");
-          }
-          else {
-              //Adding Trainer's Disponibilities
-              console.log(this.disponibilities);
-
-              this._allSessionsService.contacts.forEach(courseSession => {
-                  this.test = false;
-                  console.log("selected dispo in for");
-                  console.log(this.selectedContacts);
-                  if (this.disponibilities.length != 0) {
-                      if (this.selectedContacts.includes(courseSession.id.toString())) {
-                          if ((!this.courseSessions.includes(courseSession))) {// || (this.courseSessions.length == 0)) {
-                              this.disponibility = new Disponibility(this._allSessionsService.trainer, courseSession);
-                              console.log("avant dispo button");
-                              console.log(this.disponibilities);
-
-                              for (let i = 0; i < this.disponibilities.length; i++) {
-                                  console.log(courseSession.id + " " + this._allSessionsService.trainer.id);
-                                  console.log(this.courseSessionsDispon[i].id + " " + this.trainersDispo[i].id);
-                                  if ((this.courseSessionsDispon[i].id.toString() == courseSession.id.toString()) && (this.trainersDispo[i].id.toString() == this._allSessionsService.trainer.id.toString())) {
-                                      console.log("IN DISPONIBILITIES!!!");
-                                      this.courseSessions = [];
-                                      this.disponibilitiesAdded = [];
-                                      this.test = true;
-                                      break;
-                                      //this.existingDispo();
-                                  }
-                                  else {
-                                      if (!this.courseSessions.includes(courseSession)) {
-                                          this.courseSessions.push(courseSession);
-                                          this.disponibilitiesAdded.push(this.disponibility);
-                                          console.log("not in disponibilities");
-                                          continue;
-                                      }
-                                      //this.disponibilities.push(this.disponibility);
-                                      // this.confirmDispo(this.disponibility);
-                                      //this.courseSessions.push(courseSession);
-
-                                      //console.log("dispo button");
-                                      //console.log(this.disponibilities);
-                                  }
-                              }
-
-
-
-                              console.log(this.courseSessionsDispon);
-                              console.log(this.trainersDispo);
-
-
-
-                          }
-                      }
-                  } else {
-                      this.disponibility = new Disponibility(this._allSessionsService.trainer, courseSession);
-                      this.disponibilitiesAdded.push(this.disponibility);
-                  }
-
-              });
-
-              console.log("coursesessions included");
-              console.log(this.disponibilitiesAdded);
-              if (this.disponibilitiesAdded.length == 0)
-                  this.existingDispo();
-              else
-                  this.confirmDispo(this.disponibilitiesAdded);
-          }
-      }
-      this.courseSessions = [];
-      this.disponibilities = [];
-      this.selectedContacts = [];
-      this.courseSessionsDispon = [];
-      this.trainersDispo = [];
-      this.disponibilitiesAdded = [];
-      this._allSessionsService.getDisponibilities();
-      // this._allSessionsService.selectedContacts=[];
-*/
-  }
-
-
-  existingDispo(): void {
-      this.alertDialog = this._matDialog.open(AlertDialogComponent, {
-          disableClose: false
-      });
-
-      this.alertDialog.componentInstance.dialogMessage = 'Vous avez déjà choisi ces dates';
-
-      this.alertDialog.afterClosed().subscribe(result => {
-          if (result) {
-              console.log("selectionner");
-
-          }
-          this.alertDialog = null;
-      });
-  }
-
-  chooseDispo(message): void {
-      this.alertDialog = this._matDialog.open(AlertDialogComponent, {
-          disableClose: false
-      });
-
-      this.alertDialog.componentInstance.dialogMessage = message;
-
-      this.alertDialog.afterClosed().subscribe(result => {
-          if (result) {
-              console.log("selectionner format");
-
-          }
-          this.alertDialog = null;
-      });
-  }
-
-  confirmDispo(disponibilities): void {
-    /*
-      this._allSessionsService.getDisponibilities();
-      this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
-          disableClose: false
-      });
-
-      this.confirmDialogRef.componentInstance.confirmMessage = 'Voulez vous enregistrer votre disponibilité ?';
-
-      this.confirmDialogRef.afterClosed().subscribe(result => {
-          if (result) {
-              console.log("ajouter dispo");
-              disponibilities.forEach(disponibility => {
-                  this._allSessionsService.saveDisponibility(disponibility);
-              });
-
-
-          }
-          this.confirmDialogRef = null;
-      });
-      */
-
-  }
+  // ----------------------------------------------------------------------------------------------------
 
   /**
    * Toggle the sidebar

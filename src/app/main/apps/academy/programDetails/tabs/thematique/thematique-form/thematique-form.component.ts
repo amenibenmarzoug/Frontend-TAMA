@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Thematique } from '../thematique.model';
+import { Theme } from 'app/shared/models/theme.model';
 import { ProgramDetailsService } from '../../../programDetails.service';
 import { Subject } from 'rxjs';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
@@ -16,7 +16,7 @@ import Swal from 'sweetalert2';
 export class ThematiqueFormComponent implements OnInit {
   action: string;
 
-  theme: Thematique;
+  theme: Theme;
   themeForm: FormGroup;
   dialogTitle: string;
   programs: any[];
@@ -48,7 +48,7 @@ export class ThematiqueFormComponent implements OnInit {
     else {
 
       this.dialogTitle = 'Nouveau Thème';
-      this.theme = new Thematique({});
+      this.theme = new Theme({});
 
     }
     this.themeForm = this.createThemeForm();
@@ -82,7 +82,6 @@ export class ThematiqueFormComponent implements OnInit {
     console.log("this.theme.nbDaysTheme"); console.log(this.theme.nbDaysTheme)
     if (this.actualDaysNumberAffected > this.programTotalDaysNumber) {
       this.ErrorMessage("Vous avez dépassé le nombre des jours du Programme")
-     //this.addThematiqueAlert("Vous avez dépassé le nombre des jours du Programme");
       console.log(`Exceeded`);
 
       //return; 
@@ -94,15 +93,15 @@ export class ThematiqueFormComponent implements OnInit {
   }
 
   closeEditThemeForm(message) {
-    
+
     this.programTotalDaysNumber = this._programDetailsService.program.nbDaysProg;
     this.oldDaysAffectedValue = this._programDetailsService.oldDaysAffectedNumber
 
-    console.log("this.oldDaysAffectedValue in the close"); 
+    console.log("this.oldDaysAffectedValue in the close");
     console.log(this.oldDaysAffectedValue);
 
     this.actualDaysNumberAffected = this._programDetailsService.actualDaysNumberAffected - this.oldDaysAffectedValue + Number(this.themeForm.value.nbDaysTheme);
-   
+
     // case where the modified days number exceeded the limit
     if (this.actualDaysNumberAffected > this.programTotalDaysNumber) {
 
@@ -140,8 +139,8 @@ export class ThematiqueFormComponent implements OnInit {
         //cancelButtonColor: '#d33',
         confirmButtonText: 'Retour'
       }
-  )
-  
+    )
+
   }
 
 

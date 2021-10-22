@@ -206,61 +206,7 @@ entreprise : any ;
             console.log(`DDETECCTED`); 
        
     }
- /*   editCourse(course): void
-    {
-        console.log("eni fel ediiitdialog");
-        this.dialogRef = this.dialog.open(CursusFormComponent, {
-            panelClass: 'cursus-form-dialog',
-            data      : {
-                course:course,
-                action : 'edit'
-            }
-            
-        })
-        //console.log(Action);
-
-        this.dialogRef.afterClosed()
-            .subscribe(response => {
-                if ( !response )
-                {
-                    return;
-                }
-                const actionType: string = response[0];
-                const formData: FormGroup = response[1];
-                console.log("action edit");
-                console.log(actionType);
-                switch ( actionType )
-                {
-                    /**
-                     * Save
-                     */
-              /*     case 'save':
-
-                        this._academyCoursesService.updateCourse1(formData.getRawValue());
-                        console.log("saaaaaaaaaaaaave");
-                        console.log(course.id);
-                        console.log("response");
-                        console.log(response);
-
-                        console.log("form data");
-                        console.log(formData.getRawValue());
-
-
-                        break;
-                    /**
-                     * Delete
-                     */
-                /*   case 'delete':
-                         console.log(course.id);
-
-
-                       this.deleteCursus(course.id);
-                       console.log("deleeeeeeeeeeeete");
-
-                        break;
-                }
-            });
-    }*/
+ 
 
    /**
      * Edit contact

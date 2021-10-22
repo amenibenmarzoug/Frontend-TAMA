@@ -1,6 +1,6 @@
 @import "src/@fuse/scss/fuse";
 
-contacts-contact-list {
+app-attendance-list {
     display: flex;
     flex: 1 1 auto;
     width: 100%;
@@ -12,7 +12,7 @@ contacts-contact-list {
 
         .mat-column-checkbox {
             flex: 0 1 64px;
-            padding-left: 18px;
+            padding-right: 18px;
         }
 
         .mat-column-avatar {
@@ -22,11 +22,15 @@ contacts-contact-list {
         .mat-column-buttons {
             flex: 0 1 80px;
         }
+        .mat-column-action2 {
+            //flex: 0 1 64px;
+            padding-right: 50px;
+        }
 
         .mat-row {
             position: relative;
             cursor: pointer;
-            padding: 8px;
+            padding: 2px;
 
             .mat-cell {
                 min-width: 0;
@@ -56,4 +60,19 @@ contacts-contact-list {
         top: calc(100vh - 120px);
         bottom: auto;
     }
+}
+
+.present{
+    background-color :rgb(130, 59, 192)
+}
+
+.mark-present-button {
+    background-color: accent;
+} 
+.mark-absent-button {
+    background-color: rgb(235, 159, 159);
+} 
+.mark-justified-absent-button {
+    background-color: rgb(235, 230, 159);
+
 }

@@ -8,11 +8,13 @@ import { takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 
-import { AllSessionsService } from 'app/main/apps/academy/all-sessions/all-sessions.service';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { Router } from '@angular/router';
 import { AttendanceService } from 'app/main/apps/attendance/attendance.service';
+import { DateAdapter } from '@angular/material/core';
+
+registerLocaleData(localeFr, 'fr');
 
 
 @Component({
@@ -27,17 +29,17 @@ export class AttendanceListComponent implements OnInit  {
   @ViewChild('dialogContent')
   dialogContent: TemplateRef<any>;
   courseSessions: any[] = [];
-  contacts: any[];
   user: any;
   dataSource: FilesDataSource | null;
-  displayedColumns = ['seance', 'date', 'time', 'timeFin', 'institution', 'buttons'];
+  displayedColumns = ['date', 'participant', 'attendanceState', 'action1', 'action2'];
   selectedContacts: any[];
   coursesId: any[] = [];
   checkboxes: {};
   places: {};
   dialogRef: any;
-  //session: Session;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+
+  attendances: any[] ; 
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -45,18 +47,18 @@ export class AttendanceListComponent implements OnInit  {
   /**
    * Constructor
    *
-   * @param {AllSessionsService} _allSessionsService
+   * @param {AttendanceService} attendanceService
    * @param {MatDialog} _matDialog
    */
   constructor(
-    /*
-      private _allSessionsService: AllSessionsService,
-      private editService: EditSessionService,
+    
+      private attendanceService: AttendanceService,
       public _matDialog: MatDialog,
-      private router: Router,
-      */
+      private dateAdapter: DateAdapter<Date>
+      
   ) {
       // Set the private defaults
+      this.dateAdapter.setLocale('fr');
       this._unsubscribeAll = new Subject();
   }
 
@@ -68,82 +70,17 @@ export class AttendanceListComponent implements OnInit  {
    * On init
    */
   ngOnInit(): void {
-      //this.dataSource = new FilesDataSource(this._allSessionsService);
-     /* this.dataSource = null;
-      this._allSessionsService.onSpecificCourseSessionsChanged
+      this.dataSource = new FilesDataSource(this.attendanceService);
+      this.attendanceService.onAttendancesChanged
           .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(contacts => {
-
-              this.contacts = contacts;
-
-
+          .subscribe(attendances => {
+              this.attendances = attendances;
               this.checkboxes = {};
-              this.places = {};
-              this.contacts.map(contact => {
-                  this.checkboxes[contact.id] = false;
-                  let pl = JSON.parse(contact.themeDetailInstance.moduleInstance.themeInstance.programInstance.place);
-                  console.log(pl)
-                  if (pl != null) {
-                      this.places[contact.id] = pl.name;
-                  }
 
-              });
-          });
-      console.log("PLACES");
-      console.log(this.places);
-      this.dataSource = new FilesDataSource(this._allSessionsService);
-
-      this._allSessionsService.onSpecificCourseSessionsChanged.subscribe(contacts => {
-
-          this.contacts = contacts;
-
-
-
-          this.contacts.map(contact => {
-              let pl = JSON.parse(contact.themeDetailInstance.moduleInstance.themeInstance.programInstance.place);
-              console.log(pl)
-              if (pl != null) {
-                  this.places[contact.id] = pl.name;
-                  console.log("PLACES");
-                  console.log(this.places);
-              }
-
-          });
-      });
-
-
-      this._allSessionsService.onSelectedContactsChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(selectedContacts => {
-              for (const id in this.checkboxes) {
-                  if (!this.checkboxes.hasOwnProperty(id)) {
-                      continue;
-                  }
-
-
-                  this.checkboxes[id] = selectedContacts.includes(id.toString());
-
-              }
-              this.selectedContacts = selectedContacts;
-              // this.checkboxes={};
-
-              console.log(this.selectedContacts);
-          });
-
-
-
-      this._allSessionsService.onUserDataChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(user => {
-              this.user = user;
-          });
-
-      this._allSessionsService.onFilterChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(() => {
-              this._allSessionsService.deselectContacts();
-          });
-          */
+              this.attendances.map(attendance => {
+                  this.checkboxes[attendance.id] = false;
+              });  
+          });     
   }
 
 
@@ -166,36 +103,17 @@ export class AttendanceListComponent implements OnInit  {
    * @param contact
    */
 
-
-  /**
-   * On selected change
-   *
-   * @param contactId
-   */
-  onSelectedChange(contactId): void {
-    /*
-      this._allSessionsService.toggleSelectedContact(contactId);
-      */
+  markPresent(attendance){
+      this.attendanceService.markPresent(attendance) ; 
   }
 
-  goToSession(id) {
-     
-    /*this.router.navigate(['/apps/academy/editSession', id]);
-      console.log("SESSION id" + id);
-      this.editService.getSessionsById(id);
-      //this.session=new Session(this.editService.session);
+  markAbsent(attendance){
+    this.attendanceService.markAbsent(attendance) ; 
+}
 
-      this.editService.getSessionsById(id).then(() => {
-          this.session = new Session(this.editService.session);
-          console.log("SESSION IN ALL");
-          console.log(this.session);
-          localStorage.setItem('sessionId', id);
-          localStorage.setItem('session', JSON.stringify(this.session));
-      });
-
-      */
-
-  }
+markNotifiedAbsent(attendance){
+    this.attendanceService.markNotifiedAbsent(attendance) ; 
+}
 
 }
 
@@ -204,10 +122,10 @@ export class FilesDataSource extends DataSource<any>
   /**
    * Constructor
    *
-   * @param {DisponibilityTrainerService} _allSessionsService
+   * @param {DisponibilityTrainerService} attendanceService
    */
   constructor(
-      private _allSessionsService: AllSessionsService
+      private attendanceService: AttendanceService
   ) {
       super();
   }
@@ -217,7 +135,8 @@ export class FilesDataSource extends DataSource<any>
    * @returns {Observable<any[]>}
    */
   connect(): Observable<any[]> {
-      return this._allSessionsService.onSpecificCourseSessionsChanged;
+      console.log(this.attendanceService.onAttendancesChanged)
+      return this.attendanceService.onAttendancesChanged;
   }
 
   /**

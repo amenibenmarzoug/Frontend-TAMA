@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
-import { Module } from '../programDetails/tabs/module/module.model';
+import { Module } from 'app/shared/models/module.model';
 import { FuseUtils } from '@fuse/utils';
-import { ThemeDetail } from '../programDetails/tabs/themeDetail/theme-detail.model';
+import { ThemeDetail } from 'app/shared/models/themeDetail.model';
 import { Program } from '../program.model';
-import { Thematique } from '../programDetails/tabs/thematique/thematique.model';
+import { Theme } from 'app/shared/models/theme.model';
 import{ThematiqueInst} from '../program-inst-detail/tabs/thematique-inst/thematiqueInst.model';
 import{ModuleInst} from '../program-inst-detail/tabs/module-inst/moduleInst.model';
 import{ThemeDetailInst} from '../program-inst-detail/tabs/theme-detail-inst/themeDetailsInst.model';
@@ -22,7 +22,7 @@ export class ProgramInstDetailService {
     theme:any;
     module:any;
     modules: Module[];
-    themes: Thematique[];
+    themes: Theme[];
     programInst:any;
     themeInstId: any;
     moduleId:any;
@@ -75,7 +75,7 @@ export class ProgramInstDetailService {
     modulesOfTheme : Module[];
     moduleClasse: ModuleInst;
     program:any;
-    themesOfProgram : Thematique[];
+    themesOfProgram : Theme[];
     /**
      * Constructor
      *

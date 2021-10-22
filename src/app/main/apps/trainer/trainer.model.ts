@@ -8,10 +8,9 @@ export class Contact
     avatar: string;
     specifications: string[];
     email: string;
-    password : string;
     phoneNumber: string;
     gender: string;
-    //address: string;
+    //addres: string;
     street: string;
     city: string;
     postalCode: string
@@ -32,7 +31,6 @@ export class Contact
             this.avatar = 'assets/images/avatars/profile.jpg';
             this.specifications = contact.specifications || '';
             this.email = contact.email || '';
-            this.password = contact.password ;
             this.phoneNumber = contact.phoneNumber || '';
             this.validated = contact.validated || '';
             this.gender = contact.gender || '';

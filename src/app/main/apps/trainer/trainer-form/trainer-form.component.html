@@ -8,7 +8,7 @@
         </mat-toolbar-row>
 
         <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
-            <img [src]="contact.avatar" class="avatar contact-avatar huge m-0" [alt]="contact.firstName" />
+         
             <div class="contact-name mt-8">{{contact.firstName}} {{contact.lastName}}</div>
         </mat-toolbar-row>
     </mat-toolbar>
@@ -140,11 +140,11 @@
             </div>
             <div fxLayout="row" fxLayoutAlign="start center">
 
-                <mat-form-field  appearance="outline" fxFlex>
+                <mat-form-field  appearance="outline" fxFlex >
                     <mat-label >Jours de disponibilité</mat-label>
                     <mat-select multiple=""  [(value)]="contact.disponibilityDays"  (selectionChange)="changeFilter(contact)" formControlname="disponibilityDays" required>
                        
-                        <mat-option *ngFor="let day of days" [value]="day.day">
+                        <mat-option *ngFor="let day of days" [value]="day.day" >
                           {{day.day}}
                         </mat-option>
                     </mat-select>

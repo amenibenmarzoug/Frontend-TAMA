@@ -20,7 +20,6 @@ import { CommonModule } from '@angular/common';
 
 import { AttendanceComponent } from './attendance.component';
 import { AttendanceListComponent } from './attendance-list/attendance-list.component';
-import { SelectedBarComponent } from './selected-bar/selected-bar.component';
 import { SidebarsComponent } from './sidebars/sidebars.component';
 import { MatSelectModule } from '@angular/material/select';
 
@@ -37,7 +36,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AttendanceComponent, AttendanceListComponent, SelectedBarComponent, SidebarsComponent],
+  declarations: [AttendanceComponent, AttendanceListComponent,  SidebarsComponent],
   imports: [
     RouterModule.forChild(routes),
 

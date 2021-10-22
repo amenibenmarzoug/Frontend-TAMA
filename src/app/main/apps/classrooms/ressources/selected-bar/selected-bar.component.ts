@@ -16,9 +16,9 @@ import { RessourcesService } from '../ressources.service';
 export class SelectedBarComponent implements OnInit, OnDestroy
 {
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-    hasSelectedContacts: boolean;
+    hasSelectedEquipments: boolean;
     isIndeterminate: boolean;
-    selectedContacts: string[];
+    selectedEquipments: string[];
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -47,13 +47,13 @@ export class SelectedBarComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        this._ressourcesService.onSelectedContactsChanged
+        this._ressourcesService.onSelectedEquipmentsChanged
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(selectedContacts => {
-                this.selectedContacts = selectedContacts;
+            .subscribe(selectedEquipments => {
+                this.selectedEquipments = selectedEquipments;
                 setTimeout(() => {
-                    this.hasSelectedContacts = selectedContacts.length > 0;
-                    this.isIndeterminate = (selectedContacts.length !== this._ressourcesService.contacts.length && selectedContacts.length > 0);
+                    this.hasSelectedEquipments = selectedEquipments.length > 0;
+                    this.isIndeterminate = (selectedEquipments.length !== this._ressourcesService.equipments.length && selectedEquipments.length > 0);
                 }, 0);
             });
     }
@@ -77,7 +77,7 @@ export class SelectedBarComponent implements OnInit, OnDestroy
      */
     selectAll(): void
     {
-        this._ressourcesService.selectContacts();
+        this._ressourcesService.selectEquipment();
     }
 
     /**
@@ -85,25 +85,25 @@ export class SelectedBarComponent implements OnInit, OnDestroy
      */
     deselectAll(): void
     {
-       this._ressourcesService.deselectContacts();
+       this._ressourcesService.deselectEquipments();
     }
 
     /**
-     * Delete selected contacts
+     * Delete selected equipment
      */
-    deleteSelectedContacts(): void
+    deleteSelectedEquipments(): void
     {
         this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete all selected contacts?';
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete all selected equipments?';
 
         this.confirmDialogRef.afterClosed()
             .subscribe(result => {
                 if ( result )
                 {
-                    this._ressourcesService.deleteSelectedContacts();
+                    this._ressourcesService.deleteSelectedEquipments();
                 }
                 this.confirmDialogRef = null;
             });

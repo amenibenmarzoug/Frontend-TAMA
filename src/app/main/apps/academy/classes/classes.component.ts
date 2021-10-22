@@ -13,12 +13,12 @@ import { Router } from '@angular/router';
 import { ClassesService } from '../../academy/classes.service';
 import { ClassFormComponent } from './class-form/class-form.component';
 import { ModuleInst } from '../program-inst-detail/tabs/module-inst/moduleInst.model';
-import { Module } from '../programDetails/tabs/module/module.model';
 import { ThematiqueInst } from '../program-inst-detail/tabs/thematique-inst/thematiqueInst.model';
 import { ClasseParticipantsService } from './classe-participants/classe-participants.service';
 import { ClasseParticipantsComponent } from './classe-participants/classe-participants.component';
 import { PlaceFormComponent } from './place-form/place-form.component';
 import { ProgramInst } from '../programInst.model';
+import { Module } from 'app/shared/models/module.model';
 
 @Component({
     selector: 'app-classes',
@@ -281,7 +281,7 @@ export class ClassesComponent implements OnInit {
 
 
     listeDesParticipants(programInst): void {
-        this._participantService.classeId = programInst;
+        this._participantService.getParticipantsByProgramInstanceId(programInst);
         this.dialogRef = this.dialog.open(ClasseParticipantsComponent, {
             height: '80%',
             width: '60%',

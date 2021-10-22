@@ -55,7 +55,7 @@ export class ClassroomsComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        this._classrooomsService.onSelectedContactsChanged
+        this._classrooomsService.onSelectedClassroomsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedContacts => {
                 this.hasSelectedContacts = selectedContacts.length > 0;
@@ -109,7 +109,7 @@ export class ClassroomsComponent implements OnInit, OnDestroy
                     return;
                 }
 
-                this._classrooomsService.updateContact(response.getRawValue());
+                this._classrooomsService.addClassroom(response.getRawValue());
             });
     }
 

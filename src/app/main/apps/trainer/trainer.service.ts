@@ -121,6 +121,10 @@ export class TrainerService implements Resolve<any>
                         });
                     }
 
+                    if (this.filterBy === 'all') {
+                        this.contacts =response;
+                    }
+
                     if (this.filterBy === 'without') {
                         this.contacts = this.contacts.filter(_contact => {
                             // return this.user.frequentContacts.includes(_contact.id);
@@ -202,6 +206,19 @@ export class TrainerService implements Resolve<any>
                     console.log(this.modules);
                     this.onModulesChanged.next( this.modules);
                     resolve( this.modules);
+                }, reject);
+        }
+        );
+    }
+
+    getTrainerBySpecializations(specialization): Promise<any> {
+        const params = new HttpParams().set('specialization',specialization);
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'specialization/trainers/', {params:params})
+                .subscribe((response: any) => {
+                    this.contacts = response;
+                    this.onContactsChanged.next(this.contacts);
+                    resolve(this.contacts);
                 }, reject);
         }
         );
@@ -324,7 +341,6 @@ export class TrainerService implements Resolve<any>
      * @returns {Promise<any>}
      */
     updateContact(contact): Promise<any> {
-        contact.password = contact.phoneNumber;
         if (this.disponibilities != null) {
             contact.disponibilityDays = this.disponibilities;
 

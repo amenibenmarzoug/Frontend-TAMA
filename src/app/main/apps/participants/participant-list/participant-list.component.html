@@ -108,6 +108,10 @@
                         <mat-icon *ngIf="!contact.validated ">close</mat-icon>
                         <span>Créer un compte</span>
                     </button>
+                    <button  mat-menu-item (click)=" getRegistrationList(contact.id)">
+                        <mat-icon>school</mat-icon>
+                        <span>Liste des classes</span>
+                    </button>
                 </mat-menu>
 
 

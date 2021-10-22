@@ -1,14 +1,24 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { AttendanceService } from 'app/main/apps/attendance/attendance.service';
+import { fuseAnimations } from '@fuse/animations';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { DateAdapter } from '@angular/material/core';
+import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+
+registerLocaleData(localeFr, 'fr');
 
 @Component({
   selector: 'app-sidebars',
   templateUrl: './sidebars.component.html',
-  styleUrls: ['./sidebars.component.scss']
+  styleUrls: ['./sidebars.component.scss'],
+  
 })
+
 export class SidebarsComponent implements OnInit {
 
   user: any;
@@ -17,24 +27,10 @@ export class SidebarsComponent implements OnInit {
   currentTrainer: string;
   selectedSession: any ; 
 
-
-
-
-  courses: any[];
-  trainerId: any;
-  courseId: any;
-  data: any;
-  filteredThemes: any[] = [];
-  filteredModules: any[] = [];
-  filteredThemeDetails: any[] = [];
-  programs: any[];
-  selectedThemeDet: any;
-  selectedTheme: any;
-  selectedModule: any;
-
-  themes: any[];
-  modules: any[];
-  themeDetails: any[];
+  attendances : any[] ; 
+  participants : any[] ; 
+  checkedAttendance : boolean;
+  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -43,12 +39,15 @@ export class SidebarsComponent implements OnInit {
   /**
    * Constructor
    *
-   * @param {DisponibilityTrainerService} _disponibilityTrainerService
+   * @param {AttendanceService} attendanceService
    */
   constructor(
-      private _disponibilityTrainerService: AttendanceService
+      private attendanceService: AttendanceService,
+      public _matDialog: MatDialog,
+      private dateAdapter: DateAdapter<Date>
   ) {
       // Set the private defaults
+      this.dateAdapter.setLocale('fr');
       this._unsubscribeAll = new Subject();
   }
 
@@ -60,52 +59,40 @@ export class SidebarsComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
-      this.filterByDate = this._disponibilityTrainerService.FilterByDate || 'all';
+      this.filterByDate = this.attendanceService.filterByDate || 'all';
 
-
-
-      this._disponibilityTrainerService.onSessionsChanged
+      this.attendanceService.onSessionsChanged
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(sessions => {
               this.courseSessions = sessions;
-
           });
-
-          /*
-      this._disponibilityTrainerService.onThemesChanged
+        
+          this.attendanceService.onFilterChanged
           .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(themes => {
-              this.themes = themes;
-
+          .subscribe(selectedSession => {
+              this.selectedSession = selectedSession;
           });
-      this._disponibilityTrainerService.onModulesChanged
+
+          this.attendanceService.onAttendancesChanged
           .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(modules => {
-              this.modules = modules;
-
+          .subscribe(attendances => {
+              this.attendances = attendances;
           });
-      this._disponibilityTrainerService.onThemeDetailsChanged
+
+          this.attendanceService.onCheckedAttendanceChanged
           .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(themeDetails => {
-              this.themeDetails = themeDetails;
-
+          .subscribe(checkedAttendance => {
+              this.checkedAttendance = checkedAttendance;
           });
 
-      this._disponibilityTrainerService.onCoursesChanged
+          this.attendanceService.onParticipantsChanged
           .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(courses => {
-              this.courses = courses;
+          .subscribe(participants => {
+              this.participants = participants;
+
           });
-
-
-      this._disponibilityTrainerService.onUserDataChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(user => {
-              this.user = user;
-          });
-*/
-
   }
+    
 
   ngOnDestroy(): void {
       // Unsubscribe from all subscriptions
@@ -124,81 +111,40 @@ export class SidebarsComponent implements OnInit {
    */
 
    selectDate(sessionDate): void {
-
-    //this._addSessionService.chosenClassRoom = event;
     this.selectedDate = sessionDate.toDate();
     console.log(this.selectedDate)
-    this._disponibilityTrainerService.onFilterChanged.next(sessionDate);
-
+    this.attendanceService.onFilterByDateChanged.next(sessionDate);
     }
 
-  selectProgram(program): void {
-      this.selectedTheme = null;
-      this.filteredThemes = [];
-      this.themes.forEach(theme => {
-          if (theme.programInstance.id == program.id) {
-              if (!this.filteredThemes.includes(theme))
-                  this.filteredThemes.push(theme);
-          }
+ 
 
-      });
-      console.log(program);
-  }
+  selectSession(session): void {
 
-  selectTheme(theme): void {
-      this.selectedModule = null;
-      this.filteredModules = [];
-      this.selectedTheme = theme;
-      this.modules.forEach(module => {
-          if (module.themeInstance.id == theme.id) {
-              if (!this.filteredModules.includes(module))
-                  this.filteredModules.push(module);
-          }
-
-      });
-
-      console.log(this.filteredModules);
-  }
-
-  selectModule(module): void {
-      this.selectedThemeDet = null;
-      console.log(this.selectedThemeDet);
-      this.filteredThemeDetails = [];
-      this.selectedModule = module;
-      this.themeDetails.forEach(themeDetail => {
-          if (themeDetail.moduleInstance.id == module.id) {
-              if (!this.filteredThemeDetails.includes(themeDetail))
-                  this.filteredThemeDetails.push(themeDetail);
-          }
-
-      });
-
-      console.log(this.filteredThemeDetails);
-  }
-
-  selectThemeDetail(themeDet): void {
-
-      //this._addSessionService.chosenClassRoom = event;
-      this.selectedThemeDet = themeDet;
-      this._disponibilityTrainerService.onFilterChanged.next(themeDet);
-
-
-  }
-
-
-
-  /**
- * Connect function called by the table to retrieve one stream containing the data to render.
- * @returns {Observable<any[]>}
- */
-  connect(): Observable<any[]> {
-      return null;
-  }
-
-  /**
-   * Disconnect
-   */
-  disconnect(): void {
+      this.attendanceService.onFilterChanged.next(session);
+      this.checkedAttendance=false ; 
+      for ( const markedSession of this.attendanceService.attendanceCheckedSessions )
+      {
+        if (session.id == markedSession.id ){
+            this.checkedAttendance=true ; 
+            break
+        }  
+      } 
+      
+      if(this.checkedAttendance== false) {
+        this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
+            disableClose: false
+        });
+        
+        this.confirmDialogRef.componentInstance.confirmMessage = "Vous n'avez pas marquer la présence de cette séance, voulez vous créer une fiche de présence?";
+        this.confirmDialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                for (const participant of this.participants ){
+                this.attendanceService.generateAttendance(session, participant);
+                }
+            }
+            this.confirmDialogRef = null;
+        });
+      }
   }
 
 }

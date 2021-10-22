@@ -32,7 +32,6 @@ export class Entreprise
             this.id = contact.id || '';
             this.enterpriseName = contact.enterpriseName || '';
             this.website = contact.website || '';
-            //this.password = contact.password || '';
             this.phoneNumber = contact.phoneNumber || '';
             this.email = contact.email || '';
             this.managerFirstName=contact.managerFirstName || '';
@@ -41,7 +40,7 @@ export class Entreprise
             this.city = contact.city || '';
             this.postalCode = contact.postalCode || '';
             //this.roles = contact.roles || '';
-            this.programInstance=contact.programInstance || '';
+            this.programInstance=contact.programInstance;
             this.validated = contact.validated || '';
             this.managerPosition=contact.managerPosition || '';
             this.nbMinParticipants=contact.nbMinParticipants || '';

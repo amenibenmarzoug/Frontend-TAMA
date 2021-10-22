@@ -72,4 +72,9 @@ export class MainComponent implements OnInit, OnDestroy
         this.filterBy = filter;
         this._trainersService.onFilterChanged.next(this.filterBy);
     }
+
+    getTrainersBySpecialisation(specialization){
+        this.filterBy=specialization
+        this._trainersService.getTrainerBySpecializations(specialization);
+    }
 }

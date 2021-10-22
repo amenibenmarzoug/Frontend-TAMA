@@ -1,4 +1,4 @@
-import{Thematique} from '../../../programDetails/tabs/thematique/thematique.model';
+import{Theme} from 'app/shared/models/theme.model';
 import{ProgramInst} from '../../../programInst.model';
 export class ThematiqueInst {
     id: number;
@@ -6,7 +6,7 @@ export class ThematiqueInst {
     nbDaysthemeInst:number;
     //themeInstBeginDate:Date;
     //themeInstEndDate:Date;
-    theme:Thematique;
+    theme:Theme;
     programInstance:ProgramInst;
 
     /**

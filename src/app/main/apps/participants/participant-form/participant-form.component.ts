@@ -95,7 +95,8 @@ export class ParticipantFormComponent {
             this.dialogTitle = 'Modifier Participant';
             this.contact = _data.contact;
             console.log("contact to update")
-            console.log(this.contact)
+            console.log(this.contact);
+            
             this._ParticipantsService.entreprise = this.contact.entreprise;
             this._ParticipantsService.classe = this.contact.programInstance;
             this.chosenYearDate= this.contact.birthday
@@ -140,18 +141,18 @@ export class ParticipantFormComponent {
             level: [this.contact.level, Validators.required],
             gender: [this.contact.gender, Validators.required],
             company: [this.contact.entreprise],
-            classe: [this.contact.programInstance],
+            programInstance: [this.contact.programInstance],
             currentPosition: [this.contact.currentPosition,Validators.required],
             experience : [this.contact.experience],
             email: [this.contact.email,Validators.required],
-            phoneNumber: [this.contact.phoneNumber,Validators.required],
+            phoneNumber: [this.contact.phoneNumber],
             street: [this.contact.street],
             city: [this.contact.city],
             postalCode: [this.contact.postalCode],
             birthday: [this.contact.birthday],
             notes: [this.contact.notes],
             educationLevel: [this.contact.educationLevel,Validators.required],
-            particType:[''],
+            //particType:[''],
 
         });
 
@@ -193,7 +194,9 @@ export class ParticipantFormComponent {
     // tslint:disable-next-line:typedef
     getClasseForm(event) {
 
-        this._ParticipantsService.classe = event;
+        this.contactForm.patchValue({classe:event});
+        console.log(this.contactForm.getRawValue())
+        //this._ParticipantsService.classe = event;
     }
 
     sendType(event){

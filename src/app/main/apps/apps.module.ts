@@ -124,12 +124,12 @@ const routes = [
         loadChildren: () => import('./classrooms/ressources/ressources.module').then(m => m.RessourcesModule)
     },
 
-    /*
+
     {
         path        : 'attendance',
         loadChildren: () => import('./attendance/attendance.module').then(m => m.AttendanceModule)
     },
-    */
+
 
 
    /* {

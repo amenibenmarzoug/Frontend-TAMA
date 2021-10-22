@@ -2,9 +2,10 @@
     <!-- Checkbox Column -->
     <ng-container matColumnDef="checkbox">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let contact">
-            <mat-checkbox [(ngModel)]="checkboxes[contact.id]" (ngModelChange)="onSelectedChange(contact.id.toString())" (click)="$event.stopPropagation()">
-  </mat-checkbox>
+        <mat-cell *matCellDef="let classroom">
+            <mat-checkbox [(ngModel)]="checkboxes[classroom.id]" (ngModelChange)="onSelectedChange(classroom.id.toString())"
+                (click)="$event.stopPropagation()">
+            </mat-checkbox>
         </mat-cell>
     </ng-container>
 
@@ -12,59 +13,54 @@
     <!-- Name Column -->
     <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef>Nom du classe</mat-header-cell>
-        <mat-cell *matCellDef="let contact">
-            <p class="text-truncate font-weight-600">{{contact.classRoomName}}</p>
+        <mat-cell *matCellDef="let classroom">
+            <p class="text-truncate font-weight-600">{{classroom.classRoomName}}</p>
         </mat-cell>
     </ng-container>
 
     <!-- capacity Column -->
     <ng-container matColumnDef="capacity">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Capacité</mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm>
+        <mat-cell *matCellDef="let classroom" fxHide fxShow.gt-sm>
             <p class="capacity text-truncate">
-                {{contact.capacity}}
+                {{classroom.capacity}}
             </p>
         </mat-cell>
     </ng-container>
- <!-- capacity Column -->
+    <!-- capacity Column -->
     <ng-container matColumnDef="equipments">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Ressources</mat-header-cell>
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm>
-            <div fxFlex="row"  >
-        <button (click)="$event.stopPropagation();"  mat-raised-button (click)="goToEquipment(contact.id)" color="accent">Liste Ressources</button>
-        </div>
+        <mat-cell *matCellDef="let classroom" fxHide fxShow.gt-sm>
+            <div fxFlex="row">
+                <button (click)="$event.stopPropagation();" mat-raised-button (click)="goToEquipment(classroom.id)"
+                    color="accent">Liste Ressources</button>
+            </div>
         </mat-cell>
     </ng-container>
-     <!-- Buttons Column -->
-     <ng-container matColumnDef="buttons">
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="buttons">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let contact">
+        <mat-cell *matCellDef="let classroom">
             <div fxFlex="row" fxLayoutAlign="end center">
-                <!--
-                <button mat-icon-button (click)="$event.stopPropagation();toggleStar(contact.id)" aria-label="Toggle star">
-                    <mat-icon class="amber-fg" *ngIf="user.starred.includes(contact.id)">star</mat-icon>
-                    <mat-icon class="secondary-text" *ngIf="!user.starred.includes(contact.id)">star_border</mat-icon>
-                </button>
-                -->
-                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More" (click)="$event.stopPropagation();">
+
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                    (click)="$event.stopPropagation();">
                     <mat-icon class="secondary-text">more_vert</mat-icon>
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
-                    
-                  <!--   <button mat-menu-item aria-label="remove" (click)="deleteContact(contact.id)">
-                        <mat-icon>delete</mat-icon>
-                        <span>Supprimer</span>
-                    </button> -->
+
+
                 </mat-menu>
             </div>
 
         </mat-cell>
     </ng-container>
 
-   
+
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let contact; columns: displayedColumns;" class="contact" (click)="editContact(contact)" [ngClass]="{'accent-50':checkboxes[contact.id]}" [@animate]="{value:'*',params:{y:'100%'}}">
+    <mat-row *matRowDef="let classroom; columns: displayedColumns;" class="classroom" (click)="editClassroom(classroom)"
+        [ngClass]="{'accent-50':checkboxes[classroom.id]}" [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>
 </mat-table>

@@ -1,114 +1,45 @@
 <div class="sidebar-content">
-
     <div class="card">
-
         <!-- SIDEBAR HEADER -->
         <div class="header p-24" fxLayout="row" fxLayoutAlign="start center">
-
             <!-- USER -->
-            <span class="h5 font-weight-600">Classes et Thèmes</span>
+            <span class="h5 font-weight-600">Choisir Séance</span>
             <!-- / USER -->
-
         </div>
-
-
-
         <!-- / SIDEBAR HEADER -->
 
         <!-- SIDEBAR CONTENT -->
         <div class="content py-16" fusePerfectScrollbar>
-
-            
             <div class="nav material2">
-                <div class="nav-item" aria-label="Formations" fxLayoutAlign="start center">
-
+                <div class="nav-item" aria-label="Date" fxLayoutAlign="start center">
                     <mat-form-field appearance="outline" class="category-selector ">
                         <mat-label>Date de la séance </mat-label>
                         <input matInput [matDatepicker]="startDatePicker"                           
                             autocomplete="false"
-                            (dateInput)="selectDate($event.value)">
+                            (dateInput)="selectDate($event.value)" required>
                         <mat-datepicker-toggle matSuffix [for]="startDatePicker">
                         </mat-datepicker-toggle>
                         <mat-datepicker #startDatePicker></mat-datepicker>
                     </mat-form-field>
-                    <mat-form-field appearance="outline" class="category-selector ">
-                        <mat-label>Classe</mat-label>
-                        <mat-select (selectionChange)="selectProgram($event.value)" required>
-
-                            <mat-option *ngFor="let program of programs" [value]="program">
-
-                                {{ program.programInstName}} - {{ program.location}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
                 </div>
-
-                <div class="nav-item" aria-label="Formations" fxLayoutAlign="start center">
-                    <mat-form-field appearance="outline" class="category-selector ">
-                        <mat-label>Classe</mat-label>
-                        <mat-select (selectionChange)="selectProgram($event.value)" required>
-
-                            <mat-option *ngFor="let program of programs" [value]="program">
-
-                                {{ program.programInstName}} - {{ program.location}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="nav-item" aria-label="Thème" fxLayoutAlign="start center">
-                    <mat-form-field appearance="outline" class="category-selector ">
-                        <mat-label>Thème</mat-label>
-                        <mat-select  (selectionChange)="selectTheme($event.value)" required>
-
-                            <mat-option *ngFor="let theme of filteredThemes" [value]="theme">
-
-                                {{ theme.theme.themeName }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-
-
-
-           
-
-  
-
-                <div class="nav-item" aria-label="Module" fxLayoutAlign="start center">
-                    <mat-form-field appearance="outline" class="category-selector ">
-                        <mat-label>Module</mat-label>
-                        <mat-select (selectionChange)="selectModule($event.value)" required>
-
-                            <mat-option *ngFor="let module of filteredModules" [value]="module">
-
-                                {{ module.moduleInstanceName}}
-                            </mat-option>
-                        </mat-select>
-
-                    </mat-form-field>
-                </div>
-                <div class="nav-item" aria-label="Thème de la journée" fxLayoutAlign="start center">
-                    <mat-form-field appearance="outline" class="category-selector ">
-                        <mat-label>Thème de la journée</mat-label>
-                        <mat-select (selectionChange)="selectThemeDetail($event.value)"
+               
+                <div class="nav-item" aria-label="Séance" fxLayoutAlign="start center">
+                    <mat-form-field appearance="outline" class="category-selector " fxFlex>
+                        <mat-label>Séance</mat-label>
+                        <mat-select (selectionChange)="selectSession($event.value)"
                             required>
-
-                            <mat-option *ngFor="let themeDet of filteredThemeDetails" [value]="themeDet">
-
-                                {{ themeDet.themeDetail.themeDetailName }}
+                        
+                            <mat-option *ngFor="let session of courseSessions" [value]="session">
+                                {{ session.sessionName }}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
-
-            
-
-
+                <div class="message-box warning"  *ngIf="courseSessions.length == 0 && selectedDate != null">
+                    Pas de séances disponibles pour cette Date ! 
+                </div>
             </div>
-
         </div>
-
     </div>
-
 </div>
 <!-- / SIDEBAR CONTENT -->

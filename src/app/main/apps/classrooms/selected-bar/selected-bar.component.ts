@@ -15,9 +15,9 @@ import { ClassroomsService } from 'app/main/apps/classrooms/classrooms.service';
 export class SelectedBarComponent implements OnInit, OnDestroy
 {
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-    hasSelectedContacts: boolean;
+    hasSelectedClasssrooms: boolean;
     isIndeterminate: boolean;
-    selectedContacts: string[];
+    selectedClassrooms: string[];
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -46,13 +46,13 @@ export class SelectedBarComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        this._classroomsService.onSelectedContactsChanged
+        this._classroomsService.onSelectedClassroomsChanged
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(selectedContacts => {
-                this.selectedContacts = selectedContacts;
+            .subscribe(selectedClassrooms => {
+                this.selectedClassrooms = selectedClassrooms;
                 setTimeout(() => {
-                    this.hasSelectedContacts = selectedContacts.length > 0;
-                    this.isIndeterminate = (selectedContacts.length !== this._classroomsService.contacts.length && selectedContacts.length > 0);
+                    this.hasSelectedClasssrooms = selectedClassrooms.length > 0;
+                    this.isIndeterminate = (selectedClassrooms.length !== this._classroomsService.classrooms.length && selectedClassrooms.length > 0);
                 }, 0);
             });
     }
@@ -76,7 +76,7 @@ export class SelectedBarComponent implements OnInit, OnDestroy
      */
     selectAll(): void
     {
-        this._classroomsService.selectContacts();
+        this._classroomsService.selectClassrooms();
     }
 
     /**
@@ -84,7 +84,7 @@ export class SelectedBarComponent implements OnInit, OnDestroy
      */
     deselectAll(): void
     {
-       this._classroomsService.deselectContacts();
+       this._classroomsService.deselectClassrooms();
     }
 
     /**
@@ -102,7 +102,7 @@ export class SelectedBarComponent implements OnInit, OnDestroy
             .subscribe(result => {
                 if ( result )
                 {
-                    this._classroomsService.deleteSelectedContacts();
+                    this._classroomsService.deleteSelectedClassrooms();
                 }
                 this.confirmDialogRef = null;
             });
