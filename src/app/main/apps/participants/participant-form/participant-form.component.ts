@@ -100,6 +100,7 @@ export class ParticipantFormComponent {
             this._ParticipantsService.entreprise = this.contact.entreprise;
             this._ParticipantsService.classe = this.contact.programInstance;
             this.chosenYearDate= this.contact.birthday
+
         }
         else {
             this.dialogTitle = 'Nouveau Participant';
@@ -214,8 +215,8 @@ export class ParticipantFormComponent {
         //.chosenYearDate.setDate(2)
         this.chosenYearDate.setMonth(1);
         this.contactForm["birthday"] = this.chosenYearDate;
-       
-       
+        
+        
         console.log(this.contactForm["birthday"])
         console.log(_d)
         input._destroyPopup()

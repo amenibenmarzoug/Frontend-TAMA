@@ -1,6 +1,6 @@
 @import "src/@fuse/scss/fuse";
 
-app-sessions-list{
+app-sessions-list {
     display: flex;
     flex: 1 1 auto;
     width: 100%;
@@ -26,7 +26,7 @@ app-sessions-list{
         .mat-row {
             position: relative;
             cursor: pointer;
-            padding: 8px;
+            padding: 2px;
 
             .mat-cell {
                 min-width: 0;

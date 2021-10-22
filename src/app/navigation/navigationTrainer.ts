@@ -23,6 +23,14 @@ export const navigationTrainer: FuseNavigation[] = [
     },
 
 
+    {
+        id: 'attendance',
+        title: 'Gestion des présences',
+        type: 'item',
+        icon: 'how_to_reg',
+        url: '/apps/attendance'
+    },
+
 
 
 
