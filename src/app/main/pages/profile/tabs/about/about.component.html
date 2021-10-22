@@ -117,7 +117,13 @@
 
                 <div class="info-line">
                     <div class="title">Spécialité</div>
-                    <div class="info">{{trainer.specifications}}</div>
+                    <div class="info">
+                        <ul >
+                            <li *ngFor="let specification of trainer.specifications">
+                                <span> {{specification}} </span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
 

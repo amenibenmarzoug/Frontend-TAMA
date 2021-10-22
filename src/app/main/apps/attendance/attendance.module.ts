@@ -24,14 +24,15 @@ import { SidebarsComponent } from './sidebars/sidebars.component';
 import { MatSelectModule } from '@angular/material/select';
 
 import { AttendanceService } from './attendance.service';
-
+import { AuthGuardTrainerService } from 'app/auth-guard-trainer.service';
 const routes: Routes = [
   {
     path: '**',
     component: AttendanceComponent,
     resolve: {
       contacts: AttendanceService
-    }
+    },
+    canActivate:[AuthGuardTrainerService] 
   }
 ];
 

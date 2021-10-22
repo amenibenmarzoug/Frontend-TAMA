@@ -60,7 +60,8 @@ export class TrainerFormComponent {
     changeFilter(filter): void {
         console.log(filter);
         //this._serviceTrainer.specifications = filter.specifications;
-       this._serviceTrainer.disponibilities=filter.disponibilityDays;
+        this.contactForm.patchValue({disponibilityDays:filter.disponibilityDays})
+       //this._serviceTrainer.disponibilities=filter.disponibilityDays;
     }
 
 
@@ -75,7 +76,8 @@ export class TrainerFormComponent {
 
     sendSpecifications(spec): void {
         console.log(spec);
-        this._serviceTrainer.specifications = spec.specifications;
+        this.contactForm.patchValue({specifications:spec.specifications})
+        //this._serviceTrainer.specifications = spec.specifications;
        //this._serviceTrainer.disponibilities=spec.disponibilityDays;
     }
     // -----------------------------------------------------------------------------------------------------
