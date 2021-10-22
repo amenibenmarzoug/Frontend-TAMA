@@ -68,6 +68,7 @@ export class CalendarEventFormDialogComponent
 
     /**
      * Create the event form
+     * This method is used to create the form of "Jour Férié"
      *
      * @returns {FormGroup}
      */

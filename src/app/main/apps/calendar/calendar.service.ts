@@ -146,6 +146,7 @@ export class CalendarService implements Resolve<any>
 
     /**
      * Get events
+     * Get events by different users ids
      *
      * @returns {Promise<any>}
      */
@@ -262,6 +263,13 @@ export class CalendarService implements Resolve<any>
         });
     }
 
+    /**
+     * 
+     * Get programInstance by participant id
+     * 
+     * @param id 
+     * @returns {Promise<any>}
+     */
     getProgramInstanceByParticipantId(id): Promise<any> {
 
 
@@ -285,6 +293,12 @@ export class CalendarService implements Resolve<any>
 
     }
 
+    /**
+     * Get ProgramInstance by company id
+     * 
+     * @param id 
+     * @returns {Promise<any>}
+     */
     getProgramInstanceByCompanyId(id): Promise<any> {
 
 
@@ -308,6 +322,12 @@ export class CalendarService implements Resolve<any>
 
     }
 
+    /**
+     * Get Trainer by id
+     * 
+     * @param id 
+     * @returns {Promise<any>}
+     */
     getTrainerById(id): Promise<any> {
         /* console.log(this._httpClient.get<any[]>(AUTH_API + 'courseSession'));
          return this._httpClient.get<any[]>(AUTH_API + 'courseSession')
@@ -325,6 +345,12 @@ export class CalendarService implements Resolve<any>
         );
     }
 
+    /**
+     * Update the event
+     * 
+     * @param event 
+     * @returns {Promise<any>} 
+     */
     updateEvent(event): Promise<any> {
         return new Promise((resolve, reject) => {
 
@@ -337,6 +363,13 @@ export class CalendarService implements Resolve<any>
         });
     }
 
+
+    /**
+     * Add an event
+     * 
+     * @param event 
+     * @returns {Promise<any>} 
+     */
     addEvent(event): Promise<any> {
         return new Promise((resolve, reject) => {
 
@@ -350,6 +383,12 @@ export class CalendarService implements Resolve<any>
         });
     }
 
+    /**
+     * Add Free Day
+     * 
+     * @param event 
+     * @returns {Promise<any>} 
+     */
     addFreeDay(event): Promise<any> {
         return new Promise((resolve, reject) => {
 

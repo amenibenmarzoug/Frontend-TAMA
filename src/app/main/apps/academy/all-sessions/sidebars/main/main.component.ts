@@ -38,10 +38,10 @@ export class MainSessionsComponent implements OnInit {
     /**
      * Constructor
      *
-     * @param {DisponibilityTrainerService} _disponibilityTrainerService
+     * @param {AllSessionsService} _allSessionsService
      */
     constructor(
-        private _disponibilityTrainerService: AllSessionsService
+        private _allSessionsService: AllSessionsService
     ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -55,43 +55,38 @@ export class MainSessionsComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.filterBy = this._disponibilityTrainerService.filterBy || 'all';
+        this.filterBy = this._allSessionsService.filterBy || 'all';
 
 
 
-        this._disponibilityTrainerService.onProgramsChanged
+        this._allSessionsService.onProgramsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(programs => {
                 this.programs = programs;
 
             });
-        this._disponibilityTrainerService.onThemesChanged
+        this._allSessionsService.onThemesChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(themes => {
                 this.themes = themes;
 
             });
-        this._disponibilityTrainerService.onModulesChanged
+        this._allSessionsService.onModulesChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(modules => {
                 this.modules = modules;
 
             });
-        this._disponibilityTrainerService.onThemeDetailsChanged
+        this._allSessionsService.onThemeDetailsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(themeDetails => {
                 this.themeDetails = themeDetails;
 
             });
 
-        this._disponibilityTrainerService.onCoursesChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(courses => {
-                this.courses = courses;
-            });
+       
 
-
-        this._disponibilityTrainerService.onUserDataChanged
+        this._allSessionsService.onUserDataChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(user => {
                 this.user = user;
@@ -117,7 +112,7 @@ export class MainSessionsComponent implements OnInit {
      */
 
     selectProgram(program): void {
-        this._disponibilityTrainerService.getSessionsByProgramInstanceId(program.id);
+        this._allSessionsService.getSessionsByProgramInstanceId(program.id);
         this.selectedTheme = null;
         this.filteredThemes = [];
         this.themes.forEach(theme => {
@@ -165,7 +160,7 @@ export class MainSessionsComponent implements OnInit {
 
         //this._addSessionService.chosenClassRoom = event;
         this.selectedThemeDet = themeDet;
-        this._disponibilityTrainerService.onFilterChanged.next(themeDet);
+        this._allSessionsService.onFilterChanged.next(themeDet);
 
 
     }

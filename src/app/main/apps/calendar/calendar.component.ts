@@ -183,10 +183,8 @@ export class CalendarComponent implements OnInit {
 
 
         this._calendarService.events.forEach(item => {
-            //if (item.idOwner == id)
                 eventsList.push(item);
         });
-        //this.events=eventsList;
 
         this.events = eventsList.map(item => {
 
