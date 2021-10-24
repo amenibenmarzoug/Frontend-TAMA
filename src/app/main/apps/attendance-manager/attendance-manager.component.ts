@@ -9,21 +9,21 @@ import { FuseSidebarService } from '../../../../@fuse/components/sidebar/sidebar
 import { FuseConfirmDialogComponent } from '../../../../@fuse/components/confirm-dialog/confirm-dialog.component';
 import { AlertDialogComponent } from '../../../../@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 import { DomSanitizer } from '@angular/platform-browser';
-
 import { saveAs } from 'file-saver';
 import Swal from 'sweetalert2';
+import { AttendanceManagerService } from './attendance-manager.service';
 
-import { AttendanceService } from './attendance.service';
+
+
 @Component({
-  selector: 'app-attendance',
-  templateUrl: './attendance.component.html',
-  styleUrls: ['./attendance.component.scss'],
-
+  selector: 'app-attendance-manager',
+  templateUrl: './attendance-manager.component.html',
+  styleUrls: ['./attendance-manager.component.scss'],
   animations: fuseAnimations
-})
-export class AttendanceComponent implements OnInit {
 
-  categories = ['Web', 'android'];
+})
+export class AttendanceManagerComponent implements OnInit {
+
   dialogRef: any;
   hasSelectedContacts: boolean;
   searchInput: FormControl;
@@ -33,11 +33,6 @@ export class AttendanceComponent implements OnInit {
   trainersDispo: any[] = [];
 
   fileName: String;
-  /*
-  disponibilities: Disponibility[] = [];
-  disponibilitiesAdded: Disponibility[] = [];
-  disponibility: Disponibility;
-  */
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   alertDialog: MatDialogRef<AlertDialogComponent>;
   test: boolean;
@@ -53,7 +48,7 @@ export class AttendanceComponent implements OnInit {
    * @param {MatDialog} _matDialog
    */
   constructor(
-    private attendanceService: AttendanceService,
+    private attendanceService: AttendanceManagerService,
     private _fuseSidebarService: FuseSidebarService,
     private _matDialog: MatDialog,
     private sanitizer: DomSanitizer
@@ -74,13 +69,6 @@ export class AttendanceComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
-
-    /*
-      this._allSessionsService.onSelectedContactsChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(selectedContacts => {
-              this.hasSelectedContacts = selectedContacts.length > 0;
-          }); */
 
     this.searchInput.valueChanges
       .pipe(
@@ -165,4 +153,5 @@ export class AttendanceComponent implements OnInit {
   }
 
 }
+
 

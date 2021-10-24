@@ -75,8 +75,15 @@ export const navigationAdmin: FuseNavigation[] = [
             title: 'Toutes les séances',
             type: 'item',
             url: '/apps/academy/allSessions',
+        },
+        {
+            id: 'attendance',
+            title: 'Liste des présences',
+            type: 'item',
+            url: '/apps/attendance-manager',
         }
         ]
+
 
     },
 
