@@ -105,9 +105,7 @@ export class ClassFormComponent implements OnInit {
 
   ngOnInit(): void {
     
-   // console.log("onInit")
-   // console.log("this.programdeBase in init")
-   // console.log(this.programDeBase)
+  
     if (this.programDeBase !== undefined)
     {
     const toSelect = this.programs.find(p => p.id == this.programDeBase.id);

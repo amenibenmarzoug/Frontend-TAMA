@@ -11,8 +11,6 @@ export const navigationTrainer: FuseNavigation[] = [
         url: '/apps/calendar'
     },
 
-   
-
 
     {
         id: 'profile',
@@ -22,8 +20,13 @@ export const navigationTrainer: FuseNavigation[] = [
         url: '/pages/profile'
     },
 
-
-
+    {
+        id: 'MyClasses',
+        title: 'Mes Classes',
+        type: 'item',
+        icon: 'school',
+        url: '/apps/classetrainer'
+    },
 
 
 

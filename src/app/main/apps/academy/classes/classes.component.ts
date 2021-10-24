@@ -17,6 +17,7 @@ import { ClasseParticipantsService } from './classe-participants/classe-particip
 import { ClasseParticipantsComponent } from './classe-participants/classe-participants.component';
 import { PlaceFormComponent } from './place-form/place-form.component';
 import { ProgramInstance } from 'app/shared/models/programInstance.model';
+import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 
 @Component({
     selector: 'app-classes',
@@ -43,6 +44,9 @@ export class ClassesComponent implements OnInit {
 
     themesFilteredByCategory: any[];
     filteredThemes: any[];
+    
+
+alertDialog: MatDialogRef<AlertDialogComponent>;
 
 
     cities: String[] = [
@@ -244,13 +248,39 @@ export class ClassesComponent implements OnInit {
                   })
                 }
 
-                console.log("classe Form")
-                console.log(newClass)
+              //  console.log("classe Form")
+               // console.log(newClass); 
 
-                this._academyProgramsInstService.addClass(newClass, this._academyProgramsInstService.program);
+                this.confirmAddClass(newClass);
 
+               
             });
     }
+
+
+
+   
+
+
+confirmAddClass(newClass): void {
+this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+disableClose: false
+});
+
+this.confirmDialogRef.componentInstance.confirmMessage = 'Voulez vous créer la classe ?';
+
+this.confirmDialogRef.afterClosed().subscribe(result => {
+if (result) {
+
+    this._academyProgramsInstService.addClass(newClass, this._academyProgramsInstService.program);
+
+
+
+}
+this.confirmDialogRef = null;
+});
+
+}
 
 
     choosePlace(programInst):void{
@@ -272,7 +302,18 @@ export class ClassesComponent implements OnInit {
 
 
     listeDesParticipants(programInst): void {
+        
         this._participantService.getParticipantsByProgramInstanceId(programInst);
+
+       
+        
+        if ((this._participantService.participants.length == 0)) {
+
+            this.addListAlert("Aucun participant inscrit à cette classe");
+            
+        }
+        else {
+
         this.dialogRef = this.dialog.open(ClasseParticipantsComponent, {
             height: '80%',
             width: '60%',
@@ -289,7 +330,29 @@ export class ClassesComponent implements OnInit {
                 }
             })
 
+        }
+
     }
+
+    addListAlert(message): void {
+        this.alertDialog = this.dialog.open(AlertDialogComponent, {
+            disableClose: false
+        });
+  
+        this.alertDialog.componentInstance.dialogMessage = message;
+  
+        this.alertDialog.afterClosed().subscribe(result => {
+            if (result) {
+  
+            }
+            this.alertDialog = null;
+        });
+    }
+
+
+
+
+    
     /**
       * Edit contact
       *

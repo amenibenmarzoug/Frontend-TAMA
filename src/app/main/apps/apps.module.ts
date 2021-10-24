@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 
 
+
 const routes = [
     {
         path        : 'dashboards/analytics',
@@ -123,6 +124,11 @@ const routes = [
         path        : 'ressource/:id',
         loadChildren: () => import('./classrooms/ressources/ressources.module').then(m => m.RessourcesModule)
     },
+
+    {
+        path        : 'classetrainer',
+        loadChildren: () => import('./classetrainer/classetrainer.module').then(m => m.ClassetrainerModule)
+    },
    /* {
         path        : 'cursus-participants',
         loadChildren: () => import('./cursus/cursus-participants/cursus-participants.module').then(m => m.CursusParticipantsModule)
@@ -140,6 +146,7 @@ const routes = [
         RouterModule.forChild(routes),
         FuseSharedModule       
     ],
+   
    
 
    

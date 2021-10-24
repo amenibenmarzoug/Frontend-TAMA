@@ -8,6 +8,7 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 import { Participant } from 'app/shared/models/participant.model';
 import { ClasseParticipantsService } from '../classe-participants.service';
 
+
 @Component({
     selector: 'classe-participants-list',
     templateUrl: './classe-participant-list.component.html',
@@ -33,6 +34,7 @@ export class ClasseParticipantListComponent implements OnInit, OnDestroy {
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     id: number;
     currentYear: number;
+
 
 
     // Private
@@ -62,6 +64,7 @@ export class ClasseParticipantListComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
 
         this.dataSource = new FilesDataSource(this._participantsService);
+
        
         this._participantsService.onParticipantsChanged
             .pipe(takeUntil(this._unsubscribeAll))
@@ -75,9 +78,13 @@ export class ClasseParticipantListComponent implements OnInit, OnDestroy {
 
             });
 
+           
 
 
     }
+
+
+    
 
     /**
      * On destroy
