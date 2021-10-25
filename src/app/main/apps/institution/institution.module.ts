@@ -24,6 +24,7 @@ import { MainComponent } from 'app/main/apps/institution/sidebars/main/main.comp
 import { InstitutionFormComponent } from 'app/main/apps/institution/institution-form/institution-form.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthGuardManagerService } from 'app/auth-guard-manager.service';
 
 const routes: Routes = [
     {
@@ -32,7 +33,8 @@ const routes: Routes = [
         resolve  : {
             contacts: InstitutionService
         },
-       
+        canActivate:[AuthGuardManagerService] 
+
         
     }
 ];

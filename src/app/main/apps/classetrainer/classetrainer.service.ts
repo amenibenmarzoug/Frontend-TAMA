@@ -130,29 +130,11 @@ export class ClassetrainerService {
 
 
 
-
- 
-
-
-
-
   /**
    * Get courses
    *
    * @returns {Promise<any>}
    */
-  /*getProgramsInst(): Promise<any> {
-      return new Promise((resolve, reject) => {
-          this._httpClient.get(AUTH_API + 'programsInst')
-              .subscribe((response: any) => {
-                  this.programsInst = response;
-                  this.onProgramsInstChanged.next(response);
-                  resolve(response);
-              }, reject);
-      });
-  }*/
-
-
   
   getProgramsInst(): Promise<any> {
     return new Promise((resolve, reject) => {

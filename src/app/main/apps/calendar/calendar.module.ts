@@ -22,6 +22,8 @@ import { CalendarEventFormDialogComponent } from 'app/main/apps/calendar/event-f
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { AuthGuardTrainerService } from 'app/auth-guard-trainer.service';
+import { AuthGuardService } from 'app/auth-guard.service';
 
 registerLocaleData(localeFr);
 
@@ -32,7 +34,10 @@ const routes: Routes = [
         children : [],
         resolve  : {
             chat: CalendarService
-        }
+        },
+        canActivate:[AuthGuardService] 
+
+
     }
 ];
 

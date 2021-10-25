@@ -142,8 +142,7 @@ export class ClasseParticipantsService implements Resolve<any>
                     // this.participants = this.participants.map(contact => {
                     //     return new Participant(contact);
                     // });
-                    console.log ("particiiii fel service ");
-                    console.log(this.participants);
+                    
                     this.onParticipantsChanged.next(this.participants);
                     resolve(this.participants);
                 }, reject);

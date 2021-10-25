@@ -341,7 +341,7 @@ export class TrainerService implements Resolve<any>
      * @returns {Promise<any>}
      */
     updateContact(contact): Promise<any> {
-        if (this.disponibilities != null) {
+        /*if (this.disponibilities != null) {
             contact.disponibilityDays = this.disponibilities;
 
         }
@@ -350,10 +350,10 @@ export class TrainerService implements Resolve<any>
         }
 
         this.disponibilities = null;
-        this.specifications = null;
+        this.specifications = null;*/
         console.log(contact);
         return new Promise((resolve, reject) => {
-            if (this.disponibilities != null) {
+           /* if (this.disponibilities != null) {
                 contact.disponibilityDays = this.disponibilities;
 
             }
@@ -362,7 +362,7 @@ export class TrainerService implements Resolve<any>
             }
 
             this.disponibilities = null;
-            this.specifications = null;
+            this.specifications = null;*/
             this._httpClient.post(AUTH_API + 'auth/signup', contact)
                 .subscribe(response => {
                     this.getContacts();
@@ -372,7 +372,7 @@ export class TrainerService implements Resolve<any>
     }
     updateContact1(contact): Promise<any> {
         console.log(contact);
-        if (this.disponibilities != null) {
+       /* if (this.disponibilities != null) {
             contact.disponibilityDays = this.disponibilities;
 
         }
@@ -381,7 +381,7 @@ export class TrainerService implements Resolve<any>
         }
 
         this.disponibilities = null;
-        this.specifications = null;
+        this.specifications = null;*/
         return new Promise((resolve, reject) => {
             console.log(contact);
             this._httpClient.put(AUTH_API + 'trainers', contact)

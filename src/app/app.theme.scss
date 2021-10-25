@@ -112,6 +112,7 @@ $typography: mat-typography-config( $font-family: 'Muli, Helvetica Neue, Arial, 
 $default-primary-palette: mat-palette($fuse-navy);
 $default-accent-palette: mat-palette($mat-light-blue, 600, 400, 700);
 $default-warn-palette: mat-palette($mat-red);
+
 // Create the Material theme object
 $theme: mat-light-theme($default-primary-palette, $default-accent-palette, $default-warn-palette);
 // Add ".theme-default" class to the body to activate this theme.
@@ -124,7 +125,7 @@ body.theme-default {
     // Apply the theme to the user components
     @include components-theme($theme);
     // Generate Fuse color classes for primary, accent and warn colors
-    $palettes: ( primary: $default-primary-palette, accent: $default-accent-palette, warn: $default-warn-palette);
+    $palettes: ( primary: $default-primary-palette, accent: $default-accent-palette, warn: $default-warn-palette );
     @include fuse-color-classes($palettes);
 }
 

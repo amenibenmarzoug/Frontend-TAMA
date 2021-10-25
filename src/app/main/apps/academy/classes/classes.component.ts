@@ -304,10 +304,8 @@ this.confirmDialogRef = null;
     listeDesParticipants(programInstId): void {
         
         this._participantService.getParticipantsByProgramInstanceId(programInstId).then(participants =>{
-            if ((this._participantService.participants.length == 0)) { {
+            if ((this._participantService.participants.length == 0)) { 
 
-            }
-     
                  this.addListAlert("Aucun participant inscrit à cette classe");
                  
              }

@@ -1,0 +1,81 @@
+@import "src/@fuse/scss/fuse";
+
+app-attendance-list {
+    display: flex;
+    flex: 1 1 auto;
+    width: 100%;
+
+    .mat-table {
+        width: 100%;
+        background: transparent;
+        box-shadow: none;
+
+        .mat-column-checkbox {
+            flex: 0 1 64px;
+            padding-right: 18px;
+        }
+
+        .mat-column-avatar {
+            flex: 0 1 64px;
+        }
+
+        .mat-column-buttons {
+            flex: 0 1 80px;
+        }
+        .mat-column-action2 {
+            //flex: 0 1 64px;
+            margin-right : 2ex;
+            margin-left : 2ex;
+
+        }
+
+        .mat-row {
+            position: relative;
+            cursor: pointer;
+            padding: 2px;
+
+            .mat-cell {
+                min-width: 0;
+
+                &.mat-column-detail-button {
+                    flex: 0 1 auto;
+                    padding: 0 24px 0 0;
+
+                    @include media-breakpoint('gt-md') {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+#add-contact-button {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    padding-left: 1em;
+    padding-right:1em;
+    z-index: 99;
+
+    @include media-breakpoint('xs') {
+        position: sticky;
+        top: calc(100vh - 120px);
+        bottom: auto;
+    }
+}
+
+.present{
+    background-color :rgb(130, 59, 192)
+}
+
+.mark-present-button {
+    background-color: accent;
+} 
+.mark-absent-button {
+    background-color: rgb(235, 159, 159);
+} 
+.mark-justified-absent-button {
+    background-color: rgb(235, 230, 159);
+
+}
