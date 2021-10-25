@@ -4,13 +4,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
-//something is wrong with the imports - Error From Nadia
 import { FuseUtils } from '../../../../@fuse/utils';
 import {environment} from '../../../../environments/environment';
-//import { Contact } from 'app/main/apps/participants/participant.model';
-import { MyParticipant } from '../my-participants/my-participant.model';
-import { Session } from '../academy/add-session/session.model';
-import { Attendance } from './attendance.model';
+import { Participant } from '../../../shared/models/participant.model';
+import { Session } from '../../../shared/models/session.model';
+import { Attendance } from '../../../shared/models/attendance.model';
 
 const AUTH_API = environment.backend_url+ 'api/';
 const USER_KEY = 'auth-user';
@@ -21,7 +19,7 @@ export class AttendanceService implements Resolve<any>
     //----attendance------//
     user: any;
     sessions : Session[];
-    participants: MyParticipant[] ; 
+    participants: Participant[] ; 
     onAttendancesChanged :  BehaviorSubject<any>;
     onSessionsChanged :  BehaviorSubject<any>;
     onClassChanged :  BehaviorSubject<any>;
@@ -138,13 +136,14 @@ export class AttendanceService implements Resolve<any>
                     console.log(this.filterByDate);
                     if (this.filterByDate != null) {
                         this.sessions = response;
+                        
                         this.sessions = this.sessions.filter(_session => {
                             const courseBeginDate = new Date(_session.sessionBeginDate)
                             if (courseBeginDate.toDateString() == this.filterByDate.toDate().toDateString()) {
-
                                 return true;
                             }
                             return false;
+                            
                         });
                     }
                     console.log("Sessionss")
@@ -287,7 +286,7 @@ export class AttendanceService implements Resolve<any>
 
                     console.log("sessions checked by this trainer")
                     console.log(this.attendanceCheckedSessions)
-                    this.onCheckedAttendanceChanged.next(this.attendanceCheckedSessions);
+                    this.onAttendanceCheckedSessionsChanged.next(this.attendanceCheckedSessions);
                     resolve(this.attendanceCheckedSessions);
                 }, reject);
         }
@@ -328,12 +327,12 @@ export class AttendanceService implements Resolve<any>
         });
     }
 
-    markNotifiedAbsent(attendance): Promise<any> {
+    markJustifiedAbsent(attendance): Promise<any> {
         return new Promise((resolve, reject) => {
           
             console.log("attendance IN SERVICE");
             console.log(attendance);
-            this._httpClient.put(AUTH_API+ 'attendance/markNotifiedAbsent', attendance)
+            this._httpClient.put(AUTH_API+ 'attendance/markJustifiedAbsent', attendance)
                 .subscribe(response => {
                     this.getAttendances();
 

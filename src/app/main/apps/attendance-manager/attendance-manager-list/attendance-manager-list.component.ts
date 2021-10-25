@@ -5,39 +5,35 @@ import { DataSource } from '@angular/cdk/collections';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { fuseAnimations } from '@fuse/animations';
-import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
-
+import { fuseAnimations } from '../../../../../@fuse/animations';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { Router } from '@angular/router';
-import { AttendanceService } from 'app/main/apps/attendance/attendance.service';
+import { AttendanceManagerService } from '../attendance-manager.service';
 import { DateAdapter } from '@angular/material/core';
 
 registerLocaleData(localeFr, 'fr');
 
-
 @Component({
-  selector: 'app-attendance-list',
-  templateUrl: './attendance-list.component.html',
-  styleUrls: ['./attendance-list.component.scss'],
+  selector: 'app-attendance-manager-list',
+  templateUrl: './attendance-manager-list.component.html',
+  styleUrls: ['./attendance-manager-list.component.scss'],
   encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+  animations: fuseAnimations
 })
-export class AttendanceListComponent implements OnInit  {
+export class AttendanceManagerListComponent implements OnInit {
 
   @ViewChild('dialogContent')
   dialogContent: TemplateRef<any>;
   courseSessions: any[] = [];
   user: any;
   dataSource: FilesDataSource | null;
-  displayedColumns = ['date', 'participant', 'attendanceState', 'action1', 'action2'];
+  displayedColumns = ['date', 'participant','seance','classe', 'attendanceState'];
   selectedContacts: any[];
   coursesId: any[] = [];
   checkboxes: {};
   places: {};
   dialogRef: any;
-  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
 
   attendances: any[] ; 
 
@@ -52,7 +48,7 @@ export class AttendanceListComponent implements OnInit  {
    */
   constructor(
     
-      private attendanceService: AttendanceService,
+      private attendanceService: AttendanceManagerService,
       public _matDialog: MatDialog,
       private dateAdapter: DateAdapter<Date>
       
@@ -93,28 +89,6 @@ export class AttendanceListComponent implements OnInit  {
       this._unsubscribeAll.complete();
   }
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
-
-  /**
-   * Edit contact
-   *
-   * @param contact
-   */
-
-  markPresent(attendance){
-      this.attendanceService.markPresent(attendance) ; 
-  }
-
-  markAbsent(attendance){
-    this.attendanceService.markAbsent(attendance) ; 
-}
-
-markJustifiedAbsent(attendance){
-    this.attendanceService.markJustifiedAbsent(attendance) ; 
-}
-
 }
 
 export class FilesDataSource extends DataSource<any>
@@ -125,7 +99,7 @@ export class FilesDataSource extends DataSource<any>
    * @param {DisponibilityTrainerService} attendanceService
    */
   constructor(
-      private attendanceService: AttendanceService
+      private attendanceService: AttendanceManagerService
   ) {
       super();
   }

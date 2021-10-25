@@ -1,6 +1,6 @@
 @import "src/@fuse/scss/fuse";
 
-app-attendance-list {
+app-attendance-manager-list {
     display: flex;
     flex: 1 1 auto;
     width: 100%;
@@ -18,9 +18,20 @@ app-attendance-list {
         .mat-column-avatar {
             flex: 0 1 64px;
         }
-
+        .mat-column-date {
+            text-align: center;
+            flex: 0 1 128px;
+            //margin-right: 56px;
+        }
+   
         .mat-column-buttons {
             flex: 0 1 80px;
+        }
+    
+        .mat-column-attendanceState {
+            //text-align: center;
+            flex: 0 1 150px;
+           
         }
         
         .mat-column-action2 {
@@ -56,8 +67,7 @@ app-attendance-list {
     position: absolute;
     bottom: 12px;
     right: 12px;
-    padding-left: 1em;
-    padding-right:1em;
+    padding: 0;
     z-index: 99;
 
     @include media-breakpoint('xs') {
@@ -68,7 +78,16 @@ app-attendance-list {
 }
 
 .present{
-    background-color :rgb(130, 59, 192)
+    font-weight: 900;
+    background-color :rgb(214, 236, 210)
+}
+.absent{
+    font-weight: 900;
+    background-color :rgb(255,99,71)
+}
+.absent-justified{
+    font-weight: 900;
+    background-color :rgb(255, 247, 196)
 }
 
 .mark-present-button {
