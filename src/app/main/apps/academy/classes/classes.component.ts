@@ -301,36 +301,38 @@ this.confirmDialogRef = null;
     }
 
 
-    listeDesParticipants(programInst): void {
+    listeDesParticipants(programInstId): void {
         
-        this._participantService.getParticipantsByProgramInstanceId(programInst);
+        this._participantService.getParticipantsByProgramInstanceId(programInstId).then(participants =>{
+            if ((this._participantService.participants.length == 0)) { {
 
-       
-        
-        if ((this._participantService.participants.length == 0)) {
-
-            this.addListAlert("Aucun participant inscrit à cette classe");
-            
-        }
-        else {
-
-        this.dialogRef = this.dialog.open(ClasseParticipantsComponent, {
-            height: '80%',
-            width: '60%',
-            panelClass: 'contact-form-dialog',
-            data: {
-                //programInst: programInst,
-                //action: 'edit'
             }
+     
+                 this.addListAlert("Aucun participant inscrit à cette classe");
+                 
+             }
+             else {
+     
+             this.dialogRef = this.dialog.open(ClasseParticipantsComponent, {
+                 height: '80%',
+                 width: '60%',
+                 panelClass: 'contact-form-dialog',
+                 data: {
+                     //programInst: programInst,
+                     //action: 'edit'
+                 }
+             });
+             this.dialogRef.afterClosed()
+                 .subscribe(response => {
+                     if (!response) {
+                         return;
+                     }
+                 })
+     
+             }
         });
-        this.dialogRef.afterClosed()
-            .subscribe(response => {
-                if (!response) {
-                    return;
-                }
-            })
-
-        }
+        
+       
 
     }
 

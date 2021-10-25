@@ -19,7 +19,8 @@ import { ClasseParticipantsComponent } from 'app/main/apps/academy/classes/class
 
 import { ProgramInstance } from 'app/shared/models/programInstance.model';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
-import {ClassetrainerService} from '../classetrainer.service'
+import {ClassetrainerService} from '../classetrainer.service';
+import {ProfileService} from 'app/main/pages/profile/profile.service'
 @Component({
   selector: 'app-classetrainer',
   templateUrl: './classetrainer.component.html',
@@ -70,7 +71,8 @@ alertDialog: MatDialogRef<AlertDialogComponent>;
       private _academyProgramsInstService: ClassetrainerService,
       public dialog: MatDialog,
       private router: Router,
-      private _participantService: ClasseParticipantsService
+      private _participantService: ClasseParticipantsService,
+     
 
   ) {
       // Set the defaults
@@ -99,6 +101,8 @@ alertDialog: MatDialogRef<AlertDialogComponent>;
               this.categories = categories;
           });
 
+        
+
       // Subscribe to courses
       this._academyProgramsInstService.onProgramsInstChanged
           .pipe(takeUntil(this._unsubscribeAll))
@@ -107,6 +111,8 @@ alertDialog: MatDialogRef<AlertDialogComponent>;
 
               
           });
+
+         
   }
 
   /**
@@ -218,46 +224,41 @@ alertDialog: MatDialogRef<AlertDialogComponent>;
   }
 
 
-  
-
- 
-
-
-
 
 
  
 
-  listeDesParticipants(programInst): void {
+  listeDesParticipants(programInstId): void {
       
-      this._participantService.getParticipantsByProgramInstanceId(programInst);
+    this._participantService.getParticipantsByProgramInstanceId(programInstId).then(participants =>{
+        if ((this._participantService.participants.length == 0)) { {
 
-     
-      
-      if ((this._participantService.participants.length == 0)) {
-
-          this.addListAlert("Aucun participant inscrit à cette classe");
-          
-      }
-      else {
-
-      this.dialogRef = this.dialog.open(ClasseParticipantsComponent, {
-          height: '80%',
-          width: '60%',
-          panelClass: 'contact-form-dialog',
-          data: {
-              //programInst: programInst,
-              //action: 'edit'
-          }
-      });
-      this.dialogRef.afterClosed()
-          .subscribe(response => {
-              if (!response) {
-                  return;
-              }
-          })
-
-      }
+        }
+ 
+             this.addListAlert("Aucun participant inscrit à cette classe");
+             
+         }
+         else {
+ 
+         this.dialogRef = this.dialog.open(ClasseParticipantsComponent, {
+             height: '80%',
+             width: '60%',
+             panelClass: 'contact-form-dialog',
+             data: {
+                 //programInst: programInst,
+                 //action: 'edit'
+             }
+         });
+         this.dialogRef.afterClosed()
+             .subscribe(response => {
+                 if (!response) {
+                     return;
+                 }
+             })
+ 
+         }
+    });
+    
 
   }
 
@@ -287,28 +288,8 @@ alertDialog: MatDialogRef<AlertDialogComponent>;
 
 
 
-  confirmClass(programInst): void {
-      this._academyProgramsInstService.confirmProgramInst(programInst);
-  }
-
-  cancelClass(programInst): void {
-      this._academyProgramsInstService.cancelProgramInst(programInst);
-  }
-
-  deleteClass(contact): void {
-      this.dialogRef = this.dialog.open(FuseConfirmDialogComponent, {
-          disableClose: false
-      });
-
-      this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
-
-      this.dialogRef.afterClosed().subscribe(result => {
-          if (result) {
-              this._academyProgramsInstService.deleteProgramInst(contact);
-          }
-          this.dialogRef = null;
-      });
-
-  }
+  
+  
+ 
 
 }

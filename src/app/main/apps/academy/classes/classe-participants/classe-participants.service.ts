@@ -57,7 +57,8 @@ export class ClasseParticipantsService implements Resolve<any>
 
             Promise.all([
 
-                this.getParticipantsOfClass(),
+             //  this.getParticipantsOfClass(),
+              
 
 
 
@@ -67,7 +68,7 @@ export class ClasseParticipantsService implements Resolve<any>
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
 
-                        this.getParticipantsOfClass();
+                       //this.getParticipantsOfClass();
 
                     });
 
@@ -85,7 +86,7 @@ export class ClasseParticipantsService implements Resolve<any>
      * @returns {Promise<any>}
      */
 
-    getParticipantsOfClass(): Promise<any> {
+    /*getParticipantsOfClass(): Promise<any> {
 
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'participants/classId/' + this.classeId)
@@ -98,7 +99,7 @@ export class ClasseParticipantsService implements Resolve<any>
                 }, reject);
         }
         );
-    }
+    }*/
 
 
 
@@ -141,7 +142,8 @@ export class ClasseParticipantsService implements Resolve<any>
                     // this.participants = this.participants.map(contact => {
                     //     return new Participant(contact);
                     // });
-
+                    console.log ("particiiii fel service ");
+                    console.log(this.participants);
                     this.onParticipantsChanged.next(this.participants);
                     resolve(this.participants);
                 }, reject);

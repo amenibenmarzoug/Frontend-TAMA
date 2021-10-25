@@ -70,7 +70,7 @@ export class ClasseParticipantListComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(participants => {
                 this.participants = participants;
-
+              
                 this.checkboxes = {};
                 participants.map(participant => {
                     this.checkboxes[participant.id] = false;

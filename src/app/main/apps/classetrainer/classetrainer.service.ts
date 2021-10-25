@@ -9,8 +9,10 @@ import { ModuleInst } from '../academy/program-inst-detail/tabs/module-inst/modu
 import { Module } from 'app/shared/models/module.model';
 import { FuseUtils } from '@fuse/utils';
 import {environment} from 'environments/environment';
+import{ProfileService} from 'app/main/pages/profile/profile.service';
 
 const AUTH_API = environment.backend_url+ 'api/';
+const USER_KEY = 'auth-user';
 
 
 @Injectable({
@@ -31,7 +33,7 @@ export class ClassetrainerService {
   programs: Program[];
   enterprises:any[];
 
-  lastprogramInst: any;
+  
   themes: Theme[];
 
   onThemeChanged: BehaviorSubject<any>;
@@ -55,6 +57,11 @@ export class ClassetrainerService {
   onSearchTextChangedModuleInst: Subject<any>;
 
 
+  trainerId: any; 
+
+  user: any; 
+
+  
 
 
 
@@ -97,11 +104,10 @@ export class ClassetrainerService {
           Promise.all([
               // this.getCategories(),
               this.getProgramsInst(),
-              this.getPrograms(),
-              this.getEnterprises(),
-
+             
+              
               this.getModulesInst(),
-              this.getModules1(),
+             
 
           ]).then(
               () => {
@@ -125,25 +131,7 @@ export class ClassetrainerService {
 
 
 
-  getThemesPerProgram(): Promise<any> {
-
-      let id = new HttpParams().set('id', this.programId);
-    
-      return new Promise((resolve, reject) => {
-          this._httpClient.get(AUTH_API + 'program/themes', { params: id })
-              .subscribe((response: any) => {
-                  this.themes = response;
-                  this.themes = this.themes.map(theme => {
-                      return new Theme(theme);
-                  });
-                  this.onThemeChanged.next(this.themes);
-                  resolve(this.themes);
-
-              }, reject);
-      });
-
-
-  }
+ 
 
 
 
@@ -153,7 +141,7 @@ export class ClassetrainerService {
    *
    * @returns {Promise<any>}
    */
-  getProgramsInst(): Promise<any> {
+  /*getProgramsInst(): Promise<any> {
       return new Promise((resolve, reject) => {
           this._httpClient.get(AUTH_API + 'programsInst')
               .subscribe((response: any) => {
@@ -162,67 +150,25 @@ export class ClassetrainerService {
                   resolve(response);
               }, reject);
       });
-  }
-  /**
-   * Update contact
-   *
-   * @param contact
-   * @returns {Promise<any>}
-   */
-  addProgramInst(programInst, program): Promise<any> {
-      return new Promise((resolve, reject) => {
-          programInst.program = program;
-          this._httpClient.post(AUTH_API + 'programsInst', programInst)
-              .subscribe(response => {
-                  this.getProgramsInst();
-                  resolve(response);
+  }*/
 
 
-
-              });
-      });
-  }
-
-  getEnterprises(): Promise<any> {
-      return new Promise((resolve, reject) => {
-          this._httpClient.get(AUTH_API + 'entreprises')
-              .subscribe((response: any) => {
-                  this.enterprises = response;
-                  this.enterprises = this.enterprises.filter(enterprise => {
-                      // return this.user.frequentContacts.includes(_contact.id);
-                      if (enterprise.provider == true) {
-                          return true;
-                      }
-                      return false;
-                  });
-                  this.onEnterprisesChanged.next(this.enterprises);
-                  resolve(this.enterprises);
-              }, reject);
-      }
-      );
-  }
-
-
-
-  addClass(programInst, program): Promise<any> {
-      this.program = program;
-      programInst.program = program;
+  
+  getProgramsInst(): Promise<any> {
+    return new Promise((resolve, reject) => {
      
 
-      return new Promise((resolve, reject) => {
-          this._httpClient.post(AUTH_API + 'programsInst2', programInst)
-              .subscribe(response => {
-                  this.getProgramsInst();
-                  resolve(response);
-
-
-
-              });
-      });
-
-  }
-
-
+       this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
+       
+       this.trainerId = this.user.id;
+        this._httpClient.get(AUTH_API + 'session/classestrainer/'+ this.trainerId)
+            .subscribe((response: any) => {
+                this.programsInst = response;
+                this.onProgramsInstChanged.next(response);
+                resolve(response);
+            }, reject);
+    });
+}
 
   
 
@@ -262,92 +208,7 @@ export class ClassetrainerService {
 
 
 
-  addModuleInst(themeInst, module): Promise<any> {
-      this.moduleClasse = new ModuleInst(module);
-      this.moduleClasse.module = module;
-      this.moduleClasse.moduleInstanceName = module.moduleName;
-      this.moduleClasse.nbDaysModuleInstance = module.nbDaysModule;
-      this.moduleClasse.themeInstance = themeInst;
-
-      // console.log(themeInst);
-      // console.log("moduleee Classe ");
-      // console.log(this.moduleClasse.themeInstance);
-
-      return new Promise((resolve, reject) => {
-
-          this._httpClient.post(AUTH_API + 'moduleInstance', this.moduleClasse)
-              .subscribe(response => {
-                  this.getModulesInst();
-                  resolve(response);
-              });
-      });
-  }
-
-
-
-
-  getModules1(): Promise<any> {
-      return new Promise((resolve, reject) => {
-          this._httpClient.get(AUTH_API + 'module')
-              .subscribe((response: any) => {
-
-                  this.modules = response;
-
-                  this.onmoduleChanged.next(response);
-
-                  resolve(response);
-
-              }, reject);
-      }
-      );
-
-  }
-
-
-
-
-
-  getModules(val1): Promise<any> {
-      return new Promise((resolve, reject) => {
-          this._httpClient.get(AUTH_API + 'module')
-              .subscribe((response: any) => {
-
-                  this.modules = response;
-
-                  this.onmoduleChanged.next(response);
-
-                  resolve(response);
-
-                  this.modulesOfTheme = [];
-                  if (this.modules != null) {
-
-
-                      this.modules.forEach(theme => {
-                          //  console.log(theme.program);
-                          // console.log("prog fel service");
-                          // console.log(this.program);
-                          if (theme.theme.id == val1.id) {
-                              this.modulesOfTheme.push(theme);
-
-                          }
-                          else {
-                              // console.log(theme.program.id == this.program.id );
-                          }
-
-
-                      });
-                  }
-
-
-              }, reject);
-      }
-      );
-  }
-
-
-
-
-
+  
 
 
   getModulesInst(): Promise<any> {
@@ -424,62 +285,9 @@ export class ClassetrainerService {
       });
   }
 
-  cancelProgramInst(programInst): Promise<any> {
-
-      return new Promise((resolve, reject) => {
-      
-        //  console.log(programInst);
-          this._httpClient.put(AUTH_API + 'programsInst/cancel', programInst)
-              .subscribe(response => {
-                  this.getProgramsInst();
-                  resolve(response);
-              });
-      });
-  }
+  
 
 
-
-  updateProgramInst(programInst): Promise<any> {
-
-      return new Promise((resolve, reject) => {
-          console.log("program on the update");
-          console.log(programInst);
-        //  console.log(programInst);
-          this._httpClient.put(AUTH_API + 'programsInst', programInst)
-              .subscribe(response => {
-                  this.getProgramsInst();
-                  resolve(response);
-              });
-      });
-  }
-
-  updateClass(programInst): Promise<any> {
-
-      return new Promise((resolve, reject) => {
-      
-         console.log("CLASS SERVICE");
-         console.log(programInst);
-          this._httpClient.put(AUTH_API + 'programsInst', programInst)
-              .subscribe(response => {
-                  console.log(response);
-                  this.getProgramsInst();
-                  resolve(response);
-              });
-      });
-  }
-
-  getPrograms(): Promise<any> {
-
-      return new Promise((resolve, reject) => {
-          this._httpClient.get(environment.backend_url+ 'api/programs')
-              .subscribe((response: any) => {
-                  this.onProgramChanged.next(response);
-                  this.programs = response;
-                  resolve(response);
-              }, reject);
-      }
-      );
-  }
-
+  
 
 }
