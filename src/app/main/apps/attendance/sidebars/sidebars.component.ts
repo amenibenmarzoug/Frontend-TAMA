@@ -9,6 +9,7 @@ import localeFr from '@angular/common/locales/fr';
 import { DateAdapter } from '@angular/material/core';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { saveAs } from 'file-saver';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -116,8 +117,7 @@ export class SidebarsComponent implements OnInit {
     this.attendanceService.onFilterByDateChanged.next(sessionDate);
     }
 
- 
-
+   
   selectSession(session): void {
 
       this.attendanceService.onFilterChanged.next(session);

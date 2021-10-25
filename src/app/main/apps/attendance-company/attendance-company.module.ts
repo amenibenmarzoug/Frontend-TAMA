@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatSelectModule } from '@angular/material/select';
 import { RouterModule, Routes } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -10,35 +12,29 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
-
 import { FuseSharedModule } from '../../../../@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '../../../../@fuse/components';
 
-import { CommonModule } from '@angular/common';
+import { AttendanceCompanyService } from './attendance-company.service';
+import { AttendanceCompanyComponent } from './attendance-company.component';
+import { AttendanceCompanyListComponent } from './attendance-company-list/attendance-company-list.component';
+import { AttendanceCompanySidebarsComponent } from './attendance-company-sidebars/attendance-company-sidebars.component';
 
 
-
-import { AttendanceComponent } from './attendance.component';
-import { AttendanceListComponent } from './attendance-list/attendance-list.component';
-import { SidebarsComponent } from './sidebars/sidebars.component';
-import { MatSelectModule } from '@angular/material/select';
-
-import { AttendanceService } from './attendance.service';
-import { AuthGuardTrainerService } from 'app/auth-guard-trainer.service';
 const routes: Routes = [
   {
     path: '**',
-    component: AttendanceComponent,
+    component: AttendanceCompanyComponent,
     resolve: {
-      contacts: AttendanceService
-    },
-    canActivate:[AuthGuardTrainerService] 
+      contacts: AttendanceCompanyService
+    }
   }
 ];
 
 @NgModule({
-  declarations: [AttendanceComponent, AttendanceListComponent,  SidebarsComponent],
+  declarations: [AttendanceCompanyComponent,AttendanceCompanyListComponent, AttendanceCompanySidebarsComponent],
   imports: [
+    CommonModule,
     RouterModule.forChild(routes),
 
     MatButtonModule,
@@ -57,16 +53,8 @@ const routes: Routes = [
     FuseConfirmDialogModule,
     FuseSidebarModule
   ],
-
   providers: [
-    AttendanceService
+    AttendanceCompanyService
   ],
-
 })
-
-
-
-export class AttendanceModule { }
-
-
-
+export class AttendanceCompanyModule { }

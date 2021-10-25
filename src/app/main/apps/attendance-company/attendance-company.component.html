@@ -41,25 +41,21 @@
     <!-- CONTENT -->
     <div class="content">
         <!-- SIDEBAR -->
-        <fuse-sidebar class="sidebar" name="contacts-main-sidebar" position="left" lockedOpen="gt-sm">
+        <fuse-sidebar class="sidebar" name="contacts-main-sidebar" position="left" lockedOpen="gt-sm"> 
 
-            <!-- SIDEBAR CONTENT -->
-            <div class="content" fusePerfectScrollbar>
-                <app-sidebars [@animate]="{value:'*'}"></app-sidebars>
+        <!-- SIDEBAR CONTENT -->
+          <div class="content" fusePerfectScrollbar>
+                <app-attendance-company-sidebars [@animate]="{value:'*'}"></app-attendance-company-sidebars>
             </div>
+        <!-- / SIDEBAR CONTENT -->
 
-
-            <!-- / SIDEBAR CONTENT -->
-
-        </fuse-sidebar>
-
-
+          </fuse-sidebar> 
         <!-- / SIDEBAR -->
 
         <!-- CENTER -->
         <div class="center p-24 pb-56 pr-sm-92" fusePerfectScrollbar>
             <div class="content">
-                <app-attendance-list></app-attendance-list>
+                <app-attendance-company-list></app-attendance-company-list>
             </div>
             <!-- / CONTENT -->
         </div>
@@ -69,17 +65,15 @@
 
 </div>
 
-
-
 <!-- ADD CONTACT BUTTON -->
-<div >
-    <a [href]="" target="_blank" rel="noopener noreferrer">
-        <button mat-raised-button class="accent" id="add-contact-button" (click)="printAttendanceList()"
-            aria-label="add contact" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
-            <mat-icon>print </mat-icon>
-        </button>
+<div>
+    <a [href]=""  target="_blank" rel="noopener noreferrer">
+    <button mat-raised-button class="accent" id="add-contact-button" (click)="printAttendanceList()" aria-label="add contact"
+    [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+    Imprimer La Fiche
+</button>
     </a>
-
+    
 
 </div>
 

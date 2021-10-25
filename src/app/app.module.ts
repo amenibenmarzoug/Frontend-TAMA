@@ -19,6 +19,12 @@ import { FakeDbService } from 'app/fake-db/fake-db.service';
 import { AppComponent } from 'app/app.component';
 import { AppStoreModule } from 'app/store/store.module';
 import { LayoutModule } from 'app/layout/layout.module';
+import { AuthGuardService } from './auth-guard.service';
+import { AuthGuardManagerService } from './auth-guard-manager.service';
+import { AuthGuardCompanyService } from './auth-guard-company.service';
+import { AuthGuardParticipantService } from './auth-guard-participant.service';
+import { AuthGuardTrainerService } from './auth-guard-trainer.service';
+
 
 const appRoutes: Routes = [
     {
@@ -81,6 +87,13 @@ const appRoutes: Routes = [
         // App modules
         LayoutModule,
         AppStoreModule
+    ],
+    providers:[
+        AuthGuardService,
+        AuthGuardTrainerService,
+        AuthGuardCompanyService,
+        AuthGuardManagerService,
+        AuthGuardParticipantService
     ],
     bootstrap   : [
         AppComponent

@@ -14,6 +14,7 @@ import { ProfileAboutComponent } from 'app/main/pages/profile/tabs/about/about.c
 import { ProfilePhotosVideosComponent } from 'app/main/pages/profile/tabs/photos-videos/photos-videos.component';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { AuthGuardService } from 'app/auth-guard.service';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -23,7 +24,9 @@ const routes = [
         component: ProfileComponent,
         resolve  : {
             profile: ProfileService
-        }
+        },
+        canActivate:[AuthGuardService] 
+
     }
 ];
 
