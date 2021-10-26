@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AttendanceManagerComponent } from './attendance-manager/attendance-manager.component';
+import { AttendanceCompanyComponent } from './attendance-company/attendance-company.component';
 
 
 
@@ -134,6 +135,10 @@ const routes = [
     {
         path        : 'attendance-manager',
         loadChildren: () => import('./attendance-manager/attendance-manager.module').then(m => m.AttendanceManagerModule)
+    },
+    {
+        path        : 'attendance-company',
+        loadChildren: () => import('./attendance-company/attendance-company.module').then(m => m.AttendanceCompanyModule)
     },
 
 

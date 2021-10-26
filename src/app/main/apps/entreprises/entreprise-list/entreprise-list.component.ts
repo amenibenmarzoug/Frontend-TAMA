@@ -233,6 +233,9 @@ export class EntrepriseListComponent implements OnInit, OnDestroy {
         this._entreprisesService.ValidateContact(contact)
     }
 
+    refuseCompany(company){
+        this._entreprisesService.refuseCompany(company);
+    }
     /**
      * On selected change
      *

@@ -15,19 +15,9 @@
             <p class="email font-weight-600 mt-1" flex>{{attendance.session.sessionBeginDate| date:'dd/MM/yyyy'}}</p>
         </mat-cell>
     </ng-container>
-     <!-- Job Title Column -->
-     <ng-container matColumnDef="seance">
-        <mat-header-cell *matHeaderCellDef fxShow.gt-lg>Seance</mat-header-cell>
-        <mat-cell *matCellDef="let attendance" fxShow.gt-lg>
-            <p class="email text-truncate font-weight-600">
-                {{attendance.session.sessionName}}
-            </p>
-        </mat-cell>
-    </ng-container>
 
-
-    <!-- Institution Column -->
-    <ng-container matColumnDef="participant" >
+      <!-- Institution Column -->
+      <ng-container matColumnDef="participant" >
         <mat-header-cell *matHeaderCellDef fxShow.gt-md>Participant</mat-header-cell>
         <mat-cell *matCellDef="let attendance" fxShow.gt-md>
             <p class="text-truncate font-weight-600"  >
@@ -36,6 +26,30 @@
             
         </mat-cell>
     </ng-container>
+
+    <ng-container matColumnDef="seance">
+        <mat-header-cell *matHeaderCellDef fxShow.gt-lg>Seance</mat-header-cell>
+        <mat-cell *matCellDef="let attendance" fxShow.gt-lg>
+            <p class="email  font-weight-600">
+                {{attendance.session.sessionName}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="classe">
+        <mat-header-cell *matHeaderCellDef fxShow.gt-lg>Classe</mat-header-cell>
+        <mat-cell *matCellDef="let attendance" fxShow.gt-lg>
+            <p class=" font-weight-600">
+                {{attendance.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+     <!-- Job Title Column -->
+     
+
+
+  
     <ng-container matColumnDef="attendanceState" >
         <mat-header-cell *matHeaderCellDef fxShow.gt-md>Status</mat-header-cell>
         <mat-cell *matCellDef="let attendance" fxShow.gt-md>
@@ -87,38 +101,10 @@
             </div>
         </mat-cell>
     </ng-container>
-
-    <ng-container matColumnDef="attendance">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let attendance">
-            <div fxFlex="row" fxLayoutAlign="end center">
-                <button mat-raised-button color="accent" (click)="markPresent(attendance)" 
-                *ngIf="attendance.attendanceState !='PRESENT' ">
-                    Présent
-                </button>
-                <button mat-raised-button color="warn" (click)="markAbsent(attendance)"
-                *ngIf="attendance.attendanceState =='PRESENT' ">
-                    Absent
-               </button>
-
-               <button mat-raised-button color="primary" (click)="markJustifiedAbsent(attendance)"
-               *ngIf="attendance.attendanceState !='JUSTIFIEDABSENT' ">
-                Absent Justifié
-            </button>
-            <button mat-raised-button  color="warn"(click)="markAbsent(attendance)"
-            *ngIf="attendance.attendanceState =='JUSTIFIEDABSENT' ">
-                Absent
-           </button>
-
-
-            </div>
-
-        </mat-cell>
-    </ng-container>
   
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row 
-    *matRowDef="let attendance; columns: displayedColumns;" class="attendance"
+    *matRowDef="let attendance; columns: displayedColumns;" class="center " 
         [ngClass]="{'accent-50':checkboxes[attendance.id]}" [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>
 </mat-table>

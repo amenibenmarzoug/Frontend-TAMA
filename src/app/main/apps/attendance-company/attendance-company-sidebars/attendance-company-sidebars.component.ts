@@ -2,19 +2,17 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { AttendanceManagerService } from '../attendance-manager.service';
+import { AttendanceCompanyService } from '../attendance-company.service';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { DateAdapter } from '@angular/material/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-
-registerLocaleData(localeFr, 'fr');
 @Component({
-  selector: 'app-attendance-manager-sidebars',
-  templateUrl: './attendance-manager-sidebars.component.html',
-  styleUrls: ['./attendance-manager-sidebars.component.scss']
+  selector: 'app-attendance-company-sidebars',
+  templateUrl: './attendance-company-sidebars.component.html',
+  styleUrls: ['./attendance-company-sidebars.component.scss']
 })
-export class AttendanceManagerSidebarsComponent implements OnInit {
+export class AttendanceCompanySidebarsComponent implements OnInit {
 
   
   user: any;
@@ -22,11 +20,6 @@ export class AttendanceManagerSidebarsComponent implements OnInit {
   courseSessions: any[] = [];
   currentTrainer: string;
   selectedSession: any ; 
-  //mat select
-  participantValue : any ; 
-  classeValue : any ; 
-  dateValue : any ; 
-  sessionValue : any ; 
 
   attendances : any[] ; 
   participants : any[] ; 
@@ -45,15 +38,11 @@ export class AttendanceManagerSidebarsComponent implements OnInit {
    * @param {AttendanceService} attendanceService
    */
   constructor(
-      private attendanceService: AttendanceManagerService,
+      private attendanceService: AttendanceCompanyService,
       public _matDialog: MatDialog,
       private dateAdapter: DateAdapter<Date>
   ) {
       // Set the private defaults
-      this.participantValue=null  ; 
-      this.classeValue = null ; 
-        this.dateValue = null ; 
-        this.sessionValue=null ; 
       this.dateAdapter.setLocale('fr');
       this._unsubscribeAll = new Subject();
   }
@@ -139,7 +128,7 @@ export class AttendanceManagerSidebarsComponent implements OnInit {
     selectParticipant(participant): void {
         console.log("selecting Participant")
         this.selectedParticipant = participant;
-        console.log(participant)
+        console.log(this.selectedDate)
         this.attendanceService.onFilterByParticipantChanged.next(participant);
     }
 
@@ -152,7 +141,7 @@ export class AttendanceManagerSidebarsComponent implements OnInit {
 
 
     selectSession(session): void {
-        this.selectedSession = session
+
         this.attendanceService.onFilterChanged.next(session);
         this.checkedAttendance = false;
     }
@@ -164,22 +153,13 @@ export class AttendanceManagerSidebarsComponent implements OnInit {
         this.attendanceService.filterByClasse=null ; 
         this.attendanceService.filterBy=null ; 
         this.attendanceService.participant=null  ; 
-        this.attendanceService.session=null;
         this.ngOnInit();
         this.selectedParticipant=null  ; 
         this.selectedClass = null ; 
         this.selectedDate = null ; 
         this.selectedSession=null ;
 
-        /*
-        this.attendanceService.onFilterByDateChanged.next(reset);
-        this.attendanceService.onFilterByClassChanged.next(reset);
-        this.attendanceService.onFilterByParticipantChanged.next(reset);
-        this.attendanceService.onFilterChanged.next(reset);
-        */
-       
     }
-
 
 }
 

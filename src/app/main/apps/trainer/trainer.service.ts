@@ -6,9 +6,9 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FuseUtils } from '@fuse/utils';
 
 import { Contact } from './trainer.model';
-import {environment} from 'environments/environment';
+import { environment } from 'environments/environment';
 
-const AUTH_API = environment.backend_url+ 'api/';
+const AUTH_API = environment.backend_url + 'api/';
 
 
 
@@ -35,9 +35,9 @@ export class TrainerService implements Resolve<any>
     searchText: string;
     filterBy: string;
     id: number;
-    onThemesChanged:  BehaviorSubject<any>;
-    themes:any[];
-    themeId:number;
+    onThemesChanged: BehaviorSubject<any>;
+    themes: any[];
+    themeId: number;
 
     /**
      * Constructor
@@ -52,7 +52,7 @@ export class TrainerService implements Resolve<any>
         this.onSelectedContactsChanged = new BehaviorSubject([]);
         this.onUserDataChanged = new BehaviorSubject([]);
         this.onModulesChanged = new BehaviorSubject([]);
-        this.onThemesChanged= new BehaviorSubject([]);
+        this.onThemesChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
     }
@@ -122,7 +122,7 @@ export class TrainerService implements Resolve<any>
                     }
 
                     if (this.filterBy === 'all') {
-                        this.contacts =response;
+                        this.contacts = response;
                     }
 
                     if (this.filterBy === 'without') {
@@ -166,21 +166,21 @@ export class TrainerService implements Resolve<any>
         );
     }
 
-   /* getModules(): Promise<any> {
-
-
-        return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'modulesNames')
-                .subscribe((response: any) => {
-                    console.log("MODULES");
-                    console.log(response);
-                    this.onModulesChanged.next(response);
-                    this.modules = response;
-                    resolve(response);
-                }, reject);
-        }
-        );
-    }*/
+    /* getModules(): Promise<any> {
+ 
+ 
+         return new Promise((resolve, reject) => {
+             this._httpClient.get(AUTH_API + 'modulesNames')
+                 .subscribe((response: any) => {
+                     console.log("MODULES");
+                     console.log(response);
+                     this.onModulesChanged.next(response);
+                     this.modules = response;
+                     resolve(response);
+                 }, reject);
+         }
+         );
+     }*/
 
     getModules(): Promise<any> {
 
@@ -188,33 +188,33 @@ export class TrainerService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'module')
                 .subscribe((response: any) => {
-                  
-                    this.onModulesChanged.next( this.modules);
-                    if(this.themeId!=null){
+
+                    this.onModulesChanged.next(this.modules);
+                    if (this.themeId != null) {
                         this.modules = response;
-                        this.modules=this.modules.filter(module =>{
-                            if(module.theme.id==this.themeId){
+                        this.modules = this.modules.filter(module => {
+                            if (module.theme.id == this.themeId) {
                                 return true;
                             }
                             return false;
                         })
                     }
-                    else{
-                        this.modules=[];
+                    else {
+                        this.modules = [];
                     }
                     console.log("MODULES");
                     console.log(this.modules);
-                    this.onModulesChanged.next( this.modules);
-                    resolve( this.modules);
+                    this.onModulesChanged.next(this.modules);
+                    resolve(this.modules);
                 }, reject);
         }
         );
     }
 
     getTrainerBySpecializations(specialization): Promise<any> {
-        const params = new HttpParams().set('specialization',specialization);
+        const params = new HttpParams().set('specialization', specialization);
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'specialization/trainers/', {params:params})
+            this._httpClient.get(AUTH_API + 'specialization/trainers/', { params: params })
                 .subscribe((response: any) => {
                     this.contacts = response;
                     this.onContactsChanged.next(this.contacts);
@@ -231,8 +231,8 @@ export class TrainerService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.post(AUTH_API + 'modulesNamesPerThemes', themes)
                 .subscribe((response: any) => {
-                  
-                   this.modules=response;
+
+                    this.modules = response;
                     /*if(this.themeId!=null){
                         this.modules = response;
                         this.modules=this.modules.filter(module =>{
@@ -247,8 +247,8 @@ export class TrainerService implements Resolve<any>
                     }*/
                     console.log("MODULES");
                     console.log(this.modules);
-                    this.onModulesChanged.next( this.modules);
-                    resolve( this.modules);
+                    this.onModulesChanged.next(this.modules);
+                    resolve(this.modules);
                 }, reject);
         }
         );
@@ -262,7 +262,7 @@ export class TrainerService implements Resolve<any>
                 .subscribe((response: any) => {
                     console.log("Themes");
                     console.log(response);
-                
+
                     this.onThemesChanged.next(response);
                     this.themes = response;
                     resolve(response);
@@ -353,16 +353,16 @@ export class TrainerService implements Resolve<any>
         this.specifications = null;*/
         console.log(contact);
         return new Promise((resolve, reject) => {
-           /* if (this.disponibilities != null) {
-                contact.disponibilityDays = this.disponibilities;
-
-            }
-            if (this.specifications != null) {
-                contact.specifications = this.specifications;
-            }
-
-            this.disponibilities = null;
-            this.specifications = null;*/
+            /* if (this.disponibilities != null) {
+                 contact.disponibilityDays = this.disponibilities;
+ 
+             }
+             if (this.specifications != null) {
+                 contact.specifications = this.specifications;
+             }
+ 
+             this.disponibilities = null;
+             this.specifications = null;*/
             this._httpClient.post(AUTH_API + 'auth/signup', contact)
                 .subscribe(response => {
                     this.getContacts();
@@ -372,16 +372,16 @@ export class TrainerService implements Resolve<any>
     }
     updateContact1(contact): Promise<any> {
         console.log(contact);
-       /* if (this.disponibilities != null) {
-            contact.disponibilityDays = this.disponibilities;
-
-        }
-        if (this.specifications != null) {
-            contact.specifications = this.specifications;
-        }
-
-        this.disponibilities = null;
-        this.specifications = null;*/
+        /* if (this.disponibilities != null) {
+             contact.disponibilityDays = this.disponibilities;
+ 
+         }
+         if (this.specifications != null) {
+             contact.specifications = this.specifications;
+         }
+ 
+         this.disponibilities = null;
+         this.specifications = null;*/
         return new Promise((resolve, reject) => {
             console.log(contact);
             this._httpClient.put(AUTH_API + 'trainers', contact)
@@ -422,6 +422,18 @@ export class TrainerService implements Resolve<any>
                     this.getContacts();
                     resolve(response);
                 });
+        });
+    }
+
+    refuseTrainer(trainer): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient.put(AUTH_API + 'trainer/refuse', trainer)
+                .subscribe(response => {
+                    this.getContacts();
+                    resolve(response);
+                });
+
+
         });
     }
 
