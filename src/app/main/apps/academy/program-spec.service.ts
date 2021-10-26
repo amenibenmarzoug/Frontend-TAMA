@@ -144,9 +144,7 @@ export class ProgramSpecService {
 
   addProgramSpec(programSpec): Promise<any> {
     return new Promise((resolve, reject) => {
-       // programInst.program = program;
-       //console.log("programSpeeeeeeeeeec");
-       //console.log(programSpec);
+       
                this._httpClient.post(AUTH_API +'specificProgram', programSpec)
             .subscribe(response => {
                 this.getPrograms();

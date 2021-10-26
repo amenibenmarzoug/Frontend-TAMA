@@ -58,8 +58,7 @@ export class MainModuleSpecComponent implements OnInit {
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(theme => {
               this.theme = theme;
-              console.log("themes fel ts");
-              console.log ( this.theme);
+             
 
           });
 

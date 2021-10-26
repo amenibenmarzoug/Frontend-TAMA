@@ -13,10 +13,10 @@ export class MainComponent3 implements OnInit {
   user: any;
   filterBy: string;
   categories: any[];
-  modules: any[];
-  theme: any[];
+  modulesInst: any[];
+  themesInst: any[];
   modulesFilteredByCategory: any[];
-  filteredModules: any[];
+  filteredModulesInst: any[];
   currentCategory: string;
   searchTerm: string;
 
@@ -29,7 +29,7 @@ export class MainComponent3 implements OnInit {
    * @param {ProgramDetailsService} _moduleService
    */
   constructor(
-     private _moduleService: ClassesDetailService
+     private _moduleInstService: ClassesDetailService
     
   ) {
       this.currentCategory = 'all';
@@ -46,20 +46,20 @@ export class MainComponent3 implements OnInit {
    * On init
    */
   ngOnInit(): void {
-     this.filterBy = this._moduleService.filterByModule || 'all';
+     this.filterBy = this._moduleInstService.filterByModule || 'all';
    
 
-      this._moduleService.onmoduleInstChanged
+      this._moduleInstService.onmoduleInstChanged
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(modules => {
-              this.modules = modules;
+              this.modulesInst = modules;
              
           });
 
-      this._moduleService.onThemeInstChanged
+      this._moduleInstService.onThemeInstChanged
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(theme => {
-              this.theme = theme;
+              this.themesInst = theme;
 
           });
 
@@ -87,29 +87,29 @@ export class MainComponent3 implements OnInit {
   changeFilter(filter): void {
       this.filterBy = filter.id;
       console.log(filter.id);
-      this._moduleService.theme = filter;
-      this._moduleService.onFilterChangedModuleInst.next(this.filterBy);
+      this._moduleInstService.theme = filter;
+      this._moduleInstService.onFilterChangedModuleInst.next(this.filterBy);
 
   }
 
   filterModulesByCategory(): void {
       // Filter
       if (this.currentCategory === 'all') {
-          this.modulesFilteredByCategory = this.modules;
-          this.filteredModules = this.modules;
+          this.modulesFilteredByCategory = this.modulesInst;
+          this.filteredModulesInst = this.modulesInst;
       }
       else {
 
-          this.modulesFilteredByCategory = this.modules.filter((module) => {
+          this.modulesFilteredByCategory = this.modulesInst.filter((module) => {
 
-              this._moduleService.theme = module.theme;
+              this._moduleInstService.theme = module.theme;
               return module.theme.themeName === this.currentCategory;
           });
 
-          this.filteredModules = [...this.modulesFilteredByCategory];
+          this.filteredModulesInst = [...this.modulesFilteredByCategory];
 
       }
-      this._moduleService.onModuleChanged.next(this.filteredModules);
+      this._moduleInstService.onModuleChanged.next(this.filteredModulesInst);
 
       // Re-filter by search term
       this.filterModulesByTerm();
@@ -124,10 +124,10 @@ export class MainComponent3 implements OnInit {
 
       // Search
       if (searchTerm === '') {
-          this.filteredModules = this.modulesFilteredByCategory;
+          this.filteredModulesInst = this.modulesFilteredByCategory;
       }
       else {
-          this.filteredModules = this.modulesFilteredByCategory.filter((module) => {
+          this.filteredModulesInst = this.modulesFilteredByCategory.filter((module) => {
               return module.themeName.toLowerCase().includes(searchTerm);
           });
       }

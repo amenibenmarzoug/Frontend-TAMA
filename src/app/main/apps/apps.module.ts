@@ -9,6 +9,7 @@ import { AttendanceCompanyComponent } from './attendance-company/attendance-comp
 
 
 
+
 const routes = [
     {
         path        : 'dashboards/analytics',
@@ -128,6 +129,12 @@ const routes = [
 
 
     {
+        path        : 'classetrainer',
+        loadChildren: () => import('./classetrainer/classetrainer.module').then(m => m.ClassetrainerModule)
+    },
+
+
+    {
         path        : 'attendance',
         loadChildren: () => import('./attendance/attendance.module').then(m => m.AttendanceModule)
     },
@@ -139,6 +146,11 @@ const routes = [
     {
         path        : 'attendance-company',
         loadChildren: () => import('./attendance-company/attendance-company.module').then(m => m.AttendanceCompanyModule)
+    },
+
+    {
+        path        : 'attendance-participant',
+        loadChildren: () => import('./attendance-participant/attendance-participant.module').then(m => m.AttendanceParticipantModule)
     },
 
 
@@ -161,7 +173,7 @@ const routes = [
         RouterModule.forChild(routes),
         FuseSharedModule       
     ],
-    declarations: [],
+   
    
 
    

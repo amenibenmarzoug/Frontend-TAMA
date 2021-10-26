@@ -9,8 +9,8 @@ import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ProgramDetailsService } from '../../../programDetails/programDetails.service';
-import { ModuleInst } from '../../../program-inst-detail/tabs/module-inst/moduleInst.model';
+
+
 import {ClassesDetailService} from '../../classes-detail.service'
 @Component({
   selector: 'app-theme-detail-classe',
@@ -24,14 +24,14 @@ export class ThemeDetailClasseComponent implements OnInit {
   dialogRef: any;
   hasSelectedThemeDetails: boolean;
   searchInput: FormControl;
-  moduleId: number;
+  
 
   // Private
   private _unsubscribeAll: Subject<any>;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   alertDialog: MatDialogRef<AlertDialogComponent>;
-  themeDetail: any;
-  selectedModule:ModuleInst;
+  
+  //selectedModule:ModuleInstance;
   /**
    * Constructor
    *

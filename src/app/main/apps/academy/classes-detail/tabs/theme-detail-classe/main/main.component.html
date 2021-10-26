@@ -30,8 +30,8 @@
                             <!--mat-option [value]="'all'">
                                 Tous
                             </mat-option-->
-                            <mat-option *ngFor="let category of module" [value]="category">
-                            <!-- {{ category.moduleName }}--> 
+                            <mat-option *ngFor="let category of modulesInst" [value]="category">
+                           
                             {{ category.moduleInstanceName }}
                             </mat-option>
                         </mat-select>

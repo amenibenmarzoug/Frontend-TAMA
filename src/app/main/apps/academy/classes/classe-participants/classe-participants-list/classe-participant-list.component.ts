@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
-import { Participant } from 'app/main/apps/participants/participant.model';
+import { Participant } from 'app/shared/models/participant.model';
 import { ClasseParticipantsService } from '../classe-participants.service';
+
 
 @Component({
     selector: 'classe-participants-list',
@@ -21,7 +21,7 @@ export class ClasseParticipantListComponent implements OnInit, OnDestroy {
     @ViewChild('dialogContent')
     dialogContent: TemplateRef<any>;
 
-    contacts: any;
+    participants: any;
     user: any;
     dataSource: FilesDataSource | null;
     // dataSource :any[] ;
@@ -34,6 +34,7 @@ export class ClasseParticipantListComponent implements OnInit, OnDestroy {
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     id: number;
     currentYear: number;
+
 
 
     // Private
@@ -61,25 +62,29 @@ export class ClasseParticipantListComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        //this._participantsService.getContacts();
 
         this.dataSource = new FilesDataSource(this._participantsService);
-       
-        this._participantsService.onContactsChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(contacts => {
-                this.contacts = contacts;
 
+       
+        this._participantsService.onParticipantsChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(participants => {
+                this.participants = participants;
+              
                 this.checkboxes = {};
-                contacts.map(contact => {
-                    this.checkboxes[contact.id] = false;
+                participants.map(participant => {
+                    this.checkboxes[participant.id] = false;
                 });
 
             });
 
+           
 
 
     }
+
+
+    
 
     /**
      * On destroy
@@ -108,7 +113,7 @@ export class ClasseParticipantListComponent implements OnInit, OnDestroy {
         // this.confirmDialogRef.afterClosed().subscribe(result => {
         //     if (result) {
         //         console.log(id)
-        //         this._participantsService.deleteContact(id);
+        //         this._participantsService.deleteParticipant(id);
         //     }
         //     this.confirmDialogRef = null;
         // });
@@ -135,7 +140,7 @@ export class FilesDataSource extends DataSource<any>
      * @returns {Observable<any[]>}
      */
     connect(): Observable<any[]> {
-        return this._participantsService.onContactsChanged;
+        return this._participantsService.onParticipantsChanged;
     }
 
     /**

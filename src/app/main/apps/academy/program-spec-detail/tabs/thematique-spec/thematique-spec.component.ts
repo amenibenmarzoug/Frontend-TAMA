@@ -30,7 +30,7 @@ export class ThematiqueSpecComponent implements OnInit {
   searchTerm: string;
   dialogRef: any;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  duration: any;
+ 
   programId: any;
   private sub:any;
 
@@ -88,7 +88,7 @@ export class ThematiqueSpecComponent implements OnInit {
           .subscribe(themes => {
               this.filteredThemes = this.themesFilteredByCategory = this.themes = themes;
           }); 
-          console.log("fel init") 
+        
           this.programId=this._programDetailsService.programId;
           console.log(this.programId) ;  
           this._programDetailsService.getProgramById(this.programId) ; 
@@ -177,35 +177,54 @@ export class ThematiqueSpecComponent implements OnInit {
               action: 'new'
           }
       });
-      
-     // this.actualDaysNumberAffected=this._programDetailsService.actualDaysNumberAffected ; 
-      //this.programTotalDaysNumber=this._programDetailsService.program.nbDaysProg;   
-   
+
+     
 
       this.dialogRef.afterClosed()
           .subscribe((response: FormGroup) => {
-              this.theme=response.getRawValue() ; 
-              //console.log(this.theme) ; 
-             // console.log(this.theme.nbDaysTheme) ;
-       
-             // this.actualDaysNumberAffected = this._programDetailsService.actualDaysNumberAffected
-                                              //+ Number(this.theme.nbDaysTheme)  ; 
+              
+             
               if (!response) {
                   console.log(`Dialog result before return: ${response}`);
 
                   return;
               }
-             /* if (this.actualDaysNumberAffected > this.programTotalDaysNumber) {
-                  this.addThematiqueAlert("Vous avez dépassé le nombre des jours du Programme");
-                  console.log(`Exceeded`);
-                  
-                  return; 
-              }*/
-              //if (response)
-          this._programDetailsService.addTheme(response.getRawValue());
+              this.theme=response.getRawValue() ; 
+
+              this.confirmAddTheme();
+            
+       
           });
   }
 
+
+
+ 
+confirmAddTheme(): void {
+
+    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+        disableClose: false
+    });
+
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Voulez vous enregistrer les données entrées?';
+
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+        if (result) {
+            console.log("ajout theme avec succès");
+
+            this._programDetailsService.addTheme(this.theme);
+
+        }
+        this.confirmDialogRef = null;
+    });
+
+}
+
+
+
+
+
+  
 
   /**
     * Edit contact
@@ -240,18 +259,7 @@ export class ThematiqueSpecComponent implements OnInit {
                    */
                   case 'save':
                       
-                     // this.actualDaysNumberAffected=this._programDetailsService.actualDaysNumberAffected
-                                                  //-this.oldDaysAffectedValue+ Number(formData.getRawValue().nbDaysTheme)  ; 
-                      
-                      // case where the modified days number exceeded the limit
-                     /* if(this.actualDaysNumberAffected >= this.programTotalDaysNumber) {
-                          
-                          this.addThematiqueAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
-                          console.log(`Exceeded`);
-                          this._programDetailsService.getThemes(); 
-                          
-                          break; 
-                      }*/
+                   
                       // case where the modified days number is valid
                       this._programDetailsService.updateTheme(formData.getRawValue(),this._programDetailsService.program);
                       
@@ -277,10 +285,7 @@ export class ThematiqueSpecComponent implements OnInit {
 
       this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
 
-      //this.actualDaysNumberAffected=this._programDetailsService.actualDaysNumberAffected ;        
-      //this.programTotalDaysNumber=this._programDetailsService.program.nbDaysProg; 
-      //console.log(this.programTotalDaysNumber)    ; 
-
+     
 
       this.dialogRef.afterClosed().subscribe(result => {
           if (result) {

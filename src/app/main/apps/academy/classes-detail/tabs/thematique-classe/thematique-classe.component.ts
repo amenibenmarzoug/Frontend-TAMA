@@ -8,8 +8,6 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ThematiqueFormComponent } from '../../../programDetails/tabs/thematique/thematique-form/thematique-form.component';
-import{ProgramInstDetailService} from '../../../program-inst-detail/program-inst-detail.service';
 import { ThematiqueInstFormComponent } from '../../../program-inst-detail/tabs/thematique-inst/thematique-inst-form/thematique-inst-form.component';
 import{ClassesDetailService} from '../../classes-detail.service'
 @Component({
@@ -23,15 +21,13 @@ export class ThematiqueClasseComponent implements OnInit {
 
   
   categories: any[];
-  themes: any[];
+  themesInst: any[];
   themesFilteredByCategory: any[];
-  filteredThemes: any[];
+  filteredThemesInst: any[];
   currentCategory: string;
   searchTerm: string;
   dialogRef: any;
-  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  duration: any;
-  programId: any;
+  
   private sub:any;
 
   // Private
@@ -77,8 +73,8 @@ export class ThematiqueClasseComponent implements OnInit {
       this._programInstDetailsService.onThemeInstChanged
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(themes => {
-              this.filteredThemes = this.themesFilteredByCategory = this.themes = themes;
-              console.log(this.themes);
+              this.filteredThemesInst = this.themesFilteredByCategory = this.themesInst = themes;
+              console.log(this.themesInst);
           });
   }
 
@@ -101,16 +97,16 @@ export class ThematiqueClasseComponent implements OnInit {
   filterThemesByCategory(): void {
       // Filter
       if (this.currentCategory === 'all') {
-          this.themesFilteredByCategory = this.themes;
-          this.filteredThemes = this.themes;
+          this.themesFilteredByCategory = this.themesInst;
+          this.filteredThemesInst = this.themesInst;
       }
       else {
-          this.themesFilteredByCategory = this.themes.filter((theme) => {
+          this.themesFilteredByCategory = this.themesInst.filter((theme) => {
 
              // return theme.category === this.currentCategory;
           });
 
-          this.filteredThemes = [...this.themesFilteredByCategory];
+          this.filteredThemesInst = [...this.themesFilteredByCategory];
 
       }
 
@@ -126,12 +122,12 @@ export class ThematiqueClasseComponent implements OnInit {
 
       // Search
       if (searchTerm === '') {
-          this.filteredThemes = this.themesFilteredByCategory;
+          this.filteredThemesInst = this.themesFilteredByCategory;
       }
 
       //filter with cursusName and cursusCategory 
       else {
-          this.filteredThemes = this.themesFilteredByCategory.filter((theme) => {
+          this.filteredThemesInst = this.themesFilteredByCategory.filter((theme) => {
               return theme.themeName.toLowerCase().includes(searchTerm);
           });
       }
@@ -152,28 +148,7 @@ export class ThematiqueClasseComponent implements OnInit {
 
 
 
-  //open the dialog of cursus add (not used now)
-  newTheme() {
-      this.dialogRef = this.dialog.open(ThematiqueInstFormComponent, {
-          panelClass: 'theme-form-dialog',
-          data: {
-              action: 'new'
-          }
-      });
-
-      this.dialogRef.afterClosed()
-          .subscribe((response: FormGroup) => {
-              if (!response) {
-                  console.log(`Dialog result before return: ${response}`);
-
-                  return;
-              }
-          this._programInstDetailsService.addThemeInst(response.getRawValue(),this._programInstDetailsService.theme);
-
-
-          });
-
-  }
+ 
 
 
   /**

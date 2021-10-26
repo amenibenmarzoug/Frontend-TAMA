@@ -66,7 +66,8 @@ export class ModuleSpecListComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
-      this.dataSource = new FilesDataSource(this._moduleService);
+     
+    this.dataSource = new FilesDataSource(this._moduleService);
 
       this._moduleService.onmoduleChanged
           .pipe(takeUntil(this._unsubscribeAll))
@@ -79,6 +80,7 @@ export class ModuleSpecListComponent implements OnInit {
               });
           });
 
+        
       this._moduleService.onSelectedModulesChanged
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(selectedModules => {
@@ -104,6 +106,7 @@ export class ModuleSpecListComponent implements OnInit {
    */
   ngOnDestroy(): void {
       // Unsubscribe from all subscriptions
+     
       this._unsubscribeAll.next();
       this._unsubscribeAll.complete();
   }
@@ -142,17 +145,7 @@ export class ModuleSpecListComponent implements OnInit {
                    * Save
                    */
                   case 'save':
-                     /*this.actualDaysNumberAffected=this._moduleService.actualDaysAffectedPerModule
-                                                  -this.oldDaysAffectedValue+ Number(formData.getRawValue().nbDaysModule)  ; 
-                      // case where the modified days number exceeded the limit
-                      if(this.actualDaysNumberAffected > this._moduleService.theme.nbDaysTheme) {
-                          
-                          this.updateModuleAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
-                          console.log(`Exceeded`);
-                          this._moduleService.getModules(); 
-                          
-                          break; 
-                      }*/
+                    
                       this._moduleService.updateModule(formData.getRawValue(),this._moduleService.theme);
                       console.log("update Module specific")
                       console.log(formData.getRawValue())

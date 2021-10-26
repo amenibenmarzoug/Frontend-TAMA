@@ -1,9 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { ProgramSpecDetailService} from '../../../../program-spec-detail.service';
 
 
@@ -59,9 +57,18 @@ export class MainThemeDetailSpecComponent implements OnInit, OnDestroy{
             .subscribe(themeDetail => {
                 this.themeDetails = themeDetail;
             });
-            this._themeDetailsService.onmoduleChanged
+          /*  this._themeDetailsService.onmoduleChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(module => {
+                this.module = module;
+            });*/
+
+
+            this._themeDetailsService.getModulesOfProgram(); 
+            this._themeDetailsService.onmoduleProgramChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(module => {
+
                 this.module = module;
             });
 
