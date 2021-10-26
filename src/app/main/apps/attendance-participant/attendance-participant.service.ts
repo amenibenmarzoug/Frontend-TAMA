@@ -95,8 +95,6 @@ export class AttendanceParticipantService implements Resolve<any>
 
                     //this.attendances = [];
                     this.attendances = response;
-                    console.log("PARTICIPANT ATTENDANCE");
-                    console.log(this.attendances);
                     if (this.searchText && this.searchText !== '') {
                         this.attendances = FuseUtils.filterArrayByString(this.attendances, this.searchText);
                     }

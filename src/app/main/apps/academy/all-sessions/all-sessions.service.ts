@@ -110,18 +110,13 @@ export class AllSessionsService implements Resolve<any>
      * @returns {Promise<any>}
      */
     getSessions(): Promise<any> {
-        /* console.log(this._httpClient.get<any[]>(AUTH_API + 'courseSession'));
-         return this._httpClient.get<any[]>(AUTH_API + 'courseSession')
-         .pipe(catchError(this.processHTTPMsgService.handleError));*/
+
 
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'session')
                 .subscribe((response: any) => {
 
-                    console.log(response);
                     this.sessions = [];
-                    console.log("THIS FILTEREDBY");
-                    console.log(this.filterBy);
                     if (this.filterBy != null) {
 
 
@@ -148,15 +143,12 @@ export class AllSessionsService implements Resolve<any>
     }
 
     getSessionsByProgramInstanceId(programInstanceId): Promise<any> {
-        /* console.log(this._httpClient.get<any[]>(AUTH_API + 'courseSession'));
-         return this._httpClient.get<any[]>(AUTH_API + 'courseSession')
-         .pipe(catchError(this.processHTTPMsgService.handleError));*/
+       
 
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'session')
                 .subscribe((response: any) => {
 
-                    console.log(response);
                     this.sessions=[];
                     this.sessions = response;
                     this.sessions = this.sessions.filter(_courseSession => {
@@ -188,7 +180,6 @@ export class AllSessionsService implements Resolve<any>
             this._httpClient.get(AUTH_API + 'session/' + id)
                 .subscribe((response: any) => {
                     this.session = response;
-                    console.log(this.session);
                     resolve(response);
                 }, reject);
         }
@@ -199,8 +190,7 @@ export class AllSessionsService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'programsInst')
                 .subscribe((response: any) => {
-                    console.log("response");
-                    console.log(response);
+                  
                     this.onProgramsChanged.next(response);
                     this.programs = response;
                     resolve(response);
@@ -213,8 +203,7 @@ export class AllSessionsService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'themesInst')
                 .subscribe((response: any) => {
-                    console.log("response");
-                    console.log(response);
+                
                     this.onThemesChanged.next(response);
                     this.themes = response;
                     resolve(response);
@@ -227,8 +216,7 @@ export class AllSessionsService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'moduleInstance')
                 .subscribe((response: any) => {
-                    console.log("response");
-                    console.log(response);
+                    
                     this.onModulesChanged.next(response);
                     this.modules = response;
                     resolve(response);
@@ -241,8 +229,7 @@ export class AllSessionsService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'themeDetailInst')
                 .subscribe((response: any) => {
-                    console.log("response");
-                    console.log(response);
+            
                     this.onThemeDetailsChanged.next(response);
                     this.themeDetails = response;
                     resolve(response);
