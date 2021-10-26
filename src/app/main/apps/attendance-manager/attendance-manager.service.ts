@@ -243,6 +243,11 @@ generateReport(sessionId) : Promise<any>
                 else {
                 this.onParticipantsChanged.next(this.participants);
                 }*/
+                this.participants.sort(function(a, b){
+                    if(a.firstNameP.toLowerCase() < b.firstNameP.toLowerCase()) { return -1; }
+                    if(a.firstNameP.toLowerCase() > b.firstNameP.toLowerCase()) { return 1; }
+                    return 0;
+                })
                 this.onParticipantsChanged.next(this.participants);
                 console.log("participants")
                 console.log(this.participants)

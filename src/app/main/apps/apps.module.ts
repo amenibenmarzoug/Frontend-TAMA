@@ -6,6 +6,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AttendanceManagerComponent } from './attendance-manager/attendance-manager.component';
 import { AttendanceCompanyComponent } from './attendance-company/attendance-company.component';
+import { AttendanceTrainerComponent } from './attendance-trainer/attendance-trainer.component';
 
 
 
@@ -128,13 +129,17 @@ const routes = [
 
 
     {
-        path        : 'attendance',
+        path        : 'mark-attendance',
         loadChildren: () => import('./attendance/attendance.module').then(m => m.AttendanceModule)
     },
 
     {
         path        : 'attendance-manager',
         loadChildren: () => import('./attendance-manager/attendance-manager.module').then(m => m.AttendanceManagerModule)
+    },
+    {
+        path        : 'attendance-trainer',
+        loadChildren: () => import('./attendance-trainer/attendance-trainer.module').then(m => m.AttendanceTrainerModule)
     },
     {
         path        : 'attendance-company',

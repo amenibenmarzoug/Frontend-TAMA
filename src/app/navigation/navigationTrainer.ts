@@ -22,14 +22,38 @@ export const navigationTrainer: FuseNavigation[] = [
         url: '/pages/profile'
     },
 
-
     {
         id: 'attendance',
         title: 'Gestion des présences',
-        type: 'item',
+        type: 'collapsable',
         icon: 'how_to_reg',
-        url: '/apps/attendance'
+        children: [
+            
+            {
+                id: 'markAttendance',
+                title: 'Marquer les présences',
+                type: 'item',
+                icon: 'playlist_add_check',
+                url: '/apps/mark-attendance'
+            },
+            
+    
+        {
+            id: 'attendanceList',
+            title: 'Liste des présences',
+            type: 'item',
+            icon: 'list_alt',
+            url: '/apps/attendance-trainer',
+        }
+        ]
+
+
     },
+
+    
+
+
+    
 
 
 

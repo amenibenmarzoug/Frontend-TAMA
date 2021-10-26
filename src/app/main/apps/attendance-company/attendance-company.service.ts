@@ -50,6 +50,7 @@ export class AttendanceCompanyService implements Resolve<any> {
   attendanceCheckedSessions : any[] ;
       classes: any;
       filterByClasse: any;
+    company: any;
   
   /**
    * Constructor
@@ -97,9 +98,9 @@ export class AttendanceCompanyService implements Resolve<any> {
   
           Promise.all([
               this.getAttendances(),
-              this.getAttendanceCheckedSessions(),
+              //this.getAttendanceCheckedSessions(),
               this.getParticipants(),
-              this.getClasses(),
+              //this.getClasses(),
   
           ]).then(
               ([files]) => {
@@ -108,7 +109,7 @@ export class AttendanceCompanyService implements Resolve<any> {
                       this.filterByDate = filter;
                       this.getAttendances()
                       //this.getMySessionsByDate();
-                      this.getAttendanceCheckedSessions();
+                      //this.getAttendanceCheckedSessions();
                   });
   
                   this.onFilterChanged.subscribe(filter => {
@@ -194,6 +195,7 @@ export class AttendanceCompanyService implements Resolve<any> {
   getClass() : Promise<any>
   {
       return new Promise((resolve, reject) => {
+          
               this._httpClient.get(AUTH_API+ 'session/getClass/'+this.session.id)
                   .subscribe((response: any) => {
                       
@@ -232,18 +234,17 @@ export class AttendanceCompanyService implements Resolve<any> {
    */
   
    getParticipants(): Promise<any> {
+    this.company = JSON.parse(sessionStorage.getItem(USER_KEY));
+    console.log("company : "+(this.company.id).toString()) 
       return new Promise((resolve, reject) => {
-          this._httpClient.get(AUTH_API+ 'validatedParticipants')
+          this._httpClient.get(AUTH_API+ 'participants/company/' + this.company.id )
               .subscribe((response: any) => {
                   this.participants = response;
-                  /*
-                  if (this.filterByClasse != null) {
-                      this.getParticipantsOfSelectedClass()
-                  }
-  
-                  else {
-                  this.onParticipantsChanged.next(this.participants);
-                  }*/
+                  this.participants.sort(function(a, b){
+                    if(a.firstNameP.toLowerCase() < b.firstNameP.toLowerCase()) { return -1; }
+                    if(a.firstNameP.toLowerCase() > b.firstNameP.toLowerCase()) { return 1; }
+                    return 0;
+                })
                   this.onParticipantsChanged.next(this.participants);
                   console.log("participants")
                   console.log(this.participants)
@@ -312,9 +313,11 @@ export class AttendanceCompanyService implements Resolve<any> {
    */
   
    getAttendances(): Promise<any> {
-  
+
+    this.company = JSON.parse(sessionStorage.getItem(USER_KEY));
+    console.log("company : "+(this.company.id).toString()) 
       return new Promise((resolve, reject) => {
-          this._httpClient.get(AUTH_API + 'attendance')
+          this._httpClient.get(AUTH_API+ 'attendance/company/' + this.company.id )
               .subscribe((response: any) => {
                   
                   this.attendances = response;

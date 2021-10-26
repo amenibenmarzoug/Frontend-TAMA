@@ -15,10 +15,10 @@
                 <div class="nav-item" aria-label="Participant" fxLayoutAlign="start center">
                     <mat-form-field appearance="outline" class="category-selector " fxFlex>
                         <mat-label>Participant</mat-label>
-                        <mat-select (selectionChange)="selectParticipant($event.value)" [(ngModel)]="participantValue"
+                        <mat-select (selectionChange)="selectParticipant($event.value)" [(ngModel)]="selectedParticipant"
                             >
                         
-                            <mat-option *ngFor="let participant of participants" [value]="selectedParticipant">
+                            <mat-option *ngFor="let participant of participants" [value]="participant">
                                 {{ participant.firstNameP }} {{ participant.lastNameP }} 
                             </mat-option>
                         </mat-select>

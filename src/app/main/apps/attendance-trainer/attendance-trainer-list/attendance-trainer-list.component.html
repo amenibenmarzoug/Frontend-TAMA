@@ -1,0 +1,124 @@
+<mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let attendance">
+            <mat-checkbox [(ngModel)]="checkboxes[attendance.id]" (ngModelChange)="onSelectedChange(attendance.id.toString())"
+                (click)="$event.stopPropagation()">
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+        <mat-cell *matCellDef="let attendance">
+            <p class="email font-weight-600 mt-1" flex>{{attendance.session.sessionBeginDate| date:'dd/MM/yyyy'}}</p>
+        </mat-cell>
+    </ng-container>
+     <!-- Job Title Column -->
+     <ng-container matColumnDef="seance">
+        <mat-header-cell *matHeaderCellDef fxShow.gt-lg>Seance</mat-header-cell>
+        <mat-cell *matCellDef="let attendance" fxShow.gt-lg>
+            <p class="email text-truncate font-weight-600">
+                {{attendance.session.sessionName}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+
+    <!-- Institution Column -->
+    <ng-container matColumnDef="participant" >
+        <mat-header-cell *matHeaderCellDef fxShow.gt-md>Participant</mat-header-cell>
+        <mat-cell *matCellDef="let attendance" fxShow.gt-md>
+            <p class="text-truncate font-weight-600"  >
+                {{attendance.participant.firstNameP}} {{attendance.participant.lastNameP}}
+            </p>
+            
+        </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="attendanceState" >
+        <mat-header-cell *matHeaderCellDef fxShow.gt-md>Status</mat-header-cell>
+        <mat-cell *matCellDef="let attendance" fxShow.gt-md>
+            <p class="present"  *ngIf="attendance.attendanceState === 'PRESENT'"  >
+                Présent
+            </p>
+
+            <p class="absent"  *ngIf="attendance.attendanceState === 'ABSENT'"  >
+                Absent
+            </p>
+
+            <p class="absent-justified"  *ngIf="attendance.attendanceState === 'JUSTIFIEDABSENT'"  >
+                Absent Justifié
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="action1">
+        <mat-header-cell *matHeaderCellDef ></mat-header-cell>
+        <mat-cell *matCellDef="let attendance" >
+            <div fxFlex="row" *ngIf="attendance.attendanceState !='PRESENT' ">
+               
+                <button mat-raised-button color="accent" (click)="markPresent(attendance)">
+                    Présent
+                </button>
+            </div>
+            <div fxFlex="row"  *ngIf="attendance.attendanceState =='PRESENT' ">
+               
+                <button mat-raised-button color="warn" (click)="markAbsent(attendance)">
+                     Absent
+                </button>
+            </div>
+        </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="action2">
+        <mat-header-cell *matHeaderCellDef  fxShow.gt-xs></mat-header-cell>
+        <mat-cell *matCellDef="let attendance" fxHide fxShow.gt-xs>
+            <div fxFlex="row"  *ngIf="attendance.attendanceState !='JUSTIFIEDABSENT' ">
+                
+                <button mat-raised-button color="primary" (click)="markJustifiedAbsent(attendance)">
+                     Absent Justifié
+                </button>
+            </div>
+            <div fxFlex="row"  *ngIf="attendance.attendanceState =='JUSTIFIEDABSENT' ">
+                
+                <button mat-raised-button  color="warn"(click)="markAbsent(attendance)">
+                     Absent
+                </button>
+            </div>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="attendance">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let attendance">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <button mat-raised-button color="accent" (click)="markPresent(attendance)" 
+                *ngIf="attendance.attendanceState !='PRESENT' ">
+                    Présent
+                </button>
+                <button mat-raised-button color="warn" (click)="markAbsent(attendance)"
+                *ngIf="attendance.attendanceState =='PRESENT' ">
+                    Absent
+               </button>
+
+               <button mat-raised-button color="primary" (click)="markJustifiedAbsent(attendance)"
+               *ngIf="attendance.attendanceState !='JUSTIFIEDABSENT' ">
+                Absent Justifié
+            </button>
+            <button mat-raised-button  color="warn"(click)="markAbsent(attendance)"
+            *ngIf="attendance.attendanceState =='JUSTIFIEDABSENT' ">
+                Absent
+           </button>
+
+
+            </div>
+
+        </mat-cell>
+    </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row 
+    *matRowDef="let attendance; columns: displayedColumns;" class="attendance"
+        [ngClass]="{'accent-50':checkboxes[attendance.id]}" [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>

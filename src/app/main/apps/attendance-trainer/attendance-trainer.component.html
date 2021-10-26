@@ -16,7 +16,7 @@
                 <mat-icon class="logo-icon mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">account_box
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    Gestion des présences
+                    Listes des présences
                 </span>
             </div>
 
@@ -41,24 +41,25 @@
     <!-- CONTENT -->
     <div class="content">
         <!-- SIDEBAR -->
-        <fuse-sidebar class="sidebar" name="contacts-main-sidebar" position="left" lockedOpen="gt-sm"> 
+        <fuse-sidebar class="sidebar" name="contacts-main-sidebar" position="left" lockedOpen="gt-sm">
 
-        <!-- SIDEBAR CONTENT -->
-          <div class="content" fusePerfectScrollbar>
-              
-                <app-attendance-manager-sidebars [@animate]="{value:'*'}"></app-attendance-manager-sidebars>
+            <!-- SIDEBAR CONTENT -->
+            <div class="content" fusePerfectScrollbar>
+                <app-attendance-trainer-sidebars [@animate]="{value:'*'}"></app-attendance-trainer-sidebars>
             </div>
-        <!-- / SIDEBAR CONTENT -->
 
-          </fuse-sidebar> 
+
+            <!-- / SIDEBAR CONTENT -->
+
+        </fuse-sidebar>
+
+
         <!-- / SIDEBAR -->
 
         <!-- CENTER -->
         <div class="center p-24 pb-56 pr-sm-92" fusePerfectScrollbar>
             <div class="content">
-                <div class="message-box warning"  >
-                    Nombre d'absences                 </div>
-                <app-attendance-manager-list></app-attendance-manager-list>
+                <app-attendance-trainer-list></app-attendance-trainer-list>
             </div>
             <!-- / CONTENT -->
         </div>
@@ -68,15 +69,17 @@
 
 </div>
 
+
+
 <!-- ADD CONTACT BUTTON -->
-<div>
-    <a [href]=""  target="_blank" rel="noopener noreferrer">
-    <button mat-raised-button class="accent" id="add-contact-button" (click)="printAttendanceList()" aria-label="add contact"
-    [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
-    Imprimer La Fiche
-</button>
+<div >
+    <a [href]="" target="_blank" rel="noopener noreferrer">
+        <button mat-raised-button class="accent" id="add-contact-button" (click)="printAttendanceList()"
+            aria-label="add contact" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+            <mat-icon>print </mat-icon>
+        </button>
     </a>
-    
+
 
 </div>
 
