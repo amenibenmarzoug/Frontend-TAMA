@@ -59,6 +59,7 @@ export class AttendanceParticipantComponent implements OnInit {
       this.justifiedAbsencesNumber = number;
     });
 
+    
   }
  
 
