@@ -58,6 +58,47 @@
 
         <!-- CENTER -->
         <div class="center p-24 pb-56 pr-sm-92" fusePerfectScrollbar>
+            <div fxLayout.gt-sm="row" *ngIf="selectedParticipant != null">
+                <div fxFlex="33">
+
+                    <div class="light-green-200">
+
+                        <div class="p-16" fxflex fxLayout="row" fxLayoutAlign="space-between center">
+                            <div class="pr-16">
+                                <div class="h3 font-weight-300">Présence </div>
+                                <div class="h2 font-weight-600">{{presencesNumber}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div fxFlex="33">
+
+                    <div class="red-200">
+
+                        <div class="p-16" fxflex fxLayout="row" fxLayoutAlign="space-between center">
+                            <div class="pr-16">
+                                <div class="h3 font-weight-300">Absences</div>
+                                <div class="h2 font-weight-600">{{absencesNumber}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div fxFlex>
+
+                    <div class="light-blue-100">
+
+                        <div class="p-16" fxflex fxLayout="row" fxLayoutAlign="space-between center">
+                            <div class="pr-16">
+                                <div class="h3 font-weight-300">Absences Justifiées</div>
+                                <div class="h2 font-weight-600">{{justifiedAbsencesNumber}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
             <div class="content">
                
                 <app-attendance-trainer-list></app-attendance-trainer-list>
