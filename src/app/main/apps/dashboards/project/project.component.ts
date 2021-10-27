@@ -19,6 +19,7 @@ export class ProjectDashboardComponent implements OnInit
 {
     projects: any[];
     selectedProject: any;
+    participantsByClassePercent:any;
 
     widgets: any;
     widget5: any = {};
@@ -29,6 +30,9 @@ export class ProjectDashboardComponent implements OnInit
     widget11: any = {};
 
     dateNow = Date.now();
+    allParticipants: any;
+    participantsByClasse:any[]=[];
+    classes:any[]=[];
 
     /**
      * Constructor
@@ -163,6 +167,17 @@ export class ProjectDashboardComponent implements OnInit
         this.widget11.onContactsChanged = new BehaviorSubject({});
         this.widget11.onContactsChanged.next(this.widgets.widget11.table.rows);
         this.widget11.dataSource = new FilesDataSource(this.widget11);
+
+        this._projectDashboardService.onParticipantsChanged.subscribe(particiapnts=>{
+            this.allParticipants=particiapnts;
+        });
+        this._projectDashboardService.onProgramsInstChanged.subscribe(classes=>{
+            this.classes=classes;
+        });
+
+        this._projectDashboardService.onParticipantsByClasseChanged.subscribe(particiapnts=>{
+            this.participantsByClasse=particiapnts;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -177,6 +192,17 @@ export class ProjectDashboardComponent implements OnInit
     toggleSidebar(name): void
     {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
+    }
+
+    selectClasse(classe){
+        console.log(classe.id);
+      
+        
+        this._projectDashboardService.getParticipantsOfSelectedClasse(classe.id).then(()=>{
+            if(this.allParticipants!=null && this.allParticipants.length!=0){
+                this.participantsByClassePercent=(100*this.participantsByClasse.length)/this.allParticipants.length
+            }
+        });
     }
 }
 
