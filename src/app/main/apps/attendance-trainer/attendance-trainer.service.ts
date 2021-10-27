@@ -93,7 +93,7 @@ export class AttendanceTrainerService {
 
             Promise.all([
                 this.getAttendances(),
-                this.getParticipants,
+                this.getParticipants(),
                 this.getMySessionsByDate(),
 
             ]).then(
@@ -227,6 +227,12 @@ export class AttendanceTrainerService {
             this._httpClient.get(AUTH_API + 'participants/classId/' + this.class.id)
                 .subscribe((response: any) => {
                     this.participants = response;
+
+                    this.participants.sort(function(a, b){
+                        if(a.firstNameP.toLowerCase() < b.firstNameP.toLowerCase()) { return -1; }
+                        if(a.firstNameP.toLowerCase() > b.firstNameP.toLowerCase()) { return 1; }
+                        return 0;
+                    })
                     this.onParticipantsChanged.next(this.participants);
 
                     console.log("participants")
@@ -303,6 +309,12 @@ export class AttendanceTrainerService {
             this._httpClient.get(AUTH_API + 'participantRegistrations/participants/trainer/' + this.user.id)
                 .subscribe((response: any) => {
                     this.participants = response;
+
+                    this.participants.sort(function(a, b){
+                        if(a.firstNameP.toLowerCase() < b.firstNameP.toLowerCase()) { return -1; }
+                        if(a.firstNameP.toLowerCase() > b.firstNameP.toLowerCase()) { return 1; }
+                        return 0;
+                    })
                     this.onParticipantsChanged.next(this.participants);
                     resolve(this.participants);
 

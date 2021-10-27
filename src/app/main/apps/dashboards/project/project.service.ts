@@ -31,6 +31,20 @@ export class ProjectDashboardService implements Resolve<any>
     onProgramsInstChanged:  BehaviorSubject<any>;
     onParticipantsByClasseChanged: BehaviorSubject<any>;
     participantsByClasse: any;
+    onFilterByParticipantChanged : Subject<any>;
+
+    //stats
+onPresenceNumberChanged :  Subject<any>;
+onAbsenceNumberChanged :  Subject<any>;
+onJustifiedAbsenceNumberChanged :  Subject<any>;
+totalNumber: any ; 
+absenceNumber : any ; 
+presenceNumber : any ; 
+justifiedAbsencesNumber : any ; 
+
+    
+    
+    
     
     
 
@@ -48,6 +62,16 @@ export class ProjectDashboardService implements Resolve<any>
         this.onAttendancesChanged= new BehaviorSubject([]);
         this.onProgramsInstChanged=new BehaviorSubject([]);
         this.onParticipantsByClasseChanged=new BehaviorSubject([]);
+        this.onFilterByParticipantChanged=new Subject();
+
+            //numbers
+    this.onPresenceNumberChanged = new Subject();
+    this.onAbsenceNumberChanged=new Subject();
+    this.onJustifiedAbsenceNumberChanged=new Subject();
+    this.totalNumber=0 ; 
+    this.absenceNumber=0 ; 
+    this.presenceNumber=0;
+    this.justifiedAbsencesNumber=0 ; 
         }
 
     /**
@@ -70,6 +94,16 @@ export class ProjectDashboardService implements Resolve<any>
                 this.getProgramsInst()
             ]).then(
                 () => {
+
+                    this.onFilterByParticipantChanged.subscribe(participant => {
+                        this.selectedParticipant = participant;
+                        this.getAttendances();
+                        this.getPresences(this.selectedParticipant.id)
+                        this.getAbsences(this.selectedParticipant.id)
+                        this.getJustifiedAbsences(this.selectedParticipant.id)
+                        
+                    });
+    
                     resolve();
                 },
                 reject
@@ -186,5 +220,43 @@ export class ProjectDashboardService implements Resolve<any>
         }
     );
     }
+
+
+    //stats
+getPresences(participantId): Promise<any> {
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API + 'attendance/presencesNumber/' + participantId)
+            .subscribe((response: any) => {
+                this.presenceNumber=response
+                this.onPresenceNumberChanged.next(this.presenceNumber)
+                resolve(this.presenceNumber);
+            }, reject);
+    }
+    );
+}
+
+getAbsences(participantId): Promise<any> {
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API + 'attendance/absencesNumber/' + participantId)
+            .subscribe((response: any) => {
+                this.absenceNumber=response
+                this.onAbsenceNumberChanged.next(this.absenceNumber)
+                resolve(this.absenceNumber);
+            }, reject);
+    }
+    );
+}
+
+getJustifiedAbsences(participantId): Promise<any> {
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API + 'attendance/justifiedAbsencesNumber/' + participantId)
+            .subscribe((response: any) => {
+                this.justifiedAbsencesNumber=response
+                this.onJustifiedAbsenceNumberChanged.next(this.justifiedAbsencesNumber)
+                resolve(this.justifiedAbsencesNumber);
+            }, reject);
+    }
+    );
+}
 
 }

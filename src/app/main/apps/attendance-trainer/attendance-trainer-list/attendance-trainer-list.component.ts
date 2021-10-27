@@ -29,7 +29,7 @@ export class AttendanceTrainerListComponent implements OnInit {
   courseSessions: any[] = [];
   user: any;
   dataSource: FilesDataSource | null;
-  displayedColumns = ['date', 'participant', 'attendanceState'];
+  displayedColumns = ['date','seance', 'participant', 'attendanceState'];
   selectedContacts: any[];
   coursesId: any[] = [];
   checkboxes: {};

@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import * as shape from 'd3-shape';
 
 import { fuseAnimations } from '@fuse/animations';
 
 import { ProjectDashboardService } from 'app/main/apps/dashboards/project/project.service';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector     : 'project-dashboard',
@@ -21,6 +22,9 @@ export class ProjectDashboardComponent implements OnInit
     selectedProject: any;
     participantsByClassePercent:any;
 
+    participants : any ; 
+    selectedParticipant: any ;
+
     widgets: any;
     widget5: any = {};
     widget6: any = {};
@@ -29,10 +33,103 @@ export class ProjectDashboardComponent implements OnInit
     widget9: any = {};
     widget11: any = {};
 
+    widgetAttendance : any = {} ; 
+
     dateNow = Date.now();
     allParticipants: any;
     participantsByClasse:any[]=[];
     classes:any[]=[];
+    private _unsubscribeAll: any;
+
+     //stats
+  presencesNumber: any;
+  absencesNumber: any ; 
+  justifiedAbsencesNumber : any ; 
+    mainChart: { TW: { name: string; value: number; }[]; };
+  
+
+    /*
+    'widget6'      : {
+        'title'      : 'Task Distribution',
+        'ranges'     : {
+            'TW': 'This Week',
+            'LW': 'Last Week',
+            '2W': '2 Weeks Ago'
+        },
+        'mainChart'  : {
+            'TW': [
+                {
+                    'name' : 'Frontend',
+                    'value': 15
+                },
+                {
+                    'name' : 'Backend',
+                    'value': 20
+                },
+                {
+                    'name' : 'API',
+                    'value': 38
+                },
+                {
+                    'name' : 'Issues',
+                    'value': 27
+                }
+            ],
+            'LW': [
+                {
+                    'name' : 'Frontend',
+                    'value': 19
+                },
+                {
+                    'name' : 'Backend',
+                    'value': 16
+                },
+                {
+                    'name' : 'API',
+                    'value': 42
+                },
+                {
+                    'name' : 'Issues',
+                    'value': 23
+                }
+            ],
+            '2W': [
+                {
+                    'name' : 'Frontend',
+                    'value': 18
+                },
+                {
+                    'name' : 'Backend',
+                    'value': 17
+                },
+                {
+                    'name' : 'API',
+                    'value': 40
+                },
+                {
+                    'name' : 'Issues',
+                    'value': 25
+                }
+            ]
+        },
+        'footerLeft' : {
+            'title': 'Tasks Added',
+            'count': {
+                '2W': 487,
+                'LW': 526,
+                'TW': 594
+            }
+        },
+        'footerRight': {
+            'title': 'Tasks Completed',
+            'count': {
+                '2W': 193,
+                'LW': 260,
+                'TW': 287
+            }
+        }
+    }
+    */
 
     /**
      * Constructor
@@ -48,6 +145,7 @@ export class ProjectDashboardComponent implements OnInit
         /**
          * Widget 5
          */
+         this._unsubscribeAll = new Subject();
         this.widget5 = {
             currentRange  : 'TW',
             xAxis         : true,
@@ -85,6 +183,20 @@ export class ProjectDashboardComponent implements OnInit
          * Widget 6
          */
         this.widget6 = {
+            currentRange : 'TW',
+            legend       : false,
+            explodeSlices: false,
+            labels       : true,
+            doughnut     : true,
+            gradient     : false,
+            scheme       : {
+                domain: ['#f44336', '#9c27b0', '#03a9f4', '#e91e63']
+            },
+            onSelect     : (ev) => {
+                console.log(ev);
+            }
+        };
+        this.widgetAttendance = {
             currentRange : 'TW',
             legend       : false,
             explodeSlices: false,
@@ -137,7 +249,7 @@ export class ProjectDashboardComponent implements OnInit
             showYAxisLabel: false,
             yAxisLabel    : 'Isues',
             scheme        : {
-                domain: ['#42BFF7', '#C6ECFD', '#C7B42C', '#AAAAAA']
+                domain: ['#F5431D', '#EA5736', '#3697EA', '#AAAAAA']
             },
             curve         : shape.curveBasis
         };
@@ -160,6 +272,55 @@ export class ProjectDashboardComponent implements OnInit
         this.projects = this._projectDashboardService.projects;
         this.selectedProject = this.projects[0];
         this.widgets = this._projectDashboardService.widgets;
+
+        this._projectDashboardService.onPresenceNumberChanged
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe(number => {
+      this.presencesNumber = number;
+    });
+    
+    this._projectDashboardService.onAbsenceNumberChanged
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe(number => {
+      this.absencesNumber = number;
+    });
+
+    this._projectDashboardService.onJustifiedAbsenceNumberChanged
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe(number => {
+      this.justifiedAbsencesNumber = number;
+    });
+
+        this._projectDashboardService.onParticipantsChanged
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe(participants => {
+              this.participants = participants;
+
+          });
+          this._projectDashboardService.onFilterByParticipantChanged
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe(participant => {
+      this.selectedParticipant = participant;
+      console.log("this.selected parii")
+      console.log(this.selectedParticipant)
+
+    });
+    this.mainChart  = {
+        'TW': [
+            {
+                'name' : 'PRESENT',
+                'value': 15
+            },
+            {
+                'name' : 'ABSENT',
+                'value': 20
+            },
+            {
+                'name' : 'ABBSENT JUSTIFIE',
+                'value': 38
+            }
+        ]
+    }
 
         /**
          * Widget 11
@@ -202,7 +363,42 @@ export class ProjectDashboardComponent implements OnInit
             if(this.allParticipants!=null && this.allParticipants.length!=0){
                 this.participantsByClassePercent=(100*this.participantsByClasse.length)/this.allParticipants.length
             }
-        });
+        });}
+        
+    selectParticipant(participant): void {
+        console.log("selecting Participant")
+        this.selectedParticipant = participant;
+        console.log(participant)
+        this._projectDashboardService.onFilterByParticipantChanged.next(participant);
+        this._projectDashboardService.getPresences(this.selectedParticipant.id)
+    .then(number => {
+      this.presencesNumber = number;
+    });
+    this._projectDashboardService.getAbsences(this.selectedParticipant.id)
+    .then(number => {
+      this.absencesNumber = number;
+    });
+    this._projectDashboardService.getJustifiedAbsences(this.selectedParticipant.id)
+    .then(number => {
+      this.justifiedAbsencesNumber = number;
+    });
+
+        this.mainChart  = {
+            'TW': [
+                {
+                    'name' : 'PRESENT',
+                    'value': this.presencesNumber
+                },
+                {
+                    'name' : 'ABSENT',
+                    'value': this.absencesNumber
+                },
+                {
+                    'name' : 'ABBSENT JUSTIFIE',
+                    'value':  this.justifiedAbsencesNumber
+                }
+            ]
+        }
     }
 }
 
