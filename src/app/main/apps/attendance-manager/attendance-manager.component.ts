@@ -84,7 +84,8 @@ export class AttendanceManagerComponent implements OnInit {
       .subscribe(searchText => {
         this.attendanceService.onSearchTextChanged.next(searchText);
       });
-      this.attendanceService.onPresenceNumberChanged
+
+    this.attendanceService.onPresenceNumberChanged
     .pipe(takeUntil(this._unsubscribeAll))
     .subscribe(number => {
       this.presencesNumber = number;
