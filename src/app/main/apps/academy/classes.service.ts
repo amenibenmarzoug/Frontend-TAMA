@@ -29,8 +29,10 @@ export class ClassesService {
     program: any;
     programs: Program[];
     enterprises:any[];
+
     lastprogramInst: any;
     themes: Theme[];
+
     onThemeChanged: BehaviorSubject<any>;
     programId: any;
 
@@ -96,7 +98,6 @@ export class ClassesService {
                 this.getProgramsInst(),
                 this.getPrograms(),
                 this.getEnterprises(),
-                // this.getThemes(),
 
                 this.getModulesInst(),
                 this.getModules1(),
@@ -126,7 +127,7 @@ export class ClassesService {
     getThemesPerProgram(): Promise<any> {
 
         let id = new HttpParams().set('id', this.programId);
-        // console.log("id chnw hedha " + id);
+      
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'program/themes', { params: id })
                 .subscribe((response: any) => {
@@ -156,6 +157,7 @@ export class ClassesService {
             this._httpClient.get(AUTH_API + 'programsInst')
                 .subscribe((response: any) => {
                     this.programsInst = response;
+                    
                     this.onProgramsInstChanged.next(response);
                     resolve(response);
                 }, reject);
@@ -205,7 +207,7 @@ export class ClassesService {
     addClass(programInst, program): Promise<any> {
         this.program = program;
         programInst.program = program;
-        this.getThemes();
+       
 
         return new Promise((resolve, reject) => {
             this._httpClient.post(AUTH_API + 'programsInst2', programInst)
@@ -222,41 +224,7 @@ export class ClassesService {
 
 
 
-    getThemes(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'themes')
-                .subscribe((response: any) => {
-                    this.themes = response;
-                    this.onThemeChanged.next(response);
-                    resolve(response);
-
-                    this.themesOfProgram = [];
-                    if (this.themes != null) {
-
-
-                        this.themes.forEach(theme => {
-                            // console.log(theme.program);
-                            // console.log("prog fel service");
-                            // console.log(this.program);
-                            if (theme.program.id == this.program.id) {
-                                // console.log("cond vérifié");
-                                this.themesOfProgram.push(theme);
-
-                            }
-                            else {
-                                console.log(theme.program.id == this.program.id);
-                            }
-
-
-                        });
-                        // console.log("ThemesofProg");
-                        // console.log(this.themesOfProgram);
-
-                    }
-
-                }, reject);
-        });
-    }
+    
 
 
     toggleSelectedModule(id): void {
@@ -377,48 +345,7 @@ export class ClassesService {
     }
 
 
-  /*  getModulesInst(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'moduleInstance')
-                .subscribe((response: any) => {
-
-                    this.modulesInst = response;
-                    this.onmoduleInstChanged.next(this.modulesInst);
-                    this.themeInstId = this.filterByModule;
-                    if (this.themeInstId != null) {
-                        if (this.filterByModule === 'Modules') {
-                        }
-                        else {
-
-                            this.modulesInst = this.modulesInst.filter(_module => {
-                                // return this.user.frequentContacts.includes(_contact.id);
-                                if (_module.themeInstance.id == this.themeInstId) {
-                                    return true;
-                                }
-                                return false;
-                            });
-                        }
-                    }
-                    else {
-                        this.modulesInst = response;
-                    }
-                    if (this.searchTextModule && this.searchTextModule !== '') {
-                        this.modulesInst = FuseUtils.filterArrayByString(this.modulesInst, this.searchTextModule);
-                    }
-
-                    this.modulesInst = this.modulesInst.map(module => {
-                        return new ModuleInst(module);
-                    });
-
-
-
-
-
-                    resolve(this.modulesInst);
-                }, reject);
-        }
-        );
-    }*/
+  
 
 
 

@@ -3,10 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CalendarEvent } from 'angular-calendar';
 import { Subject } from 'rxjs';
-import { ProgramInst } from '../../programInst.model';
-import { ProgramsInstService } from '../../programs-inst.service';
+
 import{ProgramSpecService} from '../../program-spec.service'
-import{Program} from '../../program.model'
+import{Program} from 'app/shared/models/program.model';
 
 @Component({
   selector: 'app-program-spec-form',
@@ -16,8 +15,7 @@ import{Program} from '../../program.model'
 export class ProgramSpecFormComponent implements OnInit {
 
   action: string;
-  //course:AcademyCoursesComponent;
-   // programInst:ProgramInst;
+  
    programSpec:Program;
     event: CalendarEvent;
     programSpecForm: FormGroup;
@@ -41,7 +39,7 @@ export class ProgramSpecFormComponent implements OnInit {
   {
       this.dialogTitle = 'Modifier le Programme Dédié';
       this.programSpec = _data.program;
-     // this._programSpecService.program = this.programSpec.program;
+     
      
   }
   else
@@ -73,8 +71,7 @@ export class ProgramSpecFormComponent implements OnInit {
           id: [this.programSpec.id],
           programName: [this.programSpec.programName],
           nbDaysProg: [this.programSpec.nbDaysProg],
-         // location  : [this.programSpec.location],
-         // program: [this.programSpec.program,Validators.required],
+       
 
 
           

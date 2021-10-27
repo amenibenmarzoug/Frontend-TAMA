@@ -26,7 +26,7 @@ export class ProgramSpecComponent implements OnInit {
   searchTerm: string;
   dialogRef: any;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  duration: any;
+  
   
 
  

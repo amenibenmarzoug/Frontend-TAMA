@@ -85,10 +85,13 @@
                         <mat-icon>delete</mat-icon>
                         <span>Supprimer</span>
                     </button> -->
-                    <button mat-menu-item aria-label="check" [disabled]="disabled" (click)="ValidateContact(contact)">
-                        <mat-icon *ngIf="contact.validated ">check</mat-icon>
-                        <mat-icon *ngIf="!contact.validated ">close</mat-icon>
+                    <button mat-menu-item aria-label="check"  (click)="ValidateContact(contact)" *ngIf="!contact.validated ">
+                        <mat-icon >check</mat-icon>
                         <span>Créer un compte</span>
+                    </button>
+                    <button mat-menu-item aria-label="check"  (click)="refuseTrainer(contact)" *ngIf="contact.validated ">
+                        <mat-icon >close</mat-icon>
+                        <span>Annuler le compte</span>
                     </button>
                 </mat-menu>
 

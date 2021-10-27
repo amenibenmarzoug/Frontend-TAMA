@@ -350,6 +350,17 @@ export class ParticipantsService implements Resolve<any>
         });
     }
 
+    refuseParticipant(participant): Promise<any> {
+        return new Promise((resolve, reject) => {
+           
+            this._httpClient.put(environment.backend_url+ 'api/participants/refuse', participant)
+                .subscribe(response => {
+                    this.getContacts();
+                    resolve(response);
+                });
+        });
+    }
+
 
     /**
      * Deselect contacts

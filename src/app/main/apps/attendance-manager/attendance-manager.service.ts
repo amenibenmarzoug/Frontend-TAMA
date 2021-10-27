@@ -47,8 +47,19 @@ id: number;
 filterByDate: any ; 
 checkedAttendance: boolean;
 attendanceCheckedSessions : any[] ;
-    classes: any;
-    filterByClasse: any;
+
+classes: any;
+filterByClasse: any;
+
+//stats
+onPresenceNumberChanged :  Subject<any>;
+onAbsenceNumberChanged :  Subject<any>;
+onJustifiedAbsenceNumberChanged :  Subject<any>;
+totalNumber: any ; 
+absenceNumber : any ; 
+presenceNumber : any ; 
+justifiedAbsencesNumber : any ; 
+
 
 /**
  * Constructor
@@ -76,6 +87,15 @@ constructor(
     this.onAttendanceCheckedSessionsChanged =new Subject();
     this.onFilterByParticipantChanged=new Subject();
     this.onFilterByClassChanged=new Subject();
+
+    //numbers
+    this.onPresenceNumberChanged = new Subject();
+    this.onAbsenceNumberChanged=new Subject();
+    this.onJustifiedAbsenceNumberChanged=new Subject();
+    this.totalNumber=0 ; 
+    this.absenceNumber=0 ; 
+    this.presenceNumber=0;
+    this.justifiedAbsencesNumber=0 ; 
 }
 
 // -----------------------------------------------------------------------------------------------------
@@ -122,6 +142,10 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
                 this.onFilterByParticipantChanged.subscribe(participant => {
                     this.participant = participant;
                     this.getAttendances();
+                    this.getPresences(this.participant.id)
+                    this.getAbsences(this.participant.id)
+                    this.getJustifiedAbsences(this.participant.id)
+                    
                 });
 
                 this.onFilterByClassChanged.subscribe(group => {
@@ -406,6 +430,43 @@ getParticipantsOfSelectedClass():Promise<any> {
                 console.log(this.attendanceCheckedSessions)
                 this.onAttendanceCheckedSessionsChanged.next(this.attendanceCheckedSessions);
                 resolve(this.attendanceCheckedSessions);
+            }, reject);
+    }
+    );
+}
+
+//stats
+getPresences(participantId): Promise<any> {
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API + 'attendance/presencesNumber/' + participantId)
+            .subscribe((response: any) => {
+                this.presenceNumber=response
+                this.onPresenceNumberChanged.next(this.presenceNumber)
+                resolve(this.presenceNumber);
+            }, reject);
+    }
+    );
+}
+
+getAbsences(participantId): Promise<any> {
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API + 'attendance/absencesNumber/' + participantId)
+            .subscribe((response: any) => {
+                this.absenceNumber=response
+                this.onAbsenceNumberChanged.next(this.absenceNumber)
+                resolve(this.absenceNumber);
+            }, reject);
+    }
+    );
+}
+
+getJustifiedAbsences(participantId): Promise<any> {
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API + 'attendance/justifiedAbsencesNumber/' + participantId)
+            .subscribe((response: any) => {
+                this.justifiedAbsencesNumber=response
+                this.onJustifiedAbsenceNumberChanged.next(this.justifiedAbsencesNumber)
+                resolve(this.justifiedAbsencesNumber);
             }, reject);
     }
     );

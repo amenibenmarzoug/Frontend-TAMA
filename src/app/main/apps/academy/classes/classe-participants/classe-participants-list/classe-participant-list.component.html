@@ -94,9 +94,6 @@
     <mat-header-cell *matHeaderCellDef  fxShow.gt-xs>Action</mat-header-cell>
     <mat-cell *matCellDef="let task" fxHide fxShow.gt-xs>
         <div fxFlex="row">
-            <!-- <button (click)="$event.stopPropagation();">
-                <mat-icon color="success" (click)="editContact(contact)">create</mat-icon>
-            </button> -->
             <button (click)="$event.stopPropagation();">
                 <mat-icon color="warn" (click)="deleteParticipant(participant.id)">delete</mat-icon>
             </button>
@@ -109,4 +106,6 @@
     </mat-row>
 
 
+
+    
 </mat-table>

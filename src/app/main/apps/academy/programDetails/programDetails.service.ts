@@ -18,6 +18,7 @@ export class ProgramDetailsService implements Resolve<any>
     themeId: any;
     moduleId: any;
     modules: Module[];
+    modulesProgram : Module[];
     themeDetails: ThemeDetail[];
 
     module: Module;
@@ -33,7 +34,8 @@ export class ProgramDetailsService implements Resolve<any>
     onSelectedThemeDetailChanged: BehaviorSubject<any>;
     onSearchTextChangedThemeDetail: Subject<any>;
     onmoduleChanged: BehaviorSubject<any>;
-    onSelectedModulesChanged: BehaviorSubject<any>;
+    onmoduleProgramChanged : BehaviorSubject<any>;
+    onSelectedModulesChanged: BehaviorSubject<any>;  
     searchTextModule: string;
     searchTextThemeDetail: string;
     themes: Theme[];
@@ -78,6 +80,7 @@ export class ProgramDetailsService implements Resolve<any>
         this.onProgramChanged = new BehaviorSubject({});
         this.onFilterChangedThemeDetail = new BehaviorSubject({});
         this.onmoduleChanged = new BehaviorSubject([]);
+        this.onmoduleProgramChanged = new BehaviorSubject([]);
         this.onSelectedModulesChanged = new BehaviorSubject([]);
 
 
@@ -101,6 +104,7 @@ export class ProgramDetailsService implements Resolve<any>
                 this.getPrograms(),
 
                 this.getModules(),
+               
                 this.getThemeDetail(),
 
             ]).then(
@@ -322,6 +326,10 @@ export class ProgramDetailsService implements Resolve<any>
 
     }
 
+
+
+
+
     getModuleDaysAffected(): Promise<any> {
 
         let id = new HttpParams().set('id', this.themeId);
@@ -339,6 +347,28 @@ export class ProgramDetailsService implements Resolve<any>
                 }, reject);
         });
     }
+
+
+
+
+    getModulesOfProgram(): Promise<any> {
+
+        let id = new HttpParams().set('id', this.programId);
+        
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'modulesOfprogram', { params: id })
+                .subscribe((response: any) => {
+
+                    this.modulesProgram = response;
+                 
+                    this.onmoduleProgramChanged.next(this.modulesProgram);
+                    resolve(this.modulesProgram);
+                }, reject);
+        }
+        );
+
+    }
+
 
     /**
    * Toggle selected modules by id

@@ -8,13 +8,7 @@ import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
-
-
-import { ModuleFormComponent } from '../../../../programDetails/tabs/module/module-form/module-form.component';
-import{ProgramInstDetailService} from '../../../../program-inst-detail/program-inst-detail.service';
-import{ClassesService} from '../../../../classes.service';
 import{ClassesDetailService} from '../../../classes-detail.service';
-import { ModuleInst } from 'app/main/apps/academy/program-inst-detail/tabs/module-inst/moduleInst.model';
 import { ModuleClassFormComponent } from '../module-class-form/module-class-form.component';
 @Component({
   selector: 'app-modules-inst-list',
@@ -29,10 +23,10 @@ export class ModulesInstListComponent implements OnInit {
   @ViewChild('dialogContent')
   dialogContent: TemplateRef<any>;
 
-  modules: any;
+  modulesInst: any;
   user: any;
   dataSource: FilesDataSource | null;
-  displayedColumns = ['checkbox', 'moduleInstanceName', 'nbDaysModuleInst', 'buttons'];
+  displayedColumns = ['checkbox', 'moduleInstanceName', 'nbDaysModuleInst','buttons'];
   selectedModules: any[];
   checkboxes: {};
   dialogRef: any;
@@ -76,10 +70,10 @@ export class ModulesInstListComponent implements OnInit {
     this._moduleInstService.onmoduleInstChanged
     .pipe(takeUntil(this._unsubscribeAll))
     .subscribe(modules => {
-        this.modules = modules;
-      //  this.modules = null ; 
-        console.log("ModuleInst");
-        console.log(this.modules);
+        this.modulesInst = modules;
+      
+      //  console.log("ModuleInst");
+      //  console.log(this.modulesInst);
 
         this.checkboxes = {};
         modules.map(module => {
@@ -130,7 +124,7 @@ this._moduleInstService.onFilterChangedModuleInst
    *
    * @param contact
    */
-  editModule(module): void {
+  editModuleInst(module): void {
       this.dialogRef = this._matDialog.open(ModuleClassFormComponent, {
           panelClass: 'module-form-dialog',
           data: {
@@ -154,17 +148,7 @@ this._moduleInstService.onFilterChangedModuleInst
                    * Save
                    */
                   case 'save':
-                        /*this.actualDaysNumberAffected=this._moduleInstService.actualDaysAffectedPerModule
-                                                    -this.oldDaysAffectedValue+ Number(formData.getRawValue().nbDaysModuleInstance)  ; 
-                        // case where the modified days number exceeded the limit
-                        if(this.actualDaysNumberAffected > this._moduleInstService.themeInst.nbDaysthemeInst) {
-                            
-                            this.updateModuleAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du programme");
-                            console.log(`Exceeded`);
-                            this._moduleInstService.getModulesInst(); 
-                            
-                            break; 
-                        }*/
+                       
                       this._moduleInstService.updateModuleInst(formData.getRawValue(),this._moduleInstService.themeInst,this._moduleInstService.module);
 
                       break;

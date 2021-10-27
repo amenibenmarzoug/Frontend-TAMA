@@ -20,6 +20,16 @@ export const navigationParticipant: FuseNavigation[] = [
         url  : '/pages/profile'
     },
 
+    {
+        id: 'attendance-participant',
+        title: 'Liste de présences',
+        type: 'item',
+        icon: 'how_to_reg',
+        url: '/apps/attendance-participant'
+    },
+    
+
+
   /*   {
         id: 'academy',
         title: 'Académie',

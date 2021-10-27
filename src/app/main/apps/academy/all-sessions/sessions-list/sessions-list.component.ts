@@ -14,7 +14,7 @@ import localeFr from '@angular/common/locales/fr';
 import { CourseSession } from 'app/main/apps/disponibility-trainer/courseSession.model';
 import { Router } from '@angular/router';
 import { EditSessionService } from 'app/main/apps/academy/edit-session/edit-session.service';
-import { Session } from '../../edit-session/session.model';
+import {Session} from 'app/shared/models/session.model'
 
 
 @Component({
@@ -82,15 +82,13 @@ export class SessionsListComponent implements OnInit, OnDestroy {
                 this.sessions.map(session => {
                     this.checkboxes[session.id] = false;
                     let pl = JSON.parse(session.themeDetailInstance.moduleInstance.themeInstance.programInstance.place);
-                    console.log(pl)
                     if (pl != null) {
                         this.places[session.id] = pl.name;
                     }
 
                 });
             });
-        console.log("PLACES");
-        console.log(this.places);
+        
         this.dataSource = new FilesDataSource(this._allSessionsService);
 
         this._allSessionsService.onSpecificCourseSessionsChanged.subscribe(sessions => {
@@ -101,11 +99,10 @@ export class SessionsListComponent implements OnInit, OnDestroy {
 
             this.sessions.map(session => {
                 let pl = JSON.parse(session.themeDetailInstance.moduleInstance.themeInstance.programInstance.place);
-                console.log(pl)
+               
                 if (pl != null) {
                     this.places[session.id] = pl.name;
-                    console.log("PLACES");
-                    console.log(this.places);
+                   
                 }
 
             });
@@ -127,7 +124,6 @@ export class SessionsListComponent implements OnInit, OnDestroy {
                 this.selectedSessions = selectedSessions;
                 // this.checkboxes={};
 
-                console.log(this.selectedSessions);
             });
 
 
@@ -177,14 +173,12 @@ export class SessionsListComponent implements OnInit, OnDestroy {
 
     goToSession(id) {
         this.router.navigate(['/apps/academy/editSession', id]);
-        console.log("SESSION id" + id);
         this.editService.getSessionsById(id);
         //this.session=new Session(this.editService.session);
 
         this.editService.getSessionsById(id).then(() => {
             this.session = new Session(this.editService.session);
-            console.log("SESSION IN ALL");
-            console.log(this.session);
+            
             localStorage.setItem('sessionId', id);
             localStorage.setItem('session', JSON.stringify(this.session));
         });

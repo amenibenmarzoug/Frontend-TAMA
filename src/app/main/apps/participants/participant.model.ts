@@ -1,4 +1,4 @@
-import { FuseUtils } from '@fuse/utils';
+
 
 export class Participant {
     id: number;
@@ -22,7 +22,6 @@ export class Participant {
     educationLevel: string;
     experience: number;
     status: string;
-    // cursus: any;
     notes: string;
     age: string
     // age: number;

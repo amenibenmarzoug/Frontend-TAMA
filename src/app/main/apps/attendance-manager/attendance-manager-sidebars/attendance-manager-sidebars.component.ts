@@ -139,7 +139,7 @@ export class AttendanceManagerSidebarsComponent implements OnInit {
     selectParticipant(participant): void {
         console.log("selecting Participant")
         this.selectedParticipant = participant;
-        console.log(this.selectedParticipant)
+        console.log(participant)
         this.attendanceService.onFilterByParticipantChanged.next(participant);
     }
 
@@ -162,9 +162,10 @@ export class AttendanceManagerSidebarsComponent implements OnInit {
         this.attendanceService.onSearchTextChanged.next(''); 
         this.attendanceService.filterByDate=null ; 
         this.attendanceService.filterByClasse=null ; 
+        this.attendanceService.onFilterByParticipantChanged.next(null) ; 
         this.attendanceService.filterBy=null ; 
         this.attendanceService.participant=null  ; 
-        this.attendanceService.session=null ; 
+        this.attendanceService.session=null;
         this.ngOnInit();
         this.selectedParticipant=null  ; 
         this.selectedClass = null ; 

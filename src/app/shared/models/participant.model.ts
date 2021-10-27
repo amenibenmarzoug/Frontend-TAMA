@@ -22,7 +22,11 @@ export class Participant {
     experience: number; 
     status: string;
     notes: string;
-    age:string
+    age:string ; 
+
+
+
+    
 
     /**
      * Constructor
@@ -63,3 +67,5 @@ export class Participant {
         }
     }
 }
+
+

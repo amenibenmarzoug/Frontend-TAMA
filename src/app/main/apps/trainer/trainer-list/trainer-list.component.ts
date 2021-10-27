@@ -166,6 +166,14 @@ export class TrainerListComponent implements OnInit, OnDestroy
       
     
       }
+
+      refuseTrainer(contact){
+        
+        this._trainersService.refuseTrainer(contact) ;
+       // document.getElementById('botton').disabled = 'disabled';
+      
+    
+      }
     /**
      * Delete Contact
      */

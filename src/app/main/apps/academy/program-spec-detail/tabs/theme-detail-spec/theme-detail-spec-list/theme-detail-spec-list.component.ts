@@ -141,18 +141,7 @@ export class ThemeDetailSpecListComponent implements OnInit {
                    * Save
                    */
                   case 'save':
-                  /*
-                  this.actualDaysNumberAffected=this._themeDetailsService.actualDaysAffectedPerThemeDetail
-                                                  -this.oldDaysAffectedValue+ Number(formData.getRawValue().nbDaysThemeDetail)  ; 
-                      // case where the modified days number exceeded the limit
-                      if(this.actualDaysNumberAffected > Number(this._themeDetailsService.module.nbDaysModule)) {
-                          
-                          this.updateThemeDetailAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du module");
-                          console.log(`Exceeded`);
-                          this._themeDetailsService.getThemeDetail(); 
-                          
-                          break; 
-                      } */
+                 
 
                       this._themeDetailsService.updateThemeDetail(formData.getRawValue(),this._themeDetailsService.module);
 

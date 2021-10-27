@@ -8,9 +8,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { AllSessionsService } from 'app/main/apps/academy/all-sessions/all-sessions.service';
-import { Disponibility } from 'app/main/apps/disponibility-trainer/disponibility.model';
 
-import { ParticipantListComponent } from 'app/main/apps/participants/participant-list/participant-list.component';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 import Swal from 'sweetalert2';
@@ -113,7 +111,6 @@ export class AllSessionsComponent implements OnInit, OnDestroy {
 
       this.alertDialog.afterClosed().subscribe(result => {
           if (result) {
-              console.log("selectionner format");
 
           }
           this.alertDialog = null;

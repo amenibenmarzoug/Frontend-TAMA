@@ -1,7 +1,3 @@
-import { CalendarEventAction } from 'angular-calendar';
-import { startOfDay, endOfDay } from 'date-fns';
-import { FuseUtils } from '@fuse/utils';
-
 export class Program{
 
     id: number;

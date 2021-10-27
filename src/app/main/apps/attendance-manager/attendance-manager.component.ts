@@ -39,6 +39,11 @@ export class AttendanceManagerComponent implements OnInit {
   // Private
   private _unsubscribeAll: Subject<any>;
   fileUrl: any;
+  //stats
+  presencesNumber: any;
+  absencesNumber: any ; 
+  justifiedAbsencesNumber : any ; 
+  selectedParticipant : any  ; 
 
   /**
    * Constructor
@@ -79,6 +84,31 @@ export class AttendanceManagerComponent implements OnInit {
       .subscribe(searchText => {
         this.attendanceService.onSearchTextChanged.next(searchText);
       });
+      this.attendanceService.onPresenceNumberChanged
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe(number => {
+      this.presencesNumber = number;
+    });
+    
+    this.attendanceService.onAbsenceNumberChanged
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe(number => {
+      this.absencesNumber = number;
+    });
+
+    this.attendanceService.onJustifiedAbsenceNumberChanged
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe(number => {
+      this.justifiedAbsencesNumber = number;
+    });
+
+    this.attendanceService.onFilterByParticipantChanged
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe(participant => {
+      this.selectedParticipant = participant;
+      console.log("this.selected parii")
+      console.log(this.selectedParticipant)
+    });
 
 
   }

@@ -122,7 +122,6 @@ export class MainSessionsComponent implements OnInit {
             }
 
         });
-        console.log(program);
     }
 
     selectTheme(theme): void {
@@ -137,12 +136,10 @@ export class MainSessionsComponent implements OnInit {
 
         });
 
-        console.log(this.filteredModules);
     }
 
     selectModule(module): void {
         this.selectedThemeDet = null;
-        console.log(this.selectedThemeDet);
         this.filteredThemeDetails = [];
         this.selectedModule = module;
         this.themeDetails.forEach(themeDetail => {
@@ -153,7 +150,6 @@ export class MainSessionsComponent implements OnInit {
 
         });
 
-        console.log(this.filteredThemeDetails);
     }
 
     selectThemeDetail(themeDet): void {

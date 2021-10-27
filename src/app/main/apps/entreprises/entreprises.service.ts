@@ -311,6 +311,15 @@ export class EntreprisesService implements Resolve<any>
         });
     }
 
+    refuseCompany(company): Promise<any>{
+    return new Promise((resolve, reject) => {
+           
+        this._httpClient.put(AUTH_API+ 'entreprises/refuse', company)
+            .subscribe(response => {
+                this.getContacts();
+                resolve(response);
+            });
+    });}
 
     getClasses(): Promise<any> {
 

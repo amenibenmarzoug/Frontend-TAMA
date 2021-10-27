@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit,ViewEncapsulation } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { ProgramSpecDetailService  } from '../../../program-spec-detail.service';
@@ -81,8 +81,7 @@ createThemeDetailForm(): FormGroup
         id      : [this.themeDetail.id],
         themeDetailName   : [this.themeDetail.themeDetailName],
         nbDaysThemeDetail : [this.themeDetail.nbDaysThemeDetail,[Validators.required, Validators.pattern(nbrPattern)]],
-      //  moduleInstance : [this.themeDetail.moduleInstance],
-      //  themeDetail: [this.themeDetail.themeDetail]
+     
        
     });
 }

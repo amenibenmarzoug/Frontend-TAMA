@@ -7,9 +7,8 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
-import { ParticipantsService } from 'app/main/apps/participants/participants.service';
-import { ParticipantFormComponent } from 'app/main/apps/participants/participant-form/participant-form.component';
-import { Participant } from 'app/main/apps/participants/participant.model';
+
+import { Participant } from 'app/shared/models/participant.model';
 import { ClasseParticipantsService } from './classe-participants.service';
 import { Router } from '@angular/router';
 
@@ -23,7 +22,7 @@ import { Router } from '@angular/router';
 })
 export class ClasseParticipantsComponent implements OnInit, OnDestroy {
 
-    participants: Participant[] = [];;
+    participants: Participant[] = [];
     dialogRef: any;
     hasSelectedContacts: boolean;
     searchInput: FormControl;

@@ -2,8 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
-import { ProgramInstDetailService } from 'app/main/apps/academy/program-inst-detail/program-inst-detail.service';
-import { ThemeDetailInst } from 'app/main/apps/academy/program-inst-detail/tabs/theme-detail-inst/themeDetailsInst.model';
+import { ThemeDetailInstance } from 'app/shared/models/themeDetailInstance.model';
 import Swal from 'sweetalert2';
 import { ClassesDetailService } from '../../../classes-detail.service';
 
@@ -15,7 +14,7 @@ import { ClassesDetailService } from '../../../classes-detail.service';
 export class ThemeDetailClasseFormComponent {
 
   action: string;
-  themeDetail: ThemeDetailInst;
+  themeDetailInst: ThemeDetailInstance;
   themeDetailForm: FormGroup;
   dialogTitle: string;
 
@@ -49,16 +48,16 @@ export class ThemeDetailClasseFormComponent {
         this.dialogTitle = 'Modifier Thème de la journée';
         console.log("DATA");
         console.log(_data);
-        this.themeDetail = _data.themeDetail;
-        this.themeDetail.moduleInstance=_data.themeDetail.moduleInstance ; 
-        this._themeDetailsService.moduleInst= this.themeDetail.moduleInstance;
+        this.themeDetailInst = _data.themeDetail;
+        this.themeDetailInst.moduleInstance=_data.themeDetail.moduleInstance ; 
+        this._themeDetailsService.moduleInst= this.themeDetailInst.moduleInstance;
         
     }
     else
     {
         this.dialogTitle = 'Nouveau Theme Detail';
      
-        this.themeDetail = new ThemeDetailInst({});
+        this.themeDetailInst = new ThemeDetailInstance({});
 
 
     }
@@ -80,24 +79,24 @@ export class ThemeDetailClasseFormComponent {
 createThemeDetailForm(): FormGroup
 { const nbrPattern= '^[0-9]*$';
     return this._formBuilder.group({
-        id      : [this.themeDetail.id],
-        themeDetailInstName   : [this.themeDetail.themeDetailInstName],
-        nbDaysthemeDetailInst : [this.themeDetail.nbDaysthemeDetailInst,[Validators.required, Validators.pattern(nbrPattern)]],
+        id      : [this.themeDetailInst.id],
+        themeDetailInstName   : [this.themeDetailInst.themeDetailInstName],
+        nbDaysthemeDetailInst : [this.themeDetailInst.nbDaysthemeDetailInst,[Validators.required, Validators.pattern(nbrPattern)]],
       //  moduleInstance : [this.themeDetail.moduleInstance],
-        themeDetail: [this.themeDetail.themeDetail]
+        themeDetail: [this.themeDetailInst.themeDetail]
        
     });
 }
 
 getModuleForm(event){
   this._themeDetailsService.themeDetailInst=event;
-  this.themeDetail.themeDetailInstName = event.themeDetailName;
-  this.themeDetail.nbDaysthemeDetailInst=event.nbDaysthemeDetailInst;
+  this.themeDetailInst.themeDetailInstName = event.themeDetailName;
+  this.themeDetailInst.nbDaysthemeDetailInst=event.nbDaysthemeDetailInst;
   
 }
 
 closeNewThemeDetailForm(){
-  this.actualDaysNumberAffected = this._themeDetailsService.actualDaysAffectedPerThemeDetail+ Number(this.themeDetail.nbDaysthemeDetailInst)  ; 
+  this.actualDaysNumberAffected = this._themeDetailsService.actualDaysAffectedPerThemeDetail+ Number(this.themeDetailInst.nbDaysthemeDetailInst)  ; 
 
   if (this.actualDaysNumberAffected > Number(this._themeDetailsService.moduleInst.nbDaysModuleInstance)) {
     this.themeDetailAlert("Vous avez dépassé le nombre des jours du Module concerné");

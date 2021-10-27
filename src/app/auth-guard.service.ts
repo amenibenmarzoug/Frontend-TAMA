@@ -20,7 +20,6 @@ export class AuthGuardService implements CanActivate {
     canActivate(): Promise<boolean>  {
         this.token=this.tokenStorage.getToken();
         this.roles=this.tokenStorage.getUser().roles;
-        console.log(this.token)
         if((this.token!="")&& (this.token!=null)){
             return new Promise((resolve, reject) => {
                 return resolve(true);

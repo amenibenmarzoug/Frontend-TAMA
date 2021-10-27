@@ -238,6 +238,11 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
         this._participantsService.ValidateContact(contact)
     }
 
+    refuseParticipant(participant) {
+        this._participantsService.refuseParticipant(participant);
+    }
+
+
     /**
      * On selected change
      *
