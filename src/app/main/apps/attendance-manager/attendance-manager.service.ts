@@ -141,10 +141,12 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
 
                 this.onFilterByParticipantChanged.subscribe(participant => {
                     this.participant = participant;
-                    this.getAttendances();
+                    if(this.participant!=null){
                     this.getPresences(this.participant.id)
                     this.getAbsences(this.participant.id)
-                    this.getJustifiedAbsences(this.participant.id)
+                    this.getJustifiedAbsences(this.participant.id);}
+                    this.getAttendances();
+
                     
                 });
 

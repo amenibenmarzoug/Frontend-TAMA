@@ -15,7 +15,8 @@ import { AttendanceCompanyService } from './attendance-company.service';
 @Component({
   selector: 'app-attendance-company',
   templateUrl: './attendance-company.component.html',
-  styleUrls: ['./attendance-company.component.scss']
+  styleUrls: ['./attendance-company.component.scss'],
+  animations: fuseAnimations
 })
 export class AttendanceCompanyComponent implements OnInit {
 
