@@ -108,7 +108,13 @@ export class AttendanceTrainerComponent implements OnInit {
     this.attendanceService.onFilterByParticipantChanged
     .pipe(takeUntil(this._unsubscribeAll))
     .subscribe(participant => {
+      if (participant ==null) 
+      {
+        console.log("testttt")
+        this.selectedParticipant==null ; 
+      }
       this.selectedParticipant = participant;
+      console.log("main componet participant changing")
       console.log(this.selectedParticipant)
     });
 

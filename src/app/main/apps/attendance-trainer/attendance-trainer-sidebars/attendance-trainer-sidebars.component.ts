@@ -142,7 +142,7 @@ export class AttendanceTrainerSidebarsComponent implements OnInit {
     //this.selectedClass = null ; 
     this.selectedDate = null ; 
     this.selectedSession=null ;
-    this.attendanceService.onFilterByParticipantChanged.next(reset);
+    this.attendanceService.onFilterByParticipantChanged.next(this.selectedParticipant);
 
 
     /*

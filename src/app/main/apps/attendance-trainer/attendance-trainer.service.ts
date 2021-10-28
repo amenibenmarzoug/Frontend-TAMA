@@ -107,11 +107,17 @@ export class AttendanceTrainerService {
                     });
 
                     this.onFilterByParticipantChanged.subscribe(filter => {
+
+                        if (filter != null) {
                         this.filterByParticipant = filter;
                         this.getAbsencesByTrainerIdAndParticipantId(filter.id);
                         this.getPresencesByTrainerIdAndParticipantId(filter.id);
 
                         this.getJustifiedAbsencesByTrainerIdAndParticipantId(filter.id);
+                        }
+                        else {
+                            this.filterByParticipant=filter
+                        }
 
                         this.getAttendances();
 
