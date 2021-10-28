@@ -107,18 +107,19 @@ export class AttendanceTrainerService {
                     });
 
                     this.onFilterByParticipantChanged.subscribe(filter => {
-
                         if (filter != null) {
-                        this.filterByParticipant = filter;
-                        this.getAbsencesByTrainerIdAndParticipantId(filter.id);
-                        this.getPresencesByTrainerIdAndParticipantId(filter.id);
+                            this.filterByParticipant = filter;
+                            this.getAbsencesByTrainerIdAndParticipantId(filter.id);
+                            this.getPresencesByTrainerIdAndParticipantId(filter.id);
 
-                        this.getJustifiedAbsencesByTrainerIdAndParticipantId(filter.id);
+                            this.getJustifiedAbsencesByTrainerIdAndParticipantId(filter.id);
+                            console.log("FILTER PARTICIPANT NOURHENE");
+                            console.log(this.filterByParticipant);
                         }
                         else {
-                            this.filterByParticipant=filter
-                        }
+                            this.filterByParticipant = filter;
 
+                        }
                         this.getAttendances();
 
                     });
@@ -234,9 +235,9 @@ export class AttendanceTrainerService {
                 .subscribe((response: any) => {
                     this.participants = response;
 
-                    this.participants.sort(function(a, b){
-                        if(a.firstNameP.toLowerCase() < b.firstNameP.toLowerCase()) { return -1; }
-                        if(a.firstNameP.toLowerCase() > b.firstNameP.toLowerCase()) { return 1; }
+                    this.participants.sort(function (a, b) {
+                        if (a.firstNameP.toLowerCase() < b.firstNameP.toLowerCase()) { return -1; }
+                        if (a.firstNameP.toLowerCase() > b.firstNameP.toLowerCase()) { return 1; }
                         return 0;
                     })
                     this.onParticipantsChanged.next(this.participants);
@@ -316,9 +317,9 @@ export class AttendanceTrainerService {
                 .subscribe((response: any) => {
                     this.participants = response;
 
-                    this.participants.sort(function(a, b){
-                        if(a.firstNameP.toLowerCase() < b.firstNameP.toLowerCase()) { return -1; }
-                        if(a.firstNameP.toLowerCase() > b.firstNameP.toLowerCase()) { return 1; }
+                    this.participants.sort(function (a, b) {
+                        if (a.firstNameP.toLowerCase() < b.firstNameP.toLowerCase()) { return -1; }
+                        if (a.firstNameP.toLowerCase() > b.firstNameP.toLowerCase()) { return 1; }
                         return 0;
                     })
                     this.onParticipantsChanged.next(this.participants);

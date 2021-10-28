@@ -28,6 +28,9 @@ export class ProjectDashboardService implements Resolve<any>
     selectedParticipant : Participant ; 
     onParticipantsChanged : BehaviorSubject<any>;
     onAttendancesChanged :  BehaviorSubject<any>;
+    onProgramsInstChanged:  BehaviorSubject<any>;
+    onParticipantsByClasseChanged: BehaviorSubject<any>;
+    participantsByClasse: any;
     onFilterByParticipantChanged : Subject<any>;
 
     //stats
@@ -57,6 +60,8 @@ justifiedAbsencesNumber : any ;
     {
         this.onParticipantsChanged= new  BehaviorSubject([]);
         this.onAttendancesChanged= new BehaviorSubject([]);
+        this.onProgramsInstChanged=new BehaviorSubject([]);
+        this.onParticipantsByClasseChanged=new BehaviorSubject([]);
         this.onFilterByParticipantChanged=new Subject();
 
             //numbers
@@ -86,6 +91,7 @@ justifiedAbsencesNumber : any ;
                 this.getWidgets(),
                 this.getParticipants(),
                 this.getAttendances(), 
+                this.getProgramsInst()
             ]).then(
                 () => {
 
@@ -187,6 +193,34 @@ justifiedAbsencesNumber : any ;
         }
         );
     }
+
+
+    getProgramsInst(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'programsInst')
+                .subscribe((response: any) => {
+                    
+                    this.onProgramsInstChanged.next(response);
+                    resolve(response);
+                }, reject);
+        });
+    }
+
+    getParticipantsOfSelectedClasse(classId):Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API+ 'participants/classId/'+classId)
+                .subscribe((response: any) => {
+                    this.participantsByClasse = response;
+                    this.onParticipantsByClasseChanged.next(this.participantsByClasse);
+    
+                    console.log("participants by classe")
+                    console.log(this.participantsByClasse)
+                    resolve(this.participantsByClasse);
+                }, reject);
+        }
+    );
+    }
+
 
     //stats
 getPresences(participantId): Promise<any> {

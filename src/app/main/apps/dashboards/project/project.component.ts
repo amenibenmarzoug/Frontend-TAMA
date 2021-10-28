@@ -20,6 +20,7 @@ export class ProjectDashboardComponent implements OnInit
 {
     projects: any[];
     selectedProject: any;
+    participantsByClassePercent:any;
 
     participants : any ; 
     selectedParticipant: any ;
@@ -35,6 +36,9 @@ export class ProjectDashboardComponent implements OnInit
     widgetAttendance : any = {} ; 
 
     dateNow = Date.now();
+    allParticipants: any;
+    participantsByClasse:any[]=[];
+    classes:any[]=[];
     private _unsubscribeAll: any;
 
      //stats
@@ -324,6 +328,17 @@ export class ProjectDashboardComponent implements OnInit
         this.widget11.onContactsChanged = new BehaviorSubject({});
         this.widget11.onContactsChanged.next(this.widgets.widget11.table.rows);
         this.widget11.dataSource = new FilesDataSource(this.widget11);
+
+        this._projectDashboardService.onParticipantsChanged.subscribe(particiapnts=>{
+            this.allParticipants=particiapnts;
+        });
+        this._projectDashboardService.onProgramsInstChanged.subscribe(classes=>{
+            this.classes=classes;
+        });
+
+        this._projectDashboardService.onParticipantsByClasseChanged.subscribe(particiapnts=>{
+            this.participantsByClasse=particiapnts;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -340,6 +355,16 @@ export class ProjectDashboardComponent implements OnInit
         this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
 
+    selectClasse(classe){
+        console.log(classe.id);
+      
+        
+        this._projectDashboardService.getParticipantsOfSelectedClasse(classe.id).then(()=>{
+            if(this.allParticipants!=null && this.allParticipants.length!=0){
+                this.participantsByClassePercent=(100*this.participantsByClasse.length)/this.allParticipants.length
+            }
+        });}
+        
     selectParticipant(participant): void {
         console.log("selecting Participant")
         this.selectedParticipant = participant;

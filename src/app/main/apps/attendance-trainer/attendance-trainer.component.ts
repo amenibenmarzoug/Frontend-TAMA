@@ -118,6 +118,8 @@ export class AttendanceTrainerComponent implements OnInit {
       console.log(this.selectedParticipant)
     });
 
+    this.selectedParticipant=this.attendanceService.filterByParticipant;
+
   }
 
   printAttendanceList() {
