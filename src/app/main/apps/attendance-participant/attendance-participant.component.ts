@@ -45,6 +45,8 @@ export class AttendanceParticipantComponent implements OnInit {
     .pipe(takeUntil(this._unsubscribeAll))
     .subscribe(number => {
       this.presencesNumber = number;
+      console.log("checking presences number")
+      console.log(this.presencesNumber)
     });
     
     this.attendanceService.onAbsenceNumberChanged
@@ -59,6 +61,10 @@ export class AttendanceParticipantComponent implements OnInit {
       this.justifiedAbsencesNumber = number;
     });
 
+    this.presencesNumber=this.attendanceService.presenceNumber ; 
+    this.absencesNumber=this.attendanceService.absenceNumber ; 
+    this.justifiedAbsencesNumber=this.attendanceService.justifiedAbsencesNumber ; 
+   
     
   }
  
