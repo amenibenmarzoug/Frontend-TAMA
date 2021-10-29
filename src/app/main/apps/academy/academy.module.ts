@@ -120,7 +120,17 @@ import { ThemeDetailSpecListComponent } from './program-spec-detail/tabs/theme-d
 import { ThemeDetailClasseFormComponent } from './classes-detail/tabs/theme-detail-classe/theme-detail-classe-form/theme-detail-classe-form.component';
 import { ModuleClassFormComponent } from './classes-detail/tabs/module-classe/module-class-form/module-class-form.component'
 import { AuthGuardManagerService } from 'app/auth-guard-manager.service';
+import { AllSessionsParticipantComponent } from './all-sessions-participant/all-sessions-participant.component';
+import { AllSessionsParticipantSidebarsComponent } from './all-sessions-participant/all-sessions-participant-sidebars/all-sessions-participant-sidebars.component';
+import {AllSessionsParticipantService} from './all-sessions-participant/all-sessions-participant.service';
+import {AllSessionsTrainerService} from './all-sessions-trainer/all-sessions-trainer.service';
+import { AllSessionsParticipantListComponent } from './all-sessions-participant/all-sessions-participant-list/all-sessions-participant-list.component';
+import { AuthGuardParticipantService } from 'app/auth-guard-participant.service';
+import { AllSessionsTrainerComponent } from './all-sessions-trainer/all-sessions-trainer.component';
+import { AllSessionsTrainerSidebarsComponent } from './all-sessions-trainer/all-sessions-trainer-sidebars/all-sessions-trainer-sidebars.component';
+import { AllSessionsTrainerListComponent } from './all-sessions-trainer/all-sessions-trainer-list/all-sessions-trainer-list.component';
 
+import { AuthGuardTrainerService } from 'app/auth-guard-trainer.service';
 registerLocaleData(localeFr, 'fr');
 
 export const MY_FORMATS = {
@@ -266,6 +276,26 @@ const routes = [
         canActivate:[AuthGuardManagerService] 
 
     },
+
+    {
+        path     : 'allSessionsParticipant',
+        component: AllSessionsParticipantComponent,
+        resolve  : {
+            academy: AllSessionsParticipantService
+        },
+        canActivate:[AuthGuardParticipantService] 
+
+    },
+
+    {
+        path     : 'allSessionsTrainer',
+        component: AllSessionsTrainerComponent,
+        resolve  : {
+            academy: AllSessionsTrainerService
+        },
+        canActivate:[AuthGuardTrainerService] 
+
+    },
    
     
  
@@ -361,8 +391,13 @@ const routes = [
         ThemeDetailSpecFormComponent,
         ThemeDetailSpecListComponent,
         ThemeDetailClasseFormComponent,
-        ModuleClassFormComponent
-       
+        ModuleClassFormComponent,
+        AllSessionsParticipantComponent,
+        AllSessionsParticipantSidebarsComponent,
+        AllSessionsParticipantListComponent,
+        AllSessionsTrainerComponent,
+        AllSessionsTrainerSidebarsComponent,
+        AllSessionsTrainerListComponent,
         
         
 
@@ -423,6 +458,8 @@ const routes = [
         ProgramSpecDetailService,
        // ClasseParticipantsService,
         ClasseParticipantsService,
+        AllSessionsParticipantService,
+        AllSessionsTrainerService,
         
         {provide: LOCALE_ID, useValue: 'fr' },
         {
