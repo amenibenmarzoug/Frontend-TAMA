@@ -28,6 +28,13 @@ export const navigationTrainer: FuseNavigation[] = [
         url: '/apps/classetrainer'
     },
 
+    {
+        id: 'allSessionsTrainer',
+        title: 'Liste de séances',
+        type: 'item',
+        icon: 'school',
+        url: '/apps/academy/allSessionsTrainer'
+    },
 
     {
         id: 'attendance',

@@ -99,6 +99,8 @@ export class TrainerListComponent implements OnInit, OnDestroy
             .subscribe(() => {
               this._trainersService.deselectContacts();
             });
+
+        
     }
 
     /**

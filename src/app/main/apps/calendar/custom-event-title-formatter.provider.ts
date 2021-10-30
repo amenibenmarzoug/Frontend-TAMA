@@ -30,7 +30,8 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
           'd/M/yy à HH:mm',
           this.localeFr
         )}</b> ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName} ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location}  - ${event.title}<br>
-        <b>     Salle: </b> ${event.session.classRoom.classRoomName} à ${event.session.classRoom.institution.institutionName}`;
+        <b>     Salle: </b> ${event.session.classRoom.classRoomName} à ${event.session.classRoom.institution.institutionName}<br>
+        <b>     Formateur: </b> ${event.session.trainer.firstName} ${event.session.trainer.lastName}`;
 
       }
       else{
@@ -38,7 +39,9 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
           event.start,
           'd/M/yy à HH:mm',
           this.localeFr
-        )}</b> ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName} ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location}  - ${event.title}<br>`;
+        )}</b> ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName} ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location}  - ${event.title}<br>
+        <b>     Formateur: </b> ${event.session.trainer.firstName} ${event.session.trainer.lastName}`;
+
 
       }
 

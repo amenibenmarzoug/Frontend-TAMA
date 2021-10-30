@@ -57,7 +57,7 @@
         <mat-cell *matCellDef="let contact" fxShow.gt-lg class="speciality-cell">
             <ng-container >
                 <ul >
-                    <li *ngFor="let specification of contact.specifications">
+                    <li *ngFor="let specification of contact.specifications.sort()  ">
                         <span> {{specification}} </span>
                     </li>
                 </ul>
