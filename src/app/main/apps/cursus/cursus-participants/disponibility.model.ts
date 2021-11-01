@@ -1,7 +1,7 @@
 import { CalendarEventAction } from 'angular-calendar';
 import { startOfDay, endOfDay } from 'date-fns';
 import { FuseUtils } from '@fuse/utils';
-import { Entreprise } from '../../entreprises/entreprise.model';
+//import { Enterprise } from 'app/shared/models/enterprise.model';
 
 
 export class Disponibility{

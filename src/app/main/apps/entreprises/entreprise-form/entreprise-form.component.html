@@ -9,13 +9,13 @@
 
         <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
 
-            <div class="contact-name mt-8">{{contact.enterpriseName}}</div>
+            <div class="contact-name mt-8">{{enterprise.enterpriseName}}</div>
         </mat-toolbar-row>
     </mat-toolbar>
 
     <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
 
-        <form [formGroup]="contactForm">
+        <form [formGroup]="enterpriseForm">
 
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
@@ -184,13 +184,13 @@
             SUPPRIMER
         </button> -->
 
-        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(contactForm)"
-            [disabled]="contactForm.invalid" aria-label="SAVE">
+        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(enterpriseForm)"
+            [disabled]="enterpriseForm.invalid" aria-label="SAVE">
             AJOUTER
         </button>
 
         <button *ngIf="action === 'edit'" mat-button class="save-button"
-            (click)="matDialogRef.close(['save',contactForm])" [disabled]="contactForm.invalid" aria-label="SAVE">
+            (click)="matDialogRef.close(['save',enterpriseForm])" [disabled]="enterpriseForm.invalid" aria-label="SAVE">
             ENREGISTRER
         </button>
 

@@ -20,7 +20,7 @@ import { ParticipantListComponent } from 'app/main/apps/participants/participant
 export class EntreprisesComponent implements OnInit  , OnDestroy {
 
 
-  dialogRef: any;
+    dialogRef: any;
     hasSelectedContacts: boolean;
     searchInput: FormControl;
 
@@ -93,7 +93,7 @@ export class EntreprisesComponent implements OnInit  , OnDestroy {
     /**
      * New contact
      */
-    newContact(): void
+    newEnterprise(): void
     {
         this.dialogRef = this._matDialog.open(EntrepriseFormComponent, {
             panelClass: 'contact-form-dialog',

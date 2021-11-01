@@ -12,7 +12,7 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 
 import { EntreprisesService } from 'app/main/apps/entreprises/entreprises.service';
 import { EntrepriseFormComponent } from 'app/main/apps/entreprises/entreprise-form/entreprise-form.component';
-import { Entreprise } from 'app/main/apps/entreprises/entreprise.model';
+import { Enterprise } from 'app/shared/models/enterprise.model';
 @Component({
     selector: 'app-entreprise-list',
     templateUrl: './entreprise-list.component.html',
@@ -25,14 +25,14 @@ export class EntrepriseListComponent implements OnInit, OnDestroy {
     @ViewChild('dialogContent')
     dialogContent: TemplateRef<any>;
     alertDialog: MatDialogRef<AlertDialogComponent>;
-    contacts: any;
+    enterprises: any;
     user: any;
     dataSource: FilesDataSource | null;
     displayedColumns = ['checkbox', 'name', 'nameP', 'email', 'phone', 'website', 'classe', 'buttons'];
     selectedContacts: any[];
     checkboxes: {};
     dialogRef: any;
-    contact: Entreprise
+    enterprise: Enterprise
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     id: number;
     disabled: boolean = false
@@ -66,7 +66,7 @@ export class EntrepriseListComponent implements OnInit, OnDestroy {
         this._entreprisesService.onContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(contacts => {
-                this.contacts = contacts;
+                this.enterprises = contacts;
 
                 this.checkboxes = {};
                 contacts.map(contact => {
@@ -118,7 +118,7 @@ export class EntrepriseListComponent implements OnInit, OnDestroy {
      *
      * @param contact
      */
-    editContact(contact): void {
+    editEnterprise(contact): void {
         this.dialogRef = this._matDialog.open(EntrepriseFormComponent, {
             panelClass: 'contact-form-dialog',
             data: {
@@ -151,12 +151,12 @@ export class EntrepriseListComponent implements OnInit, OnDestroy {
                                   // reject(err); // Here.
                               });*/
                               console.log("ENTERPRISE");
-                              console.log(new Entreprise(formData.getRawValue()));
+                              console.log(new Enterprise(formData.getRawValue()));
                         //this._entreprisesService.updateContact1(new Entreprise(formData.getRawValue()), this._entreprisesService.classe).subscribe(
-                            this._entreprisesService.updateContact1(new Entreprise(formData.getRawValue())).subscribe(
+                            this._entreprisesService.updateEnterprise1(new Enterprise(formData.getRawValue())).subscribe(
 
                             data => {
-                                this._entreprisesService.getContacts();
+                                this._entreprisesService.getEnterprises();
                                 console.log("data on submit");
 
 

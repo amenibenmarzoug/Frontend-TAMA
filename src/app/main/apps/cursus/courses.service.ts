@@ -4,7 +4,7 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Cursus } from 'app/main/apps/cursus/cursus.model';
 import { Disponibility } from './cursus-participants/disponibility.model';
-import { Entreprise } from '../entreprises/entreprise.model';
+//import { Enterprise }  from 'app/shared/models/enterprise.model';
 import {environment} from 'environments/environment';
 
 const USER_KEY = 'auth-user';
