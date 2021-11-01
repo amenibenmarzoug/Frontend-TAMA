@@ -4,7 +4,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { environment } from 'environments/environment';
-import {Session} from 'app/shared/models/session.model'
+import { Session } from 'app/shared/models/session.model'
 const AUTH_API = environment.backend_url + 'api/';
 
 @Injectable()
@@ -18,11 +18,13 @@ export class AllSessionsService implements Resolve<any>
     onThemesChanged: BehaviorSubject<any>;
     onModulesChanged: BehaviorSubject<any>;
     onThemeDetailsChanged: BehaviorSubject<any>;
+    onTrainersChanged: BehaviorSubject<any>;
+
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
 
 
-    trainer: any;
+    trainers: any[]=[];
     courses: any[];
     specificCourseSessions: Session[];
     sessions: any[];
@@ -59,6 +61,7 @@ export class AllSessionsService implements Resolve<any>
         this.onThemesChanged = new BehaviorSubject([]);
         this.onModulesChanged = new BehaviorSubject([]);
         this.onThemeDetailsChanged = new BehaviorSubject([]);
+        this.onTrainersChanged= new BehaviorSubject([]);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -82,6 +85,7 @@ export class AllSessionsService implements Resolve<any>
                 this.getProgramInst(),
                 this.getThemeDetailInst(),
                 this.getThemeInst(),
+                this.getTrainers()
 
             ]).then(
                 ([files]) => {
@@ -117,6 +121,7 @@ export class AllSessionsService implements Resolve<any>
                 .subscribe((response: any) => {
 
                     this.sessions = [];
+
                     if (this.filterBy != null) {
 
 
@@ -130,6 +135,15 @@ export class AllSessionsService implements Resolve<any>
                         });
 
                     }
+                    if(this.trainerId!=null && this.sessions.length!=0){
+                        this.sessions = this.sessions.filter(_courseSession => {
+                            if (_courseSession.trainer.id == this.trainerId) {
+
+                                return true;
+                            }
+                            return false;
+                        });
+                    }
 
 
 
@@ -142,14 +156,44 @@ export class AllSessionsService implements Resolve<any>
         );
     }
 
+    getSessionsByTrainerId(trainerId): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+
+            this._httpClient.get(environment.backend_url + 'api/session/trainerId/' + trainerId)
+                .subscribe((response: any) => {
+                    console.log("TRAINER SESSIONS");
+                    this.sessions = [];
+                    this.sessions = response;
+                    console.log(this.sessions)
+                    if (this.filterBy != null) {
+
+
+                        this.sessions = response;
+                        this.sessions = this.sessions.filter(_courseSession => {
+                            if (_courseSession.themeDetailInstance.id == this.filterBy.id) {
+
+                                return true;
+                            }
+                            return false;
+                        });
+
+                    }
+                    this.onSpecificCourseSessionsChanged.next(this.sessions);
+                    resolve(this.sessions);
+                }, reject);
+        });
+    }
+
     getSessionsByProgramInstanceId(programInstanceId): Promise<any> {
-       
+
 
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'session')
                 .subscribe((response: any) => {
 
-                    this.sessions=[];
+                    this.sessions = [];
                     this.sessions = response;
                     this.sessions = this.sessions.filter(_courseSession => {
                         if (_courseSession.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == programInstanceId) {
@@ -161,7 +205,15 @@ export class AllSessionsService implements Resolve<any>
 
 
 
+                    if(this.trainerId!=null && this.sessions.length!=0){
+                        this.sessions = this.sessions.filter(_courseSession => {
+                            if (_courseSession.trainer.id == this.trainerId) {
 
+                                return true;
+                            }
+                            return false;
+                        });
+                    }
 
                     this.onSpecificCourseSessionsChanged.next(this.sessions);
 
@@ -186,57 +238,69 @@ export class AllSessionsService implements Resolve<any>
         );
     }
 
-    getProgramInst(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'programsInst')
-                .subscribe((response: any) => {
-                  
-                    this.onProgramsChanged.next(response);
-                    this.programs = response;
-                    resolve(response);
-                }, reject);
-        }
-        );
-    }
 
-    getThemeInst(): Promise<any> {
+    getTrainers(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'themesInst')
+            this._httpClient.get(AUTH_API + 'trainers')
                 .subscribe((response: any) => {
-                
-                    this.onThemesChanged.next(response);
-                    this.themes = response;
+                    this.trainers = response;
+                    this.onTrainersChanged.next(this.trainers);
                     resolve(response);
-                }, reject);
+                }, reject);});
         }
-        );
-    }
+    
 
-    getModuleInst(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'moduleInstance')
-                .subscribe((response: any) => {
-                    
-                    this.onModulesChanged.next(response);
-                    this.modules = response;
-                    resolve(response);
-                }, reject);
-        }
-        );
-    }
+    getProgramInst(): Promise < any > {
+            return new Promise((resolve, reject) => {
+                this._httpClient.get(AUTH_API + 'programsInst')
+                    .subscribe((response: any) => {
 
-    getThemeDetailInst(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'themeDetailInst')
-                .subscribe((response: any) => {
-            
-                    this.onThemeDetailsChanged.next(response);
-                    this.themeDetails = response;
-                    resolve(response);
-                }, reject);
+                        this.onProgramsChanged.next(response);
+                        this.programs = response;
+                        resolve(response);
+                    }, reject);
+            }
+            );
         }
-        );
-    }
+
+    getThemeInst(): Promise < any > {
+            return new Promise((resolve, reject) => {
+                this._httpClient.get(AUTH_API + 'themesInst')
+                    .subscribe((response: any) => {
+
+                        this.onThemesChanged.next(response);
+                        this.themes = response;
+                        resolve(response);
+                    }, reject);
+            }
+            );
+        }
+
+    getModuleInst(): Promise < any > {
+            return new Promise((resolve, reject) => {
+                this._httpClient.get(AUTH_API + 'moduleInstance')
+                    .subscribe((response: any) => {
+
+                        this.onModulesChanged.next(response);
+                        this.modules = response;
+                        resolve(response);
+                    }, reject);
+            }
+            );
+        }
+
+    getThemeDetailInst(): Promise < any > {
+            return new Promise((resolve, reject) => {
+                this._httpClient.get(AUTH_API + 'themeDetailInst')
+                    .subscribe((response: any) => {
+
+                        this.onThemeDetailsChanged.next(response);
+                        this.themeDetails = response;
+                        resolve(response);
+                    }, reject);
+            }
+            );
+        }
 
 
 
@@ -263,22 +327,22 @@ export class AllSessionsService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getUserData(): Promise<any> {
+    getUserData(): Promise < any > {
 
-        return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'session')
-                .subscribe((response: any) => {
-                    this.user = response;
-                    this.onUserDataChanged.next(this.user);
-                    resolve(this.user);
-                }, reject);
+            return new Promise((resolve, reject) => {
+                this._httpClient.get(AUTH_API + 'session')
+                    .subscribe((response: any) => {
+                        this.user = response;
+                        this.onUserDataChanged.next(this.user);
+                        resolve(this.user);
+                    }, reject);
+            }
+            );
+            /* return this._httpClient.get<any[]>(AUTH_API + 'courseSession')
+           .pipe(catchError(this.processHTTPMsgService.handleError));*/
         }
-        );
-        /* return this._httpClient.get<any[]>(AUTH_API + 'courseSession')
-       .pipe(catchError(this.processHTTPMsgService.handleError));*/
-    }
 
- 
+
 
 
     /**
@@ -287,8 +351,8 @@ export class AllSessionsService implements Resolve<any>
      * @param id
      */
     toggleSelectedSession(id): void {
-        // First, check if we already have that session as selected...
-        if (this.selectedSessions.length > 0) {
+            // First, check if we already have that session as selected...
+            if(this.selectedSessions.length > 0) {
             const index = this.selectedSessions.indexOf(id);
 
             if (index !== -1) {
@@ -343,7 +407,7 @@ export class AllSessionsService implements Resolve<any>
         this.onSelectedSessionsChanged.next(this.selectedSessions);
     }
 
-  
+
 
     /**
      * Deselect sessions
@@ -366,7 +430,7 @@ export class AllSessionsService implements Resolve<any>
         this.onSessionsChanged.next(this.sessions);
     }
 
-  
+
 
 
 
