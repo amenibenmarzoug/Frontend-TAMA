@@ -108,7 +108,7 @@ export class AttendanceParticipantService implements Resolve<any>
     }
 
 
-
+    // this will only return the attendances with status 'absent' or 'justified absent'
     getAttendancesByParticipantId(participantId): Promise<any> {
 
         return new Promise((resolve, reject) => {
@@ -117,6 +117,14 @@ export class AttendanceParticipantService implements Resolve<any>
 
                     //this.attendances = [];
                     this.attendances = response;
+                    this.attendances=this.attendances.filter(attendance => {
+                        if (attendance.attendanceState !== 'PRESENT') {
+                            return true;
+                        }
+                        return false;
+                    }
+                        );
+
                     if (this.searchText && this.searchText !== '') {
                         this.attendances = FuseUtils.filterArrayByString(this.attendances, this.searchText);
                     }

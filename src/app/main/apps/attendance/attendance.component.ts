@@ -14,6 +14,11 @@ import { saveAs } from 'file-saver';
 import Swal from 'sweetalert2';
 
 import { AttendanceService } from './attendance.service';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { DateAdapter } from '@angular/material/core';
+
+registerLocaleData(localeFr, 'fr');
 @Component({
   selector: 'app-attendance',
   templateUrl: './attendance.component.html',
@@ -27,6 +32,7 @@ export class AttendanceComponent implements OnInit {
   dialogRef: any;
   hasSelectedContacts: boolean;
   searchInput: FormControl;
+  selectedSession : any ; 
   selectedContacts: any[] = [];
   courseSessions: any[] = [];
   courseSessionsDispon: any[] = [];
@@ -56,10 +62,12 @@ export class AttendanceComponent implements OnInit {
     private attendanceService: AttendanceService,
     private _fuseSidebarService: FuseSidebarService,
     private _matDialog: MatDialog,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private dateAdapter: DateAdapter<Date>
   ) {
     // Set the defaults
    // this.fileName = "liste_presence.pdf";
+   this.dateAdapter.setLocale('fr');
     this.searchInput = new FormControl('');
 
     // Set the private defaults
@@ -81,6 +89,11 @@ export class AttendanceComponent implements OnInit {
           .subscribe(selectedContacts => {
               this.hasSelectedContacts = selectedContacts.length > 0;
           }); */
+          this.attendanceService.onFilterChanged
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe(selectedSession => {
+              this.selectedSession = selectedSession;
+          });
 
     this.searchInput.valueChanges
       .pipe(

@@ -27,7 +27,7 @@
 
                 <div class="nav-item" aria-label="Date" fxLayoutAlign="start center">
                     <mat-form-field appearance="outline" class="category-selector " >
-                        <mat-label>Date de la séance </mat-label>
+                        <mat-label>Filtrer par date </mat-label>
                         <input matInput [matDatepicker]="startDatePicker"   [(ngModel)]="selectedDate"                         
                             autocomplete="false"
                             (dateInput)="selectDate($event.value)" >
@@ -36,7 +36,20 @@
                         <mat-datepicker #startDatePicker></mat-datepicker>
                     </mat-form-field>
                 </div>
+
+                <div class="nav-item" aria-label="Classe" fxLayoutAlign="start center">
+                    <mat-form-field appearance="outline" class="category-selector " fxFlex>
+                        <mat-label>Filtrer par Classe</mat-label>
+                        <mat-select (selectionChange)="selectClass($event.value)" [(ngModel)]="selectedClass">
+
+                            <mat-option *ngFor="let classe of classes" [value]="classe">
+                                {{ classe.programInstName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
                
+                <!--
                 <div class="nav-item" aria-label="Séance" fxLayoutAlign="start center">
                     <mat-form-field appearance="outline" class="category-selector " fxFlex >
                         <mat-label>Séance</mat-label>
@@ -49,6 +62,7 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
+            -->
 
                 
                 <div class="message-box warning"  *ngIf="courseSessions.length == 0 && selectedDate != null">

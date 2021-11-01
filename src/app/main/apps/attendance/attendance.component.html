@@ -59,6 +59,20 @@
         <!-- CENTER -->
         <div class="center p-24 pb-56 pr-sm-92" fusePerfectScrollbar>
             <div class="content">
+                <div class="message-box warning"  *ngIf="selectedSession != null">
+                Vous marquez la présence pour  : 
+                 
+                 <div class="h4 m-16 font-weight-600 " fxLayout="row" fxLayoutAlign="start start">
+                    La classe : {{selectedSession.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName}}
+                   </div>
+                 <div class="h4 m-16 font-weight-600" fxLayout="row" fxLayoutAlign="start start">
+                     La séance : {{selectedSession.sessionName }} 
+                    <span class ="h4 " > &nbsp; planifiée pour le &nbsp;  </span>{{selectedSession.sessionBeginDate | date:'fullDate' }} à  
+                        {{selectedSession.sessionBeginDate | date:'shortTime' }} 
+                </div>
+                
+                 <p class ="email font-weight-600"> </p>
+                 </div>
                 <app-attendance-list></app-attendance-list>
             </div>
             <!-- / CONTENT -->

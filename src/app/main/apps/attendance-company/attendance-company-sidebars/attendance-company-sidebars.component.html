@@ -12,9 +12,21 @@
         <div class="content py-16" fusePerfectScrollbar>
             <div class="nav material2">
 
+                <div class="nav-item" aria-label="Classe" fxLayoutAlign="start center">
+                    <mat-form-field appearance="outline" class="category-selector " fxFlex>
+                        <mat-label>Filtrer par Classe</mat-label>
+                        <mat-select (selectionChange)="selectClass($event.value)" [(ngModel)]="selectedClass"
+                            >
+                        
+                            <mat-option *ngFor="let classe of classes" [value]="classe">
+                                {{ classe.programInstName }} 
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
                 <div class="nav-item" aria-label="Participant" fxLayoutAlign="start center">
                     <mat-form-field appearance="outline" class="category-selector " fxFlex>
-                        <mat-label>Participant</mat-label>
+                        <mat-label>Filtrer par Participant</mat-label>
                         <mat-select (selectionChange)="selectParticipant($event.value)" [(ngModel)]="selectedParticipant"
                             >
                         
@@ -36,24 +48,13 @@
                         <mat-datepicker #startDatePicker></mat-datepicker>
                     </mat-form-field>
                 </div>
-                <!--
-                <div class="nav-item" aria-label="Classe" fxLayoutAlign="start center">
-                    <mat-form-field appearance="outline" class="category-selector " fxFlex>
-                        <mat-label>Filtrer par Classe</mat-label>
-                        <mat-select (selectionChange)="selectClass($event.value)" [(ngModel)]="selectedClass"
-                            >
-                        
-                            <mat-option *ngFor="let classe of classes" [value]="classe">
-                                {{ classe.programInstName }} 
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+                
+                
 
                 
                 
                 
-               
+               <!--
                 <div class="nav-item" aria-label="Séance" fxLayoutAlign="start center">
                     <mat-form-field appearance="outline" class="category-selector " fxFlex>
                         <mat-label>Filter par séance</mat-label>

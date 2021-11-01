@@ -83,6 +83,7 @@ export class AttendanceService implements Resolve<any>
 
             Promise.all([
                 this.getMySessionsByDate(),
+                this.getAttendanceCheckedSessions(),
 
             ]).then(
                 ([files]) => {
@@ -145,6 +146,16 @@ export class AttendanceService implements Resolve<any>
                             return false;
                             
                         });
+                        if (this.sessions.length > 0 ) {
+                            this.filterBy=this.sessions[0] ; 
+                            this.onFilterChanged.next(this.filterBy)
+                            console.log("this.sessions[0]")
+                            console.log(this.filterBy)
+
+                        }
+                        
+
+
                     }
                     console.log("Sessionss")
                     console.log(this.sessions)
@@ -272,7 +283,7 @@ export class AttendanceService implements Resolve<any>
                             }
                             return false;
                         });
-
+                        /*
                         if (this.filterByDate != null) {
                             this.attendanceCheckedSessions = this.attendanceCheckedSessions.filter(_session => {
                                 const courseBeginDate = new Date(_session.sessionBeginDate)
@@ -283,6 +294,7 @@ export class AttendanceService implements Resolve<any>
                                 return false;
                             });
                         }    
+                        */
 
                     console.log("sessions checked by this trainer")
                     console.log(this.attendanceCheckedSessions)

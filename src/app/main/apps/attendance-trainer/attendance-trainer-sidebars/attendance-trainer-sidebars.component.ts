@@ -25,6 +25,11 @@ export class AttendanceTrainerSidebarsComponent implements OnInit {
   currentTrainer: string;
   selectedSession: any ; 
 
+  selectedDate: any;
+  selectedParticipant: any;
+  selectedClass: any;
+  classes: any;
+
   attendances : any[] ; 
   participants : any[] ; 
   checkedAttendance : boolean;
@@ -32,8 +37,7 @@ export class AttendanceTrainerSidebarsComponent implements OnInit {
 
   // Private
   private _unsubscribeAll: Subject<any>;
-    selectedDate: any;
-    selectedParticipant: any;
+   
 
   /**
    * Constructor
@@ -69,7 +73,10 @@ export class AttendanceTrainerSidebarsComponent implements OnInit {
           this.attendanceService.onFilterChanged
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(selectedSession => {
+              
               this.selectedSession = selectedSession;
+              
+
           });
 
           this.attendanceService.onAttendancesChanged
@@ -88,6 +95,17 @@ export class AttendanceTrainerSidebarsComponent implements OnInit {
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(participants => {
               this.participants = participants;
+              console.log("participants init")
+              console.log(this.participants)
+
+          });
+
+          this.attendanceService.onClassesChanged
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe(classes => {
+              this.classes = classes;
+              console.log("this classes")
+              console.log(this.classes)
 
           });
   }
@@ -121,6 +139,11 @@ export class AttendanceTrainerSidebarsComponent implements OnInit {
         console.log(this.selectedParticipant)
         this.attendanceService.onFilterByParticipantChanged.next(participant);
     }
+    selectClass(group): void {
+        this.selectedClass = group
+        console.log(this.selectedClass)
+        this.attendanceService.onFilterByClassChanged.next(group);
+    }
 
    
     selectSession(session): void {
@@ -133,16 +156,17 @@ export class AttendanceTrainerSidebarsComponent implements OnInit {
     const reset =null ; 
     this.attendanceService.onSearchTextChanged.next(''); 
     this.attendanceService.filterByDate=null ; 
-    //this.attendanceService.filterByClasse=null ; 
+    this.attendanceService.filterByClasse=null ; 
     this.attendanceService.filterBy=null ; 
     this.attendanceService.filterByParticipant=null  ; 
     this.attendanceService.session=null ; 
     this.ngOnInit();
     this.selectedParticipant=null  ; 
-    //this.selectedClass = null ; 
+    this.selectedClass = null ; 
     this.selectedDate = null ; 
     this.selectedSession=null ;
     this.attendanceService.onFilterByParticipantChanged.next(this.selectedParticipant);
+    this.attendanceService.onFilterByClassChanged.next(reset)
 
 
     /*

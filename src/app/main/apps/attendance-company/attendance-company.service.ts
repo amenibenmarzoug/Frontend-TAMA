@@ -78,6 +78,9 @@ export class AttendanceCompanyService implements Resolve<any> {
       this.onAttendanceCheckedSessionsChanged =new Subject();
       this.onFilterByParticipantChanged=new Subject();
       this.onFilterByClassChanged=new Subject();
+
+      this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
+      console.log("company : "+(this.user.id).toString()) 
   }
   
   // -----------------------------------------------------------------------------------------------------
@@ -100,6 +103,7 @@ export class AttendanceCompanyService implements Resolve<any> {
               this.getAttendances(),
               //this.getAttendanceCheckedSessions(),
               this.getParticipants(),
+              this.getClasses(), 
               //this.getClasses(),
   
           ]).then(
@@ -153,8 +157,7 @@ export class AttendanceCompanyService implements Resolve<any> {
    */
    //this function will return the sessions of the concerned trainer in a specific date chosen in the filter
    getMySessionsByDate(): Promise<any> {
-      this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
-      console.log("trainer : "+(this.user.id).toString()) 
+      
       
       return new Promise((resolve, reject) => {
           
@@ -209,7 +212,7 @@ export class AttendanceCompanyService implements Resolve<any> {
                   }, reject);
           }
       );
-  }
+  } 
   
   generateReport(sessionId) : Promise<any>
   {
@@ -260,14 +263,16 @@ export class AttendanceCompanyService implements Resolve<any> {
    *
    * @returns {Promise<any>}
    */
-   //not added yet
+   
    getClasses(): Promise<any> {
      
       return new Promise((resolve, reject) => {
           
-          this._httpClient.get(AUTH_API+ 'confirmedClasses')
+          this._httpClient.get(AUTH_API+ 'companyRegistrations/programInstance/enterprise/'+this.user.id)
           .subscribe((response: any) => {
               this.classes = response;
+              console.log("this.classes hereee")
+              console.log(this.classes)
               this.onClassesChanged.next(this.classes);
               resolve(this.classes);
           }, reject);

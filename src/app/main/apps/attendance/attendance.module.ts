@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -59,7 +59,8 @@ const routes: Routes = [
   ],
 
   providers: [
-    AttendanceService
+    AttendanceService,
+    {provide: LOCALE_ID, useValue: 'fr' }
   ],
 
 })
