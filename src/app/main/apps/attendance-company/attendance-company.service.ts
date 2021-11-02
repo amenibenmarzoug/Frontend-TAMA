@@ -132,7 +132,13 @@ export class AttendanceCompanyService implements Resolve<any> {
   
                   this.onFilterByClassChanged.subscribe(group => {
                       this.filterByClasse = group;
+                      if (group ==null) {
+                          this.getParticipants() ;  
+                      }
+                    
+                      if (group != null) {
                       this.getParticipantsOfSelectedClass()
+                      }
                       this.getAttendances();
                   });
   
@@ -328,6 +334,12 @@ export class AttendanceCompanyService implements Resolve<any> {
                   this.attendances = response;
                   console.log("THIS FILTEREDBY");
                   console.log(this.filterBy);
+                  this.attendances.sort(function(a, b){
+                    if(a.session.sessionBeginDate < b.session.sessionBeginDate) { return -1; }
+                    if(a.session.sessionBeginDate > b.session.sessionBeginDate) { return 1; }
+                    return 0;
+                })
+
                   if (this.filterBy != null) {
                       this.attendances = this.attendances.filter(attendance => {
                           if (attendance.session.id == this.filterBy.id) {
