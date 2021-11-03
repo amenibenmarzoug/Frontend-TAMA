@@ -19,7 +19,7 @@
                         <mat-label>Filtrer par Classe</mat-label>
                         <mat-select (selectionChange)="selectClass($event.value)" [(ngModel)]="selectedClass">
                             <mat-option  [value]="'all'">
-                                Toutes
+                                Tous les participants
                             </mat-option>
                             <mat-option *ngFor="let classe of classes" [value]="classe">
                                 {{ classe.programInstName }}
