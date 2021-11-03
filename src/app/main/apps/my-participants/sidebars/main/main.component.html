@@ -18,8 +18,8 @@
                     <mat-form-field appearance="outline" class="category-selector " fxFlex>
                         <mat-label>Filtrer par Classe</mat-label>
                         <mat-select (selectionChange)="selectClass($event.value)" [(ngModel)]="selectedClass">
-                            <mat-option  [value]="'tous'">
-                                Tous
+                            <mat-option  [value]="'all'">
+                                Toutes
                             </mat-option>
                             <mat-option *ngFor="let classe of classes" [value]="classe">
                                 {{ classe.programInstName }}

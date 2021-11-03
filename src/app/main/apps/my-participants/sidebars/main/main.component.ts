@@ -82,7 +82,7 @@ import { MyParticipantsService } from 'app/main/apps/my-participants/my-particip
 
        selectClass(group): void {
         
-        if (group == "tous")
+        if (group == "all")
         {
             console.log("tous selected")
             this._MyParticipantsService.getParticipants() ; 
