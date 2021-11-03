@@ -2,7 +2,8 @@
 
 
     <!--   Profile PARTICIPANT -->
-    <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65" *ngIf="isParticipant ">
+    <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65"
+        *ngIf="isParticipant ">
 
         <div class="profile-box info-box general" fxLayout="column">
 
@@ -17,8 +18,8 @@
                 </div>
 
                 <div class="info-line">
-                    <div class="title">Date de naissance</div>
-                    <div class="info">{{participant.birthday | date:'longDate'}}</div>
+                    <div class="title">Année de naissance</div>
+                    <div class="info">{{participant.birthday | date:'yyyy'}}</div>
                 </div>
 
                 <!--  <div class="info-line">
@@ -39,39 +40,12 @@
         </div>
 
 
-        <!--   <div class="profile-box info-box work" fxLayout="column">
 
-            <header class="accent">
-                <div class="title">Work</div>
-            </header>
-
-            <div class="content">
-                <div class="info-line">
-                    <div class="title">Occupation</div>
-                    <div class="info">{{about.work.occupation}}</div>
-                </div>
-
-                <div class="info-line">
-                    <div class="title">Skills</div>
-                    <div class="info">{{about.work.skills}}</div>
-                </div>
-
-                <div class="info-line">
-                    <div class="title">Jobs</div>
-                    <table class="info jobs">
-                        <tr class="job" *ngFor="let job of about.work.jobs">
-                            <td class="company">{{job.company}}</td>
-                            <td class="date">{{job.date}}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div> -->
 
         <div class="profile-box info-box contact" fxLayout="column">
 
             <header class="accent">
-                <div class="title">Contact</div>
+                <div class="title"> Contact</div>
             </header>
 
             <div class="content">
@@ -81,19 +55,50 @@
                 </div>
                 <div class="info-line">
                     <div class="title">Tel.</div>
-                    <div class="info" >
+                    <div class="info">
                         <span>{{participant.phoneNumber}}</span>
                     </div>
                 </div>
-                
+
                 <div class="info-line">
                     <div class="title">Email</div>
-                    <div class="info" >
+                    <div class="info">
                         <span>{{participant.email}}</span>
                     </div>
                 </div>
             </div>
 
+        </div>
+
+        <div class="profile-box info-box work" fxLayout="column">
+
+            <header class="accent">
+                <div class="title">Expérience Professionnelle</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="info-line">
+                        <div class="title">Position occupée</div>
+                        <div class="info">{{participant.currentPosition}}</div>
+
+                    </div>
+                    <div class="info-line">
+                        <div class="title">Nombre d'années d'expérience</div>
+                        <div class="info">{{participant.experience}}</div>
+
+                    </div>
+                    <div class="title">Niveau Management</div>
+                    <div class="info">{{participant.level}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Niveau d'éducation</div>
+                    <div class="info">{{participant.educationLevel}}</div>
+                </div>
+
+
+            </div>
         </div>
 
     </div>
@@ -113,12 +118,12 @@
                     <div class="info">{{trainer.gender}}</div>
                 </div>
 
-                
+
 
                 <div class="info-line">
                     <div class="title">Spécialité</div>
                     <div class="info">
-                        <ul >
+                        <ul>
                             <li *ngFor="let specification of trainer.specifications">
                                 <span> {{specification}} </span>
                             </li>
@@ -145,7 +150,7 @@
         </div>
 
 
-        
+
         <div class="profile-box info-box contact" fxLayout="column">
 
             <header class="accent">
@@ -159,14 +164,14 @@
                 </div>
                 <div class="info-line">
                     <div class="title">Tel.</div>
-                    <div class="info" >
+                    <div class="info">
                         <span>{{trainer.phoneNumber}}</span>
                     </div>
                 </div>
-                
+
                 <div class="info-line">
                     <div class="title">Email</div>
-                    <div class="info" >
+                    <div class="info">
                         <span>{{trainer.email}}</span>
                     </div>
                 </div>
@@ -179,7 +184,7 @@
 
     <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65" *ngIf="isEntreprise ">
 
-       
+
 
         <!--   <div class="profile-box info-box work" fxLayout="column">
 
@@ -223,13 +228,13 @@
                 </div>
                 <div class="info-line">
                     <div class="title">Tel.</div>
-                    <div class="info" >
+                    <div class="info">
                         <span>{{entreprise.phoneNumber}}</span>
                     </div>
                 </div>
                 <div class="info-line">
                     <div class="title">Website</div>
-                    <div class="info" >
+                    <div class="info">
                         <span>{{entreprise.website}}</span>
                     </div>
                 </div>
@@ -246,9 +251,10 @@
     </div>
 
     <!--   Profile INSTITUTION -->
-    <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65" *ngIf="isInstitution ">
+    <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65"
+        *ngIf="isInstitution ">
 
-       
+
 
 
         <!--   <div class="profile-box info-box work" fxLayout="column">
@@ -293,14 +299,14 @@
                 </div>
                 <div class="info-line">
                     <div class="title">Tel.</div>
-                    <div class="info" >
+                    <div class="info">
                         <span>{{institution.phoneNumber}}</span>
                     </div>
                 </div>
-               
+
                 <div class="info-line">
                     <div class="title">Email</div>
-                    <div class="info" >
+                    <div class="info">
                         <span>{{institution.email}}</span>
                     </div>
                 </div>
