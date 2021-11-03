@@ -22,7 +22,7 @@ export const navigationParticipant: FuseNavigation[] = [
 
     {
         id: 'attendance-participant',
-        title: 'Liste de présences',
+        title: 'Liste des absences',
         type: 'item',
         icon: 'how_to_reg',
         url: '/apps/attendance-participant'

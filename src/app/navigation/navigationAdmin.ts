@@ -78,7 +78,7 @@ export const navigationAdmin: FuseNavigation[] = [
         },
         {
             id: 'attendance',
-            title: 'Liste des présences',
+            title: 'Liste des absences',
             type: 'item',
             url: '/apps/attendance-manager',
         }
