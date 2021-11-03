@@ -298,7 +298,7 @@ export class AttendanceTrainerService {
                         this.filterBy = null;
                         this.attendances = this.attendances.filter(attendance => {
                             const attendanceDate = new Date(attendance.session.sessionBeginDate)
-                            if (attendanceDate.getDate() == this.filterByDate.toDate().getDate()) {
+                            if (attendanceDate.toDateString() == this.filterByDate.toDate().toDateString()) {
                                 return true;
                             }
                             return false;
@@ -324,6 +324,16 @@ export class AttendanceTrainerService {
                             return false;
                         });
 
+                    }
+                    if (this.filterByClasse != null) {
+                        this.attendances = this.attendances.filter(attendance => {
+                            
+                            if (attendance.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == this.filterByClasse.id) {
+                                return true;
+                            }
+                            return false;
+                        });
+    
                     }
                     if (this.searchText && this.searchText !== '') {
                         this.attendances = FuseUtils.filterArrayByString(this.attendances, this.searchText);

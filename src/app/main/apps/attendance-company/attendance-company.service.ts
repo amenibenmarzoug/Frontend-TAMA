@@ -353,8 +353,8 @@ export class AttendanceCompanyService implements Resolve<any> {
                   if (this.filterByDate != null) {
                       this.attendances = this.attendances.filter(attendance => {
                           const attendanceDate = new Date(attendance.session.sessionBeginDate)
-                          if (attendanceDate.getDate() == this.filterByDate.toDate().getDate()) {
-                              return true;
+                          if (attendanceDate.toDateString() == this.filterByDate.toDate().toDateString()) {
+                            return true;
                           }
                           return false;
                       });
