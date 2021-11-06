@@ -72,6 +72,8 @@ export class SidebarsComponent implements OnInit {
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(selectedSession => {
               this.selectedSession = selectedSession;
+              console.log("checking the this.seledtedSession")
+              console.log(this.selectedSession)
           });
 
           this.attendanceService.onAttendancesChanged
@@ -111,10 +113,60 @@ export class SidebarsComponent implements OnInit {
    * @param filter
    */
 
-   selectDate(sessionDate): void {
-    this.selectedDate = sessionDate.toDate();
-    console.log(this.selectedDate)
-    this.attendanceService.onFilterByDateChanged.next(sessionDate);
+    selectDate(sessionDate): void {
+        this.selectedDate = sessionDate.toDate();
+        console.log(this.selectedDate)
+        this.attendanceService.onFilterByDateChanged.next(sessionDate);
+
+        this.attendanceService.onSessionsChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(sessions => {
+                this.courseSessions = sessions;
+            });
+        this.attendanceService.onFilterChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(selectedSession => {
+                this.selectedSession = selectedSession;
+                console.log("checking the selectedSession in selectDate")
+                console.log(this.selectedSession)
+
+                //testing the attendance existing or not
+                this.checkedAttendance = false;
+                console.log("in not iterable")
+                console.log( this.attendanceService.attendanceCheckedSessions)
+
+                for (const markedSession of this.attendanceService.attendanceCheckedSessions) {
+                    if (this.selectedSession.id == markedSession.id) {
+                        this.checkedAttendance = true;
+                        break
+                    }
+                }
+                console.log("this checked sessionn")
+                console.log(this.checkedAttendance)
+
+                if (this.checkedAttendance == false) {
+                    this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
+                        height: '200px',
+                        width: '680px',
+                        disableClose: false
+                    });
+                   
+                    this.confirmDialogRef.componentInstance.confirmMessage = "Vous n'avez pas marquer la présence de cette séance, voulez vous créer une fiche de présence? Classe :  " + this.selectedSession.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName;
+                    this.confirmDialogRef.afterClosed().subscribe(result => {
+                        if (result) {
+                            for (const participant of this.participants) {
+                                this.attendanceService.generateAttendance(this.selectedSession, participant);
+                            }
+                        }
+                        this.confirmDialogRef = null;
+                    });
+                }
+            });
+
+
+
+
+
     }
 
    
@@ -130,8 +182,10 @@ export class SidebarsComponent implements OnInit {
         }  
       } 
       
+      
       if(this.checkedAttendance== false) {
         this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
+            
             disableClose: false
         });
         

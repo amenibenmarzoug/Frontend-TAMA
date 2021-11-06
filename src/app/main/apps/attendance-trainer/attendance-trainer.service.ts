@@ -21,11 +21,16 @@ export class AttendanceTrainerService {
     user: any;
     sessions: Session[];
     participants: Participant[];
+    
+    onClassChanged: BehaviorSubject<any>;
+
+    onParticipantsChanged: BehaviorSubject<any>;
+    onClassesChanged : BehaviorSubject<any>;
     onAttendancesChanged: BehaviorSubject<any>;
     onSessionsChanged: BehaviorSubject<any>;
-    onClassChanged: BehaviorSubject<any>;
-    onParticipantsChanged: BehaviorSubject<any>;
+
     onSelectedAttendancesChanged: BehaviorSubject<any>;
+    onFilterByClassChanged:Subject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
     onFilterByDateChanged: Subject<any>;
@@ -36,6 +41,7 @@ export class AttendanceTrainerService {
     attendance: Attendance;
     session: Session;
     class: any;
+    classes : any[] ; 
     searchText: string;
     filterBy: any;
     id: number;
@@ -46,6 +52,8 @@ export class AttendanceTrainerService {
     onPresenceNumberChanged: Subject<any>;
     onAbsenceNumberChanged: Subject<any>;
     onJustifiedAbsenceNumberChanged: Subject<any>;
+    filterByClasse: any;
+
 
     /**
      * Constructor
@@ -64,6 +72,7 @@ export class AttendanceTrainerService {
         //----attendance---
         this.onAttendancesChanged = new BehaviorSubject([]);
         this.onSessionsChanged = new BehaviorSubject([]);
+        this.onClassesChanged = new  BehaviorSubject([]);
         this.onClassChanged = new BehaviorSubject([]);
         this.onParticipantsChanged = new BehaviorSubject([]);
         this.onPresenceNumberChanged = new Subject();
@@ -71,9 +80,14 @@ export class AttendanceTrainerService {
         this.onJustifiedAbsenceNumberChanged = new Subject();
         this.onFilterChanged = new Subject();
         this.onFilterByDateChanged = new Subject();
+        this.onFilterByClassChanged=new Subject();
         this.onFilterByParticipantChanged = new Subject();
         this.onCheckedAttendanceChanged = new Subject();
         this.onAttendanceCheckedSessionsChanged = new Subject();
+
+        //this user 
+        this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
+        console.log("trainer : " + (this.user.id).toString())
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -94,6 +108,7 @@ export class AttendanceTrainerService {
             Promise.all([
                 this.getAttendances(),
                 this.getParticipants(),
+                this.getClasses() , 
                 this.getMySessionsByDate(),
 
             ]).then(
@@ -122,6 +137,17 @@ export class AttendanceTrainerService {
                         }
                         this.getAttendances();
 
+                    });
+                    this.onFilterByClassChanged.subscribe(group => {
+                        this.filterByClasse = group;
+                        if(this.filterByClasse != null) {
+                        this.getParticipantsOfSelectedClass()
+                        }
+                        else {
+                            this.getParticipants() ; 
+                            console.log("excuted")
+                        }
+                        this.getAttendances();
                     });
 
                     this.onFilterChanged.subscribe(filter => {
@@ -160,13 +186,13 @@ export class AttendanceTrainerService {
             this._httpClient.get(environment.backend_url + 'api/session/trainerId/' + this.user.id)
                 .subscribe((response: any) => {
                     console.log(response);
-                    this.sessions = [];
+                    this.sessions = response;
 
                     //filterBy would be the date selected by the trainer
                     console.log("THIS FILTEREDBY");
                     console.log(this.filterByDate);
                     if (this.filterByDate != null) {
-                        this.sessions = response;
+                       // this.sessions = response;
 
                         this.sessions = this.sessions.filter(_session => {
                             const courseBeginDate = new Date(_session.sessionBeginDate)
@@ -197,7 +223,7 @@ export class AttendanceTrainerService {
 
                     this.class = response;
                     this.onClassChanged.next(this.class);
-                    this.getParticipantsOfSelectedSession();
+                    this.getParticipantsOfSelectedClass();
 
                     console.log("Classe")
                     console.log(this.class)
@@ -229,25 +255,20 @@ export class AttendanceTrainerService {
     * @returns {Promise<any>}
     */
 
-    getParticipantsOfSelectedSession(): Promise<any> {
+    
+    getParticipantsOfSelectedClass():Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'participants/classId/' + this.class.id)
+            this._httpClient.get(AUTH_API+ 'participants/classId/'+this.filterByClasse.id)
                 .subscribe((response: any) => {
                     this.participants = response;
-
-                    this.participants.sort(function (a, b) {
-                        if (a.firstNameP.toLowerCase() < b.firstNameP.toLowerCase()) { return -1; }
-                        if (a.firstNameP.toLowerCase() > b.firstNameP.toLowerCase()) { return 1; }
-                        return 0;
-                    })
                     this.onParticipantsChanged.next(this.participants);
-
+    
                     console.log("participants")
                     console.log(this.participants)
                     resolve(this.participants);
                 }, reject);
         }
-        );
+    );
     }
 
     /**
@@ -265,12 +286,19 @@ export class AttendanceTrainerService {
                 .subscribe((response: any) => {
 
                     this.attendances = response;
+                    this.attendances=this.attendances.filter(attendance => {
+                        if (attendance.attendanceState !== 'PRESENT') {
+                            return true;
+                        }
+                        return false;
+                    }
+                    );
 
                     if (this.filterByDate != null) {
                         this.filterBy = null;
                         this.attendances = this.attendances.filter(attendance => {
                             const attendanceDate = new Date(attendance.session.sessionBeginDate)
-                            if (attendanceDate.getDate() == this.filterByDate.toDate().getDate()) {
+                            if (attendanceDate.toDateString() == this.filterByDate.toDate().toDateString()) {
                                 return true;
                             }
                             return false;
@@ -297,6 +325,16 @@ export class AttendanceTrainerService {
                         });
 
                     }
+                    if (this.filterByClasse != null) {
+                        this.attendances = this.attendances.filter(attendance => {
+                            
+                            if (attendance.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == this.filterByClasse.id) {
+                                return true;
+                            }
+                            return false;
+                        });
+    
+                    }
                     if (this.searchText && this.searchText !== '') {
                         this.attendances = FuseUtils.filterArrayByString(this.attendances, this.searchText);
                     }
@@ -309,8 +347,7 @@ export class AttendanceTrainerService {
     }
 
     getParticipants(): Promise<any> {
-        this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
-        console.log("trainer : " + (this.user.id).toString())
+        
 
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'participantRegistrations/participants/trainer/' + this.user.id)
@@ -329,6 +366,20 @@ export class AttendanceTrainerService {
         }
         );
     }
+
+    getClasses(): Promise<any> {
+   
+        return new Promise((resolve, reject) => {
+            
+            this._httpClient.get(AUTH_API+ 'session/classestrainer/' + this.user.id)
+            .subscribe((response: any) => {
+                this.classes = response;
+               
+                this.onClassesChanged.next(this.classes);
+                resolve(this.classes);
+            }, reject);
+        } );
+     }
 
 
     /**

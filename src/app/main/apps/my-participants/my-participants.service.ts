@@ -18,6 +18,12 @@ export class MyParticipantsService implements Resolve<any>
     onUserDataChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
+    onFilterByClassChanged:Subject<any>;
+
+    filterByClasse: any;
+    class : any ; 
+    onClassesChanged : BehaviorSubject<any>;
+    classes: any;
 
     contacts: MyParticipant[];
     user: any;
@@ -42,10 +48,16 @@ export class MyParticipantsService implements Resolve<any>
 
         // Set the defaults
         this.onContactsChanged = new BehaviorSubject([]);
+        this.onClassesChanged = new  BehaviorSubject([]);
         this.onSelectedContactsChanged = new BehaviorSubject([]);
         this.onUserDataChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
+        this.onFilterByClassChanged=new Subject();
+        this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
+        //console.log(this.user.id) ; console.log(this.contact.validated) ;
+
+        
 
     }
 
@@ -67,19 +79,32 @@ export class MyParticipantsService implements Resolve<any>
 
             Promise.all([
                 this.getUserData(),
-                this.getContacts()
+                this.getClasses() , 
+                this.getParticipants(),
 
             ]).then(
                 ([files]) => {
 
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
-                        this.getContacts();
+                        this.getParticipants();
+                    });
+
+                    this.onFilterByClassChanged.subscribe(group => {
+                        this.filterByClasse = group;
+                        if (group ==null) {
+                            this.getParticipants() ;  
+                        }
+                      
+                        if (group != null) {
+                        this.getParticipantsOfSelectedClass()
+                        }
+                        
                     });
 
                     this.onFilterChanged.subscribe(filter => {
                         this.filterBy = filter;
-                        this.getContacts();
+                        this.getParticipants();
                     });
 
                     resolve();
@@ -96,7 +121,7 @@ export class MyParticipantsService implements Resolve<any>
      * @returns {Promise<any>}
      */
 
-    getContacts(): Promise<any> {
+    getParticipants(): Promise<any> {
     this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
         //console.log(this.user.id) ; console.log(this.contact.validated) ;
 
@@ -149,6 +174,36 @@ export class MyParticipantsService implements Resolve<any>
         }
 
         );
+    }
+
+    getClasses(): Promise<any> {
+     
+        return new Promise((resolve, reject) => {
+            
+            this._httpClient.get(AUTH_API+ 'companyRegistrations/programInstance/enterprise/'+this.user.id)
+            .subscribe((response: any) => {
+                this.classes = response;
+                console.log("this.classes hereee")
+                console.log(this.classes)
+                this.onClassesChanged.next(this.classes);
+                resolve(this.classes);
+            }, reject);
+        } );
+     }
+
+    getParticipantsOfSelectedClass():Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API+ 'participants/classId/'+this.filterByClasse.id)
+                .subscribe((response: any) => {
+                    this.contacts = response;
+                    this.onContactsChanged.next(this.contacts);
+    
+                    console.log("participants")
+                    console.log(this.contacts)
+                    resolve(this.contacts);
+                }, reject);
+        }
+    );
     }
 
     /**
@@ -267,7 +322,7 @@ export class MyParticipantsService implements Resolve<any>
             console.log(contact);
             this._httpClient.post(environment.backend_url+ 'api/signupParticipantEntre', contact, { params: params })
                 .subscribe(response => {
-                    this.getContacts();
+                    this.getParticipants();
                     resolve(response);
                 });
         });
@@ -280,7 +335,7 @@ export class MyParticipantsService implements Resolve<any>
             this._httpClient.put(environment.backend_url+ 'api/updatePartEntr', contact)
 
                 .subscribe(response => {
-                    this.getContacts();
+                    this.getParticipants();
                     resolve(response);
                 });
         });
@@ -301,7 +356,7 @@ export class MyParticipantsService implements Resolve<any>
 
                 .subscribe(response => {
                     this.getUserData();
-                    this.getContacts();
+                    this.getParticipants();
                     resolve(response);
                 });
         });

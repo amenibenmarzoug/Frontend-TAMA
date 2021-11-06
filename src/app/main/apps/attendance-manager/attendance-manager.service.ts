@@ -348,6 +348,13 @@ getParticipantsOfSelectedClass():Promise<any> {
             .subscribe((response: any) => {
                 
                 this.attendances = response;
+                this.attendances = this.attendances.filter(attendance => {
+                    if (attendance.attendanceState!== 'PRESENT') {
+                        console.log("True");
+                        return true;
+                    }
+                    return false;
+                });
                 console.log("THIS FILTEREDBY");
                 console.log(this.filterBy);
                 if (this.filterBy != null) {
@@ -363,7 +370,7 @@ getParticipantsOfSelectedClass():Promise<any> {
                 if (this.filterByDate != null) {
                     this.attendances = this.attendances.filter(attendance => {
                         const attendanceDate = new Date(attendance.session.sessionBeginDate)
-                        if (attendanceDate.getDate() == this.filterByDate.toDate().getDate()) {
+                        if (attendanceDate.toDateString() == this.filterByDate.toDate().toDateString()) {
                             return true;
                         }
                         return false;

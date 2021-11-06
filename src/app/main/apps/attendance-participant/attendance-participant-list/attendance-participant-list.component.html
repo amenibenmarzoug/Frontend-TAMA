@@ -36,9 +36,11 @@
     <ng-container matColumnDef="attendanceState">
         <mat-header-cell *matHeaderCellDef fxShow.gt-md>Status</mat-header-cell>
         <mat-cell *matCellDef="let attendance" fxShow.gt-md>
+            
             <p class="present" *ngIf="attendance.attendanceState === 'PRESENT'">
                 Présent
             </p>
+            
 
             <p class="absent" *ngIf="attendance.attendanceState === 'ABSENT'">
                 Absent

@@ -150,7 +150,9 @@ export class AttendanceCompanySidebarsComponent implements OnInit {
         const reset =null ; 
         this.attendanceService.onSearchTextChanged.next(''); 
         this.attendanceService.filterByDate=null ; 
-        this.attendanceService.filterByClasse=null ; 
+
+        this.attendanceService.onFilterByClassChanged.next(null)
+        //this.attendanceService.filterByClasse=null ; 
         this.attendanceService.filterBy=null ; 
         this.attendanceService.participant=null  ; 
         this.ngOnInit();

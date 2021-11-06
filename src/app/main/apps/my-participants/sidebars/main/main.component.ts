@@ -13,6 +13,9 @@ import { MyParticipantsService } from 'app/main/apps/my-participants/my-particip
   {
       user: any;
       filterBy: string;
+
+      selectedClass: any;
+        classes: any;
   
       // Private
       private _unsubscribeAll: Subject<any>;
@@ -46,6 +49,15 @@ import { MyParticipantsService } from 'app/main/apps/my-participants/my-particip
               .subscribe(user => {
                   this.user = user;
               });
+
+              this._MyParticipantsService.onClassesChanged
+              .pipe(takeUntil(this._unsubscribeAll))
+              .subscribe(classes => {
+                  this.classes = classes;
+                  console.log("this classes")
+                  console.log(this.classes)
+    
+              });
       }
   
       /**
@@ -67,6 +79,22 @@ import { MyParticipantsService } from 'app/main/apps/my-participants/my-particip
        *
        * @param filter
        */
+
+       selectClass(group): void {
+        
+        if (group == "all")
+        {
+            console.log("tous selected")
+            this._MyParticipantsService.getParticipants() ; 
+        }
+        else {
+        this.selectedClass = group
+        
+        console.log(this.selectedClass)
+        this._MyParticipantsService.onFilterByClassChanged.next(group);
+        }
+    
+    }
       changeFilter(filter): void
       {
           this.filterBy = filter;

@@ -27,10 +27,13 @@ export class MainSessionsComponent implements OnInit {
     selectedThemeDet: any;
     selectedTheme: any;
     selectedModule: any;
+    selectedProgramInst:any;
+    selectedTrainer:any;
 
     themes: any[];
     modules: any[];
     themeDetails: any[];
+    trainers:any[];
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -86,10 +89,10 @@ export class MainSessionsComponent implements OnInit {
 
        
 
-        this._allSessionsService.onUserDataChanged
+        this._allSessionsService.onTrainersChanged
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(user => {
-                this.user = user;
+            .subscribe(trainers => {
+                this.trainers = trainers;
             });
 
 
@@ -112,6 +115,7 @@ export class MainSessionsComponent implements OnInit {
      */
 
     selectProgram(program): void {
+        this.selectedProgramInst=program;
         this._allSessionsService.getSessionsByProgramInstanceId(program.id);
         this.selectedTheme = null;
         this.filteredThemes = [];
@@ -152,6 +156,22 @@ export class MainSessionsComponent implements OnInit {
 
     }
 
+    resetFilters():void{
+        this.filterBy=null;
+        this.filteredModules=[];
+        this.filteredThemeDetails=[];
+        this.filteredThemes=[];
+        this.programs=[];
+        this.trainers=[];
+        this._allSessionsService.trainerId=null;
+        this._allSessionsService.onSpecificCourseSessionsChanged.next(null);
+        this.ngOnInit();
+        this.selectedProgramInst=null;
+        this.selectedTrainer=null;
+
+
+    }
+
     selectThemeDetail(themeDet): void {
 
         //this._addSessionService.chosenClassRoom = event;
@@ -159,6 +179,12 @@ export class MainSessionsComponent implements OnInit {
         this._allSessionsService.onFilterChanged.next(themeDet);
 
 
+    }
+
+    selectTrainer(trainer):void{
+        this.selectedTrainer=trainer;
+        this._allSessionsService.trainerId=trainer.id;
+        this._allSessionsService.getSessionsByTrainerId(trainer.id);
     }
 
 
