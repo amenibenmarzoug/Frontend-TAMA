@@ -1,7 +1,7 @@
 <div id="academy-courses" class="page-layout simple">
 
     <!-- HEADER -->
-    <!-- <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="center center">
+    <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="center center">
 
         <div class="hero-text">
             <mat-icon class="hero-icon">school</mat-icon>
@@ -12,7 +12,7 @@
             </h3>
         </div>
 
-    </div> -->
+    </div> 
     <!-- / HEADER -->
 
     <!-- CONTENT -->
@@ -45,9 +45,15 @@
                 </mat-form-field>
 
                 <!-- ADD EVENT BUTTON -->
-                <button mat-fab class="add-event-button mat-accent" aria-label="Add event"
-                    [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}" (click)="newProgram()">
+                <!--button mat-fab class="add-event-button mat-accent" aria-label="Add event"
+                    [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}" (click)="newClass()">
                     <mat-icon>add</mat-icon>
+                </button-->
+
+                <button mat-raised-button class="add-event-button mat-accent"
+                  (click)="newClass()" aria-label="Add event" [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}">
+                   Ajouter une Classe
+
                 </button>
                 <!-- / ADD EVENT BUTTON -->
             </div>
@@ -74,7 +80,9 @@
                             <div class="updated">Nombre de Jours : {{programInst.nbDaysProgInst}}</div>
                             <div class="updated">Localisation : {{programInst.location}}</div>
                             <div class="updated">Date début : {{programInst.beginDate | date:'dd MMMM yyyy'}}</div>
-                            <div class="updated">Date Fin : {{programInst.endDate | date:'dd MMMM yyyy'}}</div>
+                            <div class="updated"  *ngIf="programInst.endDate != null">
+                                Date Fin : {{programInst.endDate | date:'dd MMMM yyyy'}}
+                            </div>
 
 
                         </div>
@@ -92,7 +100,7 @@
                                     (click)="cancelClass(programInst)">
                                     Annuler
                                 </button>
-                                <button mat-button color="accent" (click)="listeDesParticipants(programInst.id)">
+                                <button mat-button color="accent" (click)="listeDesParticipants(programInst)">
                                     Participants
                                 </button>
                             <div fxLayoutAlign="end end">

@@ -5,11 +5,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
-import { Module } from '../programDetails/tabs/module/module.model';
+import { Module } from 'app/shared/models/module.model';
 import { FuseUtils } from '@fuse/utils';
-import { ThemeDetail } from '../programDetails/tabs/themeDetail/theme-detail.model';
+import { ThemeDetail } from 'app/shared/models/themeDetail.model';
 import { Program } from '../program.model';
-import { Thematique } from '../programDetails/tabs/thematique/thematique.model';
+import { Theme } from 'app/shared/models/theme.model';
 import{ThematiqueInst} from '../program-inst-detail/tabs/thematique-inst/thematiqueInst.model';
 import{ModuleInst} from '../program-inst-detail/tabs/module-inst/moduleInst.model';
 import{ThemeDetailInst} from '../program-inst-detail/tabs/theme-detail-inst/themeDetailsInst.model';
@@ -24,7 +24,7 @@ export class ClassesDetailService {
  theme:any;
 module:any;
 modules: Module[];
-themes: Thematique[];
+themes: Theme[];
 programInst:any;
 themeInstId: any;
 moduleId:any;
@@ -70,13 +70,16 @@ lastThemeInst:any;
 modulesOfTheme : Module[];
 moduleClasse: ModuleInst;
 program:any;
-themesOfProgram : Thematique[];
+themesOfProgram : Theme[];
 
 actualDaysNumberAffected = 0 ; 
 oldDaysAffectedNumber=0 ; 
 
 actualDaysAffectedPerModule=0;
 actualDaysAffectedPerThemeDetail=0;
+
+onmoduleInstClassChanged : BehaviorSubject<any>; 
+  modulesInstProgram : Module[];
 
 /**
  * Constructor
@@ -101,6 +104,7 @@ constructor(
     this.onSelectedModulesChanged = new BehaviorSubject([]);
    this.onModuleChanged = new BehaviorSubject([]);
    this.onThemeChanged= new BehaviorSubject([]);
+   this.onmoduleInstClassChanged = new BehaviorSubject([]);
 
 }
 
@@ -720,15 +724,13 @@ getModuleDaysAffected(): Promise<any> {
 updateThemeInst(theme,program): Promise<any> {
     this.actualDaysNumberAffected= this.actualDaysNumberAffected - this.oldDaysAffectedNumber
                                     +Number(theme.nbDaysthemeInst)  ;
-    console.log("programmmmm");
-    console.log(program);
+   
     theme.program = program;
-    console.log("themeee fel service");
-    console.log(theme);
+   
     return new Promise((resolve, reject) => {
         this._httpClient.put(AUTH_API +'themeInst', theme)
             .subscribe(response => {
-                this.lastprogramInst=response;//added by donia
+               // this.lastprogramInst=response;
                 resolve(response);
             });
     });
@@ -777,5 +779,26 @@ getModulesInst(): Promise<any> {
             }, reject);
     }
     );
+}
+
+
+
+
+getModulesInstOfClass(): Promise<any> {
+
+    let id = new HttpParams().set('id', this.programInstId);
+    
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API + 'modulesOfclass', { params: id })
+            .subscribe((response: any) => {
+
+                this.modulesInstProgram= response;
+             
+                this.onmoduleInstClassChanged.next(this.modulesInstProgram);
+                resolve(this.modulesInstProgram);
+            }, reject);
+    }
+    );
+
 }
 }

@@ -99,6 +99,8 @@ export class TrainerListComponent implements OnInit, OnDestroy
             .subscribe(() => {
               this._trainersService.deselectContacts();
             });
+
+        
     }
 
     /**
@@ -162,6 +164,14 @@ export class TrainerListComponent implements OnInit, OnDestroy
     ValidateContact(contact){
         this.disabled=true ;
         this._trainersService.ValidateContact(contact) ;
+       // document.getElementById('botton').disabled = 'disabled';
+      
+    
+      }
+
+      refuseTrainer(contact){
+        
+        this._trainersService.refuseTrainer(contact) ;
        // document.getElementById('botton').disabled = 'disabled';
       
     

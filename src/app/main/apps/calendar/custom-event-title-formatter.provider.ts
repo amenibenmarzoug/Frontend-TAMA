@@ -3,7 +3,6 @@ import { LOCALE_ID, Inject, Injectable } from '@angular/core';
 import { CalendarEvent, CalendarEventTitleFormatter } from 'angular-calendar';
 import { DatePipe } from '@angular/common';
 import { MyEvent } from './mycalendar-utils'
-//import {CalendarEventTitleFormatterCustomized} from 'app/main/apps/calendar/CustomEventTitleFormatter'
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 
@@ -17,6 +16,12 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
 
   // you can override any of the methods defined in the parent class
 
+  /**
+   * This method create the format in which the event title in the calendar 
+   * is going to be shown (for the month view)
+   * @param event 
+   * @returns 
+   */
   month(event: MyEvent): string {
     if (event.session != null) {
       if (event.session.classRoom != null) {
@@ -24,8 +29,9 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
           event.start,
           'd/M/yy à HH:mm',
           this.localeFr
-        )}</b> ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName} ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location} -   ${event.session.themeDetailInstance.themeDetail.themeDetailName} - ${event.title}<br>
-        <b>     Salle: </b> ${event.session.classRoom.classRoomName} à ${event.session.classRoom.institution.institutionName}`;
+        )}</b> ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName} ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location}  - ${event.title}<br>
+        <b>     Salle: </b> ${event.session.classRoom.classRoomName} à ${event.session.classRoom.institution.institutionName}<br>
+        <b>     Formateur: </b> ${event.session.trainer.firstName} ${event.session.trainer.lastName}`;
 
       }
       else{
@@ -33,7 +39,9 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
           event.start,
           'd/M/yy à HH:mm',
           this.localeFr
-        )}</b> ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName} ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location} -   ${event.session.themeDetailInstance.themeDetail.themeDetailName} - ${event.title}<br>`;
+        )}</b> ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName} ${event.session.themeDetailInstance.moduleInstance.themeInstance.programInstance.location}  - ${event.title}<br>
+        <b>     Formateur: </b> ${event.session.trainer.firstName} ${event.session.trainer.lastName}`;
+
 
       }
 

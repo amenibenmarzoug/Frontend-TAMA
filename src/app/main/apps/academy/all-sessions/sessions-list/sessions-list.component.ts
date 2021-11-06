@@ -14,7 +14,7 @@ import localeFr from '@angular/common/locales/fr';
 import { CourseSession } from 'app/main/apps/disponibility-trainer/courseSession.model';
 import { Router } from '@angular/router';
 import { EditSessionService } from 'app/main/apps/academy/edit-session/edit-session.service';
-import { Session } from '../../edit-session/session.model';
+import {Session} from 'app/shared/models/session.model'
 
 
 @Component({
@@ -29,11 +29,11 @@ export class SessionsListComponent implements OnInit, OnDestroy {
     @ViewChild('dialogContent')
     dialogContent: TemplateRef<any>;
     courseSessions: any[] = [];
-    contacts: any[];
+    sessions: any[];
     user: any;
     dataSource: FilesDataSource | null;
     displayedColumns = ['seance', 'date', 'time', 'timeFin', 'institution', 'buttons'];
-    selectedContacts: any[];
+    selectedSessions: any[];
     coursesId: any[] = [];
     checkboxes: {};
     places: {};
@@ -72,62 +72,58 @@ export class SessionsListComponent implements OnInit, OnDestroy {
         this.dataSource = null;
         this._allSessionsService.onSpecificCourseSessionsChanged
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(contacts => {
+            .subscribe(sessions => {
 
-                this.contacts = contacts;
+                this.sessions = sessions;
 
 
                 this.checkboxes = {};
                 this.places = {};
-                this.contacts.map(contact => {
-                    this.checkboxes[contact.id] = false;
-                    let pl = JSON.parse(contact.themeDetailInstance.moduleInstance.themeInstance.programInstance.place);
-                    console.log(pl)
+                this.sessions.map(session => {
+                    this.checkboxes[session.id] = false;
+                    let pl = JSON.parse(session.themeDetailInstance.moduleInstance.themeInstance.programInstance.place);
                     if (pl != null) {
-                        this.places[contact.id] = pl.name;
+                        this.places[session.id] = pl.name;
                     }
 
                 });
             });
-        console.log("PLACES");
-        console.log(this.places);
+        
         this.dataSource = new FilesDataSource(this._allSessionsService);
 
-        this._allSessionsService.onSpecificCourseSessionsChanged.subscribe(contacts => {
+        this._allSessionsService.onSpecificCourseSessionsChanged.subscribe(sessions => {
 
-            this.contacts = contacts;
+            this.sessions = sessions;
 
 
 
-            this.contacts.map(contact => {
-                let pl = JSON.parse(contact.themeDetailInstance.moduleInstance.themeInstance.programInstance.place);
-                console.log(pl)
+            this.sessions.map(session => {
+                let pl = JSON.parse(session.themeDetailInstance.moduleInstance.themeInstance.programInstance.place);
+               
                 if (pl != null) {
-                    this.places[contact.id] = pl.name;
-                    console.log("PLACES");
-                    console.log(this.places);
+                    this.places[session.id] = pl.name;
+                   
                 }
 
             });
         });
 
 
-        this._allSessionsService.onSelectedContactsChanged
+        this._allSessionsService.onSelectedSessionsChanged
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(selectedContacts => {
+            .subscribe(selectedSessions => {
                 for (const id in this.checkboxes) {
                     if (!this.checkboxes.hasOwnProperty(id)) {
                         continue;
                     }
 
 
-                    this.checkboxes[id] = selectedContacts.includes(id.toString());
+                    this.checkboxes[id] = selectedSessions.includes(id.toString());
 
                 }
-                this.selectedContacts = selectedContacts;
+                this.selectedSessions = selectedSessions;
                 // this.checkboxes={};
 
-                console.log(this.selectedContacts);
             });
 
 
@@ -138,11 +134,11 @@ export class SessionsListComponent implements OnInit, OnDestroy {
                 this.user = user;
             });
 
-        this._allSessionsService.onFilterChanged
+     /*    this._allSessionsService.onFilterChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(() => {
-                this._allSessionsService.deselectContacts();
-            });
+                this._allSessionsService.deselectSessions();
+            }); */
     }
 
 
@@ -160,31 +156,29 @@ export class SessionsListComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Edit contact
+     * Edit session
      *
-     * @param contact
+     * @param session
      */
 
 
     /**
      * On selected change
      *
-     * @param contactId
+     * @param sessionId
      */
-    onSelectedChange(contactId): void {
-        this._allSessionsService.toggleSelectedContact(contactId);
-    }
+    /* onSelectedChange(sessionId): void {
+        this._allSessionsService.toggleSelectedSession(sessionId);
+    } */
 
     goToSession(id) {
         this.router.navigate(['/apps/academy/editSession', id]);
-        console.log("SESSION id" + id);
         this.editService.getSessionsById(id);
         //this.session=new Session(this.editService.session);
 
         this.editService.getSessionsById(id).then(() => {
             this.session = new Session(this.editService.session);
-            console.log("SESSION IN ALL");
-            console.log(this.session);
+            
             localStorage.setItem('sessionId', id);
             localStorage.setItem('session', JSON.stringify(this.session));
         });

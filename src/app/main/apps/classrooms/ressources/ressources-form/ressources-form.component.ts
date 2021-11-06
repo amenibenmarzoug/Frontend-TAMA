@@ -2,24 +2,23 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { MyClasses } from '../../classrooms.model';
-import { MyEquipments } from '../ressources.model';
+import { ClassRoom } from 'app/shared/models/classroom.model';
+import { Equipment } from 'app/shared/models/equipment.model';
 
 
 @Component({
-    selector     : 'ressources-form',
-    templateUrl  : './ressources-form.component.html',
-    styleUrls    : ['./ressources-form.component.scss'],
+    selector: 'ressources-form',
+    templateUrl: './ressources-form.component.html',
+    styleUrls: ['./ressources-form.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
 
-export class RessourcesFormComponent
-{
+export class RessourcesFormComponent {
     action: string;
-    contact: MyEquipments;
-    class: MyClasses;
-    
-    contactForm: FormGroup;
+    equipment: Equipment;
+    class: ClassRoom;
+
+    equipmentForm: FormGroup;
     dialogTitle: string;
 
     /**
@@ -33,23 +32,20 @@ export class RessourcesFormComponent
         public matDialogRef: MatDialogRef<RessourcesFormComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder
-    )
-    {
+    ) {
         // Set the defaults
         this.action = _data.action;
 
-        if ( this.action === 'edit' )
-        {
+        if (this.action === 'edit') {
             this.dialogTitle = 'Modifier Ressource';
-            this.contact = _data.contact;
+            this.equipment = _data.contact;
         }
-        else
-        {
+        else {
             this.dialogTitle = 'Ajouter Ressource';
-            this.contact = new MyEquipments({});
+            this.equipment = new Equipment({});
         }
 
-        this.contactForm = this.createContactForm();
+        this.equipmentForm = this.createEquipmentForm();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -61,18 +57,16 @@ export class RessourcesFormComponent
      *
      * @returns {FormGroup}
      */
-    createContactForm(): FormGroup
-    {
+    createEquipmentForm(): FormGroup {
         return this._formBuilder.group({
-            id      : [this.contact.id],
-            //classRoomName:[this.class.classRoomName],
-            equipmentName:[this.contact.equipmentName],
-            quantity   : [this.contact.quantity],
-            classroom:[this.contact.classroom],
-            
-            
+            id: [this.equipment.id],
+            equipmentName: [this.equipment.equipmentName],
+            quantity: [this.equipment.quantity],
+            classroom: [this.equipment.classroom],
+
+
         });
     }
-    
-     
+
+
 }

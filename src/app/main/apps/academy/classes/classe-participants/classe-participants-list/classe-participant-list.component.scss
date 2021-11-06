@@ -9,6 +9,7 @@ classe-participants-list {
         width: 100%;
         background: transparent;
         box-shadow: none;
+       
 
         .mat-column-checkbox {
             flex: 0 1 64px;
@@ -42,5 +43,13 @@ classe-participants-list {
             }
         }
     }
+
+  
 }
+
+.number-cell{
+    min-width: 0;
+}
+
+
 

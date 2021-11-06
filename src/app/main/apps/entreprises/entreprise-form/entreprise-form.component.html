@@ -146,7 +146,7 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Classe</mat-label>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <mat-select formControlName="programInstance" (selectionChange)="sendClasse($event.value)" 
+                    <mat-select  multiple="" formControlName="programInstance" (selectionChange)="sendClasse($event.value)" 
                         (blur)="onValueChanged()">
 
                         <mat-option *ngFor="let classe of classes" [value]="classe">

@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dial
 import { FormBuilder, FormControl, FormGroup,Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { ProgramSpecDetailService} from '../../../program-spec-detail.service';
-import { Thematique } from '../../../../programDetails/tabs/thematique/thematique.model';
+import { Theme } from 'app/shared/models/theme.model';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 
 
@@ -18,7 +18,7 @@ export class ThematiqueSpecFormComponent implements OnInit {
 
   action: string;
 
-  themeSpec:  Thematique;
+  themeSpec:  Theme;
   themeInstForm: FormGroup;
   dialogTitle: string;
   programsInst:any[] ;
@@ -51,13 +51,12 @@ export class ThematiqueSpecFormComponent implements OnInit {
     else {
 
       this.dialogTitle = 'Nouveau Thème Dédié';
-      this.themeSpec = new Thematique({});
+      this.themeSpec = new Theme({});
 
     }
     this.themeInstForm = this.createThemeInstForm();
     this._unsubscribeAll = new Subject();
-    // this.programs=this._programDetailsService.programs;
-    //this._programDetailsService.getThemes();
+    
     
    
     
@@ -76,12 +75,7 @@ export class ThematiqueSpecFormComponent implements OnInit {
       id: [this.themeSpec.id],
       themeName: [this.themeSpec.themeName],
       nbDaysTheme: [this.themeSpec.nbDaysTheme,[Validators.required, Validators.pattern(nbrPattern)]],
-      //theme : [this.themeInst.theme],
-      /*themeInstBeginDate: ['', Validators.required],
-      themeInstEndDate: ['', Validators.required],*/
       
-     
-
 
     });
 
@@ -99,7 +93,7 @@ closeNewThemeForm(){
   this.actualDaysNumberAffected=this._programDetailsService.actualDaysNumberAffected ; 
   this.programTotalDaysNumber=this._programDetailsService.program.nbDaysProg;   
   this.actualDaysNumberAffected = this._programDetailsService.actualDaysNumberAffected + Number(this.themeSpec.nbDaysTheme)  ; 
-  console.log("this.theme.nbDaysTheme") ; console.log(this.themeSpec.nbDaysTheme)
+ // console.log("this.theme.nbDaysTheme") ; console.log(this.themeSpec.nbDaysTheme)
   if (this.actualDaysNumberAffected > this.programTotalDaysNumber) {
     this.addThematiqueAlert("Vous avez dépassé le nombre des jours du Programme");
     console.log(`Exceeded`);
@@ -117,7 +111,7 @@ closeEditThemeForm(message){
   this.programTotalDaysNumber=this._programDetailsService.program.nbDaysProg;  
   this.oldDaysAffectedValue= this._programDetailsService.oldDaysAffectedNumber
   
-  console.log("this.oldDaysAffectedValue in the close") ;console.log(this.oldDaysAffectedValue) ;
+  //console.log("this.oldDaysAffectedValue in the close") ;console.log(this.oldDaysAffectedValue) ;
 
   this.actualDaysNumberAffected=this._programDetailsService.actualDaysNumberAffected -this.oldDaysAffectedValue+ Number(this.themeSpec.nbDaysTheme)  ; 
                       

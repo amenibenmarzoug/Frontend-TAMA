@@ -15,18 +15,12 @@
                         (input)="filterThemesByTerm()">
                 </mat-form-field>
 
-
-                <!--button mat-fab class="add-event-button mat-accent" aria-label="Add event"
-                    [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}" (click)="newTheme()">
-                    <mat-icon>add</mat-icon>
-                </button-->
-                <!-- / ADD EVENT BUTTON -->
             </div>
 
 
             <div class="courses" fxLayout="row wrap" fxLayoutAlign="center" [@animateStagger]="{value:'50'}">
 
-                <div class="course" *ngFor="let themeInst of filteredThemes"  fxFlex="100" fxFlex.gt-xs="50"
+                <div class="course" *ngFor="let themeInst of filteredThemesInst"  fxFlex="100" fxFlex.gt-xs="50"
                     fxFlex.gt-sm="33" [ngClass]="themeInst.category" [@animate]="{value:'*',params:{y:'100%'}}">
 
                     <div class="course-content" fxLayout="column" fxFlex="1 1 auto">
@@ -62,7 +56,7 @@
 
                 </div>
 
-                <div class="no-courses" *ngIf="filteredThemes.length === 0">
+                <div class="no-courses" *ngIf="filteredThemesInst.length === 0">
                     Aucun Thème Dédié Trouvé!
                 </div>
 

@@ -1,15 +1,14 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
-import { ParticipantsService } from 'app/main/apps/participants/participants.service';
-import { ParticipantFormComponent } from 'app/main/apps/participants/participant-form/participant-form.component';
-import { Participant } from 'app/main/apps/participants/participant.model';
+
+import { Participant } from 'app/shared/models/participant.model';
 import { ClasseParticipantsService } from './classe-participants.service';
 import { Router } from '@angular/router';
 
@@ -23,10 +22,11 @@ import { Router } from '@angular/router';
 })
 export class ClasseParticipantsComponent implements OnInit, OnDestroy {
 
-    participants: Participant[] = [];;
+    participants: Participant[] = [];
     dialogRef: any;
     hasSelectedContacts: boolean;
     searchInput: FormControl;
+    dialogTitle:string
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -41,11 +41,15 @@ export class ClasseParticipantsComponent implements OnInit, OnDestroy {
     constructor(
         private _participantsService: ClasseParticipantsService,
         private _fuseSidebarService: FuseSidebarService,
+        @Inject(MAT_DIALOG_DATA) private _data: any,
         private _matDialog: MatDialog,
         private router: Router,
 
     ) {
         // Set the defaults
+        this.dialogTitle=_data.title;
+        console.log("DATA TITLE");
+        console.log(_data)
         this.searchInput = new FormControl('');
 
         // Set the private defaults

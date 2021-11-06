@@ -66,7 +66,6 @@ export class InstitutionFormComponent
             institutionName:[this.contact.institutionName],
             email   : [this.contact.email],
             phoneNumber   : [this.contact.phoneNumber],
-            password:[this.contact.password],
             street :[this.contact.street],
             city    : [this.contact.city],
             postalCode: [this.contact.postalCode]

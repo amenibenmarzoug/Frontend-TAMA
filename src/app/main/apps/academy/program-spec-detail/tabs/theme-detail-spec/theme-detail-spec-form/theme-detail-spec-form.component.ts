@@ -1,10 +1,8 @@
-import { Component, Inject, OnInit,ViewEncapsulation } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
-import {Module} from 'app/main/apps/academy/programDetails/tabs/module/module.model'
 import { ProgramSpecDetailService  } from '../../../program-spec-detail.service';
-import {ThemeDetail} from '../../../../programDetails/tabs/themeDetail/theme-detail.model';
-import{ProgramDetailsService} from'../../../../programDetails/programDetails.service';
+import {ThemeDetail} from 'app/shared/models/themeDetail.model';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 
 @Component({
@@ -83,8 +81,7 @@ createThemeDetailForm(): FormGroup
         id      : [this.themeDetail.id],
         themeDetailName   : [this.themeDetail.themeDetailName],
         nbDaysThemeDetail : [this.themeDetail.nbDaysThemeDetail,[Validators.required, Validators.pattern(nbrPattern)]],
-      //  moduleInstance : [this.themeDetail.moduleInstance],
-      //  themeDetail: [this.themeDetail.themeDetail]
+     
        
     });
 }

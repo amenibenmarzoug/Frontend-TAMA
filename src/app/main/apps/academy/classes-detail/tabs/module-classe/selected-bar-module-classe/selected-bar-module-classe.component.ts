@@ -2,9 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import{ClassesDetailService} from '../../../classes-detail.service';
 
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
-import { ProgramInstDetailService } from '../../../../program-inst-detail/program-inst-detail.service';
+
 @Component({
   selector: 'app-selected-bar-module-classe',
   templateUrl: './selected-bar-module-classe.component.html',
@@ -27,7 +28,7 @@ export class SelectedBarModuleClasseComponent implements OnInit {
    * @param {MatDialog} _matDialog
    */
   constructor(
-      private _moduleInstService: ProgramInstDetailService,
+      private _moduleInstService: ClassesDetailService,
       public _matDialog: MatDialog
   )
   {

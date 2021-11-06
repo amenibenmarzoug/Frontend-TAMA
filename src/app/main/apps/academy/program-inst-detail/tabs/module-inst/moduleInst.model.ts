@@ -1,5 +1,5 @@
 
-import{Module} from '../../../programDetails/tabs/module/module.model';
+import { Module } from 'app/shared/models/module.model';
 import{ThematiqueInst} from '../../tabs/thematique-inst/thematiqueInst.model';
 export class ModuleInst
 {

@@ -11,6 +11,7 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 import { ParticipantsService } from 'app/main/apps/participants/participants.service';
 import { ParticipantFormComponent } from 'app/main/apps/participants/participant-form/participant-form.component';
 import { Participant } from 'app/main/apps/participants/participant.model';
+import { ParticipantRegistrationListComponent } from '../participant-registration-list/participant-registration-list.component';
 @Component({
     selector: 'app-participant-list',
     templateUrl: './participant-list.component.html',
@@ -28,7 +29,7 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
     dataSource: FilesDataSource | null;
     // dataSource :any[] ;
 
-    displayedColumns = ['checkbox', 'name','age','experience','level', 'company', 'classe','statut', 'buttons'];
+    displayedColumns = ['checkbox', 'name','age','experience','level', 'company', 'buttons'];
 
     selectedContacts: any[];
     checkboxes: {};
@@ -160,7 +161,14 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
                      * Save
                      */
                     case 'save':
-                        this._participantsService.updateContact1(formData.getRawValue(), this._participantsService.entreprise, this._participantsService.classe);
+                      
+                        let participant=new Participant(formData.getRawValue());
+                        participant.entreprise=contact.entreprise;
+                        participant.status=contact.status;
+                        participant.validated=contact.validated;
+                        console.log("PARTICIPANT");
+                        console.log(participant);
+                        this._participantsService.updateContact1(participant, this._participantsService.entreprise);
                         break;
                     /**
                      * Delete
@@ -206,10 +214,34 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
         }
     }
 
+    getRegistrationList(participantId): void {
+        this._participantsService.getRegistrationsByParticipantId(participantId);
+        this.dialogRef = this._matDialog.open(ParticipantRegistrationListComponent, {
+            height: 'min-height:0',
+            width: '45%',
+            data: {
+                //programInst: programInst,
+                //action: 'edit'
+            }
+        });
+        this.dialogRef.afterClosed()
+            .subscribe(response => {
+                if (!response) {
+                    return;
+                }
+            })
+
+    }
+
     ValidateContact(contact) {
         contact.validated = true;
         this._participantsService.ValidateContact(contact)
     }
+
+    refuseParticipant(participant) {
+        this._participantsService.refuseParticipant(participant);
+    }
+
 
     /**
      * On selected change

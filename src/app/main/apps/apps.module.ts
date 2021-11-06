@@ -4,6 +4,10 @@ import { RouterModule } from '@angular/router';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { HttpClientModule } from '@angular/common/http';
+import { AttendanceManagerComponent } from './attendance-manager/attendance-manager.component';
+import { AttendanceCompanyComponent } from './attendance-company/attendance-company.component';
+import { AttendanceTrainerComponent } from './attendance-trainer/attendance-trainer.component';
+
 
 
 
@@ -123,6 +127,40 @@ const routes = [
         path        : 'ressource/:id',
         loadChildren: () => import('./classrooms/ressources/ressources.module').then(m => m.RessourcesModule)
     },
+
+
+    {
+        path        : 'classetrainer',
+        loadChildren: () => import('./classetrainer/classetrainer.module').then(m => m.ClassetrainerModule)
+    },
+
+
+    {
+        path        : 'mark-attendance',
+        loadChildren: () => import('./attendance/attendance.module').then(m => m.AttendanceModule)
+    },
+
+    {
+        path        : 'attendance-manager',
+        loadChildren: () => import('./attendance-manager/attendance-manager.module').then(m => m.AttendanceManagerModule)
+    },
+    {
+        path        : 'attendance-trainer',
+        loadChildren: () => import('./attendance-trainer/attendance-trainer.module').then(m => m.AttendanceTrainerModule)
+    },
+    {
+        path        : 'attendance-company',
+        loadChildren: () => import('./attendance-company/attendance-company.module').then(m => m.AttendanceCompanyModule)
+    },
+
+    {
+        path        : 'attendance-participant',
+        loadChildren: () => import('./attendance-participant/attendance-participant.module').then(m => m.AttendanceParticipantModule)
+    },
+
+
+
+
    /* {
         path        : 'cursus-participants',
         loadChildren: () => import('./cursus/cursus-participants/cursus-participants.module').then(m => m.CursusParticipantsModule)
@@ -140,6 +178,7 @@ const routes = [
         RouterModule.forChild(routes),
         FuseSharedModule       
     ],
+   
    
 
    

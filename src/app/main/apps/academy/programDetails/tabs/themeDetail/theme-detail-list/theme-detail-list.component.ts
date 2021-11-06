@@ -37,8 +37,8 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     id: number;
 
-    actualDaysNumberAffected : number ; 
-    oldDaysAffectedValue: number ; 
+    actualDaysNumberAffected: number;
+    oldDaysAffectedValue: number;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -125,8 +125,8 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
             }
         });
         this._themeDetailsService.getThemeDetailDaysAffected();
-        this.oldDaysAffectedValue=themeDetail.nbDaysThemeDetail;
-        this._themeDetailsService.oldDaysAffectedNumber=this.oldDaysAffectedValue;
+        this.oldDaysAffectedValue = themeDetail.nbDaysThemeDetail;
+        this._themeDetailsService.oldDaysAffectedNumber = this.oldDaysAffectedValue;
 
         this.dialogRef.afterClosed()
             .subscribe(response => {
@@ -140,20 +140,20 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
                      * Save
                      */
                     case 'save':
-                    /*
-                    this.actualDaysNumberAffected=this._themeDetailsService.actualDaysAffectedPerThemeDetail
-                                                    -this.oldDaysAffectedValue+ Number(formData.getRawValue().nbDaysThemeDetail)  ; 
-                        // case where the modified days number exceeded the limit
-                        if(this.actualDaysNumberAffected > Number(this._themeDetailsService.module.nbDaysModule)) {
-                            
-                            this.updateThemeDetailAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du module");
-                            console.log(`Exceeded`);
-                            this._themeDetailsService.getThemeDetail(); 
-                            
-                            break; 
-                        } */
+                        /*
+                        this.actualDaysNumberAffected=this._themeDetailsService.actualDaysAffectedPerThemeDetail
+                                                        -this.oldDaysAffectedValue+ Number(formData.getRawValue().nbDaysThemeDetail)  ; 
+                            // case where the modified days number exceeded the limit
+                            if(this.actualDaysNumberAffected > Number(this._themeDetailsService.module.nbDaysModule)) {
+                                
+                                this.updateThemeDetailAlert("Vous ne pouvez pas faire la mise à jour car vous avez dépassé le nombre des jours total du module");
+                                console.log(`Exceeded`);
+                                this._themeDetailsService.getThemeDetail(); 
+                                
+                                break; 
+                            } */
 
-                        this._themeDetailsService.updateThemeDetail(formData.getRawValue(),this._themeDetailsService.module);
+                        this._themeDetailsService.updateThemeDetail(formData.getRawValue(), this._themeDetailsService.module);
 
                         break;
                     /**
@@ -211,7 +211,7 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
         this._themeDetailsService.toggleSelectedThemeDetail(themeDetailId);
     }
 
-    
+
 }
 
 export class FilesDataSource extends DataSource<any>

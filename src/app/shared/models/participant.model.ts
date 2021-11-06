@@ -22,7 +22,11 @@ export class Participant {
     experience: number; 
     status: string;
     notes: string;
-    age:string
+    age:string ; 
+
+
+
+    
 
     /**
      * Constructor
@@ -43,7 +47,13 @@ export class Participant {
             this.street = participant.street || '';
             this.city = participant.city || '';
             this.postalCode = participant.postalCode || '';
-            this.birthday = participant.birthday || '';
+            if (participant.birthday != null) {
+                this.birthday = participant.birthday || '';
+
+            }
+            else {
+                this.birthday = new Date();
+            }
             this.notes = participant.notes || '';
             this.educationLevel = participant.educationLevel || '';
             this.abandon = participant.abandon || '';
@@ -57,3 +67,5 @@ export class Participant {
         }
     }
 }
+
+

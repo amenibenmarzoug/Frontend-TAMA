@@ -1,6 +1,6 @@
 <div fxFlex fxLayout="row" fxLayoutAlign="start center" class="p-24">
 
-    <div class="close-button-wrapper" fxFlex="0 1 auto" fxFlex.gt-sm="220px" (click)="deselectAll()">
+    <div class="close-button-wrapper" fxFlex="0 1 auto" fxFlex.gt-sm="220px" >
         <button class="p-8" mat-button fxLayout="row" fxLayoutAlign="start center">
             <mat-icon class="mr-8">arrow_back</mat-icon>
             <span class="text-uppercase">Retour</span>
@@ -11,7 +11,7 @@
 
         <div>
             <span class="selected-contacts-count">
-                <span class="mr-4">{{selectedContacts.length}}</span>
+                <span class="mr-4">{{selectedSessions.length}}</span>
                 <span>sélectionné(s)</span>
             </span>
 
@@ -19,14 +19,14 @@
                 <mat-icon>arrow_drop_down</mat-icon>
             </button>
             <mat-menu #selectMenu="matMenu">
-                <button mat-menu-item (click)="selectAll()">Sélectionner tout</button>
-                <button mat-menu-item (click)="deselectAll()">Déselectionner tout</button>
+                <button mat-menu-item >Sélectionner tout</button>
+                <button mat-menu-item >Déselectionner tout</button>
             </mat-menu>
 
         </div>
 
         <div class="multi-select-actions">
-            <button mat-icon-button (click)="deleteSelectedContacts()" aria-label="delete selected">
+            <button mat-icon-button  aria-label="delete selected">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>

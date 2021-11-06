@@ -24,6 +24,8 @@ import { SelectedBarComponent } from './selected-bar/selected-bar.component';
 import { MainComponent } from './sidebars/main/main.component';
 import { ParticipantsService } from 'app/main/apps/participants/participants.service';
 import { MatSelectModule } from '@angular/material/select';
+import { ParticipantRegistrationListComponent } from './participant-registration-list/participant-registration-list.component';
+import { AuthGuardManagerService } from 'app/auth-guard-manager.service';
 
 
 const routes: Routes = [
@@ -32,12 +34,14 @@ const routes: Routes = [
       component: ParticipantsComponent,
       resolve  : {
           contacts: ParticipantsService
-      }
+      },
+      canActivate:[AuthGuardManagerService] 
+
   }
 ];
 
 @NgModule({
-  declarations: [ParticipantsComponent, ParticipantFormComponent, ParticipantListComponent, SelectedBarComponent, MainComponent],
+  declarations: [ParticipantsComponent, ParticipantFormComponent, ParticipantListComponent, SelectedBarComponent, MainComponent, ParticipantRegistrationListComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

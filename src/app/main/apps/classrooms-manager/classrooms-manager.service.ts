@@ -1,5 +1,5 @@
 import { Institution } from './../../pages/authentication/common-authentication/Institution';
-import { MyClasses } from 'app/main/apps/classrooms/classrooms.model';
+import { ClassRoom } from 'app/shared/models/classroom.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
@@ -9,9 +9,9 @@ import { FuseUtils } from '@fuse/utils';
 
 import { Program } from '../academy/program.model';
 import { ProgramInst } from '../academy/programInst.model';
-import {environment} from 'environments/environment';
+import { environment } from 'environments/environment';
 
-const AUTH_API = environment.backend_url+ 'api/';
+const AUTH_API = environment.backend_url + 'api/';
 const USER_KEY = 'auth-user';
 
 @Injectable()
@@ -24,15 +24,15 @@ export class ClassroomsManagerService implements Resolve<any>
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
     filtredClasses: any[] = [];
-    classes: MyClasses[];
+    classes: ClassRoom[];
     selectedContactsList: object[] = [];
     user: any;
     selectedContacts: string[] = [];
-    institution: any ;
+    institution: any;
     groupeId: number;
-    institutions: MyClasses[];
+    institutions: ClassRoom[];
     programs: Program[];
-    contactSelected: MyClasses[];
+    contactSelected: ClassRoom[];
     searchText: string;
     filterBy: any;
     id: number;
@@ -99,24 +99,24 @@ export class ClassroomsManagerService implements Resolve<any>
      */
     getClasses(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(environment.backend_url+ 'api/classroom')
+            this._httpClient.get(environment.backend_url + 'api/classroom')
                 .subscribe((response: any) => {
-                    this.classes= response;
+                    this.classes = response;
 
                     if (this.filterBy != null) {
-                        this.filtredClasses =[];
-                        this.classes= response;
-                        this.classes = this.classes.filter (_classe => {
-                            if(_classe.institution.id == this.filterBy.id){
+                        this.filtredClasses = [];
+                        this.classes = response;
+                        this.classes = this.classes.filter(_classe => {
+                            if (_classe.institution.id == this.filterBy.id) {
                                 this.filtredClasses.push(_classe);
                             }
                         });
 
-                        this.classes= this.filtredClasses;
+                        this.classes = this.filtredClasses;
 
 
                     }
-                  
+
 
 
                     if (this.searchText && this.searchText !== '') {
@@ -142,7 +142,7 @@ export class ClassroomsManagerService implements Resolve<any>
 
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get(environment.backend_url+ 'api/institutions')
+            this._httpClient.get(environment.backend_url + 'api/institutions')
                 .subscribe((response: any) => {
 
                     this.onInstitutionChanged.next(response);
@@ -235,20 +235,20 @@ export class ClassroomsManagerService implements Resolve<any>
     addClasse(classe, institution): Promise<any> {
         return new Promise((resolve, reject) => {
             classe.institution = institution;
-            this._httpClient.post(environment.backend_url+ 'api/classroom', classe)
+            this._httpClient.post(environment.backend_url + 'api/classroom', classe)
 
                 .subscribe(response => {
                     this.getClasses();
                     resolve(response);
                 });
-              //  this.institution= null;
+            //  this.institution= null;
         });
     }
 
     updateClasse(contact): Promise<any> {
 
         return new Promise((resolve, reject) => {
-            this._httpClient.put(environment.backend_url+ 'api/classroomInstitution/' + this.id, contact)
+            this._httpClient.put(environment.backend_url + 'api/classroomInstitution/' + this.id, contact)
                 .subscribe(response => {
                     this.getClasses();
                     resolve(response);
@@ -260,7 +260,7 @@ export class ClassroomsManagerService implements Resolve<any>
         return new Promise((resolve, reject) => {
             contact.institution = institution;
 
-            this._httpClient.put(environment.backend_url+ 'api/classroomInstitution', contact)
+            this._httpClient.put(environment.backend_url + 'api/classroomInstitution', contact)
                 .subscribe(response => {
                     this.getClasses();
 

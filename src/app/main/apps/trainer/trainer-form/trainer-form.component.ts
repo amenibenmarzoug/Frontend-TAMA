@@ -60,21 +60,24 @@ export class TrainerFormComponent {
     changeFilter(filter): void {
         console.log(filter);
         //this._serviceTrainer.specifications = filter.specifications;
-       this._serviceTrainer.disponibilities=filter.disponibilityDays;
+        this.contactForm.patchValue({disponibilityDays:filter.disponibilityDays})
+       //this._serviceTrainer.disponibilities=filter.disponibilityDays;
     }
 
 
-    chooseTheme(themeId): void {
-        console.log("themeId");
-        console.log(themeId);
+    chooseTheme(theme): void {
+        console.log("theme");
+        console.log(theme);
         //this._serviceTrainer.specifications = filter.specifications;
-       this._serviceTrainer.themeId=themeId;
-       this._serviceTrainer.getModules();
+       //this._serviceTrainer.themeId=themeId;
+       this._serviceTrainer.getModulesNames(theme);
+       //this._serviceTrainer.getModules();
     }
 
     sendSpecifications(spec): void {
         console.log(spec);
-        this._serviceTrainer.specifications = spec.specifications;
+        this.contactForm.patchValue({specifications:spec.specifications})
+        //this._serviceTrainer.specifications = spec.specifications;
        //this._serviceTrainer.disponibilities=spec.disponibilityDays;
     }
     // -----------------------------------------------------------------------------------------------------
@@ -96,7 +99,6 @@ export class TrainerFormComponent {
             phoneNumber: [this.contact.phoneNumber],
             //address   : [this.contact.address],
             gender: [this.contact.gender],
-            password: [this.contact.password],
             street: [this.contact.street],
             city: [this.contact.city],
             postalCode: [this.contact.postalCode],

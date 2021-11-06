@@ -24,6 +24,8 @@ import { EntrepriseFormComponent } from 'app/main/apps/entreprises/entreprise-fo
 
 import { EntreprisesService } from './entreprises.service';
 import { MatSelectModule } from '@angular/material/select';
+import { CompanyRegistrationListComponent } from './company-registration-list/company-registration-list.component';
+import { AuthGuardManagerService } from 'app/auth-guard-manager.service';
 
 
 
@@ -33,7 +35,9 @@ const routes: Routes = [
     component: EntreprisesComponent,
     resolve: {
       contacts: EntreprisesService
-    }
+    },
+    canActivate:[AuthGuardManagerService] 
+
   }
 ];
 
@@ -43,7 +47,8 @@ const routes: Routes = [
   declarations: [EntreprisesComponent, EntrepriseListComponent,
     SelectedBarComponent,
     MainComponent,
-    EntrepriseFormComponent],
+    EntrepriseFormComponent,
+    CompanyRegistrationListComponent],
   imports: [
     RouterModule.forChild(routes),
 

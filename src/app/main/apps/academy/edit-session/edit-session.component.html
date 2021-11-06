@@ -111,7 +111,8 @@
                         <div>
                             <div fxFlex="1 0 auto" fxLayout="column">
 
-                                <mat-form-field appearance="outline" class="w-100-p">
+                                <div class="nav-item" aria-label="Date de la séance">
+                                <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">
                                     <mat-label>Titre Scéance</mat-label>
                                     <input matInput name="courseSessionName" formControlName="courseSessionName"
                                         (blur)="onValueChangedStepper1()" required>
@@ -119,6 +120,19 @@
                                         {{formErrorsStepper1.courseSessionName}}</mat-error>
 
                                 </mat-form-field>
+                                <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">
+                                    <mat-label>Date de la séance </mat-label>
+                                    <input matInput [matDatepicker]="startDatePicker" name="start"
+                                        formControlName="courseSessionDate" required
+                                        (blur)="onValueChangedStepper1()" autocomplete="false"
+                                        [min]="programBeginDate" [max]="programEndDate"
+                                        (dateInput)="addDate($event)">
+                                    <mat-datepicker-toggle matSuffix [for]="startDatePicker">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #startDatePicker></mat-datepicker>
+                                </mat-form-field>
+
+                            </div>
                                 <!--
                                 <mat-form-field>
                                     <mat-placeholder>Date et Heure Début</mat-placeholder>
@@ -138,17 +152,7 @@
 
                                 </mat-form-field>-->
                                 <div class="nav-item" aria-label="Date de la séance">
-                                    <mat-form-field appearance="outline" class="w-100-p">
-                                        <mat-label>Date de la séance </mat-label>
-                                        <input matInput [matDatepicker]="startDatePicker" name="start"
-                                            formControlName="courseSessionDate" required
-                                            (blur)="onValueChangedStepper1()" autocomplete="false"
-                                            [min]="programBeginDate" [max]="programEndDate"
-                                            (dateInput)="addDate($event)">
-                                        <mat-datepicker-toggle matSuffix [for]="startDatePicker">
-                                        </mat-datepicker-toggle>
-                                        <mat-datepicker #startDatePicker></mat-datepicker>
-                                    </mat-form-field>
+                                   
                                 </div>
                                 <div class="content mb-24" *ngIf="testDate" [hidden]="!testDate">
                                     <div class="message-box error">
@@ -306,7 +310,18 @@
                                 La formation se déroule à {{place}}
                             </div>
                         </div>
-                        <div fxFlex="1 0 auto" fxLayout="column" *ngIf="place==null">
+
+                        <div class="nav-item" aria-label="SallesNonDisponible">
+
+                            <div class="content mb-24" *ngIf="institutions === undefined || institutions.length == 0" >
+                                <div class="message-box error">
+                                    Il n'y a pas de salles disponibles à  {{currentCity}}  !
+                                </div>
+                            </div>
+
+                        </div>
+                        <div fxFlex="1 0 auto" fxLayout="column" 
+                        *ngIf="place==null && institutions !== undefined && institutions.length >0">
 
                             <!--   <div fxLayout="row" fxLayoutAlign="start center">
                                 <mat-form-field appearance="outline" fxFlex>

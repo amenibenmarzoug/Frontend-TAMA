@@ -16,12 +16,14 @@ export class EntreprisesService implements Resolve<any>
 {
     onContactsChanged: BehaviorSubject<any>;
     onEntrpriseChanged: BehaviorSubject<any>;
+    onRegistrationChanged: BehaviorSubject<any>;
     onSelectedContactsChanged: BehaviorSubject<any>;
     onUserDataChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
     onClassesChanged: BehaviorSubject<any>;
     classes: any[];
+    registrations: any[];
     classe: any;
     enterprises: Enterprise[];
     enterprise: Enterprise;
@@ -43,6 +45,7 @@ export class EntreprisesService implements Resolve<any>
         this.onContactsChanged = new BehaviorSubject([]);
         this.onEntrpriseChanged = new BehaviorSubject([]);
         this.onSelectedContactsChanged = new BehaviorSubject([]);
+        this.onRegistrationChanged = new BehaviorSubject([]);
         this.onUserDataChanged = new BehaviorSubject([]);
         this.onClassesChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
@@ -126,9 +129,10 @@ export class EntreprisesService implements Resolve<any>
                         this.enterprises = FuseUtils.filterArrayByString(this.enterprises, this.searchText);
                     }
 
-                    this.enterprises = this.enterprises.map(contact => {
+     /* this.enterprises = this.enterprises.map(contact => {
                         return new Enterprise(contact);
-                    });
+                    }); */
+
 
                     this.onContactsChanged.next(this.enterprises);
                     resolve(this.enterprises);
@@ -243,13 +247,13 @@ export class EntreprisesService implements Resolve<any>
         });
     }
 
-    addEntreprise(entreprise, classe): Promise<any> {
+    addEntreprise(entreprise): Promise<any> {
         return new Promise((resolve, reject) => {
             entreprise.password = entreprise.phoneNumber;
-            if (this.classe != null) {
+            /*if (this.classe != null) {
                 entreprise.programInstance = classe;
             }
-            this.classe = null;
+            this.classe = null;*/
 
             console.log(entreprise);
             this._httpClient.post(AUTH_API + 'auth/signupEnterprise', entreprise)
@@ -284,8 +288,11 @@ export class EntreprisesService implements Resolve<any>
        // }
         //this.classe = null;
         console.log(contact);
+
         this.getEnterprises();
-        return this._httpClient.put(AUTH_API + 'entreprises', contact);
+        return this._httpClient.put(AUTH_API + 'update/entreprise', contact);
+
+
 
 
     }
@@ -307,6 +314,15 @@ export class EntreprisesService implements Resolve<any>
         });
     }
 
+    refuseCompany(company): Promise<any>{
+    return new Promise((resolve, reject) => {
+           
+        this._httpClient.put(AUTH_API+ 'entreprises/refuse', company)
+            .subscribe(response => {
+                this.getEnterprises();
+                resolve(response);
+            });
+    });}
 
     getClasses(): Promise<any> {
 
@@ -319,6 +335,24 @@ export class EntreprisesService implements Resolve<any>
                     console.log("CLASSES");
                     console.log(response);
                     resolve(response);
+                }, reject);
+        }
+        );
+    }
+
+    getRegistrationsByCompanyId(id): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'companyRegistrations/enterprise/' + id)
+                .subscribe((response: any) => {
+
+
+                    this.registrations = response;
+                    this.onRegistrationChanged.next(this.registrations);
+                    console.log("REGISTRATIONS");
+                    console.log(this.registrations);
+                    resolve(this.registrations);
                 }, reject);
         }
         );

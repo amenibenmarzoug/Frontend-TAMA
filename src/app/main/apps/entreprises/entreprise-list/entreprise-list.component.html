@@ -57,15 +57,22 @@
         </mat-cell>
     </ng-container>
   
-    <ng-container matColumnDef="classe" >
+   <!--  <ng-container matColumnDef="classe" >
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>
             Inscrite dans </mat-header-cell>
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
-            <p class="job-title text-truncate">
-              {{ contact.programInstance.programInstName}}    {{ contact.programInstance.location}} 
-            </p>
+       
+                <ng-container >
+                    <ul >
+                        <li *ngFor="let programInstance of contact.programInstance">
+                            <span> {{programInstance.programInstName}} </span>
+                        </li>
+                    </ul>
+    
+                </ng-container>
+             
         </mat-cell>
-    </ng-container>
+    </ng-container> -->
 
 
 
@@ -87,10 +94,18 @@
                         <mat-icon>delete</mat-icon>
                         <span>Supprimer</span>
                     </button> -->
-                    <button mat-menu-item aria-label="check" [disabled]="disabled" (click)="ValidateContact(contact)">
-                        <mat-icon *ngIf="contact.validated ">check</mat-icon>
-                        <mat-icon *ngIf="!contact.validated ">close</mat-icon>
+                    <button mat-menu-item aria-label="check"  (click)="ValidateContact(contact)" *ngIf="!contact.validated ">
+                        <mat-icon >check</mat-icon>
                         <span>Créer un compte</span>
+                    </button>
+                    <button mat-menu-item aria-label="check"  (click)="refuseCompany(contact)" *ngIf="contact.validated ">
+                        <mat-icon >close</mat-icon>
+                        <span>Annuler le compte</span>
+                    </button>
+
+                    <button  mat-menu-item (click)=" getRegistrationList(contact.id)">
+                        <mat-icon>school</mat-icon>
+                        <span>Liste des classes</span>
                     </button>
                 </mat-menu>
 

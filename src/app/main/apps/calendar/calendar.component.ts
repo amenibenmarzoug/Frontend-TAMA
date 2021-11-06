@@ -19,7 +19,6 @@ import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { forEach } from 'lodash';
 
   import { CustomDateFormatter } from './custom-date-formatter.provider';
-import { Console } from 'console';
 
 const USER_KEY ='auth-user';
 
@@ -79,8 +78,7 @@ export class CalendarComponent implements OnInit {
     ) {
       
         // Set the defaults
-        console.log("Role");
-        console.log( this._calendarService.userRole);
+      
         this.userRole= this._calendarService.userRole;
         this.view = 'month';
         this.viewDate = new Date();
@@ -151,8 +149,6 @@ export class CalendarComponent implements OnInit {
     setEvents(): void {
        // this._calendarService.getEvents();
        this.freeDayDates=[];
-       console.log("FREE DATA IN SET");
-       console.log(this.freeDayDates);
         this.events = this._calendarService.events.map(item => {
             const date=new Date(item.start);
             const dateEnd=new Date(item.end);
@@ -175,8 +171,7 @@ export class CalendarComponent implements OnInit {
           
             
         });
-        console.log("Events in comp");
-        console.log(this.events);
+     
      
     }
 
@@ -188,10 +183,8 @@ export class CalendarComponent implements OnInit {
 
 
         this._calendarService.events.forEach(item => {
-            //if (item.idOwner == id)
                 eventsList.push(item);
         });
-        //this.events=eventsList;
 
         this.events = eventsList.map(item => {
 
@@ -254,8 +247,7 @@ export class CalendarComponent implements OnInit {
         const date: Date = day.date;
         const events: CalendarEvent[] = day.events;
 
-        console.log("EZVENTSSS");
-        console.log(events);
+      
         if (isSameMonth(date, this.viewDate)) {
             if ((isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) || events.length === 0) {
                 this.activeDayIsOpen = false;
@@ -335,10 +327,8 @@ export class CalendarComponent implements OnInit {
                      * Save
                      */
                     case 'save':
-                        console.log(formData.getRawValue());
                         this.events[eventIndex] = Object.assign(this.events[eventIndex], formData.getRawValue());
                         this._calendarService.updateEvent(this.events[eventIndex]);
-                        console.log(this.events[eventIndex]);
                         this.refresh.next(true);
                         
 
@@ -368,8 +358,7 @@ export class CalendarComponent implements OnInit {
         });
         this.dialogRef.afterClosed()
             .subscribe((response: FormGroup) => {
-                console.log("Event");
-                console.log(response);
+               
                 if (!response) {
                     return;
                 }

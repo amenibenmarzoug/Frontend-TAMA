@@ -23,6 +23,7 @@ import { SelectedBarComponent } from 'app/main/apps/trainer/selected-bar/selecte
 import { MainComponent } from 'app/main/apps/trainer/sidebars/main/main.component';
 import { TrainerFormComponent } from 'app/main/apps/trainer/trainer-form/trainer-form.component';
 import { FormsComponent } from 'app/main/ui/forms/forms.component';
+import { AuthGuardManagerService } from 'app/auth-guard-manager.service';
 
 const routes: Routes = [
     {
@@ -31,7 +32,8 @@ const routes: Routes = [
         resolve  : {
             contacts: TrainerService
         },
-       
+        canActivate:[AuthGuardManagerService] 
+
         
     }
 ];

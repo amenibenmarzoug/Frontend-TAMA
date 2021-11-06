@@ -23,6 +23,7 @@ import { ClassroomsManagerComponent } from './classrooms-manager.component';
 import { ClassroomsManagerFormComponent } from './classrooms-manager-form/classrooms-manager-form.component';
 import { ClassroomsManagerListComponent } from './classrooms-manager-list/classrooms-manager-list.component';
 import { ClassroomsManagerService } from './classrooms-manager.service';
+import { AuthGuardManagerService } from 'app/auth-guard-manager.service';
 
 
 const routes: Routes = [
@@ -31,7 +32,9 @@ const routes: Routes = [
       component: ClassroomsManagerComponent,
       resolve  : {
           contacts: ClassroomsManagerService
-      }
+      },
+      canActivate:[AuthGuardManagerService] 
+
   }
 ];
 

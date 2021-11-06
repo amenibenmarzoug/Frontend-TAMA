@@ -11,8 +11,6 @@ export const navigationTrainer: FuseNavigation[] = [
         url: '/apps/calendar'
     },
 
-   
-
 
     {
         id: 'profile',
@@ -21,6 +19,55 @@ export const navigationTrainer: FuseNavigation[] = [
         icon: 'person',
         url: '/pages/profile'
     },
+
+    {
+        id: 'MyClasses',
+        title: 'Mes Classes',
+        type: 'item',
+        icon: 'school',
+        url: '/apps/classetrainer'
+    },
+
+    {
+        id: 'allSessionsTrainer',
+        title: 'Liste de séances',
+        type: 'item',
+        icon: 'school',
+        url: '/apps/academy/allSessionsTrainer'
+    },
+
+    {
+        id: 'attendance',
+        title: 'Gestion des présences',
+        type: 'collapsable',
+        icon: 'how_to_reg',
+        children: [
+            
+            {
+                id: 'markAttendance',
+                title: 'Marquer les présences',
+                type: 'item',
+                icon: 'playlist_add_check',
+                url: '/apps/mark-attendance'
+            },
+            
+    
+        {
+            id: 'attendanceList',
+            title: 'Liste des présences',
+            type: 'item',
+            icon: 'list_alt',
+            url: '/apps/attendance-trainer',
+        }
+        ]
+
+
+    },
+
+    
+
+
+    
 
 
 

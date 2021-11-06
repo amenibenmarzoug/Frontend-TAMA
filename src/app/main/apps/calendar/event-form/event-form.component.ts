@@ -52,7 +52,6 @@ export class CalendarEventFormDialogComponent
         else
         {
             this.dialogTitle = 'Jour Férié';
-            console.log(_data._formBuilder),
             this.event = new CalendarEventModel({
                
                 start: _data.date,
@@ -69,6 +68,7 @@ export class CalendarEventFormDialogComponent
 
     /**
      * Create the event form
+     * This method is used to create the form of "Jour Férié"
      *
      * @returns {FormGroup}
      */

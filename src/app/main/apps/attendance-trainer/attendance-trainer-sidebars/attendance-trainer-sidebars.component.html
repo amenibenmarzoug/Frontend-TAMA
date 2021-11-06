@@ -1,0 +1,71 @@
+<div class="sidebar-content">
+    <div class="card">
+        <!-- SIDEBAR HEADER -->
+        <div class="header p-24" fxLayout="row" fxLayoutAlign="start center">
+            <!-- USER -->
+            <span class="h5 font-weight-600">Choisir Séance</span>
+            <!-- / USER -->
+        </div>
+        <!-- / SIDEBAR HEADER -->
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content py-16" fusePerfectScrollbar>
+            <div class="nav material2">
+
+                <div class="nav-item" aria-label="Participant" fxLayoutAlign="start center">
+                    <mat-form-field appearance="outline" class="category-selector " fxFlex>
+                        <mat-label>Participant</mat-label>
+                        <mat-select (selectionChange)="selectParticipant($event.value)"
+                         [(ngModel)]="selectedParticipant" >
+                        
+                            <mat-option *ngFor="let participant of participants" [value]="participant">
+                                {{ participant.firstNameP }} {{ participant.lastNameP }} 
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="nav-item" aria-label="Date" fxLayoutAlign="start center">
+                    <mat-form-field appearance="outline" class="category-selector " >
+                        <mat-label>Date de la séance </mat-label>
+                        <input matInput [matDatepicker]="startDatePicker"   [(ngModel)]="selectedDate"                         
+                            autocomplete="false"
+                            (dateInput)="selectDate($event.value)" >
+                        <mat-datepicker-toggle matSuffix [for]="startDatePicker">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #startDatePicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+               
+                <div class="nav-item" aria-label="Séance" fxLayoutAlign="start center">
+                    <mat-form-field appearance="outline" class="category-selector " fxFlex >
+                        <mat-label>Séance</mat-label>
+                        <mat-select (selectionChange)="selectSession($event.value)" [(ngModel)]="selectedSession"
+                            >
+                        
+                            <mat-option *ngFor="let session of courseSessions" [value]="session">
+                                {{ session.sessionName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                
+                <div class="message-box warning"  *ngIf="courseSessions.length == 0 && selectedDate != null">
+                    Pas de séances disponibles pour cette Date ! 
+                </div>
+
+                <div class="nav-item" aria-label="resetFilters" fxLayoutAlign="start center" >
+                    <div class="init-button">
+                    <button mat-raised-button class="mat-accent" (click)="resetFilters()" fxFlex >
+                        Réinitialiser les filtres</button>
+                    </div>
+            </div>
+            </div>
+        </div>
+
+     
+
+    </div>
+</div>
+<!-- / SIDEBAR CONTENT -->

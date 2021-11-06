@@ -8,7 +8,7 @@
         </mat-toolbar-row>
 
         <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
-            <img [src]="contact.avatar" class="avatar contact-avatar huge m-0" [alt]="contact.firstName" />
+         
             <div class="contact-name mt-8">{{contact.firstName}} {{contact.lastName}}</div>
         </mat-toolbar-row>
     </mat-toolbar>
@@ -75,10 +75,10 @@
 
                 <mat-form-field  appearance="outline" fxFlex>
                     <mat-label >Spécialité</mat-label>
-                    <mat-select  (selectionChange)="chooseTheme($event.value)" formControlname="themes">
+                    <mat-select multiple="" (selectionChange)="chooseTheme($event.value)" formControlname="themes">
                        
-                        <mat-option *ngFor="let theme of themes" [value]="theme.id">
-                            {{theme.themeName}}
+                        <mat-option *ngFor="let theme of themes" [value]="theme">
+                            {{theme}}
                         </mat-option>
                     </mat-select>
                     <mat-error>Thematique est requise!</mat-error>
@@ -92,8 +92,8 @@
                     <mat-label >Modules</mat-label>
                     <mat-select multiple=""  [(value)]="contact.specifications" (selectionChange)="sendSpecifications(contact)" formControlname="specifications" required>
                        
-                        <mat-option *ngFor="let specification of specifications" [value]="specification.moduleName">
-                           {{specification.moduleName}}
+                        <mat-option *ngFor="let specification of specifications" [value]="specification">
+                           {{specification}}
                         </mat-option>
                     </mat-select>
                     <mat-error>Module est requis!</mat-error>
@@ -140,11 +140,11 @@
             </div>
             <div fxLayout="row" fxLayoutAlign="start center">
 
-                <mat-form-field  appearance="outline" fxFlex>
+                <mat-form-field  appearance="outline" fxFlex >
                     <mat-label >Jours de disponibilité</mat-label>
                     <mat-select multiple=""  [(value)]="contact.disponibilityDays"  (selectionChange)="changeFilter(contact)" formControlname="disponibilityDays" required>
                        
-                        <mat-option *ngFor="let day of days" [value]="day.day">
+                        <mat-option *ngFor="let day of days" [value]="day.day" >
                           {{day.day}}
                         </mat-option>
                     </mat-select>

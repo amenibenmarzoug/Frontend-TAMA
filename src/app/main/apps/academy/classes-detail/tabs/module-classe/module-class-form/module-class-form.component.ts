@@ -2,9 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
-import { ProgramInstDetailService } from 'app/main/apps/academy/program-inst-detail/program-inst-detail.service';
 import { ModuleInstFormComponent } from 'app/main/apps/academy/program-inst-detail/tabs/module-inst/module-form/module-form.component';
-import { ModuleInst } from 'app/main/apps/academy/program-inst-detail/tabs/module-inst/moduleInst.model';
+import { ModuleInstance } from 'app/shared/models/moduleInstance.model';
 import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 import { ClassesDetailService } from '../../../classes-detail.service';
@@ -17,7 +16,7 @@ import { ClassesDetailService } from '../../../classes-detail.service';
 export class ModuleClassFormComponent  {
 
   action: string;
-  moduleInst: ModuleInst;
+  moduleInst: ModuleInstance;
   moduleInstForm: FormGroup;
   dialogTitle: string;
   modules:any[];
@@ -58,7 +57,7 @@ alertDialog: any;
     {
         this.dialogTitle = 'Nouveau Module ';
      
-        this.moduleInst = new ModuleInst({});
+        this.moduleInst = new ModuleInstance({});
 
 
     }

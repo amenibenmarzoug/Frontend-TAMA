@@ -7,10 +7,6 @@ import { takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
-
-
-import { ThemeDetailFormComponent } from '../../../../programDetails/tabs/themeDetail/theme-detail-form/theme-detail-form.component';
-import { ProgramDetailsService } from '../../../../programDetails/programDetails.service';
 import{ClassesDetailService} from '../../.././classes-detail.service';
 import { ThemeDetailClasseFormComponent } from '../theme-detail-classe-form/theme-detail-classe-form.component';
 @Component({
@@ -25,10 +21,10 @@ export class ThemeDetailClassListComponent implements OnInit {
   @ViewChild('dialogContent')
   dialogContent: TemplateRef<any>;
 
-  themeDetails: any;
+  themeDetailsInst: any;
   user: any;
   dataSource: FilesDataSource | null;
-  displayedColumns = ['checkbox'/*, 'themeDetailName', 'nbDaysThemeDetail'*/,'ThemeDetailInstName','nbDaysThemeDetailInst','buttons'];
+  displayedColumns = ['checkbox','ThemeDetailInstName','nbDaysThemeDetailInst','buttons'];
   selectedThemeDetails: any[];
   checkboxes: {};
   dialogRef: any;
@@ -66,7 +62,7 @@ export class ThemeDetailClassListComponent implements OnInit {
       this._themeDetailsService.onThemeDetailInstChanged
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(themeDetails => {
-              this.themeDetails = themeDetails;
+              this.themeDetailsInst = themeDetails;
 
               this.checkboxes = {};
               themeDetails.map(themeDetail => {

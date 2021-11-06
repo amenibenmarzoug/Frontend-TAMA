@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
-import { Module } from '../programDetails/tabs/module/module.model';
+import { Module } from '../../../../shared/models/module.model';
 import { FuseUtils } from '@fuse/utils';
-import { ThemeDetail } from '../programDetails/tabs/themeDetail/theme-detail.model';
+import { ThemeDetail } from 'app/shared/models/themeDetail.model';
 import { Program } from '../program.model';
-import { Thematique } from '../programDetails/tabs/thematique/thematique.model';
+import { Theme } from 'app/shared/models/theme.model';
 import {environment} from 'environments/environment';
 const AUTH_API = environment.backend_url+ 'api/';
 
@@ -22,7 +22,7 @@ export class ProgramSpecDetailService {
   allModules : Module[];
   themeDetails: ThemeDetail[];
   module: Module;
-  theme: Thematique;
+  theme: Theme;
   themeDetail: ThemeDetail;
   allThemeDtails: ThemeDetail[];
   onFilterChangedModule: Subject<any>;
@@ -38,8 +38,8 @@ export class ProgramSpecDetailService {
   onSelectedModulesChanged: BehaviorSubject<any>;
   searchTextModule: string;
   searchTextThemeDetail: string;
-  themes: Thematique[];
-  allThemes : Thematique[];
+  themes: Theme[];
+  allThemes : Theme[];
   programs: Program[];
   cursusId: any;
   programId: any;
@@ -57,6 +57,9 @@ export class ProgramSpecDetailService {
 
   actualDaysAffectedPerModule = 0;
   actualDaysAffectedPerThemeDetail = 0;
+
+  onmoduleProgramChanged : BehaviorSubject<any>;
+  modulesProgram : Module[];
 
 
 
@@ -81,6 +84,7 @@ export class ProgramSpecDetailService {
       this.onProgramChanged = new BehaviorSubject({});
       this.onFilterChangedThemeDetail = new BehaviorSubject({});
       this.onmoduleChanged = new BehaviorSubject([]);
+      this.onmoduleProgramChanged = new BehaviorSubject([]); 
       this.onSelectedModulesChanged = new BehaviorSubject([]);
 
 
@@ -193,7 +197,7 @@ export class ProgramSpecDetailService {
                   this.themes = response;
 
                   this.themes = this.themes.map(theme => {
-                      return new Thematique(theme);
+                      return new Theme(theme);
                   });
                   this.onThemeChanged.next(this.themes);
                   resolve(this.themes);
@@ -214,7 +218,7 @@ export class ProgramSpecDetailService {
 
                   this.themes = this.themes.map(theme => {
                       this.actualDaysNumberAffected = this.actualDaysNumberAffected + theme.nbDaysTheme;
-                      return new Thematique(theme);
+                      return new Theme(theme);
                   });
                   console.log("days affected in service l aady" + this.actualDaysNumberAffected);
                   resolve(this.actualDaysNumberAffected);
@@ -293,23 +297,22 @@ export class ProgramSpecDetailService {
                   this.modules = response;
                   this.allModules = response; 
                   this.themeId = this.filterByModule;
-                  console.log("this.themeId")
-                  console.log(this.themeId)
-
+                 
                   if (this.themeId != null) {
                       if (this.filterByModule === 'Modules') {
+                        
                       }
                       else {
 
                           this.modules = this.modules.filter(_module => {
                               // return this.user.frequentContacts.includes(_contact.id);
                               if (_module.theme.id == this.themeId) {
+                                 
                                   return true;
                               }
                               return false;
                           });
-                          console.log("Modulesssssss i service")
-                            console.log(this.modules)
+                          
                       }
                   }
                   else {
@@ -487,6 +490,26 @@ export class ProgramSpecDetailService {
       this.onmoduleChanged.next(this.modules);
       this.deselectModules();
   }
+
+
+
+  getModulesOfProgram(): Promise<any> {
+
+    let id = new HttpParams().set('id', this.programId);
+    
+    return new Promise((resolve, reject) => {
+        this._httpClient.get(AUTH_API + 'modulesOfprogram', { params: id })
+            .subscribe((response: any) => {
+
+                this.modulesProgram = response;
+             
+                this.onmoduleProgramChanged.next(this.modulesProgram);
+                resolve(this.modulesProgram);
+            }, reject);
+    }
+    );
+
+}
   /*********************ThemeDetails***********************/
 
   /**

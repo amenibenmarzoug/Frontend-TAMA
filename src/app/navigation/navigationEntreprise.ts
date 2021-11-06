@@ -37,6 +37,13 @@ export const navigationEntreprise: FuseNavigation[] = [
         url: '/apps/my-participants'
 
     },
+    {
+        id: 'attendance',
+        title: 'Liste des présences',
+        type: 'item',
+        icon: 'how_to_reg',
+        url: '/apps/attendance-company',
+    }
 
 
 

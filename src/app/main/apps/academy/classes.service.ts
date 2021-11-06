@@ -4,9 +4,9 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ProgramInst } from 'app/main/apps/academy/programInst.model';
 import { Program } from './program.model';
-import { Thematique } from './programDetails/tabs/thematique/thematique.model';
+import { Theme } from 'app/shared/models/theme.model';
 import { ModuleInst } from '../academy/program-inst-detail/tabs/module-inst/moduleInst.model';
-import { Module } from './programDetails/tabs/module/module.model';
+import { Module } from 'app/shared/models/module.model';
 import { FuseUtils } from '@fuse/utils';
 import {environment} from 'environments/environment';
 
@@ -29,12 +29,14 @@ export class ClassesService {
     program: any;
     programs: Program[];
     enterprises:any[];
+
     lastprogramInst: any;
-    themes: Thematique[];
+    themes: Theme[];
+
     onThemeChanged: BehaviorSubject<any>;
     programId: any;
 
-    themesOfProgram: Thematique[];
+    themesOfProgram: Theme[];
     modulesInst: ModuleInst[];
     onmoduleInstChanged: BehaviorSubject<any>;
     moduleClasse: ModuleInst;
@@ -96,7 +98,6 @@ export class ClassesService {
                 this.getProgramsInst(),
                 this.getPrograms(),
                 this.getEnterprises(),
-                // this.getThemes(),
 
                 this.getModulesInst(),
                 this.getModules1(),
@@ -126,13 +127,13 @@ export class ClassesService {
     getThemesPerProgram(): Promise<any> {
 
         let id = new HttpParams().set('id', this.programId);
-        // console.log("id chnw hedha " + id);
+      
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'program/themes', { params: id })
                 .subscribe((response: any) => {
                     this.themes = response;
                     this.themes = this.themes.map(theme => {
-                        return new Thematique(theme);
+                        return new Theme(theme);
                     });
                     this.onThemeChanged.next(this.themes);
                     resolve(this.themes);
@@ -156,6 +157,7 @@ export class ClassesService {
             this._httpClient.get(AUTH_API + 'programsInst')
                 .subscribe((response: any) => {
                     this.programsInst = response;
+                    
                     this.onProgramsInstChanged.next(response);
                     resolve(response);
                 }, reject);
@@ -205,7 +207,7 @@ export class ClassesService {
     addClass(programInst, program): Promise<any> {
         this.program = program;
         programInst.program = program;
-        this.getThemes();
+       
 
         return new Promise((resolve, reject) => {
             this._httpClient.post(AUTH_API + 'programsInst2', programInst)
@@ -222,41 +224,7 @@ export class ClassesService {
 
 
 
-    getThemes(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'themes')
-                .subscribe((response: any) => {
-                    this.themes = response;
-                    this.onThemeChanged.next(response);
-                    resolve(response);
-
-                    this.themesOfProgram = [];
-                    if (this.themes != null) {
-
-
-                        this.themes.forEach(theme => {
-                            // console.log(theme.program);
-                            // console.log("prog fel service");
-                            // console.log(this.program);
-                            if (theme.program.id == this.program.id) {
-                                // console.log("cond vérifié");
-                                this.themesOfProgram.push(theme);
-
-                            }
-                            else {
-                                console.log(theme.program.id == this.program.id);
-                            }
-
-
-                        });
-                        // console.log("ThemesofProg");
-                        // console.log(this.themesOfProgram);
-
-                    }
-
-                }, reject);
-        });
-    }
+    
 
 
     toggleSelectedModule(id): void {
@@ -377,48 +345,7 @@ export class ClassesService {
     }
 
 
-  /*  getModulesInst(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'moduleInstance')
-                .subscribe((response: any) => {
-
-                    this.modulesInst = response;
-                    this.onmoduleInstChanged.next(this.modulesInst);
-                    this.themeInstId = this.filterByModule;
-                    if (this.themeInstId != null) {
-                        if (this.filterByModule === 'Modules') {
-                        }
-                        else {
-
-                            this.modulesInst = this.modulesInst.filter(_module => {
-                                // return this.user.frequentContacts.includes(_contact.id);
-                                if (_module.themeInstance.id == this.themeInstId) {
-                                    return true;
-                                }
-                                return false;
-                            });
-                        }
-                    }
-                    else {
-                        this.modulesInst = response;
-                    }
-                    if (this.searchTextModule && this.searchTextModule !== '') {
-                        this.modulesInst = FuseUtils.filterArrayByString(this.modulesInst, this.searchTextModule);
-                    }
-
-                    this.modulesInst = this.modulesInst.map(module => {
-                        return new ModuleInst(module);
-                    });
-
-
-
-
-
-                    resolve(this.modulesInst);
-                }, reject);
-        }
-        );
-    }*/
+  
 
 
 

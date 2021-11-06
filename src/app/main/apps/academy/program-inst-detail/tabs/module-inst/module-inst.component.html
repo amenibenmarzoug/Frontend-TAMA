@@ -24,7 +24,8 @@
     <!-- / HEADER -->
 
     <!-- SELECTED BAR -->
-    <app-selected-bar-module-inst class="accent-600" *ngIf="hasSelectedModules" [@slideInTop]></app-selected-bar-module-inst>
+    <app-selected-bar-module-inst class="accent-600" *ngIf="hasSelectedModules" [@slideInTop]>
+    </app-selected-bar-module-inst>
     <!-- / SELECTED BAR -->
 
     <!-- CONTENT -->
@@ -35,10 +36,9 @@
 
             <!-- SIDEBAR CONTENT -->
             <div class="content" fusePerfectScrollbar>
-                <!-- <app-main [@animate]="{value:'*'}"></contacts-main-sidebar> -->
-                <!--app-main-module-inst [@animate]="{value:'*'}"></app-main-module-inst-->
+
                 <app-main2 [@animate]="{value:'*'}"></app-main2>
-                
+
             </div>
             <!-- / SIDEBAR CONTENT -->
 

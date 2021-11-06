@@ -46,7 +46,7 @@ export class MainModuleComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.filterBy = this._moduleService.filterByModule ;
+        this.filterBy = this._moduleService.filterByModule;
 
 
 
@@ -60,7 +60,7 @@ export class MainModuleComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(theme => {
                 this.theme = theme;
-               
+
             });
 
 

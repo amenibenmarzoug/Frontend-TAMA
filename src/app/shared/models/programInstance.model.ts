@@ -1,11 +1,12 @@
 
 import { Program } from './program.model';
+import { FuseUtils } from '../../../@fuse/utils'; 
 
 // used to be named programInst
 export class ProgramInstance{
 
     id: number;
-    programInstanceName: string;
+    programInstName: string;
     nbDaysProgInst: number;
     location:string;
     program:Program;
@@ -18,9 +19,8 @@ export class ProgramInstance{
 
     constructor(programInstance)
     {
-       // cursus = cursus || {};
-        this.id = programInstance.id  || '';
-        this.programInstanceName=programInstance.programInstanceName || '';
+        this.id = programInstance.id  ||  FuseUtils.generateGUID();;
+        this.programInstName=programInstance.programInstName || '';
         this.nbDaysProgInst=programInstance.nbDaysProgInst || '';
         this.location = programInstance.location || '';
         this.program = programInstance.program || '';
@@ -33,3 +33,5 @@ export class ProgramInstance{
     
     }
 }
+
+
