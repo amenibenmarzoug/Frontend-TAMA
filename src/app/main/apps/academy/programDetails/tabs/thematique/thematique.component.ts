@@ -168,6 +168,7 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
     //open the dialog of cursus add 
     newTheme() {
         this.dialogRef = this.dialog.open(ThematiqueFormComponent, {
+            disableClose: true ,
             panelClass: 'theme-form-dialog',
             data: {
                 action: 'new'
@@ -239,6 +240,7 @@ this.confirmDialogRef = null;
       */
     editTheme(theme): void {
         this.dialogRef = this.dialog.open(ThematiqueFormComponent, {
+            disableClose: true ,
             panelClass: 'theme-form-dialog',
             data: {
                 theme: theme,

@@ -9,174 +9,175 @@ import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
-import {ThemeDetailSpecFormComponent} from '../theme-detail-spec/theme-detail-spec-form/theme-detail-spec-form.component';
+import { ThemeDetailSpecFormComponent } from '../theme-detail-spec/theme-detail-spec-form/theme-detail-spec-form.component';
 import { ProgramSpecDetailService } from '../../program-spec-detail.service';
 @Component({
-  selector: 'app-theme-detail-spec',
-  templateUrl: './theme-detail-spec.component.html',
-  styleUrls: ['./theme-detail-spec.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  animations   : fuseAnimations
+    selector: 'app-theme-detail-spec',
+    templateUrl: './theme-detail-spec.component.html',
+    styleUrls: ['./theme-detail-spec.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    animations: fuseAnimations
 })
 export class ThemeDetailSpecComponent implements OnInit {
 
-  dialogRef: any;
-  hasSelectedThemeDetails: boolean;
-  searchInput: FormControl;
-  moduleId: number;
+    dialogRef: any;
+    hasSelectedThemeDetails: boolean;
+    searchInput: FormControl;
+    moduleId: number;
 
-  // Private
-  private _unsubscribeAll: Subject<any>;
-  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  alertDialog: MatDialogRef<AlertDialogComponent>;
-  themeDetail: any;
+    // Private
+    private _unsubscribeAll: Subject<any>;
+    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    alertDialog: MatDialogRef<AlertDialogComponent>;
+    themeDetail: any;
 
-  actualDaysNumberAffected : number ; 
+    actualDaysNumberAffected: number;
 
-  /**
-   * Constructor
-   *
-   * @param {ProgramDetailsService} _themeDetailsService
-   * @param {FuseSidebarService} _fuseSidebarService
-   * @param {MatDialog} _matDialog
-   */
-  constructor(
-      private _themeDetailsService: ProgramSpecDetailService,
-      private _fuseSidebarService: FuseSidebarService,
-      private _matDialog: MatDialog
-  ) {
-      // Set the defaults
-      this.searchInput = new FormControl('');
+    /**
+     * Constructor
+     *
+     * @param {ProgramDetailsService} _themeDetailsService
+     * @param {FuseSidebarService} _fuseSidebarService
+     * @param {MatDialog} _matDialog
+     */
+    constructor(
+        private _themeDetailsService: ProgramSpecDetailService,
+        private _fuseSidebarService: FuseSidebarService,
+        private _matDialog: MatDialog
+    ) {
+        // Set the defaults
+        this.searchInput = new FormControl('');
 
-      // Set the private defaults
-      this._unsubscribeAll = new Subject();
-  }
+        // Set the private defaults
+        this._unsubscribeAll = new Subject();
+    }
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Lifecycle hooks
-  // -----------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
 
-  /**
-   * On init
-   */
-  ngOnInit(): void {
-      this._themeDetailsService.onSelectedThemeDetailChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(selectedThemeDetails => {
-              this.hasSelectedThemeDetails = selectedThemeDetails.length > 0;
-          });
+    /**
+     * On init
+     */
+    ngOnInit(): void {
+        this._themeDetailsService.onSelectedThemeDetailChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(selectedThemeDetails => {
+                this.hasSelectedThemeDetails = selectedThemeDetails.length > 0;
+            });
 
-      this.searchInput.valueChanges
-          .pipe(
-              takeUntil(this._unsubscribeAll),
-              debounceTime(300),
-              distinctUntilChanged()
-          )
-          .subscribe(searchText => {
-              this._themeDetailsService.onSearchTextChangedThemeDetail.next(searchText);
-          });
-          this._themeDetailsService.module = null ;
+        this.searchInput.valueChanges
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                debounceTime(300),
+                distinctUntilChanged()
+            )
+            .subscribe(searchText => {
+                this._themeDetailsService.onSearchTextChangedThemeDetail.next(searchText);
+            });
+        this._themeDetailsService.module = null;
 
-  }
+    }
 
-  /**
-   * On destroy
-   */
-  ngOnDestroy(): void {
-      // Reset the search
-      this._themeDetailsService.onSearchTextChangedThemeDetail.next('');
-      // Unsubscribe from all subscriptions
-      this._unsubscribeAll.next();
-      this._unsubscribeAll.complete();
-  }
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Reset the search
+        this._themeDetailsService.onSearchTextChangedThemeDetail.next('');
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
-  addNewThemeDetail(): void {
-      
-
-      if ((this._themeDetailsService.module == null )) {
-          console.log(this._themeDetailsService.module);
-          this.addThemeDetailAlert("Veuillez choisir un Module");
-      }
-
-      else {
-          this._themeDetailsService.getThemeDetailDaysAffected();
-          this.dialogRef = this._matDialog.open(ThemeDetailSpecFormComponent, {
-              panelClass: 'theme-detail-form-dialog',
-              data: {
-                  action: 'new',
-
-              }
-          });
-
-          this.dialogRef.afterClosed()
-              .subscribe((response: FormGroup) => {
-                  if (!response) {
-
-                      return;
-                  }
-                  this.themeDetail = response.getRawValue();
-                  /*this.actualDaysNumberAffected = this._themeDetailsService.actualDaysAffectedPerThemeDetail+ Number(this.themeDetail.nbDaysThemeDetail)  ; 
-
-                  if (this.actualDaysNumberAffected > Number(this._themeDetailsService.module.nbDaysModule)) {
-                      this.addThemeDetailAlert("Vous avez dépassé le nombre des jours du Module concerné");
-                      console.log(`Exceeded`);
-                      return; 
-                  }*/
-
-                  this.confirmAddThemeDetail();
-
-              });
-      }
-
-  }
+    addNewThemeDetail(): void {
 
 
-  addThemeDetailAlert(message): void {
-      this.alertDialog = this._matDialog.open(AlertDialogComponent, {
-          disableClose: false
-      });
+        if ((this._themeDetailsService.module == null)) {
+            console.log(this._themeDetailsService.module);
+            this.addThemeDetailAlert("Veuillez choisir un Module");
+        }
 
-      this.alertDialog.componentInstance.dialogMessage = message;
+        else {
+            this._themeDetailsService.getThemeDetailDaysAffected();
+            this.dialogRef = this._matDialog.open(ThemeDetailSpecFormComponent, {
+                disableClose: true,
+                panelClass: 'theme-detail-form-dialog',
+                data: {
+                    action: 'new',
 
-      this.alertDialog.afterClosed().subscribe(result => {
-          if (result) {
+                }
+            });
 
-          }
-          this.alertDialog = null;
-      });
-  }
+            this.dialogRef.afterClosed()
+                .subscribe((response: FormGroup) => {
+                    if (!response) {
 
-  confirmAddThemeDetail(): void {
-      this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
-          disableClose: false
-      });
+                        return;
+                    }
+                    this.themeDetail = response.getRawValue();
+                    /*this.actualDaysNumberAffected = this._themeDetailsService.actualDaysAffectedPerThemeDetail+ Number(this.themeDetail.nbDaysThemeDetail)  ; 
+  
+                    if (this.actualDaysNumberAffected > Number(this._themeDetailsService.module.nbDaysModule)) {
+                        this.addThemeDetailAlert("Vous avez dépassé le nombre des jours du Module concerné");
+                        console.log(`Exceeded`);
+                        return; 
+                    }*/
 
-      this.confirmDialogRef.componentInstance.confirmMessage = 'Voulez vous enregistrer les données entrées?';
+                    this.confirmAddThemeDetail();
 
-      this.confirmDialogRef.afterClosed().subscribe(result => {
-          if (result) {
-              console.log("ajout theme Detail avec succès");
-              console.log(this._themeDetailsService.module);
+                });
+        }
 
-              this._themeDetailsService.addThemeDetail(this.themeDetail, this._themeDetailsService.module);
+    }
 
-          }
-          this.confirmDialogRef = null;
-      });
 
-  }
+    addThemeDetailAlert(message): void {
+        this.alertDialog = this._matDialog.open(AlertDialogComponent, {
+            disableClose: false
+        });
 
-  /**
-   * Toggle the sidebar
-   *
-   * @param name
-   */
-  toggleSidebar(name): void {
-      this._fuseSidebarService.getSidebar(name).toggleOpen();
-  }
+        this.alertDialog.componentInstance.dialogMessage = message;
+
+        this.alertDialog.afterClosed().subscribe(result => {
+            if (result) {
+
+            }
+            this.alertDialog = null;
+        });
+    }
+
+    confirmAddThemeDetail(): void {
+        this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
+            disableClose: false
+        });
+
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Voulez vous enregistrer les données entrées?';
+
+        this.confirmDialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                console.log("ajout theme Detail avec succès");
+                console.log(this._themeDetailsService.module);
+
+                this._themeDetailsService.addThemeDetail(this.themeDetail, this._themeDetailsService.module);
+
+            }
+            this.confirmDialogRef = null;
+        });
+
+    }
+
+    /**
+     * Toggle the sidebar
+     *
+     * @param name
+     */
+    toggleSidebar(name): void {
+        this._fuseSidebarService.getSidebar(name).toggleOpen();
+    }
 
 }

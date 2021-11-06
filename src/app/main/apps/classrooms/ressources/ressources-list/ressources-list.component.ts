@@ -122,6 +122,7 @@ export class RessourcesListComponent implements OnInit, OnDestroy {
      */
     editEquipment(equipment): void {
         this.dialogRef = this._matDialog.open(RessourcesFormComponent, {
+            disableClose: true,
             panelClass: 'equipment-form-dialog',
             data: {
                 equipment: equipment,
@@ -186,7 +187,7 @@ export class RessourcesListComponent implements OnInit, OnDestroy {
         this._ressourcesService.toggleSelectedEquipment(equipmentId);
     }
 
-   
+
 }
 
 export class FilesDataSource extends DataSource<any>

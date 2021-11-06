@@ -11,16 +11,16 @@ import { EntrepriseFormComponent } from './entreprise-form/entreprise-form.compo
 import { ParticipantListComponent } from 'app/main/apps/participants/participant-list/participant-list.component';
 
 @Component({
-  selector: 'app-entreprises',
-  templateUrl: './entreprises.component.html',
-  styleUrls: ['./entreprises.component.scss'] ,
-  encapsulation: ViewEncapsulation.None,
-  animations   : fuseAnimations
+    selector: 'app-entreprises',
+    templateUrl: './entreprises.component.html',
+    styleUrls: ['./entreprises.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    animations: fuseAnimations
 })
-export class EntreprisesComponent implements OnInit  , OnDestroy {
+export class EntreprisesComponent implements OnInit, OnDestroy {
 
 
-  dialogRef: any;
+    dialogRef: any;
     hasSelectedContacts: boolean;
     searchInput: FormControl;
 
@@ -38,8 +38,7 @@ export class EntreprisesComponent implements OnInit  , OnDestroy {
         private _entrepriseService: EntreprisesService,
         private _fuseSidebarService: FuseSidebarService,
         private _matDialog: MatDialog
-    )
-    {
+    ) {
         // Set the defaults
         this.searchInput = new FormControl('');
 
@@ -54,8 +53,7 @@ export class EntreprisesComponent implements OnInit  , OnDestroy {
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         this._entrepriseService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedContacts => {
@@ -76,8 +74,7 @@ export class EntreprisesComponent implements OnInit  , OnDestroy {
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Reset the search
         this._entrepriseService.onSearchTextChanged.next('');
 
@@ -93,44 +90,42 @@ export class EntreprisesComponent implements OnInit  , OnDestroy {
     /**
      * New contact
      */
-    newContact(): void
-    {
+    newContact(): void {
         this.dialogRef = this._matDialog.open(EntrepriseFormComponent, {
+            disableClose: true,
             panelClass: 'contact-form-dialog',
-            data      : {
+            data: {
                 action: 'new'
             }
         });
 
         this.dialogRef.afterClosed()
             .subscribe((response: FormGroup) => {
-                if ( !response )
-                {
+                if (!response) {
                     return;
                 }
-                
+
                 this._entrepriseService.addEntreprise(response.getRawValue());
             });
     }
 
-    ListParticipants(): void
-    {
+    ListParticipants(): void {
         this.dialogRef = this._matDialog.open(ParticipantListComponent, {
             panelClass: 'contact-form-dialog',
-            data      : {
+            data: {
                 action: 'new'
             }
         });
 
-       /* this.dialogRef.afterClosed()
-            .subscribe((response: FormGroup) => {
-                if ( !response )
-                {
-                    return;
-                }
-                
-                this._groupsService.updateContact(response.getRawValue());
-            });*/
+        /* this.dialogRef.afterClosed()
+             .subscribe((response: FormGroup) => {
+                 if ( !response )
+                 {
+                     return;
+                 }
+                 
+                 this._groupsService.updateContact(response.getRawValue());
+             });*/
     }
 
     /**
@@ -138,8 +133,7 @@ export class EntreprisesComponent implements OnInit  , OnDestroy {
      *
      * @param name
      */
-    toggleSidebar(name): void
-    {
+    toggleSidebar(name): void {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
 }

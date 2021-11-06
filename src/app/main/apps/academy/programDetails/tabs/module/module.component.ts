@@ -106,6 +106,7 @@ export class ModuleComponent implements OnInit, OnDestroy {
         else {
             this._moduleService.getModuleDaysAffected();
             this.dialogRef = this._matDialog.open(ModuleFormComponent, {
+                disableClose: true ,
                 panelClass: 'module-form-dialog',
                 data: {
                     action: 'new',

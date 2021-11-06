@@ -95,6 +95,7 @@ export class ClassroomsComponent implements OnInit, OnDestroy
     newContact(): void
     {
         this.dialogRef = this._matDialog.open(ClassroomsFormComponent, {
+            disableClose: true ,
             panelClass: 'contact-form-dialog',
             data      : {
                 action: 'new'

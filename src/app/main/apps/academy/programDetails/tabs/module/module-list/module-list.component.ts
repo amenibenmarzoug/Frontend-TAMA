@@ -119,6 +119,7 @@ export class ModuleListComponent implements OnInit, OnDestroy {
      */
     editModule(module): void {
         this.dialogRef = this._matDialog.open(ModuleFormComponent, {
+            disableClose: true ,
             panelClass: 'module-form-dialog',
             data: {
                 module: module,

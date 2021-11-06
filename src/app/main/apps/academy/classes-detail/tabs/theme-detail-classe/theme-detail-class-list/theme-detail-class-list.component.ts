@@ -110,7 +110,8 @@ export class ThemeDetailClassListComponent implements OnInit {
    */
   editThemeDetail(themeDetail): void {
       this.dialogRef = this._matDialog.open(ThemeDetailClasseFormComponent, {
-          panelClass: 'theme-detail-form-dialog',
+        disableClose: true ,  
+        panelClass: 'theme-detail-form-dialog',
           data: {
               themeDetail: themeDetail,
               action: 'edit'

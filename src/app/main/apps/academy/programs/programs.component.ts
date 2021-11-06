@@ -137,6 +137,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
      */
     newProgram(): void {
         this.dialogRef = this.dialog.open(ProgramFormComponent, {
+            disableClose: true ,
             panelClass: 'program-form-dialog',
             data: {
                 action: 'new'
@@ -161,6 +162,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
       */
     editProgram(program): void {
         this.dialogRef = this.dialog.open(ProgramFormComponent, {
+            disableClose: true ,
             panelClass: 'cursus-form-dialog',
             data: {
                 program: program,
