@@ -212,7 +212,7 @@ export class AttendanceService implements Resolve<any>
 
      getParticipantsOfSelectedSession():Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API+ 'participants/classId/'+this.class.id)
+            this._httpClient.get(AUTH_API+ 'participants/validated/classId/'+this.class.id)
                 .subscribe((response: any) => {
                     this.participants = response;
                     this.onParticipantsChanged.next(this.participants);

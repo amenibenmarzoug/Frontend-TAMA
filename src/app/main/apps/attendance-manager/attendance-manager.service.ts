@@ -119,6 +119,7 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
             this.getAttendanceCheckedSessions(),
             this.getParticipants(),
             this.getClasses(),
+            this.getSessions()  , 
 
         ]).then(
             ([files]) => {
@@ -126,7 +127,7 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
                 this.onFilterByDateChanged.subscribe(filter => {
                     this.filterByDate = filter;
                     this.getAttendances()
-                    //this.getMySessionsByDate();
+                    this.getSessions();
                     this.getAttendanceCheckedSessions();
                 });
 
@@ -153,6 +154,7 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
                 this.onFilterByClassChanged.subscribe(group => {
                     this.filterByClasse = group;
                     this.getParticipantsOfSelectedClass()
+                    this.getSessions() ; 
                     this.getAttendances();
                 });
 
@@ -175,23 +177,21 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
  *
  * @returns {Promise<any>}
  */
- //this function will return the sessions of the concerned trainer in a specific date chosen in the filter
- getMySessionsByDate(): Promise<any> {
-    this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
-    console.log("trainer : "+(this.user.id).toString()) 
+ getSessions(): Promise<any> {
+    
     
     return new Promise((resolve, reject) => {
         
-        this._httpClient.get(environment.backend_url+ 'api/session/trainerId/'+this.user.id)
+        this._httpClient.get(AUTH_API+ 'session')
             .subscribe((response: any) => {
                 console.log(response);
-                this.sessions = [];
+                this.sessions = response;
                 
                 //filterBy would be the date selected by the trainer
                 console.log("THIS FILTEREDBY");
                 console.log(this.filterByDate);
                 if (this.filterByDate != null) {
-                    this.sessions = response;
+                    console.log("in filter by date");
                     
                     this.sessions = this.sessions.filter(_session => {
                         const courseBeginDate = new Date(_session.sessionBeginDate)
@@ -202,9 +202,23 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
                         
                     });
                 }
+                if (this.filterByClasse != null) {
+                    console.log("in filter by classe");
+                    this.sessions = this.sessions.filter(_session => {
+                        
+                        if (_session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == this.filterByClasse.id) {
+                            
+                            return true;
+                        }
+                        return false;
+                        
+                    });
+                }
+
+                this.onSessionsChanged.next(this.sessions);
                 console.log("Sessionss")
                 console.log(this.sessions)
-                this.onSessionsChanged.next(this.sessions);
+                
                 resolve(this.sessions);
             }, reject);
     } );
@@ -307,7 +321,7 @@ generateReport(sessionId) : Promise<any>
 
  getParticipantsOfSelectedSession():Promise<any> {
     return new Promise((resolve, reject) => {
-        this._httpClient.get(AUTH_API+ 'participants/classId/'+this.class.id)
+        this._httpClient.get(AUTH_API+ 'participants/validated/classId/'+this.class.id)
             .subscribe((response: any) => {
                 this.participants = response;
                 this.onParticipantsChanged.next(this.participants);
@@ -322,7 +336,7 @@ generateReport(sessionId) : Promise<any>
 
 getParticipantsOfSelectedClass():Promise<any> {
     return new Promise((resolve, reject) => {
-        this._httpClient.get(AUTH_API+ 'participants/classId/'+this.filterByClasse.id)
+        this._httpClient.get(AUTH_API+ 'participants/validated/classId/'+this.filterByClasse.id)
             .subscribe((response: any) => {
                 this.participants = response;
                 this.onParticipantsChanged.next(this.participants);

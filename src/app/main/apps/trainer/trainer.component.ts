@@ -109,6 +109,7 @@ export class TrainersComponent implements OnInit, OnDestroy
                 {
                     return;
                 }
+                console.log("response.getRawValue()");
                 console.log(response.getRawValue());
                 this._trainersService.updateContact(response.getRawValue());
             });

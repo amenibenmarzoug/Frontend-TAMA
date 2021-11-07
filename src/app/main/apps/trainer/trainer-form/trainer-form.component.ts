@@ -2,7 +2,7 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { Contact } from 'app/main/apps/trainer/trainer.model';
+import { Trainer } from 'app/shared/models/trainer.model';
 import { Days } from 'app/main/apps/my-disponibility/days';
 import { TrainerService } from 'app/main/apps/trainer/trainer.service';
 @Component({
@@ -14,7 +14,7 @@ import { TrainerService } from 'app/main/apps/trainer/trainer.service';
 
 export class TrainerFormComponent {
     action: string;
-    contact: Contact;
+    contact: Trainer;
     specifications:any[];
     themes:any[];
     days: any[] = Days;
@@ -47,11 +47,13 @@ export class TrainerFormComponent {
             this.dialogTitle = 'Modifier Formateur';
             
             this.contact = _data.contact;
+            //let pl=JSON.parse(this.contact.fees);
+            //console.log(pl)
             console.log(this.contact);
         }
         else {
             this.dialogTitle = 'Nouveau Formateur';
-            this.contact = new Contact({});
+            this.contact = new Trainer({});
         }
 
         this.contactForm = this.createContactForm();
@@ -102,8 +104,17 @@ export class TrainerFormComponent {
             street: [this.contact.street],
             city: [this.contact.city],
             postalCode: [this.contact.postalCode],
+            //fees :   [this.contact.fees],
             disponibilityDays: [this.contact.disponibilityDays],
-            theme:['']
+            theme:[''],
+
+            
+            fees : this._formBuilder.group({
+                amount      : [this.contact.fees.amount],
+                currency            : [this.contact.fees.currency]
+                
+                }),
+                
 
         });
     }

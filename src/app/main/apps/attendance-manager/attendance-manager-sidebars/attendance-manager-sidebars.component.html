@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="nav-item" aria-label="Date" fxLayoutAlign="start center">
-                    <mat-form-field appearance="outline" class="category-selector ">
+                    <mat-form-field appearance="outline" class="category-selector " fxFlex>
                         <mat-label>Filtrer par date </mat-label>
                         <input matInput [matDatepicker]="startDatePicker" [(ngModel)]="selectedDate"
                             autocomplete="false" (dateInput)="selectDate($event.value)">

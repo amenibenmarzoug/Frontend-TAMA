@@ -13,7 +13,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   user: any;
   filterBy: string;
-
+    classes:any;
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -46,6 +46,12 @@ export class MainComponent implements OnInit, OnDestroy {
           .subscribe(user => {
               this.user = user;
           });
+
+          this._participantService.onClassesChanged
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe(classes => {
+              this.classes = classes;
+          });
   }
 
   /**
@@ -72,5 +78,20 @@ export class MainComponent implements OnInit, OnDestroy {
       this.filterBy = filter;
       this._participantService.onFilterChanged.next(this.filterBy);
   }
+
+  chooseStatus(filter): void{
+      this.filterBy=filter;
+      this._participantService.getParticipantsByStatus(filter)
+  }
+
+  chooseByClass(classe): void{
+   
+    this._participantService.getParticipantsByClass(classe.id);
+}
+
+  chooseUnregistered(filter): void{
+    this.filterBy=filter;
+    this._participantService.getParticipantsWithoutRegistration();
+}
 
 }

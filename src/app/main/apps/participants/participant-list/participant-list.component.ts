@@ -2,8 +2,10 @@ import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation
 import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DataSource } from '@angular/cdk/collections';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { MatPaginator , MatPaginatorIntl } from '@angular/material/paginator';
+import { merge, Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
@@ -23,6 +25,11 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
 
     @ViewChild('dialogContent')
     dialogContent: TemplateRef<any>;
+
+    @ViewChild(MatPaginator, {static: true})
+    paginator: MatPaginator;
+    
+    
 
     contacts: any;
     user: any;
@@ -58,6 +65,8 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
     ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+        //this.paginator._intl = new MatPaginatorIntl()
+        //this.paginator._intl.itemsPerPageLabel="Eléments par page";
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -69,7 +78,7 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.currentYear = new Date().getFullYear();
-        this.dataSource = new FilesDataSource(this._participantsService);
+        this.dataSource = new FilesDataSource(this._participantsService,  this.paginator);
         /*
         this.ages = this._participantsService.getAges().then(() => {
             this.ages = this._participantsService.ages;
@@ -286,15 +295,18 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
 
 export class FilesDataSource extends DataSource<any>
 {
+    filteredData: Participant[];
     /**
      * Constructor
      *
      * @param {ParticipantsService} _participantsService
      */
     constructor(
-        private _participantsService: ParticipantsService
+        private _participantsService: ParticipantsService,
+        private _matPaginator: MatPaginator,
     ) {
         super();
+        this.filteredData = this._participantsService.participants;
     }
 
     /**
@@ -302,7 +314,30 @@ export class FilesDataSource extends DataSource<any>
      * @returns {Observable<any[]>}
      */
     connect(): Observable<any[]> {
-        return this._participantsService.onContactsChanged;
+
+        const displayDataChanges = [
+            this._participantsService.onContactsChanged,
+            this._matPaginator.page,
+           // this._filterChange,
+            //this._matSort.sortChange
+        ];
+        //return this._participantsService.onContactsChanged;
+        return merge(...displayDataChanges).pipe(map(() => {
+
+            let data = this._participantsService.participants.slice();
+
+            //data = this.filterData(data);
+
+            this.filteredData = [...data];
+
+            //data = this.sortData(data);
+
+            // Grab the page's slice of data.
+            const startIndex = this._matPaginator.pageIndex * this._matPaginator.pageSize;
+            return data.splice(startIndex, this._matPaginator.pageSize);
+        })
+    );
+
     }
 
     /**

@@ -38,6 +38,7 @@ export class AttendanceManagerSidebarsComponent implements OnInit {
     selectedParticipant: any;
     selectedClass: any;
     classes: any;
+    sessions : any ; 
 
   /**
    * Constructor
@@ -67,7 +68,7 @@ export class AttendanceManagerSidebarsComponent implements OnInit {
    */
   ngOnInit(): void {
       this.filterByDate = this.attendanceService.filterByDate || 'all';
-      this.courseSessions=this.attendanceService.attendanceCheckedSessions || []; 
+      //this.courseSessions=this.attendanceService.attendanceCheckedSessions || []; 
 
       this.attendanceService.onAttendanceCheckedSessionsChanged
           .pipe(takeUntil(this._unsubscribeAll))
@@ -111,6 +112,15 @@ export class AttendanceManagerSidebarsComponent implements OnInit {
               console.log(this.classes)
 
           });
+          this.attendanceService.onSessionsChanged
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe(sessions => {
+              this.courseSessions = sessions;
+              console.log("this sessions")
+              console.log(this.sessions)
+
+          });
+
   }
     
 
@@ -166,11 +176,12 @@ export class AttendanceManagerSidebarsComponent implements OnInit {
         this.attendanceService.filterBy=null ; 
         this.attendanceService.participant=null  ; 
         this.attendanceService.session=null;
-        this.ngOnInit();
         this.selectedParticipant=null  ; 
         this.selectedClass = null ; 
         this.selectedDate = null ; 
         this.selectedSession=null ;
+        this.ngOnInit();
+        
 
         /*
         this.attendanceService.onFilterByDateChanged.next(reset);

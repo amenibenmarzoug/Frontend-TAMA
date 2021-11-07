@@ -208,7 +208,7 @@ justifiedAbsencesNumber : any ;
 
     getParticipantsOfSelectedClasse(classId):Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API+ 'participants/classId/'+classId)
+            this._httpClient.get(AUTH_API+ 'participants/validated/classId/'+classId)
                 .subscribe((response: any) => {
                     this.participantsByClasse = response;
                     this.onParticipantsByClasseChanged.next(this.participantsByClasse);
