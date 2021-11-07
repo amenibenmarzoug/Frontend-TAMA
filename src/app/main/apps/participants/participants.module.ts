@@ -12,7 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatRadioModule} from '@angular/material/radio';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule,CustomDatepickerModule } from '@fuse/components';
 
@@ -61,6 +61,7 @@ const routes: Routes = [
     FuseSharedModule,
     FuseConfirmDialogModule,
     FuseSidebarModule,
+    MatPaginatorModule ,
     CustomDatepickerModule
   ],
   providers      : [

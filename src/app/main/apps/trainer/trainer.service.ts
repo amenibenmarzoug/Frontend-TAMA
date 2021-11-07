@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { FuseUtils } from '@fuse/utils';
 
-import { Contact } from './trainer.model';
+import { Trainer } from 'app/shared/models/trainer.model';
 import { environment } from 'environments/environment';
 
 const AUTH_API = environment.backend_url + 'api/';
@@ -27,7 +27,7 @@ export class TrainerService implements Resolve<any>
     onFilterChanged: Subject<any>;
     disponibilities: any[];
     specifications: String[];
-    contacts: Contact[];
+    contacts: Trainer[];
     user: any;
     selectedContacts: string[] = [];
     onModulesChanged: BehaviorSubject<any>;
@@ -106,12 +106,14 @@ export class TrainerService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'trainers')
                 .subscribe((response: any) => {
+                   
+                    for (const trainer of response) {
+                        const trainerFees = JSON.parse(trainer.fees)
+                        trainer.fees = trainerFees ; 
+                    }
 
-                    console.log('trainers :');
-                    console.log(this.contacts);
                     this.contacts = response;
-
-
+                    console.log(this.contacts);
                     if (this.filterBy === 'with') {
                         this.contacts = this.contacts.filter(_contact => {
                             if (_contact.validated) { return true; }
@@ -139,7 +141,7 @@ export class TrainerService implements Resolve<any>
                     }
 
                     this.contacts = this.contacts.map(contact => {
-                        return new Contact(contact);
+                        return new Trainer(contact);
                     });
 
                     this.onContactsChanged.next(this.contacts);
@@ -351,7 +353,10 @@ export class TrainerService implements Resolve<any>
 
         this.disponibilities = null;
         this.specifications = null;*/
+        console.log("creating trainer" );
         console.log(contact);
+        let fees = JSON.stringify(contact.fees);
+        contact.fees=fees ; 
         return new Promise((resolve, reject) => {
             /* if (this.disponibilities != null) {
                  contact.disponibilityDays = this.disponibilities;
@@ -371,7 +376,7 @@ export class TrainerService implements Resolve<any>
         });
     }
     updateContact1(contact): Promise<any> {
-        console.log(contact);
+        
         /* if (this.disponibilities != null) {
              contact.disponibilityDays = this.disponibilities;
  
@@ -382,6 +387,11 @@ export class TrainerService implements Resolve<any>
  
          this.disponibilities = null;
          this.specifications = null;*/
+         
+        let fees = JSON.stringify(contact.fees);
+        contact.fees=fees ;
+        console.log("updating trainer" );
+        console.log(contact);
         return new Promise((resolve, reject) => {
             console.log(contact);
             this._httpClient.put(AUTH_API + 'trainers', contact)

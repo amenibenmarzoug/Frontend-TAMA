@@ -15,6 +15,13 @@ export class Trainer
     postalCode: string
     disponibilityDays:any;
     validated : any
+    //fees : string ; 
+    
+    fees : {
+        amount : number ; 
+        currency : string ; 
+    }
+    
 
     /**
      * Constructor
@@ -38,6 +45,7 @@ export class Trainer
             this.city = trainer.city || '';
             this.postalCode = trainer.postalCode || '';
             this.disponibilityDays=trainer.disponibilityDays || '';
+            this.fees = trainer.fees || '{}' ; 
         }
     }
 }

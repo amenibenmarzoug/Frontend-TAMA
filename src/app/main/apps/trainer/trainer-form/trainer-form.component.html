@@ -152,6 +152,32 @@
 
             </div>
 
+            <div fxLayout="row" fxLayoutAlign="start center" formGroupName="fees">
+                
+                <mat-form-field appearance="outline" fxFlex="60">
+                    <mat-label>Montant par Journée: </mat-label>
+                    <mat-icon matSuffix class="secondary-text">money</mat-icon>
+                    <input name="street" formControlName="amount" matInput >
+                    
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="50">
+                    <mat-label>Monnaie : </mat-label>
+                    <mat-select formControlName="currency" >
+                        <mat-option [value]="'EURO'">
+                            EURO
+                        </mat-option>
+                        <mat-option [value]="'TND'">
+                            TND
+                        </mat-option>
+                        
+                    </mat-select>
+                    <mat-icon matSuffix class="secondary-text">euro_symbol</mat-icon>
+                   
+                </mat-form-field>
+            </div>
+            
+
         </form>
 
     </div>
