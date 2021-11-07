@@ -265,4 +265,18 @@ export class ProfileService implements Resolve<any>
         });
     }
 
+    resetPassword(contact){
+        return new Promise((resolve, reject) => {
+          
+           /*  this._httpClient.post(environment.backend_url+ 'auth/resetPassword/' + this.userId, contact[2])
+
+                .subscribe(response => {
+                   
+                    resolve(response);
+                }); */
+                console.log(contact.password)
+                console.log(this.userId)
+        });
+    }
+
 }

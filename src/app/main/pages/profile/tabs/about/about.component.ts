@@ -114,6 +114,7 @@ export class ProfileAboutComponent implements OnInit, OnDestroy {
                         return;
                     }
                     console.log(response[0].value);
+                  this._profileService.resetPassword(response[0].value) ;
                   //  let participant=new Participant();
                    // participant.status='WAITING';
                     //console.log("PARTICIPANT");
