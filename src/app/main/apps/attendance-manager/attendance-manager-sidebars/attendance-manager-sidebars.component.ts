@@ -72,11 +72,8 @@ export class AttendanceManagerSidebarsComponent implements OnInit {
 
       this.attendanceService.onAttendanceCheckedSessionsChanged
           .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(sessions => {
-              console.log("sessionsto showw")
-              
+          .subscribe(sessions => {               
               this.courseSessions = sessions;
-              console.log(this.courseSessions)
           });
         
           this.attendanceService.onFilterChanged
@@ -108,17 +105,12 @@ export class AttendanceManagerSidebarsComponent implements OnInit {
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(classes => {
               this.classes = classes;
-              console.log("this classes")
-              console.log(this.classes)
 
           });
           this.attendanceService.onSessionsChanged
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(sessions => {
               this.courseSessions = sessions;
-              console.log("this sessions")
-              console.log(this.sessions)
-
           });
 
   }
@@ -142,20 +134,18 @@ export class AttendanceManagerSidebarsComponent implements OnInit {
 
     selectDate(sessionDate): void {
         this.selectedDate = sessionDate.toDate();
-        console.log(this.selectedDate)
+        this.selectedSession=null ;
         this.attendanceService.onFilterByDateChanged.next(sessionDate);
     }
 
     selectParticipant(participant): void {
-        console.log("selecting Participant")
         this.selectedParticipant = participant;
-        console.log(participant)
         this.attendanceService.onFilterByParticipantChanged.next(participant);
     }
 
     selectClass(group): void {
         this.selectedClass = group
-        console.log(this.selectedClass)
+        this.selectedSession=null ;
         this.attendanceService.onFilterByClassChanged.next(group);
     }
 
@@ -172,6 +162,7 @@ export class AttendanceManagerSidebarsComponent implements OnInit {
         this.attendanceService.onSearchTextChanged.next(''); 
         this.attendanceService.filterByDate=null ; 
         this.attendanceService.filterByClasse=null ; 
+        this.attendanceService.onFilterByDateChanged.next(null) ; 
         this.attendanceService.onFilterByParticipantChanged.next(null) ; 
         this.attendanceService.filterBy=null ; 
         this.attendanceService.participant=null  ; 

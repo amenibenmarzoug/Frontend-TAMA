@@ -179,7 +179,6 @@ export class ClassetrainerService {
       this.selectedModules.push(id);
 
 
-      console.log(this.selectedModules.length);
 
 
       // Trigger the next event
@@ -258,7 +257,6 @@ export class ClassetrainerService {
 
       return new Promise((resolve, reject) => {
       
-        //  console.log(programInst);
           this._httpClient.put(AUTH_API + 'programsInst/confirm', programInst)
               .subscribe(response => {
                   this.getProgramsInst();

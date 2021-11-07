@@ -139,13 +139,11 @@ export class AttendanceService implements Resolve<any>
      //this function will return the sessions of the concerned trainer in a specific date chosen in the filter
      getMySessionsByDate(): Promise<any> {
         this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
-        console.log("trainer : "+(this.user.id).toString()) 
         
         return new Promise((resolve, reject) => {
             
             this._httpClient.get(environment.backend_url+ 'api/session/trainerId/'+this.user.id)
                 .subscribe((response: any) => {
-                    console.log(response);
                     this.sessions = response;
                     this.sessions.sort(function (x, y) {
                         const a = new Date(x.sessionBeginDate)
@@ -156,8 +154,6 @@ export class AttendanceService implements Resolve<any>
                     })
                     
                     //filterBy would be the date selected by the trainer
-                    console.log("THIS FILTEREDBY");
-                    console.log(this.filterByDate);
                     if (this.filterByClasse != null) {
                         this.sessions = this.sessions.filter(session => {
                             
@@ -183,16 +179,14 @@ export class AttendanceService implements Resolve<any>
                         if (this.sessions.length > 0 ) {
                             this.filterBy=this.sessions[0] ; 
                             this.onFilterChanged.next(this.filterBy)
-                            console.log("this.sessions[0]")
-                            console.log(this.filterBy)
+                            
 
                         }
                         
 
 
                     }
-                    console.log("Sessionss")
-                    console.log(this.sessions)
+                   
                     this.onSessionsChanged.next(this.sessions);
                     resolve(this.sessions);
                 }, reject);
@@ -248,9 +242,6 @@ export class AttendanceService implements Resolve<any>
                         this.class = response;
                         this.onClassChanged.next(this.class);
                         this.getParticipantsOfSelectedClass() ; 
-
-                        console.log("Classe")
-                        console.log(this.class)
                         resolve(this.class);
                     }, reject);
             }
@@ -262,10 +253,7 @@ export class AttendanceService implements Resolve<any>
         return new Promise((resolve, reject) => {
                 this._httpClient.get(AUTH_API+ 'attendance/generateReport/'+sessionId, {
                     responseType: 'blob'})
-                    .subscribe((response: any) => {
-                        
-                        console.log("RESPONSE SERVICE");
-                        console.log(response);
+                    .subscribe((response: any) => {            
                         resolve(response);
                     }, reject);
             }
@@ -287,9 +275,7 @@ export class AttendanceService implements Resolve<any>
                 .subscribe((response: any) => {
                     this.participants = response;
                     this.onParticipantsChanged.next(this.participants);
-    
-                    console.log("participants")
-                    console.log(this.participants)
+
                     resolve(this.participants);
                 }, reject);
         }
@@ -309,15 +295,12 @@ export class AttendanceService implements Resolve<any>
                 .subscribe((response: any) => {
                     
                     this.attendances = [];
-                    console.log("THIS FILTEREDBY");
-                    console.log(this.filterBy);
-                    if (this.filterBy != null) {
 
+                    if (this.filterBy != null) {
 
                         this.attendances = response;
                         this.attendances = this.attendances.filter(attendance => {
                             if (attendance.session.id == this.filterBy.id) {
-                                console.log("True");
                                 return true;
                             }
                             return false;
@@ -367,8 +350,6 @@ export class AttendanceService implements Resolve<any>
                         }    
                         */
 
-                    console.log("sessions checked by this trainer")
-                    console.log(this.attendanceCheckedSessions)
                     this.onAttendanceCheckedSessionsChanged.next(this.attendanceCheckedSessions);
                     resolve(this.attendanceCheckedSessions);
                 }, reject);
@@ -378,9 +359,7 @@ export class AttendanceService implements Resolve<any>
 
     markPresent(attendance): Promise<any> {
         return new Promise((resolve, reject) => {
-          
-            console.log("attendance IN SERVICE");
-            console.log(attendance);
+
             this._httpClient.put(AUTH_API+ 'attendance/markPresent', attendance)
                 .subscribe(response => {
                     this.getAttendances();
@@ -396,8 +375,6 @@ export class AttendanceService implements Resolve<any>
     markAbsent(attendance): Promise<any> {
         return new Promise((resolve, reject) => {
           
-            console.log("attendance IN SERVICE");
-            console.log(attendance);
             this._httpClient.put(AUTH_API+ 'attendance/markAbsent', attendance)
                 .subscribe(response => {
                     this.getAttendances();
@@ -413,8 +390,6 @@ export class AttendanceService implements Resolve<any>
     markJustifiedAbsent(attendance): Promise<any> {
         return new Promise((resolve, reject) => {
           
-            console.log("attendance IN SERVICE");
-            console.log(attendance);
             this._httpClient.put(AUTH_API+ 'attendance/markJustifiedAbsent', attendance)
                 .subscribe(response => {
                     this.getAttendances();
@@ -438,8 +413,6 @@ export class AttendanceService implements Resolve<any>
                     
                     this.checkedAttendance = response;
                     this.onCheckedAttendanceChanged.next(this.checkedAttendance);
-                    console.log("checking attendance")
-                    console.log(this.checkedAttendance)
                     resolve(this.checkedAttendance);
                 }, reject);
         }
