@@ -151,6 +151,7 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
 
         this.dialogRef = this._matDialog.open(ParticipantFormComponent, {
 
+            disableClose: true ,
             panelClass: 'contact-form-dialog',
             data: {
                 contact: contact,

@@ -220,6 +220,7 @@ alertDialog: MatDialogRef<AlertDialogComponent>;
      */
     newClass(): void {
         this.dialogRef = this.dialog.open(ClassFormComponent, {
+            disableClose: true ,
             panelClass: 'classe-form-dialog',
             data: {
                 action: 'new',
@@ -361,6 +362,7 @@ this.confirmDialogRef = null;
       */
     editProgramInst(programInst): void {
         this.dialogRef = this.dialog.open(ClassFormComponent, {
+            disableClose: true ,
             panelClass: 'cursus-form-dialog',
             data: {
                 programInst: programInst,

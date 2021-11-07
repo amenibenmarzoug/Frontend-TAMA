@@ -249,12 +249,12 @@ export class EntreprisesService implements Resolve<any>
 
     addEntreprise(entreprise): Promise<any> {
         return new Promise((resolve, reject) => {
-            entreprise.password = entreprise.phoneNumber;
+            //entreprise.password = entreprise.phoneNumber;
             /*if (this.classe != null) {
                 entreprise.programInstance = classe;
             }
             this.classe = null;*/
-
+            console.log("ENTREPRISE SERVICE")
             console.log(entreprise);
             this._httpClient.post(AUTH_API + 'auth/signupEnterprise', entreprise)
                 .subscribe(response => {

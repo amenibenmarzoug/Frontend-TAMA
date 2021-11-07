@@ -294,7 +294,7 @@ export class ParticipantsService implements Resolve<any>
      * @param contact
      * @returns {Promise<any>}
      */
-    addParticipant(contact, entreprise, classe): Promise<any> {
+    addParticipant(contact): Promise<any> {
         return new Promise((resolve, reject) => {
           
             this._httpClient.post(environment.backend_url+ 'api/signupParticipantManag', contact)

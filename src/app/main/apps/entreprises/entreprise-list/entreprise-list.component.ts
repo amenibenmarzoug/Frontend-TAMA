@@ -121,6 +121,7 @@ export class EntrepriseListComponent implements OnInit, OnDestroy {
      */
     editContact(contact): void {
         this.dialogRef = this._matDialog.open(EntrepriseFormComponent, {
+            disableClose: true,
             panelClass: 'contact-form-dialog',
             data: {
                 contact: contact,
@@ -151,12 +152,12 @@ export class EntrepriseListComponent implements OnInit, OnDestroy {
                                   console.log(err);
                                   // reject(err); // Here.
                               });*/
-                              console.log("ENTERPRISE");
-                              console.log(contact);
-                              let company=new Entreprise(formData.getRawValue());
-                              company.validated=contact.validated;
+                        console.log("ENTERPRISE");
+                        console.log(contact);
+                        let company = new Entreprise(formData.getRawValue());
+                        company.validated = contact.validated;
                         //this._entreprisesService.updateContact1(new Entreprise(formData.getRawValue()), this._entreprisesService.classe).subscribe(
-                            this._entreprisesService.updateContact1(company).subscribe(
+                        this._entreprisesService.updateContact1(company).subscribe(
 
                             data => {
                                 this._entreprisesService.getContacts();
@@ -233,7 +234,7 @@ export class EntrepriseListComponent implements OnInit, OnDestroy {
         this._entreprisesService.ValidateContact(contact)
     }
 
-    refuseCompany(company){
+    refuseCompany(company) {
         this._entreprisesService.refuseCompany(company);
     }
     /**

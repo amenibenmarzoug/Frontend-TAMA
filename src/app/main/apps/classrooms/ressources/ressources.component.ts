@@ -90,6 +90,7 @@ export class RessourcesComponent implements OnInit, OnDestroy {
      */
     newEquipment(): void {
         this.dialogRef = this._matDialog.open(RessourcesFormComponent, {
+            disableClose: true ,
             panelClass: 'equipment-form-dialog',
             data: {
                 action: 'new'

@@ -140,7 +140,7 @@ export class ParticipantFormComponent {
             lastNameP: [this.contact.lastNameP,Validators.required],
             level: [this.contact.level, Validators.required],
             gender: [this.contact.gender, Validators.required],
-            company: [this.contact.entreprise],
+            entreprise: [this.contact.entreprise],
             programInstance: [this.contact.programInstance],
             currentPosition: [this.contact.currentPosition,Validators.required],
             experience : [this.contact.experience],
@@ -185,7 +185,8 @@ export class ParticipantFormComponent {
     // tslint:disable-next-line:typedef
     getEntrepriseForm(event) {
 
-        this._ParticipantsService.entreprise = event;
+        //this._ParticipantsService.entreprise = event;
+        this.contactForm.patchValue({entreprise:event})
     }
     // getGroupForm(event) {
 

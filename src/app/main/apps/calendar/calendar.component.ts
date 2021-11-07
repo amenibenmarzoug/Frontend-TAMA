@@ -308,6 +308,7 @@ export class CalendarComponent implements OnInit {
         const eventIndex = this.events.indexOf(event);
 
         this.dialogRef = this._matDialog.open(CalendarEventFormDialogComponent, {
+            disableClose: true ,
             panelClass: 'event-form-dialog',
             data: {
                 event: event,
@@ -350,6 +351,7 @@ export class CalendarComponent implements OnInit {
      */
     addEvent(): void {
         this.dialogRef = this._matDialog.open(CalendarEventFormDialogComponent, {
+            disableClose: true ,
             panelClass: 'event-form-dialog',
             data: {
                 action: 'new',

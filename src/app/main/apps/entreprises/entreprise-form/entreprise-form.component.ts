@@ -105,7 +105,7 @@ export class EntrepriseFormComponent implements OnInit {
 
         const url = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
         const regx = '[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)';
-        const phone = '^[0-9]*$';
+        const phone = '^[\+]?[0-9]*$';
         const code = '^[0-9]*$';
         console.log("create");
         console.log(this.contact)

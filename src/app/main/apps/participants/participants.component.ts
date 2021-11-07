@@ -93,6 +93,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy {
      */
     newContact(): void {
         this.dialogRef = this._matDialog.open(ParticipantFormComponent, {
+            disableClose: true ,
             panelClass: 'contact-form-dialog',
             data: {
                 action: 'new'
@@ -108,7 +109,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy {
                 participant.status='WAITING';
                 console.log("PARTICIPANT");
                 console.log(participant);
-                this._participantsService.addParticipant(participant, this._participantsService.entreprise, this._participantsService.classe);
+                this._participantsService.addParticipant(participant);
 
             });
     }

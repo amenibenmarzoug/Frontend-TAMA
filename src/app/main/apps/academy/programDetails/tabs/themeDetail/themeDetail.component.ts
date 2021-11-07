@@ -103,6 +103,7 @@ export class ThemeDetailComponent implements OnInit, OnDestroy {
         else {
             this._themeDetailsService.getThemeDetailDaysAffected();
             this.dialogRef = this._matDialog.open(ThemeDetailFormComponent, {
+                disableClose: true ,
                 panelClass: 'theme-detail-form-dialog',
                 data: {
                     action: 'new',

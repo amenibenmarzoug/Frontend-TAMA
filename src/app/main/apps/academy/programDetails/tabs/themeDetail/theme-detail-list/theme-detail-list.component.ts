@@ -118,6 +118,7 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
      */
     editThemeDetail(themeDetail): void {
         this.dialogRef = this._matDialog.open(ThemeDetailFormComponent, {
+            disableClose: true ,
             panelClass: 'theme-detail-form-dialog',
             data: {
                 themeDetail: themeDetail,

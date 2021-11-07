@@ -122,6 +122,7 @@ export class InstitutionListComponent implements OnInit, OnDestroy
     editContact(contact): void
     {
         this.dialogRef = this._matDialog.open(InstitutionFormComponent, {
+            disableClose: true ,
             panelClass: 'contact-form-dialog',
             data      : {
                 contact: contact,

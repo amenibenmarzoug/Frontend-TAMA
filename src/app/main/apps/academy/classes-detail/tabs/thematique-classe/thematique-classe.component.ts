@@ -158,7 +158,8 @@ export class ThematiqueClasseComponent implements OnInit {
     */
   editThemeInst(themeInst): void {
       this.dialogRef = this.dialog.open(ThematiqueInstFormComponent, {
-          panelClass: 'theme-form-dialog',
+        disableClose: true ,  
+        panelClass: 'theme-form-dialog',
           data: {
               themeInst: themeInst,
               action: 'edit'
