@@ -1,4 +1,4 @@
-import { Program } from '../academy/program.model';
+import { Program } from 'app/shared/models/program.model';
 import { FuseUtils } from '@fuse/utils';
 
 

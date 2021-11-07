@@ -4,6 +4,14 @@ import { takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { ProfileService } from 'app/main/pages/profile/profile.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ParticipantFormComponent } from 'app/main/apps/participants/participant-form/participant-form.component';
+import { Participant } from 'app/shared/models/participant.model';
+import { FormGroup } from '@angular/forms';
+import { ResetPasswordComponent } from 'app/main/pages/authentication/reset-password/reset-password.component';
+import { ResetPassword2Component } from 'app/main/pages/authentication/reset-password-2/reset-password-2.component';
+
+import { ResetPasswordProfileComponent } from '../reset-password/reset-password.component';
 
 @Component({
     selector: 'profile-about',
@@ -22,6 +30,7 @@ export class ProfileAboutComponent implements OnInit, OnDestroy {
     isParticipant: boolean;
     isInstitution: boolean;
     isEntreprise: boolean;
+    dialogRef: any;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -32,7 +41,8 @@ export class ProfileAboutComponent implements OnInit, OnDestroy {
      * @param {ProfileService} _profileService
      */
     constructor(
-        private _profileService: ProfileService
+        private _profileService: ProfileService ,
+        private _matDialog: MatDialog
     ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -87,6 +97,31 @@ export class ProfileAboutComponent implements OnInit, OnDestroy {
         console.log(this._profileService.aboutOnChanged);
         console.log(this.trainer);
         console.log(this.about);
+    }
+
+    setPassword(): void {
+     
+            this.dialogRef = this._matDialog.open(ResetPasswordProfileComponent, {
+                panelClass: 'contact-form-dialog',
+               /*  data: {
+                    action: 'new'
+                } */
+            });
+    
+            this.dialogRef.afterClosed()
+                .subscribe((response: FormGroup) => {
+                    if (!response) {
+                        return;
+                    }
+                    console.log(response[0].value);
+                  //  let participant=new Participant();
+                   // participant.status='WAITING';
+                    //console.log("PARTICIPANT");
+                   // console.log(participant);
+                   // this._participantsService.addParticipant(participant, this._participantsService.entreprise, this._participantsService.classe);
+    
+                });
+        
     }
 
     /**

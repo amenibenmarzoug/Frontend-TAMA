@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ProgramInst } from 'app/main/apps/academy/programInst.model';
-import { Program } from './program.model';
+import { Program } from 'app/shared/models/program.model';
 import { Theme } from 'app/shared/models/theme.model';
 import { ModuleInst } from '../academy/program-inst-detail/tabs/module-inst/moduleInst.model';
 import { Module } from 'app/shared/models/module.model';

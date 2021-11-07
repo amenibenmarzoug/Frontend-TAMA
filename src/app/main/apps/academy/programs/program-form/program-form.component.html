@@ -25,6 +25,18 @@
                 <input matInput name="nbDaysProg" formControlName="nbDaysProg" required
                     [(ngModel)]="program.nbDaysProg">
             </mat-form-field>
+            <mat-form-field appearance="outline" class="w-100-p">
+                <mat-label>Nombre max des participants</mat-label>
+                <mat-icon matSuffix class="secondary-text">person</mat-icon>
+                <input matInput name="nbMaxParticipants" formControlName="nbMaxParticipants" required
+                    [(ngModel)]="program.nbMaxParticipants">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-100-p">
+                <mat-label>Nombre min des participants</mat-label>
+                <mat-icon matSuffix class="secondary-text">person</mat-icon>
+                <input matInput name="nbMinParticipants" formControlName="nbMinParticipants" required
+                    [(ngModel)]="program.nbMinParticipants">
+            </mat-form-field>
 
 
         </form>

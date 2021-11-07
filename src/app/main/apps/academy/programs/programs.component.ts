@@ -148,7 +148,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
                 if (!response) {
                     return;
                 }
-
+                 console.log(response.getRawValue())
                 this._academyProgramsService.addProgram(response.getRawValue());
             });
     }

@@ -5,7 +5,7 @@ import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
 import { Module } from '../../../../shared/models/module.model';
 import { FuseUtils } from '@fuse/utils';
 import { ThemeDetail } from 'app/shared/models/themeDetail.model';
-import { Program } from '../program.model';
+import { Program } from 'app/shared/models/program.model';
 import { Theme } from 'app/shared/models/theme.model';
 import {environment} from 'environments/environment';
 const AUTH_API = environment.backend_url+ 'api/';
