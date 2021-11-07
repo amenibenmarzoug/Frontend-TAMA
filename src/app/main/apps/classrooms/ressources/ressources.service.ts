@@ -195,6 +195,8 @@ export class RessourcesService implements Resolve<any>
         });
     }
     updateEquipment(equipment): Promise<any> {
+        console.log("equipment ")
+        console.log(equipment) ; 
         return new Promise((resolve, reject) => {
             this._httpClient.put(AUTH_API + 'equipmentClassroom', equipment)
                 .subscribe(response => {

@@ -29,6 +29,7 @@ export class SidebarsComponent implements OnInit {
   selectedSession: any ; 
 
   attendances : any[] ; 
+  classes : any[] ; 
   participants : any[] ; 
   checkedAttendance : boolean;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
@@ -36,6 +37,7 @@ export class SidebarsComponent implements OnInit {
   // Private
   private _unsubscribeAll: Subject<any>;
     selectedDate: any;
+    selectedClass: any;
 
   /**
    * Constructor
@@ -92,6 +94,14 @@ export class SidebarsComponent implements OnInit {
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(participants => {
               this.participants = participants;
+
+          });
+          this.attendanceService.onClassesChanged
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe(classes => {
+              this.classes = classes;
+              console.log("this classes")
+              console.log(this.classes)
 
           });
   }
@@ -168,6 +178,11 @@ export class SidebarsComponent implements OnInit {
 
 
     }
+    selectClass(group): void {
+        this.selectedClass = group
+        console.log(this.selectedClass)
+        this.attendanceService.onFilterByClassChanged.next(group);
+    }
 
    
   selectSession(session): void {
@@ -200,5 +215,28 @@ export class SidebarsComponent implements OnInit {
         });
       }
   }
+
+  resetFilters(): void {
+    const reset =null ; 
+    this.attendanceService.onSearchTextChanged.next(''); 
+    this.attendanceService.filterByDate=null ; 
+    this.attendanceService.filterByClasse=null ; 
+    this.attendanceService.filterBy=null ; 
+    this.attendanceService.session=null ;
+    this.attendanceService.onFilterChanged.next(null) ;  
+    this.ngOnInit();
+    this.selectedClass = null ; 
+    this.selectedDate = null ; 
+    this.selectedSession=null ;
+    this.attendanceService.onFilterByClassChanged.next(reset)
+
+
+    /*
+    this.attendanceService.onFilterByDateChanged.next(reset);
+    this.attendanceService.onFilterByClassChanged.next(reset);
+    this.attendanceService.onFilterChanged.next(reset);
+    */
+   
+}
 
 }

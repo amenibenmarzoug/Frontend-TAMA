@@ -22,9 +22,11 @@ export class AttendanceService implements Resolve<any>
     participants: Participant[] ; 
     onAttendancesChanged :  BehaviorSubject<any>;
     onSessionsChanged :  BehaviorSubject<any>;
+    onClassesChanged : BehaviorSubject<any>;
     onClassChanged :  BehaviorSubject<any>;
     onParticipantsChanged : BehaviorSubject<any>;
     onSelectedAttendancesChanged: BehaviorSubject<any>;
+    onFilterByClassChanged:Subject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
     onFilterByDateChanged : Subject<any>;
@@ -34,8 +36,10 @@ export class AttendanceService implements Resolve<any>
     attendance : Attendance ; 
     session : Session ;
     class : any ; 
+    classes : any[] ; 
     searchText: string;
     filterBy: any;
+    filterByClasse: any;
     id: number;
     filterByDate: any ; 
     checkedAttendance: boolean;
@@ -57,12 +61,14 @@ export class AttendanceService implements Resolve<any>
         //----attendance---
         this.onAttendancesChanged= new BehaviorSubject([]);
         this.onSessionsChanged=new  BehaviorSubject([]);
+        this.onClassesChanged = new  BehaviorSubject([]);
         this.onClassChanged= new  BehaviorSubject([]);
         this.onParticipantsChanged= new  BehaviorSubject([]);
         this.onFilterChanged = new Subject();
         this.onFilterByDateChanged = new Subject();
         this.onCheckedAttendanceChanged = new Subject();
         this.onAttendanceCheckedSessionsChanged =new Subject();
+        this.onFilterByClassChanged=new Subject();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -84,6 +90,7 @@ export class AttendanceService implements Resolve<any>
             Promise.all([
                 this.getMySessionsByDate(),
                 this.getAttendanceCheckedSessions(),
+                this.getClasses() , 
 
             ]).then(
                 ([files]) => {
@@ -102,6 +109,15 @@ export class AttendanceService implements Resolve<any>
                         //this.checkAttendance() ; 
                         //this.getContacts();
                     });
+
+                    this.onFilterByClassChanged.subscribe(group => {
+                        this.filterByClasse = group;
+                        
+                        this.getMySessionsByDate();
+                        this.getAttendanceCheckedSessions();
+                        this.getAttendances();
+                    });
+
 
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
@@ -130,11 +146,29 @@ export class AttendanceService implements Resolve<any>
             this._httpClient.get(environment.backend_url+ 'api/session/trainerId/'+this.user.id)
                 .subscribe((response: any) => {
                     console.log(response);
-                    this.sessions = [];
+                    this.sessions = response;
+                    this.sessions.sort(function (x, y) {
+                        const a = new Date(x.sessionBeginDate)
+                        const b = new Date(y.sessionBeginDate)
+                        if (a.getTime() < b.getTime()) { return -1; }
+                        if (a.getTime()> b.getTime()) { return 1; }
+                        return 0;
+                    })
                     
                     //filterBy would be the date selected by the trainer
                     console.log("THIS FILTEREDBY");
                     console.log(this.filterByDate);
+                    if (this.filterByClasse != null) {
+                        this.sessions = this.sessions.filter(session => {
+                            
+                            if (session.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == this.filterByClasse.id) {
+                                return true;
+                            }
+                            return false;
+                        });
+    
+                    }
+
                     if (this.filterByDate != null) {
                         this.sessions = response;
                         
@@ -165,6 +199,41 @@ export class AttendanceService implements Resolve<any>
         } );
      }
      
+
+     getClasses(): Promise<any> {
+   
+        return new Promise((resolve, reject) => {
+            
+            this._httpClient.get(AUTH_API+ 'session/classestrainer/' + this.user.id)
+            .subscribe((response: any) => {
+                this.classes = response;
+               
+                this.onClassesChanged.next(this.classes);
+                resolve(this.classes);
+            }, reject);
+        } );
+     }
+
+     getParticipants(): Promise<any> {
+        
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'participantRegistrations/participants/trainer/' + this.user.id)
+                .subscribe((response: any) => {
+                    this.participants = response;
+
+                    this.participants.sort(function (a, b) {
+                        if (a.firstNameP.toLowerCase() < b.firstNameP.toLowerCase()) { return -1; }
+                        if (a.firstNameP.toLowerCase() > b.firstNameP.toLowerCase()) { return 1; }
+                        return 0;
+                    })
+                    this.onParticipantsChanged.next(this.participants);
+                    resolve(this.participants);
+
+                }, reject);
+        }
+        );
+    }
      /**
      * Get class
      *
@@ -178,7 +247,7 @@ export class AttendanceService implements Resolve<any>
                         
                         this.class = response;
                         this.onClassChanged.next(this.class);
-                        this.getParticipantsOfSelectedSession() ; 
+                        this.getParticipantsOfSelectedClass() ; 
 
                         console.log("Classe")
                         console.log(this.class)
@@ -210,13 +279,15 @@ export class AttendanceService implements Resolve<any>
      * @returns {Promise<any>}
      */
 
-     getParticipantsOfSelectedSession():Promise<any> {
+    
+
+    getParticipantsOfSelectedClass():Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API+ 'participants/classId/'+this.class.id)
+            this._httpClient.get(AUTH_API+ 'participants/classId/'+this.filterByClasse.id)
                 .subscribe((response: any) => {
                     this.participants = response;
                     this.onParticipantsChanged.next(this.participants);
-
+    
                     console.log("participants")
                     console.log(this.participants)
                     resolve(this.participants);
