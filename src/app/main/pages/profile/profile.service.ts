@@ -268,12 +268,12 @@ export class ProfileService implements Resolve<any>
     resetPassword(contact){
         return new Promise((resolve, reject) => {
           
-           /*  this._httpClient.post(environment.backend_url+ 'auth/resetPassword/' + this.userId, contact[2])
+         this._httpClient.post(environment.backend_url+ 'api/auth/resetPassword/' + this.userId, contact)
 
                 .subscribe(response => {
                    
                     resolve(response);
-                }); */
+                }); 
                 console.log(contact.password)
                 console.log(this.userId)
         });
