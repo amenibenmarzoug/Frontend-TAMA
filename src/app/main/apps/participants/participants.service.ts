@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
@@ -36,7 +36,7 @@ export class ParticipantsService implements Resolve<any>
     // cursus: any;
     groupeId: number;
     entreprises: Participant[];
-    classes: Participant[];
+    classes: any[];
     programs: Program[];
     contactSelected: Participant[];
     searchText: string;
@@ -109,7 +109,7 @@ export class ParticipantsService implements Resolve<any>
      */
     getContacts(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get(environment.backend_url+ 'api/participants')
+            this._httpClient.get(AUTH_API+ 'participants')
                 .subscribe((response: any) => {
 
                     this.participants = response;
@@ -169,7 +169,60 @@ export class ParticipantsService implements Resolve<any>
         );
     }
 
+    
+    getParticipantsByStatus(status): Promise<any> {
 
+        let sts = new HttpParams().set('status', status);
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API+ 'participants/status', { params: sts })
+                .subscribe((response: any) => {
+                    this.participants=response;
+                    this.onContactsChanged.next(this.participants);
+                    resolve(this.participants);
+                }, reject);
+        }
+        );
+    }
+
+    getParticipantsByClass(id): Promise<any> {
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API+ 'participants/classId/'+id)
+                .subscribe((response: any) => {
+                    this.participants=response;
+                    this.onContactsChanged.next(this.participants);
+                    resolve(this.participants);
+                }, reject);
+        }
+        );
+    }
+
+    getClasses(): Promise<any> {
+   
+        return new Promise((resolve, reject) => {
+            
+            this._httpClient.get(AUTH_API+ 'confirmedClasses')
+            .subscribe((response: any) => {
+                this.classes = response;
+                this.onClassesChanged.next(this.classes);
+                resolve(this.classes);
+            }, reject);
+        } );
+     }
+     
+
+    getParticipantsWithoutRegistration(): Promise<any> {
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API+ 'participants/withoutRegistration')
+                .subscribe((response: any) => {
+                    this.participants=response;
+                    this.onContactsChanged.next(this.participants);
+                    resolve(this.participants);
+                }, reject);
+        }
+        );
+    }
 
 
 
@@ -189,21 +242,7 @@ export class ParticipantsService implements Resolve<any>
         );
     }
 
-    getClasses(): Promise<any> {
-
-
-        return new Promise((resolve, reject) => {
-            this._httpClient.get(environment.backend_url+ 'api/programsInst')
-                .subscribe((response: any) => {
-                    this.onClassesChanged.next(response);
-                    this.classes = response;
-                    // console.log(response);
-                    resolve(response);
-                }, reject);
-        }
-        );
-    }
-
+ 
 
     getUserData(): Promise<any> {
         return new Promise((resolve, reject) => {

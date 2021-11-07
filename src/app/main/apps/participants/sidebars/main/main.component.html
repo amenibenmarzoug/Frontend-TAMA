@@ -12,12 +12,12 @@
 
                 <div class="nav-item" aria-label="inbox">
                     <a class="nav-link" matRipple (click)="changeFilter('all')"
-                       [ngClass]="{'active accent':filterBy ==='all'}">
+                        [ngClass]="{'active accent':filterBy ==='all'}">
                         <span class="title">Tous les Participants</span>
                     </a>
                 </div>
 
-<!--                 <div class="nav-item" aria-label="Pilier 1" (click)="changeFilter('pilier1')">
+                <!--<div class="nav-item" aria-label="Pilier 1" (click)="changeFilter('pilier1')">
                     <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy ==='pilier1'}">
                         <div class="title">Pilier 1</div>
                     </a>
@@ -36,16 +36,44 @@
 
                 <div class="nav-item" aria-label="Pilier 1" (click)="changeFilter('with')">
                     <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy ==='with'}">
-                        <div class="title">Avec Comptes</div>
+                        <div class="title">Avec Compte</div>
                     </a>
                 </div>
                 <div class="nav-item" aria-label="Pilier 2" (click)="changeFilter('without')">
                     <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy ==='without'}">
-                        <div class="title">Sans comptes</div>
+                        <div class="title">Sans Compte</div>
                     </a>
+                </div>
+                <div class="nav-item" aria-label="Acceptés" (click)="chooseStatus('ACCEPTED')">
+                    <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy ==='ACCEPTED'}">
+                        <div class="title">Acceptés</div>
+                    </a>
+                </div>
+                <div class="nav-item" aria-label="En Attente" (click)="chooseStatus('WAITING')">
+                    <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy ==='WAITING'}">
+                        <div class="title">En Attente</div>
+                    </a>
+                </div>
+                <div class="nav-item" aria-label="Sans Classe" (click)="chooseUnregistered('unregistered')">
+                    <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy ==='unregistered'}">
+                        <div class="title">Sans Classe</div>
+                    </a>
+                    
+                </div>
+                <div  aria-label="Classe" fxLayoutAlign="center center">
+                    <mat-form-field appearance="outline" class="category-selector " fxFlex="90">
+                        <mat-label> Classe</mat-label>
+                        <mat-select (selectionChange)="chooseByClass($event.value)">
+    
+                            <mat-option *ngFor="let classe of classes" [value]="classe">
+                                {{ classe.programInstName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
                 </div>
             </div>
 
+           
         </div>
 
     </div>
