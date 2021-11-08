@@ -95,8 +95,6 @@ export class AttendanceTrainerSidebarsComponent implements OnInit {
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(participants => {
               this.participants = participants;
-              console.log("participants init")
-              console.log(this.participants)
 
           });
 
@@ -104,8 +102,6 @@ export class AttendanceTrainerSidebarsComponent implements OnInit {
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(classes => {
               this.classes = classes;
-              console.log("this classes")
-              console.log(this.classes)
 
           });
   }
@@ -129,19 +125,15 @@ export class AttendanceTrainerSidebarsComponent implements OnInit {
 
    selectDate(sessionDate): void {
     this.selectedDate = sessionDate.toDate();
-    console.log(this.selectedDate)
     this.attendanceService.onFilterByDateChanged.next(sessionDate);
     }
 
     selectParticipant(participant): void {
-        console.log("selecting Participant")
         this.selectedParticipant = participant;
-        console.log(this.selectedParticipant)
         this.attendanceService.onFilterByParticipantChanged.next(participant);
     }
     selectClass(group): void {
         this.selectedClass = group
-        console.log(this.selectedClass)
         this.attendanceService.onFilterByClassChanged.next(group);
     }
 

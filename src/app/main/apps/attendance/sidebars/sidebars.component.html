@@ -11,7 +11,19 @@
         <!-- SIDEBAR CONTENT -->
         <div class="content py-16" fusePerfectScrollbar>
             <div class="nav material2">
-                <div class="nav-item" aria-label="Date" fxLayoutAlign="start center">
+                <div class="nav-item" aria-label="Classe" fxLayoutAlign="start center">
+                    <mat-form-field appearance="outline" class="category-selector " fxFlex>
+                        <mat-label>Filtrer par Classe</mat-label>
+                        <mat-select (selectionChange)="selectClass($event.value)" [(ngModel)]="selectedClass">
+
+                            <mat-option *ngFor="let classe of classes" [value]="classe">
+                                {{ classe.programInstName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <!-- <div class="nav-item" aria-label="Date" fxLayoutAlign="start center">
                     <mat-form-field appearance="outline" class="category-selector ">
                         <mat-label>Date de la séance </mat-label>
                         <input matInput [matDatepicker]="startDatePicker"                           
@@ -21,9 +33,9 @@
                         </mat-datepicker-toggle>
                         <mat-datepicker #startDatePicker></mat-datepicker>
                     </mat-form-field>
-                </div>
+                </div> -->
 
-                <!--
+                
                
                 <div class="nav-item" aria-label="Séance" fxLayoutAlign="start center">
                     <mat-form-field appearance="outline" class="category-selector " fxFlex>
@@ -32,15 +44,24 @@
                             required>
                         
                             <mat-option *ngFor="let session of courseSessions" [value]="session">
-                                {{ session.sessionName }}
+                                {{session.sessionBeginDate | date:'fullDate' }} à  
+                                {{session.sessionBeginDate | date:'shortTime' }}  
+                               <!--  --  {{ session.sessionName }} -->
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
-            -->
+            
                 <div class="message-box warning"  *ngIf="courseSessions.length == 0 && selectedDate != null">
                     Pas de séances disponibles pour cette Date ! 
                 </div>
+
+                <div class="nav-item" aria-label="resetFilters" fxLayoutAlign="start center" >
+                    <div class="init-button">
+                    <button mat-raised-button class="mat-accent" (click)="resetFilters()" fxFlex >
+                        Réinitialiser les filtres</button>
+                    </div>
+            </div>
             </div>
         </div>
 

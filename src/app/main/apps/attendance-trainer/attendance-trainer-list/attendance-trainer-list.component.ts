@@ -123,7 +123,6 @@ export class FilesDataSource extends DataSource<any>
    * @returns {Observable<any[]>}
    */
   connect(): Observable<any[]> {
-      console.log(this.attendanceService.onAttendancesChanged)
       return this.attendanceService.onAttendancesChanged;
   }
 

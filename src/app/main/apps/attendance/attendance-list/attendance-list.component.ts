@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation
 import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DataSource } from '@angular/cdk/collections';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { merge, Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
@@ -13,6 +13,8 @@ import localeFr from '@angular/common/locales/fr';
 import { Router } from '@angular/router';
 import { AttendanceService } from 'app/main/apps/attendance/attendance.service';
 import { DateAdapter } from '@angular/material/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { Attendance } from 'app/shared/models/attendance.model';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -28,6 +30,9 @@ export class AttendanceListComponent implements OnInit  {
 
   @ViewChild('dialogContent')
   dialogContent: TemplateRef<any>;
+
+  @ViewChild(MatPaginator, {static: true})
+    paginator: MatPaginator;
   courseSessions: any[] = [];
   user: any;
   dataSource: FilesDataSource | null;
@@ -70,7 +75,7 @@ export class AttendanceListComponent implements OnInit  {
    * On init
    */
   ngOnInit(): void {
-      this.dataSource = new FilesDataSource(this.attendanceService);
+      this.dataSource = new FilesDataSource(this.attendanceService, this.paginator);
       this.attendanceService.onAttendancesChanged
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(attendances => {
@@ -119,15 +124,20 @@ markJustifiedAbsent(attendance){
 
 export class FilesDataSource extends DataSource<any>
 {
+    filteredData: Attendance[];
   /**
    * Constructor
    *
    * @param {DisponibilityTrainerService} attendanceService
    */
   constructor(
-      private attendanceService: AttendanceService
+      private attendanceService: AttendanceService,
+      private _matPaginator: MatPaginator,
   ) {
       super();
+      this.filteredData = this.attendanceService.attendances;
+      console.log("data here")
+        console.log(this.filteredData)
   }
 
   /**
@@ -135,8 +145,31 @@ export class FilesDataSource extends DataSource<any>
    * @returns {Observable<any[]>}
    */
   connect(): Observable<any[]> {
-      console.log(this.attendanceService.onAttendancesChanged)
-      return this.attendanceService.onAttendancesChanged;
+    const displayDataChanges = [
+        this.attendanceService.onAttendancesChanged,
+        this._matPaginator.page,
+       // this._filterChange,
+        //this._matSort.sortChange
+    ];
+    //return this._participantsService.onContactsChanged;
+    return merge(...displayDataChanges).pipe(map(() => {
+
+        let data = this.attendanceService.attendances.slice();
+        console.log("data here")
+        console.log(data)
+
+        //data = this.filterData(data);
+
+        this.filteredData = [...data];
+
+        //data = this.sortData(data);
+
+        // Grab the page's slice of data.
+        const startIndex = this._matPaginator.pageIndex * this._matPaginator.pageSize;
+        return data.splice(startIndex, this._matPaginator.pageSize);
+    })
+);
+     
   }
 
   /**

@@ -4,9 +4,12 @@ import { RouterModule } from '@angular/router';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { HttpClientModule } from '@angular/common/http';
-import { AttendanceManagerComponent } from './attendance-manager/attendance-manager.component';
-import { AttendanceCompanyComponent } from './attendance-company/attendance-company.component';
-import { AttendanceTrainerComponent } from './attendance-trainer/attendance-trainer.component';
+
+import { CustomPaginator } from '../../shared/customPaginatorConfiguration';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+
+
+
 
 
 
@@ -178,6 +181,9 @@ const routes = [
         RouterModule.forChild(routes),
         FuseSharedModule       
     ],
+    providers: [
+        { provide: MatPaginatorIntl, useValue: CustomPaginator() }
+      ]
    
    
 

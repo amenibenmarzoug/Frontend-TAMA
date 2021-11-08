@@ -48,8 +48,6 @@ export class ClasseParticipantsComponent implements OnInit, OnDestroy {
     ) {
         // Set the defaults
         this.dialogTitle=_data.title;
-        console.log("DATA TITLE");
-        console.log(_data)
         this.searchInput = new FormControl('');
 
         // Set the private defaults

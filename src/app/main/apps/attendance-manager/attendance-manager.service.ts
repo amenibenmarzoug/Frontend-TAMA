@@ -116,7 +116,7 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
 
         Promise.all([
             this.getAttendances(),
-            this.getAttendanceCheckedSessions(),
+            //this.getAttendanceCheckedSessions(),
             this.getParticipants(),
             this.getClasses(),
             this.getSessions()  , 
@@ -128,7 +128,7 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
                     this.filterByDate = filter;
                     this.getAttendances()
                     this.getSessions();
-                    this.getAttendanceCheckedSessions();
+                    //this.getAttendanceCheckedSessions();
                 });
 
                 this.onFilterChanged.subscribe(filter => {
@@ -153,7 +153,9 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<a
 
                 this.onFilterByClassChanged.subscribe(group => {
                     this.filterByClasse = group;
+                    if(this.filterByClasse != null) {
                     this.getParticipantsOfSelectedClass()
+                    }
                     this.getSessions() ; 
                     this.getAttendances();
                 });

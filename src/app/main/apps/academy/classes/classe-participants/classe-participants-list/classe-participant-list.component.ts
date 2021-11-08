@@ -112,7 +112,7 @@ export class ClasseParticipantListComponent implements OnInit, OnDestroy {
 
         // this.confirmDialogRef.afterClosed().subscribe(result => {
         //     if (result) {
-        //         console.log(id)
+ 
         //         this._participantsService.deleteParticipant(id);
         //     }
         //     this.confirmDialogRef = null;

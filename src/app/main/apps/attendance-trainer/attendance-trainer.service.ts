@@ -87,7 +87,6 @@ export class AttendanceTrainerService {
 
         //this user 
         this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
-        console.log("trainer : " + (this.user.id).toString())
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -128,8 +127,6 @@ export class AttendanceTrainerService {
                             this.getPresencesByTrainerIdAndParticipantId(filter.id);
 
                             this.getJustifiedAbsencesByTrainerIdAndParticipantId(filter.id);
-                            console.log("FILTER PARTICIPANT NOURHENE");
-                            console.log(this.filterByParticipant);
                         }
                         else {
                             this.filterByParticipant = filter;
@@ -145,7 +142,6 @@ export class AttendanceTrainerService {
                         }
                         else {
                             this.getParticipants() ; 
-                            console.log("excuted")
                         }
                         this.getAttendances();
                     });
@@ -179,18 +175,15 @@ export class AttendanceTrainerService {
     //this function will return the sessions of the concerned trainer in a specific date chosen in the filter
     getMySessionsByDate(): Promise<any> {
         this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
-        console.log("trainer : " + (this.user.id).toString())
 
         return new Promise((resolve, reject) => {
 
             this._httpClient.get(environment.backend_url + 'api/session/trainerId/' + this.user.id)
                 .subscribe((response: any) => {
-                    console.log(response);
+
                     this.sessions = response;
 
                     //filterBy would be the date selected by the trainer
-                    console.log("THIS FILTEREDBY");
-                    console.log(this.filterByDate);
                     if (this.filterByDate != null) {
                        // this.sessions = response;
 
@@ -203,8 +196,6 @@ export class AttendanceTrainerService {
 
                         });
                     }
-                    console.log("Sessionss")
-                    console.log(this.sessions)
                     this.onSessionsChanged.next(this.sessions);
                     resolve(this.sessions);
                 }, reject);
@@ -224,9 +215,6 @@ export class AttendanceTrainerService {
                     this.class = response;
                     this.onClassChanged.next(this.class);
                     this.getParticipantsOfSelectedClass();
-
-                    console.log("Classe")
-                    console.log(this.class)
                     resolve(this.class);
                 }, reject);
         }
@@ -239,9 +227,6 @@ export class AttendanceTrainerService {
                 responseType: 'blob'
             })
                 .subscribe((response: any) => {
-
-                    console.log("RESPONSE SERVICE");
-                    console.log(response);
                     resolve(response);
                 }, reject);
         }
@@ -262,9 +247,6 @@ export class AttendanceTrainerService {
                 .subscribe((response: any) => {
                     this.participants = response;
                     this.onParticipantsChanged.next(this.participants);
-    
-                    console.log("participants")
-                    console.log(this.participants)
                     resolve(this.participants);
                 }, reject);
         }
@@ -279,7 +261,6 @@ export class AttendanceTrainerService {
 
     getAttendances(): Promise<any> {
         this.user = JSON.parse(sessionStorage.getItem(USER_KEY));
-        console.log("trainer : " + (this.user.id).toString())
 
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'attendance/trainer/' + this.user.id)
@@ -309,7 +290,6 @@ export class AttendanceTrainerService {
                     if (this.filterBy != null) {
                         this.attendances = this.attendances.filter(attendance => {
                             if (attendance.session.id == this.filterBy.id) {
-                                console.log("True");
                                 return true;
                             }
                             return false;
@@ -412,9 +392,6 @@ export class AttendanceTrainerService {
                             return false;
                         });
                     }
-
-                    console.log("sessions checked by this trainer")
-                    console.log(this.attendanceCheckedSessions)
                     this.onAttendanceCheckedSessionsChanged.next(this.attendanceCheckedSessions);
                     resolve(this.attendanceCheckedSessions);
                 }, reject);
@@ -428,8 +405,6 @@ export class AttendanceTrainerService {
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'attendance/participant/trainer/presence', { params: param })
                 .subscribe((response: any) => {
-                    console.log("TRAINER PARTICIPANT ATTENDANCE");
-                    console.log(response)
                     resolve(response);
                     this.onPresenceNumberChanged.next(response);
                 }, reject);
@@ -443,8 +418,6 @@ export class AttendanceTrainerService {
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'attendance/participant/trainer/absence', { params: param })
                 .subscribe((response: any) => {
-                    console.log("TRAINER PARTICIPANT ATTENDANCE");
-                    console.log(response)
                     resolve(response);
                     this.onAbsenceNumberChanged.next(response);
                 }, reject);
@@ -458,8 +431,6 @@ export class AttendanceTrainerService {
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'attendance/participant/trainer/justified', { params: param })
                 .subscribe((response: any) => {
-                    console.log("TRAINER PARTICIPANT ATTENDANCE");
-                    console.log(response)
                     resolve(response);
                     this.onJustifiedAbsenceNumberChanged.next(response);
                 }, reject);
@@ -470,9 +441,6 @@ export class AttendanceTrainerService {
 
     markPresent(attendance): Promise<any> {
         return new Promise((resolve, reject) => {
-
-            console.log("attendance IN SERVICE");
-            console.log(attendance);
             this._httpClient.put(AUTH_API + 'attendance/markPresent', attendance)
                 .subscribe(response => {
                     this.getAttendances();
@@ -488,8 +456,6 @@ export class AttendanceTrainerService {
     markAbsent(attendance): Promise<any> {
         return new Promise((resolve, reject) => {
 
-            console.log("attendance IN SERVICE");
-            console.log(attendance);
             this._httpClient.put(AUTH_API + 'attendance/markAbsent', attendance)
                 .subscribe(response => {
                     this.getAttendances();
@@ -505,8 +471,6 @@ export class AttendanceTrainerService {
     markJustifiedAbsent(attendance): Promise<any> {
         return new Promise((resolve, reject) => {
 
-            console.log("attendance IN SERVICE");
-            console.log(attendance);
             this._httpClient.put(AUTH_API + 'attendance/markJustifiedAbsent', attendance)
                 .subscribe(response => {
                     this.getAttendances();
@@ -530,8 +494,6 @@ export class AttendanceTrainerService {
                         
                         this.checkedAttendance = response;
                         this.onCheckedAttendanceChanged.next(this.checkedAttendance);
-                        console.log("checking attendance")
-                        console.log(this.checkedAttendance)
                         resolve(this.checkedAttendance);
                     }, reject);
             }

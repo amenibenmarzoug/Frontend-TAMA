@@ -110,12 +110,10 @@ export class AttendanceTrainerComponent implements OnInit {
     .subscribe(participant => {
       if (participant ==null) 
       {
-        console.log("testttt")
         this.selectedParticipant==null ; 
       }
       this.selectedParticipant = participant;
-      console.log("main componet participant changing")
-      console.log(this.selectedParticipant)
+  
     });
 
     this.selectedParticipant=this.attendanceService.filterByParticipant;
@@ -126,8 +124,6 @@ export class AttendanceTrainerComponent implements OnInit {
 
     if (this.attendanceService.session != null) {
       this.attendanceService.generateReport(this.attendanceService.session.id).then((data) => {
-        console.log("REPORT");
-        console.log(data);
         //const data = 'some text';
         this.fileName="liste_presence_"+this.attendanceService.session.sessionName+".pdf"
         //const blob = new Blob([data], { type: 'application/pdf' });
@@ -138,7 +134,7 @@ export class AttendanceTrainerComponent implements OnInit {
       });
     }
     //this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
-    //console.log(this.fileUrl)
+
   }
 
 

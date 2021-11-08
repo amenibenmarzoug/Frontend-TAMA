@@ -70,6 +70,11 @@
                         Pas de séances disponibles pour cette Date !
                     </div>
                 </div>
+                <div class="nav-item" aria-label="warning" fxLayoutAlign="start center">
+                    <div class="message-box warning" *ngIf="attendances.length ==0 && selectedSession != null">
+                        Les absences de cette séance ne sont pas encore marquées !
+                    </div>
+                </div>
                 <div class="nav-item" aria-label="resetFilters" fxLayoutAlign="start center">
                     <div class="init-button">
                         <button mat-raised-button class="mat-accent" (click)="resetFilters()" fxFlex>

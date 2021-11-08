@@ -29,6 +29,7 @@ export class SidebarsComponent implements OnInit {
   selectedSession: any ; 
 
   attendances : any[] ; 
+  classes : any[] ; 
   participants : any[] ; 
   checkedAttendance : boolean;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
@@ -36,6 +37,7 @@ export class SidebarsComponent implements OnInit {
   // Private
   private _unsubscribeAll: Subject<any>;
     selectedDate: any;
+    selectedClass: any;
 
   /**
    * Constructor
@@ -72,8 +74,7 @@ export class SidebarsComponent implements OnInit {
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(selectedSession => {
               this.selectedSession = selectedSession;
-              console.log("checking the this.seledtedSession")
-              console.log(this.selectedSession)
+
           });
 
           this.attendanceService.onAttendancesChanged
@@ -92,6 +93,12 @@ export class SidebarsComponent implements OnInit {
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(participants => {
               this.participants = participants;
+
+          });
+          this.attendanceService.onClassesChanged
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe(classes => {
+              this.classes = classes;
 
           });
   }
@@ -115,7 +122,6 @@ export class SidebarsComponent implements OnInit {
 
     selectDate(sessionDate): void {
         this.selectedDate = sessionDate.toDate();
-        console.log(this.selectedDate)
         this.attendanceService.onFilterByDateChanged.next(sessionDate);
 
         this.attendanceService.onSessionsChanged
@@ -127,13 +133,10 @@ export class SidebarsComponent implements OnInit {
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedSession => {
                 this.selectedSession = selectedSession;
-                console.log("checking the selectedSession in selectDate")
-                console.log(this.selectedSession)
-
                 //testing the attendance existing or not
                 this.checkedAttendance = false;
-                console.log("in not iterable")
-                console.log( this.attendanceService.attendanceCheckedSessions)
+
+
 
                 for (const markedSession of this.attendanceService.attendanceCheckedSessions) {
                     if (this.selectedSession.id == markedSession.id) {
@@ -141,8 +144,6 @@ export class SidebarsComponent implements OnInit {
                         break
                     }
                 }
-                console.log("this checked sessionn")
-                console.log(this.checkedAttendance)
 
                 if (this.checkedAttendance == false) {
                     this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
@@ -167,6 +168,10 @@ export class SidebarsComponent implements OnInit {
 
 
 
+    }
+    selectClass(group): void {
+        this.selectedClass = group
+        this.attendanceService.onFilterByClassChanged.next(group);
     }
 
    
@@ -200,5 +205,28 @@ export class SidebarsComponent implements OnInit {
         });
       }
   }
+
+  resetFilters(): void {
+    const reset =null ; 
+    this.attendanceService.onSearchTextChanged.next(''); 
+    this.attendanceService.filterByDate=null ; 
+    this.attendanceService.filterByClasse=null ; 
+    this.attendanceService.filterBy=null ; 
+    this.attendanceService.session=null ;
+    this.attendanceService.onFilterChanged.next(null) ;  
+    this.ngOnInit();
+    this.selectedClass = null ; 
+    this.selectedDate = null ; 
+    this.selectedSession=null ;
+    this.attendanceService.onFilterByClassChanged.next(reset)
+
+
+    /*
+    this.attendanceService.onFilterByDateChanged.next(reset);
+    this.attendanceService.onFilterByClassChanged.next(reset);
+    this.attendanceService.onFilterChanged.next(reset);
+    */
+   
+}
 
 }

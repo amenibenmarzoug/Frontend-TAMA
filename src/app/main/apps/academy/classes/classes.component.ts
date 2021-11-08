@@ -249,9 +249,6 @@ alertDialog: MatDialogRef<AlertDialogComponent>;
                   })
                 }
 
-              //  console.log("classe Form")
-               // console.log(newClass); 
-
                 this.confirmAddClass(newClass);
 
                
@@ -386,11 +383,7 @@ this.confirmDialogRef = null;
                      * Save
                      */
                     case 'save':
-                        console.log("this program inst")
-                        console.log(programInst)
 
-                        
-                        
                         let newProgramInst=new ProgramInstance(formData.getRawValue());
                     
 
@@ -408,8 +401,6 @@ this.confirmDialogRef = null;
                         newProgramInst.endDate=new Date (formData.getRawValue().endDate)
                         newProgramInst.endDate.setHours(22,0,0)
 
-                    //    console.log("after updateee")
-                     //   console.log(newProgramInst)
 
                         }
         
