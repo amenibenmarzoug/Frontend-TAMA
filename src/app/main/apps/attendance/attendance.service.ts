@@ -69,6 +69,7 @@ export class AttendanceService implements Resolve<any>
         this.onCheckedAttendanceChanged = new Subject();
         this.onAttendanceCheckedSessionsChanged =new Subject();
         this.onFilterByClassChanged=new Subject();
+        this.attendances=[] ; 
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -104,6 +105,7 @@ export class AttendanceService implements Resolve<any>
                     this.onFilterChanged.subscribe(filter => {
                         this.filterBy = filter;
                         this.session=filter ; 
+                        this.getAttendanceCheckedSessions();
                         this.getClass();
                         this.getAttendances();
                         //this.checkAttendance() ; 

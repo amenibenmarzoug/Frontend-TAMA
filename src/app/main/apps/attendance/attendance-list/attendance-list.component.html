@@ -122,3 +122,10 @@
         [ngClass]="{'accent-50':checkboxes[attendance.id]}" [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>
 </mat-table>
+
+<mat-paginator #paginator
+                           [length]="dataSource.filteredData.length"
+                           [pageIndex]="0"
+                           [pageSize]="10"
+                           [pageSizeOptions]="[5, 10, 15, 25]">
+            </mat-paginator>
