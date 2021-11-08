@@ -235,8 +235,8 @@
 
                     <div class="content mb-24" *ngIf="selectedThemeDet!=null " [hidden]="selectedThemeDet==null ">
                         <div class="message-box warning">
-                            Classe: {{selectedThemeDet.moduleInstance.themeInstance.programInstance.programInstName}}
-
+                            Thème de la journée :  <b>  {{selectedThemeDet.themeDetailInstName}} </b>  de la 
+                            Classe:  <b>{{selectedThemeDet.moduleInstance.themeInstance.programInstance.programInstName}}</b>
                         </div>
                     </div>
 
@@ -288,8 +288,8 @@
 
                     <div class="content mb-24" *ngIf="selectedThemeDet!=null " [hidden]="selectedThemeDet==null ">
                         <div class="message-box warning">
-                            Classe: {{selectedThemeDet.moduleInstance.themeInstance.programInstance.programInstName}}
-
+                            Thème de la journée :  <b>  {{selectedThemeDet.themeDetailInstName}} </b>  de la 
+                            Classe:  <b>{{selectedThemeDet.moduleInstance.themeInstance.programInstance.programInstName}}</b>
                         </div>
                     </div>
                     <form fxLayout="column" [formGroup]="horizontalStepperStep3">
@@ -407,7 +407,7 @@
                     </div>
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
                         *ngIf="selectedTrainer!=null && session!=null"> Séance: {{session.sessionName}}
-                        {{session.themeDetailInstance.themeDetail.themeDetailName}}</div>
+                        </div>
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center"
                         *ngIf="selectedTrainer!=null && session!=null && session.trainer.gender=='Féminin'">
                         Formatrice:

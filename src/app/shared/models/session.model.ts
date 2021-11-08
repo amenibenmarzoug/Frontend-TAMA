@@ -22,7 +22,7 @@ export class Session {
     constructor(session) {
         {
             this.id = session.id;// || FuseUtils.generateGUID();
-            this.classRoom = session.classRoom || '';
+            this.classRoom = session.classRoom ;
             this.sessionBeginDate = new Date(session.sessionBeginDate) || startOfDay(new Date());
             this.sessionName = session.sessionName || '';
             this.themeDetailInstance = session.themeDetailInstance || '';

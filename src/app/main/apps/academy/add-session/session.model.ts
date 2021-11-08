@@ -24,7 +24,7 @@ export class Session {
     constructor(contact) {
         {
             this.id = contact.id;// || FuseUtils.generateGUID();
-            this.classRoom = contact.classRoom || '';
+            this.classRoom = contact.classRoom;
 
             this.sessionBeginDate = new Date(contact.sessionBeginDate) || startOfDay(new Date());
             //this.institutionName= contact.classRoom.institution.institutionName || '';

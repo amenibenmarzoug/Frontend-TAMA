@@ -81,6 +81,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   programs: any[];
   sessionsByThemeDetail: any[];
   sessionsByProgram: any[];
+  sessionsByProgramNumber:number
   currentCity: any;
   themes: any[];
   modules: any[];
@@ -171,6 +172,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     },
 
   }
+  programDays: any;
   /**
    * Constructor
    *
@@ -222,39 +224,30 @@ export class AddSessionComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(classRooms => {
         this.classRooms = classRooms;
-        console.log("classRooms");
-        console.log(this.classRooms);
       });
     this._addSessionService.onProgramsChanged
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(programs => {
         this.programs = programs;
-        console.log("programs");
-        console.log(this.programs);
       });
     this._addSessionService.onThemesChanged
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(themes => {
         this.themes = themes;
-        console.log("themes");
-        console.log(this.themes);
       });
     this._addSessionService.onModulesChanged
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(modules => {
         this.modules = modules;
-        console.log("modules");
-        console.log(this.modules);
       });
     this._addSessionService.onThemeDetailsChanged
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(themeDetails => {
         this.themeDetails = themeDetails;
-        console.log("themeDetails");
-        console.log(this.themeDetails);
+       
       });
-    console.log("SELECTED TRAINERS IN INIT")
-    console.log(this._addSessionService.selectedContacts);
+
+     
     // Reactive Form
     /*this.form = this._formBuilder.group({
       company: [
@@ -442,6 +435,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
   }
 
   selectProgram(program): void {
+    this.programDays=program.nbDaysProgInst;
     this.selectedTheme = null;
     this.filteredThemes = [];
     this.horizontalStepperStep1.value.theme = null;
@@ -461,7 +455,7 @@ export class AddSessionComponent implements OnInit, OnDestroy {
     this.institutions = this._addSessionService.institutions;
     this._addSessionService.getSessionsByProgram(program.id).then(() => {
       this.sessionsByProgram = this._addSessionService.sessionsByProgram;
-
+      this.sessionsByProgramNumber=this.sessionsByProgram.length;
     }
     );
     this.programBeginDate = program.beginDate;

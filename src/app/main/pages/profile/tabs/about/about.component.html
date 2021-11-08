@@ -124,7 +124,7 @@
                     <div class="title">Spécialité</div>
                     <div class="info">
                         <ul>
-                            <li *ngFor="let specification of trainer.specifications">
+                            <li *ngFor="let specification of trainer.specifications.sort()">
                                 <span> {{specification}} </span>
                             </li>
                         </ul>

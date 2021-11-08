@@ -147,7 +147,7 @@ export class ClassFormComponent implements OnInit {
   getProgramForm(event) {
     this._programInstService.program = event;
     this.programInst.nbDaysProgInst = event.nbDaysProg;
-    this.programInst.programInstName = event.programName;
+    //this.programInst.programInstName = event.programName;
   }
 
 }

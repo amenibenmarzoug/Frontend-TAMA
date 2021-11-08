@@ -253,8 +253,7 @@ export class EditSessionService implements Resolve<any>{
                         if (this.sessions.length != 0) {
                             this.sessions.forEach(session => {
                                 this.date = new Date(session.sessionBeginDate);
-                                console.log("TRAINERRRRR");
-                                console.log(this.trainerId);
+                                
 
                                 if (this.date.toDateString() == this.selectedDate.toDateString()) {
                                     if ((session.trainer != null) && ((this.trainerId!=null)&&(session.trainer.id!=this.trainerId)) && (!this.unavailableTrainersId.includes(session.trainer.id)))
@@ -417,7 +416,7 @@ export class EditSessionService implements Resolve<any>{
     updateCourseSessionAndEvent(session): Promise<any> {
         //console.log("result");
         //console.log(contact);
-
+        console.log("Session in service")
         console.log(session);
         return new Promise((resolve, reject) => {
 

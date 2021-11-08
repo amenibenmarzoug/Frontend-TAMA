@@ -443,6 +443,7 @@ export class AddSessionService implements Resolve<any>{
 
 
                     this.sessionsByProgram = response;
+                    this.onSessionsChanged.next(response);
                     console.log(this.sessionsByProgram);
                     resolve(response);
                 }, reject);

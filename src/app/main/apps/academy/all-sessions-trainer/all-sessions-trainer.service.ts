@@ -4,16 +4,16 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { environment } from 'environments/environment';
-import {Session} from 'app/shared/models/session.model'
+import { Session } from 'app/shared/models/session.model'
 
 const AUTH_API = environment.backend_url + 'api/';
 const USER_KEY = 'auth-user';
 
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
-export class AllSessionsTrainerService  implements Resolve<any>
+export class AllSessionsTrainerService implements Resolve<any>
 {
     onSessionsChanged: BehaviorSubject<any>;
     onSpecificCourseSessionsChanged: BehaviorSubject<any>;
@@ -95,8 +95,8 @@ export class AllSessionsTrainerService  implements Resolve<any>
                 this.getModuleInst(),
                 this.getThemeDetailInst(),
                 this.getThemeInst(),
-               // this.getProgramInst(),
-               // this.getProgramInstanceByParticipantId(this.userId)
+                // this.getProgramInst(),
+                // this.getProgramInstanceByParticipantId(this.userId)
 
             ]).then(
                 ([files]) => {
@@ -136,14 +136,15 @@ export class AllSessionsTrainerService  implements Resolve<any>
 
 
                         this.sessions = response;
+                        if(this.userId!=null){
                         this.sessions = this.sessions.filter(_courseSession => {
-                            if (_courseSession.themeDetailInstance.id == this.filterBy.id) {
+                            if (_courseSession.themeDetailInstance.id == this.filterBy.id && _courseSession.trainer.id==this.userId) {
 
                                 return true;
                             }
                             return false;
                         });
-
+                    }
                     }
 
 
@@ -158,23 +159,24 @@ export class AllSessionsTrainerService  implements Resolve<any>
     }
 
     getSessionsByProgramInstanceId(programInstanceId): Promise<any> {
-       
+
 
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'session')
                 .subscribe((response: any) => {
 
-                    this.sessions=[];
+                    this.sessions = [];
                     this.sessions = response;
-                    this.sessions = this.sessions.filter(_courseSession => {
-                        if (_courseSession.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == programInstanceId) {
+                    if (this.userId != null) {
+                        this.sessions = this.sessions.filter(_courseSession => {
+                            if (_courseSession.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == programInstanceId && _courseSession.trainer.id == this.userId) {
 
-                            return true;
-                        }
-                        return false;
-                    });
+                                return true;
+                            }
+                            return false;
+                        });
 
-
+                    }
 
 
                     this.onSpecificCourseSessionsChanged.next(this.sessions);
@@ -196,10 +198,10 @@ export class AllSessionsTrainerService  implements Resolve<any>
 
 
                     this.programs = response;
-                    
-        
+
+
                     this.onProgramsChanged.next(this.programs);
-                   
+
                     resolve(this.programs);
                 }, reject);
         }
@@ -212,7 +214,7 @@ export class AllSessionsTrainerService  implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'programsInst')
                 .subscribe((response: any) => {
-                  
+
                     this.onProgramsChanged.next(response);
                     this.programs = response;
                     resolve(response);
@@ -225,7 +227,7 @@ export class AllSessionsTrainerService  implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'themesInst')
                 .subscribe((response: any) => {
-                
+
                     this.onThemesChanged.next(response);
                     this.themes = response;
                     resolve(response);
@@ -238,7 +240,7 @@ export class AllSessionsTrainerService  implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'moduleInstance')
                 .subscribe((response: any) => {
-                    
+
                     this.onModulesChanged.next(response);
                     this.modules = response;
                     resolve(response);
@@ -251,7 +253,7 @@ export class AllSessionsTrainerService  implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'themeDetailInst')
                 .subscribe((response: any) => {
-            
+
                     this.onThemeDetailsChanged.next(response);
                     this.themeDetails = response;
                     resolve(response);
