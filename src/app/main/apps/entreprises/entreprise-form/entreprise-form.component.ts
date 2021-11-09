@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EntreprisesService } from 'app/main/apps/entreprises/entreprises.service';
-import { Entreprise } from 'app/main/apps/entreprises/entreprise.model';
+import { Enterprise } from 'app/shared/models/enterprise.model';
 import { Subject } from 'rxjs';
 import { AlertDialogComponent } from '@fuse/components/alert-dialog/alert-dialog/alert-dialog.component';
 
@@ -18,8 +18,8 @@ import { takeUntil } from 'rxjs/operators';
 export class EntrepriseFormComponent implements OnInit {
     alertDialog: MatDialogRef<AlertDialogComponent>;
     action: string;
-    contact: Entreprise;
-    contactForm: FormGroup;
+    enterprise: Enterprise;
+    enterpriseForm: FormGroup;
     dialogTitle: string;
     entreprises: any[];
     classes: any[];
@@ -32,34 +32,34 @@ export class EntrepriseFormComponent implements OnInit {
      * @param {MatDialogRef<ParticipantFormComponent>} matDialogRef
      * @param _data
      * @param {FormBuilder} _formBuilder
-     * @param {EntreprisesService} _ParticipantsService
+     * @param {EntreprisesService} _EnterprisesService
      */
     constructor(
         public matDialogRef: MatDialogRef<EntrepriseFormComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder,
-        private _ParticipantsService: EntreprisesService,
+        private _EnterprisesService: EntreprisesService,
        
 
     ) {
-        this.classes = this._ParticipantsService.classes;
+        this.classes = this._EnterprisesService.classes;
         // Set the defaults
         this.action = _data.action;
 
         if (this.action === 'edit') {
             this.dialogTitle = 'Modifier Entreprise';
-            this.contact = _data.contact;
+            this.enterprise = _data.contact;
             console.log("edit");
             console.log( _data)
-            this.classe= this.contact.programInstance ; 
-            this.prestataireDeSalle=this.contact.provider
+            this.classe= this.enterprise.programInstance ; 
+            this.prestataireDeSalle=this.enterprise.provider
         }
         else {
             this.dialogTitle = 'Nouvelle Entreprise';
-            this.contact = new Entreprise({});
+            this.enterprise = new Enterprise({});
         }
 
-        this.contactForm = this.createContactForm();
+        this.enterpriseForm = this.createEnterpriseForm();
         this._unsubscribeAll = new Subject();
 
     }
@@ -76,9 +76,11 @@ export class EntrepriseFormComponent implements OnInit {
         if ((this.classe !== undefined) &&(this.classe!=null))
         {
         const toSelect = this.classes.find(p => p.id == this.classe.id);
-        this.contactForm.get('programInstance').setValue(toSelect);
-        console.log(this.contactForm.get('programInstance'))
+
+        this.enterpriseForm.get('programInstance').setValue(toSelect);
+        console.log(this.enterpriseForm.get('programInstance'))
         }*/
+
     
       }
     //ngOnInit() : void {
@@ -101,32 +103,32 @@ export class EntrepriseFormComponent implements OnInit {
      *
      * @returns {FormGroup}
      */
-    createContactForm(): FormGroup {
+    createEnterpriseForm(): FormGroup {
 
         const url = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
         const regx = '[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)';
         const phone = '^[\+]?[0-9]*$';
         const code = '^[0-9]*$';
         console.log("create");
-        console.log(this.contact)
+        console.log(this.enterprise)
         return this._formBuilder.group({
-            id: [this.contact.id],
-            enterpriseName: [this.contact.enterpriseName, [Validators.required, Validators.minLength(2)]],
-            email: [this.contact.email, [Validators.required, Validators.email]],
-            phoneNumber: [this.contact.phoneNumber, [Validators.required, Validators.pattern(phone)]],
+            id: [this.enterprise.id],
+            enterpriseName: [this.enterprise.enterpriseName, [Validators.required, Validators.minLength(2)]],
+            email: [this.enterprise.email, [Validators.required, Validators.email]],
+            phoneNumber: [this.enterprise.phoneNumber, [Validators.required, Validators.pattern(phone)]],
             //   address : [this.contact.address],
-            managerFirstName: [this.contact.managerFirstName, [Validators.required, Validators.minLength(2)]],
-            managerLastName: [this.contact.managerLastName, [Validators.required, Validators.minLength(2)]],
-            managerPosition: [this.contact.managerPosition, [Validators.required, Validators.minLength(2)]],
-            street: [this.contact.street, Validators.required],
-            city: [this.contact.city, Validators.required],
-            programInstance: [this.contact.programInstance],
-            postalCode: [this.contact.postalCode, [Validators.required, Validators.pattern(code)]],
-            website: [this.contact.website, [Validators.required, Validators.pattern(url)]],
+            managerFirstName: [this.enterprise.managerFirstName, [Validators.required, Validators.minLength(2)]],
+            managerLastName: [this.enterprise.managerLastName, [Validators.required, Validators.minLength(2)]],
+            managerPosition: [this.enterprise.managerPosition, [Validators.required, Validators.minLength(2)]],
+            street: [this.enterprise.street, Validators.required],
+            city: [this.enterprise.city, Validators.required],
+            programInstance: [this.enterprise.programInstance],
+            postalCode: [this.enterprise.postalCode, [Validators.required, Validators.pattern(code)]],
+            website: [this.enterprise.website, [Validators.required, Validators.pattern(url)]],
             //password :[this.contact.phoneNumber],
-            nbMinParticipants:[this.contact.nbMinParticipants, [Validators.pattern(code)]],
-            notes: [this.contact.notes],
-            provider: [this.contact.provider, Validators.required],
+            nbMinParticipants:[this.enterprise.nbMinParticipants, [Validators.pattern(code)]],
+            notes: [this.enterprise.notes],
+            provider: [this.enterprise.provider, Validators.required],
             /*   id: [this.contact.id],
              enterpriseName: [this.contact.enterpriseName, [Validators.required, Validators.minLength(2)]],
              email: [this.contact.email],
@@ -240,21 +242,23 @@ export class EntrepriseFormComponent implements OnInit {
     };
 
     sendClasse(event) {
+
         console.log("send classe")
-        this._ParticipantsService.classe = event;
+        this._EnterprisesService.classe = event;
         console.log(event);
-        this.contactForm.patchValue({programInstance:event});
-        console.log(this.contactForm.getRawValue());
+        this.enterpriseForm.patchValue({programInstance:event});
+        console.log(this.enterpriseForm.getRawValue());
+
     }
 
     selectProvider(event){
         console.log(event);
-        this.contactForm.patchValue({provider:event});
+        this.enterpriseForm.patchValue({provider:event});
     }
 
     onValueChanged(data?: any) {
-        if (!this.contactForm) { return; }
-        const form = this.contactForm;
+        if (!this.enterpriseForm) { return; }
+        const form = this.enterpriseForm;
         for (const field in this.formErrors) {
             if (this.formErrors.hasOwnProperty(field)) {
                 // clear previous error message (if any)

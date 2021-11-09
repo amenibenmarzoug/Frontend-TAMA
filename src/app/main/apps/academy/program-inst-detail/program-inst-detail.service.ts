@@ -6,7 +6,7 @@ import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
 import { Module } from 'app/shared/models/module.model';
 import { FuseUtils } from '@fuse/utils';
 import { ThemeDetail } from 'app/shared/models/themeDetail.model';
-import { Program } from '../program.model';
+import { Program } from 'app/shared/models/program.model';
 import { Theme } from 'app/shared/models/theme.model';
 import{ThematiqueInst} from '../program-inst-detail/tabs/thematique-inst/thematiqueInst.model';
 import{ModuleInst} from '../program-inst-detail/tabs/module-inst/moduleInst.model';

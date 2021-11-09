@@ -420,7 +420,7 @@ export class TrainerService implements Resolve<any>
 
     ValidateContact(contact): Promise<any> {
         return new Promise((resolve, reject) => {
-            //contact.validated=true ;
+            contact.validated=true ;
             console.log("trainer à valider :")
             console.log(contact)
             const params = new HttpParams().set('id', contact.id);

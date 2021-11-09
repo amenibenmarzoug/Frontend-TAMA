@@ -15,6 +15,10 @@ import { ProfilePhotosVideosComponent } from 'app/main/pages/profile/tabs/photos
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { AuthGuardService } from 'app/auth-guard.service';
+import {ResetPasswordProfileComponent} from './tabs/reset-password/reset-password.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -35,7 +39,8 @@ const routes = [
         ProfileComponent,
         ProfileTimelineComponent,
         ProfileAboutComponent,
-        ProfilePhotosVideosComponent
+        ProfilePhotosVideosComponent,
+        ResetPasswordProfileComponent
     ],
     imports     : [
         RouterModule.forChild(routes),
@@ -44,8 +49,15 @@ const routes = [
         MatDividerModule,
         MatIconModule,
         MatTabsModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatToolbarModule,
 
         FuseSharedModule
+
+        
     ],
     providers   : [
         ProfileService,

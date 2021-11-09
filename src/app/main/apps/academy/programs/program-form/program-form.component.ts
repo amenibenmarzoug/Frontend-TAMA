@@ -3,7 +3,7 @@ import { Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CalendarEvent } from 'angular-calendar';
-import { Program } from 'app/main/apps/academy/program.model';
+import { Program } from 'app/shared/models/program.model';
 
 @Component({
   selector: 'app-program-form',
@@ -51,7 +51,9 @@ export class ProgramFormComponent implements OnInit {
     return this._formBuilder.group({
       id: [this.program.id],
       programName: [this.program.programName],
-      nbDaysProg: [this.program.nbDaysProg]
+      nbDaysProg: [this.program.nbDaysProg],
+      nbMaxParticipants: [this.program.nbMaxParticipants],
+      nbMinParticipants: [this.program.nbMinParticipants]
 
 
     });

@@ -52,7 +52,7 @@ export class SelectedBarComponent implements OnInit, OnDestroy
                 this.selectedContacts = selectedContacts;
                 setTimeout(() => {
                     this.hasSelectedContacts = selectedContacts.length > 0;
-                    this.isIndeterminate = (selectedContacts.length !== this._entreprisesService.contacts.length && selectedContacts.length > 0);
+                    this.isIndeterminate = (selectedContacts.length !== this._entreprisesService.enterprises.length && selectedContacts.length > 0);
                 }, 0);
             });
     }

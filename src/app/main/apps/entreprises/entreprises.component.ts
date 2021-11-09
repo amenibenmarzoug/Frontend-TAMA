@@ -90,7 +90,8 @@ export class EntreprisesComponent implements OnInit, OnDestroy {
     /**
      * New contact
      */
-    newContact(): void {
+    newEnterprise(): void
+    {
         this.dialogRef = this._matDialog.open(EntrepriseFormComponent, {
             disableClose: true,
             panelClass: 'contact-form-dialog',

@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FuseUtils } from '@fuse/utils';
 
 import { Participant } from './participant.model';
-import { Program } from '../academy/program.model';
+import { Program } from 'app/shared/models/program.model';
 import { ProgramInst } from '../academy/programInst.model';
 import {environment} from 'environments/environment';
 

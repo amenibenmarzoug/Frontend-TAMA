@@ -5,8 +5,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { FuseUtils } from '@fuse/utils';
 
-//import { Contact } from 'app/main/apps/participants/participant.model';
-import { Entreprise } from './entreprise.model';
+import {Enterprise} from 'app/shared/models/enterprise.model'
 import {environment} from 'environments/environment';
 
 const USER_KEY = 'auth-user';
@@ -26,8 +25,8 @@ export class EntreprisesService implements Resolve<any>
     classes: any[];
     registrations: any[];
     classe: any;
-    contacts: Entreprise[];
-    contact: Entreprise;
+    enterprises: Enterprise[];
+    enterprise: Enterprise;
     user: any;
     selectedContacts: Number[] = [];
     closeForm = false;
@@ -68,22 +67,22 @@ export class EntreprisesService implements Resolve<any>
         return new Promise<void>((resolve, reject) => {
 
             Promise.all([
-                this.getContacts(),
+                this.getEnterprises(),
                 this.getClasses(),
                 // console.log(JSON.parse(window.sessionStorage.getItem(USER_KEY))),
-                this.getUserData(),
+                this.getEnterpriseData(),
                 //  this.getEntreprises()
             ]).then(
                 ([files]) => {
 
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
-                        this.getContacts();
+                        this.getEnterprises();
                     });
 
                     this.onFilterChanged.subscribe(filter => {
                         this.filterBy = filter;
-                        this.getContacts();
+                        this.getEnterprises();
                     });
 
                     resolve();
@@ -99,18 +98,18 @@ export class EntreprisesService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getContacts(): Promise<any> {
+    getEnterprises(): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'entreprises')
                 .subscribe((response: any) => {
                     
                    
-                    this.contacts = response;
+                    this.enterprises = response;
                     console.log('entreprises :');
-                    console.log(this.contacts);
+                    console.log(this.enterprises);
 
                     if (this.filterBy === 'with') {
-                        this.contacts = this.contacts.filter(_contact => {
+                        this.enterprises = this.enterprises.filter(_contact => {
                             if (_contact.validated) { return true; }
                             return false;
                             // this._httpClient.get(environment.backend_url+ 'api/participants/pilier1')                                   
@@ -119,7 +118,7 @@ export class EntreprisesService implements Resolve<any>
                     }
 
                     if (this.filterBy === 'without') {
-                        this.contacts = this.contacts.filter(_contact => {
+                        this.enterprises = this.enterprises.filter(_contact => {
                             // return this.user.frequentContacts.includes(_contact.id);
                             if (!_contact.validated) { return true; }
                             return false;
@@ -127,15 +126,16 @@ export class EntreprisesService implements Resolve<any>
                     }
 
                     if (this.searchText && this.searchText !== '') {
-                        this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
+                        this.enterprises = FuseUtils.filterArrayByString(this.enterprises, this.searchText);
                     }
 
-                    /*this.contacts = this.contacts.map(contact => {
-                        return new Entreprise(contact);
-                    });*/
+     /* this.enterprises = this.enterprises.map(contact => {
+                        return new Enterprise(contact);
+                    }); */
 
-                    this.onContactsChanged.next(this.contacts);
-                    resolve(this.contacts);
+
+                    this.onContactsChanged.next(this.enterprises);
+                    resolve(this.enterprises);
                 }, reject);
         }
         );
@@ -150,7 +150,7 @@ export class EntreprisesService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getUserData(): Promise<any> {
+    getEnterpriseData(): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'entreprises')
                 .subscribe((response: any) => {
@@ -217,7 +217,7 @@ export class EntreprisesService implements Resolve<any>
         // If there is no filter, select all contacts
         if (filterParameter === undefined || filterValue === undefined) {
             this.selectedContacts = [];
-            this.contacts.map(contact => {
+            this.enterprises.map(contact => {
                 this.selectedContacts.push(contact.id);
                 //console.log(this.selectedContacts)
                 console.log(this.selectedContacts.length)
@@ -235,13 +235,13 @@ export class EntreprisesService implements Resolve<any>
      * @param contact
      * @returns {Promise<any>}
      */
-    updateContact(contact): Promise<any> {
+    updateEnterprise(contact): Promise<any> {
         return new Promise((resolve, reject) => {
             contact.password = contact.phoneNumber;
             console.log(contact);
             this._httpClient.post(AUTH_API + 'auth/signupEnterprise', contact)
                 .subscribe(response => {
-                    this.getContacts();
+                    this.getEnterprises();
                     resolve(response);
                 });
         });
@@ -258,7 +258,7 @@ export class EntreprisesService implements Resolve<any>
             console.log(entreprise);
             this._httpClient.post(AUTH_API + 'auth/signupEnterprise', entreprise)
                 .subscribe(response => {
-                    this.getContacts();
+                    this.getEnterprises();
                     resolve(response);
                 });
         });
@@ -281,15 +281,18 @@ export class EntreprisesService implements Resolve<any>
 
     } */
 
-    updateContact1(contact): Observable<any> {
+    updateEnterprise1(contact): Observable<any> {
         //console.log(this.classe.location);
         //if (this.classe != null) {
         //    contact.programInstance = classe;
        // }
         //this.classe = null;
         console.log(contact);
-        this.getContacts();
+
+        this.getEnterprises();
         return this._httpClient.put(AUTH_API + 'update/entreprise', contact);
+
+
 
 
     }
@@ -305,7 +308,7 @@ export class EntreprisesService implements Resolve<any>
             this._httpClient.get(AUTH_API+'sendMailToEntrep' ,{ params: params } )
                 .subscribe(response => {
                    
-                    this.getContacts();
+                    this.getEnterprises();
                     resolve(response);
                 });
         });
@@ -316,7 +319,7 @@ export class EntreprisesService implements Resolve<any>
            
         this._httpClient.put(AUTH_API+ 'entreprises/refuse', company)
             .subscribe(response => {
-                this.getContacts();
+                this.getEnterprises();
                 resolve(response);
             });
     });}
@@ -364,8 +367,8 @@ export class EntreprisesService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.post('api/contacts-user/' + this.user.id, { ...userData })
                 .subscribe(response => {
-                    this.getUserData();
-                    this.getContacts();
+                    this.getEnterpriseData();
+                    this.getEnterprises();
                     resolve(response);
                 });
         });
@@ -391,9 +394,9 @@ export class EntreprisesService implements Resolve<any>
 
 
         return new Promise((resolve, reject) => {
-            const contactIndex = this.contacts.indexOf(id);
-            this.contacts.splice(contactIndex, 1);
-            this.onContactsChanged.next(this.contacts);
+            const contactIndex = this.enterprises.indexOf(id);
+            this.enterprises.splice(contactIndex, 1);
+            this.onContactsChanged.next(this.enterprises);
             this._httpClient.delete(AUTH_API + `entreprises/${id}`)
                 .subscribe(response => {
                     // this.getContacts();
@@ -408,16 +411,16 @@ export class EntreprisesService implements Resolve<any>
      */
     deleteSelectedContacts(): void {
         for (const contactId of this.selectedContacts) {
-            const contact = this.contacts.find(_contact => {
+            const contact = this.enterprises.find(_contact => {
                 return _contact.id === contactId;
 
             });
             this.deleteContact(contactId);
-            const contactIndex = this.contacts.indexOf(contact);
-            this.contacts.splice(contactIndex, 1);
+            const contactIndex = this.enterprises.indexOf(contact);
+            this.enterprises.splice(contactIndex, 1);
 
         }
-        this.onContactsChanged.next(this.contacts);
+        this.onContactsChanged.next(this.enterprises);
         this.deselectContacts();
     }
 
