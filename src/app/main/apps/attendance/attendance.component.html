@@ -16,7 +16,7 @@
                 <mat-icon class="logo-icon mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">account_box
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                  Marquer les présences
+                    Marquer les présences
                 </span>
             </div>
 
@@ -59,20 +59,23 @@
         <!-- CENTER -->
         <div class="center p-24 pb-56 pr-sm-92" fusePerfectScrollbar>
             <div class="content">
-                <div class="message-box warning"  *ngIf="selectedSession != null">
-                Vous marquez la présence pour  : 
-                 
-                 <div class="h4 m-16 font-weight-600 " fxLayout="row" fxLayoutAlign="start start">
-                    La classe : {{selectedSession.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName}}
-                   </div>
-                 <div class="h4 m-16 font-weight-600" fxLayout="row" fxLayoutAlign="start start">
-                     La séance : {{selectedSession.sessionName }} 
-                    <span class ="h4 " > &nbsp; planifiée pour le &nbsp;  </span>{{selectedSession.sessionBeginDate | date:'fullDate' }} à  
-                        {{selectedSession.sessionBeginDate | date:'shortTime' }} 
+                <div class="message-box warning" *ngIf="selectedSession != null">
+                    Vous marquez la présence pour :
+
+                    <div class="h4 m-16 font-weight-600 " fxLayout="row" fxLayoutAlign="start start">
+                        Classe :
+                        {{selectedSession.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName}}
+                    </div>
+                    <div class="h4 m-16 font-weight-600" fxLayout="row" fxLayoutAlign="start start">
+                        Séance : {{selectedSession.sessionName }} planifiée pour le
+
+                    </div>
+                    <div class="h4 m-16 font-weight-600" fxLayout="row" fxLayoutAlign="start start">
+                       Date & Heure : {{selectedSession.sessionBeginDate | date:'fullDate' }}  à   {{selectedSession.sessionBeginDate | date:'shortTime' }} 
+                    </div>
+
+                    <p class="email font-weight-600"> </p>
                 </div>
-                
-                 <p class ="email font-weight-600"> </p>
-                 </div>
                 <app-attendance-list></app-attendance-list>
             </div>
             <!-- / CONTENT -->
@@ -86,13 +89,13 @@
 
 
 <!-- ADD CONTACT BUTTON -->
-<div >
-    <a [href]="" target="_blank" rel="noopener noreferrer">
+<div>
+   <!--  <a [href]="" target="_blank" rel="noopener noreferrer">
         <button mat-raised-button class="accent" id="add-contact-button" (click)="printAttendanceList()"
             aria-label="add contact" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
             <mat-icon>print </mat-icon>
         </button>
-    </a>
+    </a> -->
 
 
 </div>

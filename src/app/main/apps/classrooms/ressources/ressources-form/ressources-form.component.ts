@@ -38,7 +38,7 @@ export class RessourcesFormComponent {
 
         if (this.action === 'edit') {
             this.dialogTitle = 'Modifier Ressource';
-            this.equipment = _data.contact;
+            this.equipment = _data.equipment;
         }
         else {
             this.dialogTitle = 'Ajouter Ressource';

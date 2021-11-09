@@ -54,7 +54,7 @@ export const navigationTrainer: FuseNavigation[] = [
     
         {
             id: 'attendanceList',
-            title: 'Liste des présences',
+            title: 'Liste des absences',
             type: 'item',
             icon: 'list_alt',
             url: '/apps/attendance-trainer',

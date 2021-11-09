@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AttendanceManagerComponent } from './attendance-manager.component';
@@ -56,7 +56,8 @@ const routes: Routes = [
   ],
 
   providers: [
-    AttendanceManagerService
+    AttendanceManagerService,
+    {provide: LOCALE_ID, useValue: 'fr' }
   ],
 })
 export class AttendanceManagerModule { }

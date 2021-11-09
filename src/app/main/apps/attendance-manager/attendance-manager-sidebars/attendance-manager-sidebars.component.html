@@ -12,6 +12,47 @@
         <div class="content py-16" fusePerfectScrollbar>
             <div class="nav material2">
 
+                <div class="nav-item" aria-label="warning" fxLayoutAlign="start center">
+                    <div class="message-box warning" *ngIf="courseSessions.length == 0 && selectedDate != null">
+                        Pas de séances disponibles pour cette Date !
+                    </div>
+                </div>
+                <div class="nav-item" aria-label="warning" fxLayoutAlign="start center">
+                    <div class="message-box warning" *ngIf="attendances.length ==0 && selectedSession != null">
+                        Les absences de cette séance ne sont pas encore marquées !
+                    </div>
+                </div>
+                <div class="nav-item" aria-label="Classe" fxLayoutAlign="start center">
+                    <mat-form-field appearance="outline" class="category-selector " fxFlex>
+                        <mat-label>Filtrer par Classe</mat-label>
+                        <mat-select (selectionChange)="selectClass($event.value)" [(ngModel)]="selectedClass">
+
+                            <mat-option *ngFor="let classe of classes" [value]="classe">
+                                {{ classe.programInstName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+
+
+
+
+                <div class="nav-item" aria-label="Séance" fxLayoutAlign="start center">
+                    <mat-form-field appearance="outline" class="category-selector " fxFlex>
+                        <mat-label>Filtrer par séance</mat-label>
+                        <mat-select (selectionChange)="selectSession($event.value)" [(ngModel)]="selectedSession">
+
+                            <mat-option *ngFor="let session of courseSessions" [value]="session">
+                                {{session.sessionBeginDate | date:'fullDate' }} à  
+                                {{session.sessionBeginDate | date:'shortTime' }}  
+                                <!--  {{ session.sessionName }}-->
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+
                 <div class="nav-item" aria-label="Participant" fxLayoutAlign="start center">
                     <mat-form-field appearance="outline" class="category-selector " fxFlex>
                         <mat-label>Participant</mat-label>
@@ -36,45 +77,8 @@
                     </mat-form-field>
                 </div>
 
-                <div class="nav-item" aria-label="Classe" fxLayoutAlign="start center">
-                    <mat-form-field appearance="outline" class="category-selector " fxFlex>
-                        <mat-label>Filtrer par Classe</mat-label>
-                        <mat-select (selectionChange)="selectClass($event.value)" [(ngModel)]="selectedClass">
 
-                            <mat-option *ngFor="let classe of classes" [value]="classe">
-                                {{ classe.programInstName }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-
-
-
-
-
-                <div class="nav-item" aria-label="Séance" fxLayoutAlign="start center">
-                    <mat-form-field appearance="outline" class="category-selector " fxFlex>
-                        <mat-label>Filtrer par séance</mat-label>
-                        <mat-select (selectionChange)="selectSession($event.value)" [(ngModel)]="selectedSession">
-
-                            <mat-option *ngFor="let session of courseSessions" [value]="session">
-                                {{ session.sessionName }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-
-
-                <div class="nav-item" aria-label="warning" fxLayoutAlign="start center">
-                    <div class="message-box warning" *ngIf="courseSessions.length == 0 && selectedDate != null">
-                        Pas de séances disponibles pour cette Date !
-                    </div>
-                </div>
-                <div class="nav-item" aria-label="warning" fxLayoutAlign="start center">
-                    <div class="message-box warning" *ngIf="attendances.length ==0 && selectedSession != null">
-                        Les absences de cette séance ne sont pas encore marquées !
-                    </div>
-                </div>
+              
                 <div class="nav-item" aria-label="resetFilters" fxLayoutAlign="start center">
                     <div class="init-button">
                         <button mat-raised-button class="mat-accent" (click)="resetFilters()" fxFlex>

@@ -11,6 +11,9 @@
         <!-- SIDEBAR CONTENT -->
         <div class="content py-16" fusePerfectScrollbar>
             <div class="nav material2">
+                <div class="message-box warning"  *ngIf="courseSessions.length == 0 && selectedDate != null">
+                    Pas de séances disponibles pour cette Date ! 
+                </div>
                 <div class="nav-item" aria-label="Classe" fxLayoutAlign="start center">
                     <mat-form-field appearance="outline" class="category-selector " fxFlex>
                         <mat-label>Filtrer par Classe</mat-label>
@@ -52,9 +55,7 @@
                     </mat-form-field>
                 </div>
             
-                <div class="message-box warning"  *ngIf="courseSessions.length == 0 && selectedDate != null">
-                    Pas de séances disponibles pour cette Date ! 
-                </div>
+             
 
                 <div class="nav-item" aria-label="resetFilters" fxLayoutAlign="start center" >
                     <div class="init-button">
