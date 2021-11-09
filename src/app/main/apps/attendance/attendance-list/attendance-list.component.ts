@@ -136,8 +136,7 @@ export class FilesDataSource extends DataSource<any>
   ) {
       super();
       this.filteredData = this.attendanceService.attendances;
-      console.log("data here")
-        console.log(this.filteredData)
+      
   }
 
   /**
@@ -155,8 +154,7 @@ export class FilesDataSource extends DataSource<any>
     return merge(...displayDataChanges).pipe(map(() => {
 
         let data = this.attendanceService.attendances.slice();
-        console.log("data here")
-        console.log(data)
+       
 
         //data = this.filterData(data);
 

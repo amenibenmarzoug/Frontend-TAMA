@@ -53,10 +53,8 @@ export class ProfileService implements Resolve<any>
         this.entrepriseOnChanged = new BehaviorSubject({});
 
         this.data = JSON.parse(sessionStorage.getItem(USER_KEY));
-       // console.log(this.data);
         this.userId = this.data.id;
         this.userRole = this.data.roles;
-        console.log(this.userRole.includes("PARTICIPANT"));
         if (this.userRole.includes("PARTICIPANT"))
             this.getParticipantById(this.userId);
         if (this.userRole.includes("TRAINER"))
@@ -75,7 +73,6 @@ export class ProfileService implements Resolve<any>
      * @returns {Observable<any> | Promise<any> | any}
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-        console.log(this.userId);
         if (this.userRole.includes("PARTICIPANT")) {
             return new Promise<void>((resolve, reject) => {
                 Promise.all([
@@ -176,7 +173,6 @@ export class ProfileService implements Resolve<any>
 
                     this.participant = response;
                     this.participantOnChanged.next(this.participant);
-                    console.log(this.participant);
                     resolve(response);
                 }, reject);
         }
@@ -193,7 +189,6 @@ export class ProfileService implements Resolve<any>
 
                     this.institution = response;
                     this.institutionOnChanged.next(this.institution);
-                    console.log(this.institution);
                     resolve(this.institution);
                 }, reject);
         }
@@ -210,7 +205,6 @@ export class ProfileService implements Resolve<any>
 
                     this.entreprise = response;
                     this.entrepriseOnChanged.next(this.entreprise);
-                    console.log(this.entreprise);
                     resolve(this.entreprise);
                 }, reject);
         }
@@ -219,9 +213,7 @@ export class ProfileService implements Resolve<any>
 
 
     getTrainerById(id): Promise<any> {
-        /* console.log(this._httpClient.get<any[]>(AUTH_API + 'courseSession'));
-         return this._httpClient.get<any[]>(AUTH_API + 'courseSession')
-         .pipe(catchError(this.processHTTPMsgService.handleError));*/
+   
 
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'trainers/' + id)

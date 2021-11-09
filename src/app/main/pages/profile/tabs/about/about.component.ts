@@ -51,7 +51,6 @@ export class ProfileAboutComponent implements OnInit, OnDestroy {
             .subscribe(about => {
                 this.about = about;
             });
-        console.log(this._profileService.userRole);
         if (this._profileService.userRole.includes("PARTICIPANT")) { 
             this.isParticipant=true;
             this._profileService.participantOnChanged
@@ -83,10 +82,7 @@ export class ProfileAboutComponent implements OnInit, OnDestroy {
             });}
 
 
-        console.log(this._profileService.trainerOnChanged);
-        console.log(this._profileService.aboutOnChanged);
-        console.log(this.trainer);
-        console.log(this.about);
+   
     }
 
     /**

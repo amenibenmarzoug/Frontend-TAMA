@@ -149,8 +149,7 @@ export class Login2Component implements OnInit {
                 this.serviceLogin.getEntrepriseById(this.serviceLogin.userId);
             if (this.serviceLogin.userRole.includes("INSTITUTION"))
                 this.serviceLogin.getInstitutionById(this.serviceLogin.userId);
-            console.log(this.serviceLogin.userId);
-            console.log(this.serviceLogin.userRole);
+          
             if (this.serviceLogin.userRole.includes("PARTICIPANT")) {
                 this.serviceLogin.participantOnChanged
                     .pipe(takeUntil(this._unsubscribeAll))
@@ -167,12 +166,11 @@ export class Login2Component implements OnInit {
                     .pipe(takeUntil(this._unsubscribeAll))
                     .subscribe(trainer => {
                         this.trainer = trainer;
-                        console.log(this.trainer);
+                      
                         this.serviceLogin.name = this.trainer.firstName + " " + this.trainer.lastName;
                         this.serviceLogin.email = this.trainer.email;
                     });
-                console.log("TRAINER IN LOGIN COMPONENT");
-                console.log(this.trainer);
+            
                 // this.name=this.trainer.firstName + " " + this.trainer.lastName;
 
             }
@@ -215,7 +213,6 @@ export class Login2Component implements OnInit {
         this.authenticationService.login(this.loginForm).subscribe(
             data => {
 
-                console.log("LOGIN IS OKAY");
 
                 this.tokenStorage.saveToken(data.accessToken);
                 this.tokenStorage.saveUser(data);
@@ -247,7 +244,6 @@ export class Login2Component implements OnInit {
                 if (this.serviceLogin.userRole.includes("TRAINER")) {
 
                     this.serviceLogin.getTrainerById(this.serviceLogin.userId).then(() => {
-                        console.log(this.serviceLogin.trainer);
                         this.serviceLogin.name = this.serviceLogin.trainer.firstName + " " + this.serviceLogin.trainer.lastName;
                         this.serviceLogin.email = this.serviceLogin.trainer.email;
                     });
@@ -269,11 +265,9 @@ export class Login2Component implements OnInit {
 
 
                 }
-                console.log(this.roles);
 
                 this.serviceLogin.raiseEvent(this.roles);
 
-                console.log(this.isLoggedIn);
                 this.loadingNavbar();
                 // setTimeout(() => {
                 if (this.roles.includes('INSTITUTION')) {
@@ -286,9 +280,7 @@ export class Login2Component implements OnInit {
 
             },
             err => {
-                console.log("LOGIN FAILED");
                 this.errorMessage = err.error.message;
-                console.log(this.errorMessage);
                 this.isLoginFailed = true;
             }
         );
