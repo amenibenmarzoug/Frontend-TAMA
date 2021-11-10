@@ -22,6 +22,7 @@ import { AttendanceTrainerSidebarsComponent } from './attendance-trainer-sidebar
 import {AttendanceTrainerService} from './attendance-trainer.service'
 
 import { AuthGuardTrainerService } from '../../../auth-guard-trainer.service';
+import { MatPaginatorModule } from '@angular/material/paginator';
 const routes: Routes = [
   {
     path: '**',
@@ -49,7 +50,8 @@ const routes: Routes = [
     MatTableModule,
     MatToolbarModule,
     MatSelectModule ,
-   
+    MatPaginatorModule,
+
     FuseSharedModule,
     FuseConfirmDialogModule,
     FuseSidebarModule

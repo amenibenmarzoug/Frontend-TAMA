@@ -19,6 +19,7 @@ import { AttendanceCompanyService } from './attendance-company.service';
 import { AttendanceCompanyComponent } from './attendance-company.component';
 import { AttendanceCompanyListComponent } from './attendance-company-list/attendance-company-list.component';
 import { AttendanceCompanySidebarsComponent } from './attendance-company-sidebars/attendance-company-sidebars.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 const routes: Routes = [
@@ -48,7 +49,8 @@ const routes: Routes = [
     MatTableModule,
     MatToolbarModule,
     MatSelectModule ,
-   
+    MatPaginatorModule,
+
     FuseSharedModule,
     FuseConfirmDialogModule,
     FuseSidebarModule

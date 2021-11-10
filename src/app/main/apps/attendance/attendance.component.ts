@@ -32,7 +32,7 @@ export class AttendanceComponent implements OnInit {
   dialogRef: any;
   hasSelectedContacts: boolean;
   searchInput: FormControl;
-  selectedSession : any ; 
+  selectedSession: any;
   selectedContacts: any[] = [];
   courseSessions: any[] = [];
   courseSessionsDispon: any[] = [];
@@ -66,8 +66,8 @@ export class AttendanceComponent implements OnInit {
     private dateAdapter: DateAdapter<Date>
   ) {
     // Set the defaults
-   // this.fileName = "liste_presence.pdf";
-   this.dateAdapter.setLocale('fr');
+    // this.fileName = "liste_presence.pdf";
+    this.dateAdapter.setLocale('fr');
     this.searchInput = new FormControl('');
 
     // Set the private defaults
@@ -89,11 +89,11 @@ export class AttendanceComponent implements OnInit {
           .subscribe(selectedContacts => {
               this.hasSelectedContacts = selectedContacts.length > 0;
           }); */
-          this.attendanceService.onFilterChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(selectedSession => {
-              this.selectedSession = selectedSession;
-          });
+    this.attendanceService.onFilterChanged
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(selectedSession => {
+        this.selectedSession = selectedSession;
+      });
 
     this.searchInput.valueChanges
       .pipe(
@@ -108,16 +108,25 @@ export class AttendanceComponent implements OnInit {
 
   }
 
+  confirm() {
+    if (this.selectedSession != null) {
+      this.SuccessMessage("Le marquage des présences a été fait avec Succés");
+    }
+    else{
+      this.ErrorMessage("Veuillez choisir une séance!")
+    }
+  }
+
   printAttendanceList() {
 
     if (this.attendanceService.session != null) {
       this.attendanceService.generateReport(this.attendanceService.session.id).then((data) => {
 
         //const data = 'some text';
-        this.fileName="liste_presence_"+this.attendanceService.session.sessionName+".pdf"
+        this.fileName = "liste_presence_" + this.attendanceService.session.sessionName + ".pdf"
         //const blob = new Blob([data], { type: 'application/pdf' });
-        saveAs(data, "liste_presence_"+this.attendanceService.session.sessionName+".pdf")
-        
+        saveAs(data, "liste_presence_" + this.attendanceService.session.sessionName + ".pdf")
+
         //this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(data));
 
       });
@@ -166,6 +175,20 @@ export class AttendanceComponent implements OnInit {
       {
         title: message,
         icon: 'error',
+        showCancelButton: false,
+        confirmButtonColor: '#38a9ff',
+        //cancelButtonColor: '#d33',
+        confirmButtonText: 'Retour'
+      }
+    )
+
+  }
+
+  SuccessMessage(message): void {
+    Swal.fire(
+      {
+        title: message,
+        icon: 'success',
         showCancelButton: false,
         confirmButtonColor: '#38a9ff',
         //cancelButtonColor: '#d33',

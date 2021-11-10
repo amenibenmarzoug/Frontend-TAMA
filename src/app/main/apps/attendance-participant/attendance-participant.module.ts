@@ -18,6 +18,7 @@ import { FuseConfirmDialogModule, FuseSidebarModule } from '../../../../@fuse/co
 import { AttendanceParticipantListComponent } from './attendance-participant-list/attendance-participant-list.component';
 import { AttendanceParticipantService } from './attendance-participant.service';
 import {AttendanceParticipantComponent} from './attendance-participant.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 const routes: Routes = [
   {
     path: '**',
@@ -46,7 +47,8 @@ const routes: Routes = [
     MatTableModule,
     MatToolbarModule,
     MatSelectModule ,
-   
+    MatPaginatorModule,
+
     FuseSharedModule,
     FuseConfirmDialogModule,
     FuseSidebarModule

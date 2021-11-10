@@ -136,6 +136,13 @@ export class AllSessionsTrainerService implements Resolve<any>
 
 
                         this.sessions = response;
+                        this.sessions.sort(function (x, y) {
+                            const a = new Date(x.sessionBeginDate)
+                            const b = new Date(y.sessionBeginDate)
+                            if (a.getTime() < b.getTime()) { return -1; }
+                            if (a.getTime()> b.getTime()) { return 1; }
+                            return 0;
+                        })
                         if(this.userId!=null){
                         this.sessions = this.sessions.filter(_courseSession => {
                             if (_courseSession.themeDetailInstance.id == this.filterBy.id && _courseSession.trainer.id==this.userId) {
@@ -167,6 +174,13 @@ export class AllSessionsTrainerService implements Resolve<any>
 
                     this.sessions = [];
                     this.sessions = response;
+                    this.sessions.sort(function (x, y) {
+                        const a = new Date(x.sessionBeginDate)
+                        const b = new Date(y.sessionBeginDate)
+                        if (a.getTime() < b.getTime()) { return -1; }
+                        if (a.getTime()> b.getTime()) { return 1; }
+                        return 0;
+                    })
                     if (this.userId != null) {
                         this.sessions = this.sessions.filter(_courseSession => {
                             if (_courseSession.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == programInstanceId && _courseSession.trainer.id == this.userId) {

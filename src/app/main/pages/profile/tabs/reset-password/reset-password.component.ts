@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn,
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { fuseAnimations } from '@fuse/animations';
 
 /* import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
@@ -12,7 +13,7 @@ import { fuseAnimations } from '@fuse/animations';
     templateUrl  : './reset-password.component.html',
     styleUrls    : ['./reset-password.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    //animations   : fuseAnimations
+    animations   : fuseAnimations
 })
 export class ResetPasswordProfileComponent implements OnInit
 {
@@ -61,7 +62,7 @@ export class ResetPasswordProfileComponent implements OnInit
     {
         this.resetPasswordForm = this._formBuilder.group({
            // name           : ['', Validators.required],
-            email          : ['', [Validators.required, Validators.email]],
+          //  email          : ['', [Validators.required, Validators.email]],
             password       : ['', Validators.required],
             passwordConfirm: ['', [Validators.required, confirmPasswordValidator]]
         });

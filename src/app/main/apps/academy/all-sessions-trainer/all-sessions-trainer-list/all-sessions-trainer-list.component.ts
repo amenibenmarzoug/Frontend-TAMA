@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DataSource } from '@angular/cdk/collections';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { merge, Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations'; 
 import { Session } from 'app/shared/models/session.model';
 import { AllSessionsTrainerService } from '../all-sessions-trainer.service';
+import { MatPaginator } from '@angular/material/paginator';
 @Component({
   selector: 'app-all-sessions-trainer-list',
   templateUrl: './all-sessions-trainer-list.component.html',
@@ -18,6 +19,8 @@ export class AllSessionsTrainerListComponent implements OnInit, OnDestroy {
 
   @ViewChild('dialogContent')
   dialogContent: TemplateRef<any>;
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator;
   sessions: any[];
   user: any;
   dataSource: FilesDataSource | null;
@@ -75,7 +78,7 @@ export class AllSessionsTrainerListComponent implements OnInit, OnDestroy {
               });
           });
       
-      this.dataSource = new FilesDataSource(this._allSessionsService);
+      this.dataSource = new FilesDataSource(this._allSessionsService,this.paginator);
 
       this._allSessionsService.onSpecificCourseSessionsChanged.subscribe(sessions => {
 
@@ -144,24 +147,51 @@ export class AllSessionsTrainerListComponent implements OnInit, OnDestroy {
 
 export class FilesDataSource extends DataSource<any>
 {
+    filteredData: Session[];
+
   /**
    * Constructor
    *
    * @param {AllSessionsTrainerService} _allSessionsService
    */
+  
   constructor(
-      private _allSessionsService: AllSessionsTrainerService
-  ) {
-      super();
-  }
+    private _allSessionsService: AllSessionsTrainerService,
+    private _matPaginator: MatPaginator,
+) {
+    super();
+    this.filteredData = this._allSessionsService.sessions;
+
+}
 
   /**
    * Connect function called by the table to retrieve one stream containing the data to render.
    * @returns {Observable<any[]>}
    */
   connect(): Observable<any[]> {
-      return this._allSessionsService.onSpecificCourseSessionsChanged;
-  }
+    const displayDataChanges = [
+        this._allSessionsService.onSpecificCourseSessionsChanged,
+        this._matPaginator.page,
+        // this._filterChange,
+        //this._matSort.sortChange
+    ];
+    //return this._participantsService.onContactsChanged;
+    return merge(...displayDataChanges).pipe(map(() => {
+
+        let data = this._allSessionsService.sessions.slice();
+
+
+        //data = this.filterData(data);
+
+        this.filteredData = [...data];
+
+        //data = this.sortData(data);
+
+        // Grab the page's slice of data.
+        const startIndex = this._matPaginator.pageIndex * this._matPaginator.pageSize;
+        return data.splice(startIndex, this._matPaginator.pageSize);
+    })
+    );  }
 
   /**
    * Disconnect

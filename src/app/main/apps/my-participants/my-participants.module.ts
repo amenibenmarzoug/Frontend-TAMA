@@ -24,6 +24,7 @@ import { MyParticipantFormComponent } from 'app/main/apps/my-participants/my-par
 
 import { MyParticipantsService } from './my-participants.service' ;
 import { MatSelectModule } from '@angular/material/select';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -58,6 +59,7 @@ const routes: Routes = [
     MatTableModule,
     MatSelectModule ,
     MatToolbarModule,
+    MatPaginatorModule ,
 
     FuseSharedModule,
     FuseConfirmDialogModule,

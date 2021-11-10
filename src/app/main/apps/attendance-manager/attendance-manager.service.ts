@@ -364,6 +364,15 @@ getParticipantsOfSelectedClass():Promise<any> {
             .subscribe((response: any) => {
                 
                 this.attendances = response;
+                this.attendances.sort(function (x, y) {
+
+                    const a = new Date(x.session.sessionBeginDate)
+                    const b = new Date(y.session.sessionBeginDate)
+                    if (a.getTime() < b.getTime()) { return -1; }
+                    if (a.getTime()> b.getTime()) { return 1; }
+                    return 0;
+                })
+                
                 this.attendances = this.attendances.filter(attendance => {
                     if (attendance.attendanceState!== 'PRESENT') {
                         console.log("True");
@@ -439,6 +448,14 @@ getParticipantsOfSelectedClass():Promise<any> {
             .subscribe((response: any) => {
 
                     this.attendanceCheckedSessions = response;
+                    this.attendanceCheckedSessions.sort(function (x, y) {
+                        const a = new Date(x.session.sessionBeginDate)
+                        const b = new Date(y.session.sessionBeginDate)
+                        if (a.getTime() < b.getTime()) { return -1; }
+                        if (a.getTime()> b.getTime()) { return 1; }
+                        return 0;
+                    })
+                    
 
                     if (this.filterByDate != null) {
                         this.attendanceCheckedSessions = this.attendanceCheckedSessions.filter(_session => {

@@ -42,6 +42,7 @@ export class TrainerFormComponent {
         this._serviceTrainer.onThemesChanged.subscribe((themes)=>{
             this.themes=themes;
         })
+        console.log("specification");
         console.log(this.specifications)
         if (this.action === 'edit') {
             this.dialogTitle = 'Modifier Formateur';

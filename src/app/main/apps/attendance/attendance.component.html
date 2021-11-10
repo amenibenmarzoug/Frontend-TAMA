@@ -67,7 +67,7 @@
                         {{selectedSession.themeDetailInstance.moduleInstance.themeInstance.programInstance.programInstName}}
                     </div>
                     <div class="h4 m-16 font-weight-600" fxLayout="row" fxLayoutAlign="start start">
-                        Séance : {{selectedSession.sessionName }} planifiée pour le
+                        Séance : {{selectedSession.sessionName }} 
 
                     </div>
                     <div class="h4 m-16 font-weight-600" fxLayout="row" fxLayoutAlign="start start">
@@ -90,12 +90,13 @@
 
 <!-- ADD CONTACT BUTTON -->
 <div>
-   <!--  <a [href]="" target="_blank" rel="noopener noreferrer">
-        <button mat-raised-button class="accent" id="add-contact-button" (click)="printAttendanceList()"
+    <a [href]="" target="_blank" rel="noopener noreferrer">
+        <button mat-raised-button class="accent" id="add-contact-button" (click)="confirm()"
             aria-label="add contact" [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
-            <mat-icon>print </mat-icon>
-        </button>
-    </a> -->
+            Confirmer
+<!--             <mat-icon>print </mat-icon>
+ -->        </button>
+    </a>
 
 
 </div>

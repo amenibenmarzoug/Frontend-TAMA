@@ -143,6 +143,7 @@ export class ProgramSpecService {
 
 
   addProgramSpec(programSpec): Promise<any> {
+      programSpec.specificProgram=true;
     return new Promise((resolve, reject) => {
        
                this._httpClient.post(AUTH_API +'specificProgram', programSpec)
@@ -177,6 +178,7 @@ export class ProgramSpecService {
 
 
   updateProgram(program): Promise<any> {
+      program.specificProgram=true;
       return new Promise((resolve, reject) => {
           this._httpClient.put(AUTH_API + 'programEdit', program)
               .subscribe(response => {

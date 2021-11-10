@@ -37,7 +37,7 @@ export class AttendanceCompanyService implements Resolve<any> {
   
   onCheckedAttendanceChanged :  Subject<any>;
   onAttendanceCheckedSessionsChanged: Subject<any>;
-  attendances: Attendance[];
+  attendances: Attendance[]=[];
   attendance : Attendance ; 
   session : Session ;
   class : any ; 

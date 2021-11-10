@@ -20,6 +20,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { FuseSharedModule } from '../../../../@fuse/shared.module';
 import { FuseConfirmDialogModule, FuseSidebarModule } from '../../../../@fuse/components';
 import { AttendanceManagerService } from './attendance-manager.service';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 const routes: Routes = [
@@ -49,7 +50,8 @@ const routes: Routes = [
     MatTableModule,
     MatToolbarModule,
     MatSelectModule ,
-   
+    MatPaginatorModule,
+
     FuseSharedModule,
     FuseConfirmDialogModule,
     FuseSidebarModule

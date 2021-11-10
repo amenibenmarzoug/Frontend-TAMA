@@ -20,7 +20,7 @@ export class AttendanceParticipantService implements Resolve<any>
     
     onAttendancesChanged: BehaviorSubject<any>;
     searchText: string;
-    attendances: Attendance[];
+    attendances: Attendance[]=[];
     participant: Participant ; 
     user: any;
     userRole: any;
@@ -117,6 +117,14 @@ export class AttendanceParticipantService implements Resolve<any>
 
                     //this.attendances = [];
                     this.attendances = response;
+                    this.attendances.sort(function (x, y) {
+
+                        const a = new Date(x.session.sessionBeginDate)
+                        const b = new Date(y.session.sessionBeginDate)
+                        if (a.getTime() < b.getTime()) { return -1; }
+                        if (a.getTime()> b.getTime()) { return 1; }
+                        return 0;
+                    })
                     this.attendances=this.attendances.filter(attendance => {
                         if (attendance.attendanceState !== 'PRESENT') {
                             return true;

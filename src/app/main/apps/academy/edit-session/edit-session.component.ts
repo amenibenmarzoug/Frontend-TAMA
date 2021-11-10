@@ -17,7 +17,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { TranslateService } from '@ngx-translate/core';
 import { DateAdapter } from '@angular/material/core';
 import { MatStepper } from '@angular/material/stepper';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -186,7 +186,10 @@ export class EditSessionComponent implements OnInit, OnDestroy {
    * @param {FormBuilder} _formBuilder
    */
   constructor(
-    private _addSessionService: EditSessionService, private route: ActivatedRoute, private _formBuilder: FormBuilder, private _matDialog: MatDialog, private translate: TranslateService, private dateAdapter: DateAdapter<Date>
+    private _addSessionService: EditSessionService, private route: ActivatedRoute,
+    private _formBuilder: FormBuilder, private _matDialog: MatDialog,
+    private translate: TranslateService, private dateAdapter: DateAdapter<Date>,
+    private router: Router
   ) {
 
     this.sub = this.route.params.subscribe(params => {
@@ -738,10 +741,11 @@ export class EditSessionComponent implements OnInit, OnDestroy {
       console.log(this.session)
       this._addSessionService.updateCourseSessionAndEvent(this.session).then(() => {
         this._addSessionService.getEvents();
-         
+
         localStorage.setItem('sessionId', this.session.id.toString());
         localStorage.setItem('session', JSON.stringify(this.session));
-        window.location.reload();
+        this.router.navigate(['/apps/academy/allSessions']);
+        //window.location.reload();
       });
     });
 

@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation
 import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DataSource } from '@angular/cdk/collections';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { merge, Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
@@ -11,6 +11,7 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 import { MyParticipantsService } from 'app/main/apps/my-participants/my-participants.service';
 import { MyParticipantFormComponent } from 'app/main/apps/my-participants/my-participant-form/my-participant-form.component';
 import { MyParticipant } from 'app/main/apps/my-participants/my-participant.model';
+import { MatPaginator } from '@angular/material/paginator';
 @Component({
     selector: 'app-my-participant-list',
     templateUrl: './my-participant-list.component.html',
@@ -22,11 +23,13 @@ export class MyParticipantListComponent implements OnInit, OnDestroy {
 
     @ViewChild('dialogContent')
     dialogContent: TemplateRef<any>;
-
+    
+    @ViewChild(MatPaginator, {static: true})
+    paginator: MatPaginator;
     contacts: any;
     user: any;
     dataSource: FilesDataSource | null;
-    displayedColumns = ['checkbox', 'name', 'email', 'phone', 'currentPosition', 'educationLevel'];
+    displayedColumns = ['name', 'email', 'phone', 'currentPosition', 'educationLevel'];
     selectedContacts: any[];
     checkboxes: {};
     dialogRef: any;
@@ -70,7 +73,7 @@ export class MyParticipantListComponent implements OnInit, OnDestroy {
                     this.checkboxes[contact.id] = false;
                 });
             });
-        this.dataSource = new FilesDataSource(this._participantsService);
+        this.dataSource = new FilesDataSource(this._participantsService,this.paginator);
         this._participantsService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedContacts => {
@@ -196,23 +199,50 @@ export class MyParticipantListComponent implements OnInit, OnDestroy {
 
 export class FilesDataSource extends DataSource<any>
 {
+    filteredData: MyParticipant[];
+
     /**
      * Constructor
      *
      * @param {ParticipantsService} _participantsService
      */
     constructor(
-        private _participantsService: MyParticipantsService
-    ) {
-        super();
-    }
+        private _participantsService: MyParticipantsService,
+        private _matPaginator: MatPaginator,
+        ) {
+            super();
+            this.filteredData = this._participantsService.participants;
+        }
+    
 
     /**
      * Connect function called by the table to retrieve one stream containing the data to render.
      * @returns {Observable<any[]>}
      */
     connect(): Observable<any[]> {
-        return this._participantsService.onContactsChanged;
+        const displayDataChanges = [
+            this._participantsService.onContactsChanged,
+            this._matPaginator.page,
+           // this._filterChange,
+            //this._matSort.sortChange
+        ];
+        //return this._participantsService.onContactsChanged;
+        return merge(...displayDataChanges).pipe(map(() => {
+
+            let data = this._participantsService.participants.slice();
+
+            //data = this.filterData(data);
+
+            this.filteredData = [...data];
+
+            //data = this.sortData(data);
+
+            // Grab the page's slice of data.
+            const startIndex = this._matPaginator.pageIndex * this._matPaginator.pageSize;
+            return data.splice(startIndex, this._matPaginator.pageSize);
+        })
+    );
+
     }
 
     /**

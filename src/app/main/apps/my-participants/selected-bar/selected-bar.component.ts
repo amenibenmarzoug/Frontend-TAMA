@@ -54,7 +54,7 @@ export class SelectedBarComponent implements OnInit {
                   this.selectedContacts = selectedContacts;
                   setTimeout(() => {
                       this.hasSelectedContacts = selectedContacts.length > 0;
-                      this.isIndeterminate = (selectedContacts.length !== this._MyParticipantsService.contacts.length && selectedContacts.length > 0);
+                      this.isIndeterminate = (selectedContacts.length !== this._MyParticipantsService.participants.length && selectedContacts.length > 0);
                   }, 0);
               });
       }

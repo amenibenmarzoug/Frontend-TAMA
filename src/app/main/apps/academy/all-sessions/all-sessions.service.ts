@@ -126,6 +126,13 @@ export class AllSessionsService implements Resolve<any>
 
 
                         this.sessions = response;
+                        this.sessions.sort(function (x, y) {
+                            const a = new Date(x.sessionBeginDate)
+                            const b = new Date(y.sessionBeginDate)
+                            if (a.getTime() < b.getTime()) { return -1; }
+                            if (a.getTime()> b.getTime()) { return 1; }
+                            return 0;
+                        })
                         this.sessions = this.sessions.filter(_courseSession => {
                             if (_courseSession.themeDetailInstance.id == this.filterBy.id) {
 
@@ -166,6 +173,13 @@ export class AllSessionsService implements Resolve<any>
                     console.log("TRAINER SESSIONS");
                     this.sessions = [];
                     this.sessions = response;
+                    this.sessions.sort(function (x, y) {
+                        const a = new Date(x.sessionBeginDate)
+                        const b = new Date(y.sessionBeginDate)
+                        if (a.getTime() < b.getTime()) { return -1; }
+                        if (a.getTime()> b.getTime()) { return 1; }
+                        return 0;
+                    })
                     console.log(this.sessions)
                     if (this.filterBy != null) {
 
@@ -195,6 +209,13 @@ export class AllSessionsService implements Resolve<any>
 
                     this.sessions = [];
                     this.sessions = response;
+                    this.sessions.sort(function (x, y) {
+                        const a = new Date(x.sessionBeginDate)
+                        const b = new Date(y.sessionBeginDate)
+                        if (a.getTime() < b.getTime()) { return -1; }
+                        if (a.getTime()> b.getTime()) { return 1; }
+                        return 0;
+                    })
                     this.sessions = this.sessions.filter(_courseSession => {
                         if (_courseSession.themeDetailInstance.moduleInstance.themeInstance.programInstance.id == programInstanceId) {
 
