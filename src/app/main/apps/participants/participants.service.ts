@@ -360,9 +360,9 @@ export class ParticipantsService implements Resolve<any>
         });
     }
     /** */
-    updateContact1(contact, entreprise): Promise<any> {
+    updateContact1(contact): Promise<any> {
         return new Promise((resolve, reject) => {
-            contact.entreprise = entreprise;
+            //contact.entreprise = entreprise;
           
             console.log("PARTICIPANT IN SERVICE");
             console.log(contact);

@@ -229,23 +229,7 @@ export class EntreprisesService implements Resolve<any>
         // console.log(this.selectedContacts.length)
     }
 
-    /**
-     * Update contact
-     *
-     * @param contact
-     * @returns {Promise<any>}
-     */
-    updateEnterprise(contact): Promise<any> {
-        return new Promise((resolve, reject) => {
-            contact.password = contact.phoneNumber;
-            console.log(contact);
-            this._httpClient.post(AUTH_API + 'auth/signupEnterprise', contact)
-                .subscribe(response => {
-                    this.getEnterprises();
-                    resolve(response);
-                });
-        });
-    }
+
 
     addEntreprise(entreprise): Promise<any> {
         return new Promise((resolve, reject) => {
@@ -256,7 +240,7 @@ export class EntreprisesService implements Resolve<any>
             this.classe = null;*/
             console.log("ENTREPRISE SERVICE")
             console.log(entreprise);
-            this._httpClient.post(AUTH_API + 'auth/signupEnterprise', entreprise)
+            this._httpClient.post(AUTH_API + 'auth/manager/company', entreprise)
                 .subscribe(response => {
                     this.getEnterprises();
                     resolve(response);

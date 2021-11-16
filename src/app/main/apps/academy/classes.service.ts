@@ -402,11 +402,11 @@ export class ClassesService {
             const courseIndex = this.programsInst.indexOf(program.id);
             this.programsInst.splice(courseIndex, 1);
             this.onProgramsInstChanged.next(this.programsInst);
-            this._httpClient.delete(AUTH_API + `programsInst/${program.id}`)
+            this._httpClient.delete(AUTH_API + 'programsInst/'+program.id)
                 .subscribe(response => {
                     this.getProgramsInst();
                     resolve(response);
-                });
+                },reject);
         });
     }
 

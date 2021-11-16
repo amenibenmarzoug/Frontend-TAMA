@@ -115,7 +115,7 @@ export class ProgramsService implements Resolve<any>
             const courseIndex = this.programs.indexOf(program.id);
             this.programs.splice(courseIndex, 1);
             this.onProgramsChanged.next(this.programs);
-            this._httpClient.delete(AUTH_API + `programs/${program.id}`)
+            this._httpClient.delete(AUTH_API + 'programs/'+program.id)
                 .subscribe(response => {
                     this.getPrograms();
 

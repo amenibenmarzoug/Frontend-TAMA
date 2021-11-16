@@ -412,7 +412,7 @@ this.confirmDialogRef = null;
                      */
                     case 'delete':
 
-                        this.deleteClass(programInst.id);
+                        this.deleteClass(programInst);
 
                         break;
                 }
@@ -436,8 +436,8 @@ this.confirmDialogRef = null;
         this.dialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
-
-        this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+  
+        this.dialogRef.componentInstance.confirmMessage = 'Etes vous sûr de supprimer la classe ' + contact.programInstName +' ? C\'est irréversible!';
 
         this.dialogRef.afterClosed().subscribe(result => {
             if (result) {

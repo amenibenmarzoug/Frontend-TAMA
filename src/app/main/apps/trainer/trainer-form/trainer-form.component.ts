@@ -35,8 +35,8 @@ export class TrainerFormComponent {
     ) {
         // Set the defaults
         this.action = _data.action;
-        this._serviceTrainer.onModulesChanged.subscribe((modules)=>{
-            this.specifications=modules;
+        this._serviceTrainer.onProgramsChanged.subscribe((programs)=>{
+            this.specifications=programs;
         })
        
         this._serviceTrainer.onThemesChanged.subscribe((themes)=>{

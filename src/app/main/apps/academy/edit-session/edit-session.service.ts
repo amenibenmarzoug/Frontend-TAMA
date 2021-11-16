@@ -247,7 +247,7 @@ export class EditSessionService implements Resolve<any>{
                             });
                             this.trainers = response.filter(trainer => {
                                 
-                                if ((trainer.disponibilityDays.includes(this.selectedDay)) && (!this.unavailableTrainersId.includes(trainer.id)) &&(trainer.specifications.includes(this.selectedModule.module.moduleName))) {
+                                if ((trainer.disponibilityDays.includes(this.selectedDay)) && (!this.unavailableTrainersId.includes(trainer.id)) &&(trainer.specifications.includes(this.selectedModule.themeInstance.programInstance.program.programName))) {
                                     return true;
                                 }
                                 return false;
@@ -255,7 +255,7 @@ export class EditSessionService implements Resolve<any>{
                         }
                         else {
                             this.trainers = response.filter(trainer => {
-                                if ((trainer.disponibilityDays.includes(this.selectedDay)) &&(trainer.specifications.includes(this.selectedModule.module.moduleName))) {
+                                if ((trainer.disponibilityDays.includes(this.selectedDay)) &&(trainer.specifications.includes(this.selectedModule.themeInstance.programInstance.program.programName))) {
                                     return true;
                                 }
                                 return false;

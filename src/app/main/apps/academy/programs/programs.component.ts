@@ -191,7 +191,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
                      */
                     case 'delete':
 
-                        this.deleteProgram(program.id);
+                        this.deleteProgram(program);
 
                         break;
                 }
@@ -207,8 +207,8 @@ export class ProgramsComponent implements OnInit, OnDestroy {
             disableClose: false
         });
 
-        this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
 
+        this.dialogRef.componentInstance.confirmMessage = 'Etes vous sûr de supprimer la classe ' + program.programName +' ? C\'est irréversible!';
         this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this._academyProgramsService.deleteProgram(program);

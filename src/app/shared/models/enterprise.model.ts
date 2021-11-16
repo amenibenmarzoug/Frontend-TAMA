@@ -40,7 +40,7 @@ export class Enterprise
             this.street = enterprise.street || '';
             this.city = enterprise.city || '';
             this.postalCode = enterprise.postalCode || '';
-            this.programInstance=enterprise.programInstance || '';
+            this.programInstance=enterprise.programInstance || null;
             this.validated = enterprise.validated || '';
             this.managerPosition=enterprise.managerPosition || '';
             this.nbMinParticipants=enterprise.nbMinParticipants || '';

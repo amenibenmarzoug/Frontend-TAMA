@@ -187,6 +187,7 @@ export class ParticipantFormComponent {
 
         //this._ParticipantsService.entreprise = event;
         this.contactForm.patchValue({entreprise:event})
+        console.log(this.contactForm.getRawValue());
     }
     // getGroupForm(event) {
 

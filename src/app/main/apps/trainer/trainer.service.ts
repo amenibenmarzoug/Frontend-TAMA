@@ -37,6 +37,8 @@ export class TrainerService implements Resolve<any>
     id: number;
     onThemesChanged: BehaviorSubject<any>;
     themes: any[];
+    onProgramsChanged: BehaviorSubject<any>;
+    programs: any[]=[];
     themeId: number;
 
     /**
@@ -52,6 +54,7 @@ export class TrainerService implements Resolve<any>
         this.onSelectedContactsChanged = new BehaviorSubject([]);
         this.onUserDataChanged = new BehaviorSubject([]);
         this.onModulesChanged = new BehaviorSubject([]);
+        this.onProgramsChanged = new BehaviorSubject([]);
         this.onThemesChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
@@ -75,7 +78,8 @@ export class TrainerService implements Resolve<any>
                 this.getContacts(),
                 this.getUserData(),
                 this.getModules(),
-                this.getThemes()
+                this.getThemes(),
+                this.getPrograms()
             ]).then(
                 ([files]) => {
 
@@ -273,6 +277,18 @@ export class TrainerService implements Resolve<any>
         );
     }
 
+    getPrograms(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'programs')
+                .subscribe((response: any) => {
+                    this.programs = response;
+                   
+  
+                    this.onProgramsChanged.next(this.programs);
+                    resolve(this.programs);
+                }, reject);
+        });
+    }
 
     /**
      * Toggle selected contact by id

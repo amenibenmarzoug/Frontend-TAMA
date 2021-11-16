@@ -173,12 +173,13 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
                     case 'save':
                       
                         let participant=new Participant(formData.getRawValue());
-                        participant.entreprise=contact.entreprise;
+                        //participant.entreprise=contact.entreprise;
                         participant.status=contact.status;
                         participant.validated=contact.validated;
                         console.log("PARTICIPANT");
-                        console.log(participant);
-                        this._participantsService.updateContact1(participant, this._participantsService.entreprise);
+                        console.log(contact);
+                        console.log(formData.getRawValue());
+                        this._participantsService.updateContact1(participant);
                         break;
                     /**
                      * Delete

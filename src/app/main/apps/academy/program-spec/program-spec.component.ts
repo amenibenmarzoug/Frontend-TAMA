@@ -164,7 +164,7 @@ export class ProgramSpecComponent implements OnInit {
 
     editProgram(program): void {
         this.dialogRef = this.dialog.open(ProgramSpecFormComponent, {
-            disableClose: true ,
+            disableClose: true,
             panelClass: 'cursus-form-dialog',
             data: {
                 program: program,
@@ -195,7 +195,7 @@ export class ProgramSpecComponent implements OnInit {
                      */
                     case 'delete':
 
-                        this.deleteCursus(program.id);
+                        this.deleteProgramSpec(program);
 
                         break;
                 }
@@ -206,16 +206,16 @@ export class ProgramSpecComponent implements OnInit {
         console.log("programInst id" + id)
     }
 
-    deleteCursus(contact): void {
+    deleteProgramSpec(contact): void {
         this.dialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
 
-        this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        this.dialogRef.componentInstance.confirmMessage = 'Etes vous sûr de supprimer la classe ' + contact.programName +' ? C\'est irréversible!';
 
         this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                //    this._academyProgramsSpecService.deleteProgramInst(contact);
+                    this._academyProgramsSpecService.deleteProgram(contact);
             }
             this.dialogRef = null;
         });
