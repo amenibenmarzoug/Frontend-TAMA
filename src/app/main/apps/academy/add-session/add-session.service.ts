@@ -49,6 +49,9 @@ export class AddSessionService implements Resolve<any>{
     chosenClassRoom: any;
     selectedModule: any;
     selectedDate: Date;
+    selectedBeginDate: Date;
+    selectedEndDate: Date;
+
     selectedDay: String;
     onInstitutionsChanged: BehaviorSubject<any>;
     date: Date;
@@ -120,24 +123,19 @@ export class AddSessionService implements Resolve<any>{
     }
 
     getInstitutions(): Promise<any> {
-        /* console.log(this._httpClient.get<any[]>(AUTH_API + 'courseSession'));
-         return this._httpClient.get<any[]>(AUTH_API + 'courseSession')
-         .pipe(catchError(this.processHTTPMsgService.handleError));*/
+      
 
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'institutions')
                 .subscribe((response: any) => {
-                    console.log("response institutions");
-                    console.log(response);
+                    
                     this.onInstitutionsChanged.next(response);
                     this.institutions = response;
 
                     if(this.currentCity!=null){
-                        console.log("INSTITUTIONS");
                         this.institutions = response.filter(institution => {
                             
                             if (institution.city==this.currentCity) {
-                                //console.log("");
                                 return true;
                             }
                             return false;
@@ -146,7 +144,6 @@ export class AddSessionService implements Resolve<any>{
                     else{
                         this.institutions=[]
                     }
-                    console.log(this.institutions);
                     resolve(this.institutions);
                 }, reject);
         }
@@ -154,45 +151,40 @@ export class AddSessionService implements Resolve<any>{
     }
 
     getClassRooms(): Promise<any> {
-        /* console.log(this._httpClient.get<any[]>(AUTH_API + 'courseSession'));
-         return this._httpClient.get<any[]>(AUTH_API + 'courseSession')
-         .pipe(catchError(this.processHTTPMsgService.handleError));*/
+       
 
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'classroom')
                 .subscribe((response: any) => {
-                    console.log("response classromm");
-                    console.log(response);
+                    
                     
                     
                     this.classRooms = response;
                     this.unavailableClassroomsId = [];
-                    console.log("SELECTED DAY IN SERVICE");
-                    console.log(this.selectedDate);
                     if (this.selectedDay != null) {
 
                         if (this.sessions.length != 0) {
                             this.sessions.forEach(session => {
-                                this.date = new Date(session.sessionBeginDate);
-                                
+                               
+                                this.date = new Date(session.sessionEndDate);
+                                let beginDate=new Date(session.sessionBeginDate);
+                                let endDate=new Date(session.sessionEndDate);
+                              
 
-                                if (this.date.toDateString() == this.selectedDate.toDateString()) {
+                             //   if (this.date.toDateString() == this.selectedDate.toDateString()) {
+                                if ((this.selectedEndDate>=beginDate) && (this.selectedBeginDate<=endDate)) {
                                     if ((session.classRoom != null) && (!this.unavailableClassroomsId.includes(session.classRoom.id)))
                                         this.unavailableClassroomsId.push(session.classRoom.id);
                                 }
 
                             });
                             this.classRooms = response.filter(classroom => {
-                                console.log(classroom);
-                                console.log(this.unavailableClassroomsId.includes(classroom.id));
                                 if (!this.unavailableClassroomsId.includes(classroom.id)) {
                                     return true;
                                 }
                                 return false;
                             });
-                            console.log(this.classRooms);
-                            console.log("UNAVAILABLE CLASSROOMS");
-                            console.log(this.unavailableClassroomsId);
+                          
                         }
                         else {
                             this.classRooms = response;
@@ -204,7 +196,6 @@ export class AddSessionService implements Resolve<any>{
                     else {
                         this.classRooms = [];
                     }
-                    console.log(this.classRooms);
                     this.onClassRoomsChanged.next(this.classRooms);
                     resolve(this.classRooms);
                 }, reject);
@@ -219,8 +210,7 @@ export class AddSessionService implements Resolve<any>{
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'session')
                 .subscribe((response: any) => {
-                    console.log("response session");
-                    console.log(response);
+                  
                     this.onSessionsChanged.next(response);
                     this.sessions = response;
 
@@ -239,8 +229,7 @@ export class AddSessionService implements Resolve<any>{
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'trainers')
                 .subscribe((response: any) => {
-                    console.log("response");
-                    console.log(response);
+                    
 
                     this.trainers = response;
                     this.unavailableTrainersId = [];
@@ -248,35 +237,32 @@ export class AddSessionService implements Resolve<any>{
 
                         if (this.sessions.length != 0) {
                             this.sessions.forEach(session => {
-                                this.date = new Date(session.sessionBeginDate);
-                                console.log(this.date);
-                                console.log(this.selectedDate);
+                                this.date = new Date(session.sessionEndDate);
+                                let beginDate=new Date(session.sessionBeginDate);
+                                let endDate=new Date(session.sessionEndDate);
+                              
 
-                                if (this.date.toDateString() == this.selectedDate.toDateString()) {
+                             //   if (this.date.toDateString() == this.selectedDate.toDateString()) {
+                                if ((this.selectedEndDate>=beginDate) && (this.selectedBeginDate<=endDate)) {
+
                                     if ((session.trainer != null) && (!this.unavailableTrainersId.includes(session.trainer.id)))
                                         this.unavailableTrainersId.push(session.trainer.id);
                                 }
 
                             });
                             this.trainers = response.filter(trainer => {
-                                console.log(trainer);
-                                console.log(this.unavailableTrainersId.includes(trainer.id));
-                                console.log(this.selectedModule.module.moduleName);
+                                
                                 if ((trainer.disponibilityDays.includes(this.selectedDay)) && (!this.unavailableTrainersId.includes(trainer.id)) &&(trainer.specifications.includes(this.selectedModule.module.moduleName))) {
-                                    //console.log("");
                                     return true;
                                 }
                                 return false;
                             });
-                            console.log("UNAVAILABLE TRAINERS");
-                            console.log(this.unavailableTrainersId);
+                      
                         }
                         else {
                             this.trainers = response.filter(trainer => {
-                                console.log(trainer);
                                 
                                 if ((trainer.disponibilityDays.includes(this.selectedDay)) &&(trainer.specifications.includes(this.selectedModule.module.moduleName))) {
-                                    //console.log("");
                                     return true;
                                 }
                                 return false;
@@ -302,8 +288,7 @@ export class AddSessionService implements Resolve<any>{
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'programsInst')
                 .subscribe((response: any) => {
-                    console.log("response");
-                    console.log(response);
+                   
                     this.onProgramsChanged.next(response);
                     this.programs = response;
                     resolve(response);
@@ -318,8 +303,7 @@ export class AddSessionService implements Resolve<any>{
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'themesInst')
                 .subscribe((response: any) => {
-                    console.log("response");
-                    console.log(response);
+              
                     this.onThemesChanged.next(response);
                     this.themes = response;
                     resolve(response);
@@ -334,8 +318,7 @@ export class AddSessionService implements Resolve<any>{
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'moduleInstance')
                 .subscribe((response: any) => {
-                    console.log("response");
-                    console.log(response);
+                  
                     this.onModulesChanged.next(response);
                     this.modules = response;
                     resolve(response);
@@ -350,8 +333,7 @@ export class AddSessionService implements Resolve<any>{
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'themeDetailInst')
                 .subscribe((response: any) => {
-                    console.log("response");
-                    console.log(response);
+          
                     this.onThemeDetailsChanged.next(response);
                     this.themeDetails = response;
                     resolve(response);
@@ -376,9 +358,7 @@ export class AddSessionService implements Resolve<any>{
                 .subscribe((response: any) => {
 
                     this.events = response;
-                    //console.log("GET EVENTS");
-                   // console.log(this.events);
-                    //this.onEventsUpdated.next(this.events);
+                    
                     resolve(this.events);
                 }, reject);
         });
@@ -394,9 +374,7 @@ export class AddSessionService implements Resolve<any>{
                 .subscribe((response: any) => {
 
                     this.freeDays = response;
-                    //console.log("GET EVENTS");
-                   // console.log(this.events);
-                    //this.onEventsUpdated.next(this.events);
+                    
                     this.freeDays = this.freeDays.filter(_event => {
                         
                             if (_event.freeDay == true) {
@@ -413,18 +391,10 @@ export class AddSessionService implements Resolve<any>{
 
 
     saveCourseSessionAndEvent(session): Promise<any> {
-      
-
-        console.log(session);
         return new Promise((resolve, reject) => {
 
             this._httpClient.post(AUTH_API + 'session', session)
                 .subscribe(response => {
-
-                   
-                
-                    console.log(response);
-                  
 
                     resolve(response);
                     this.getSessions();
@@ -444,7 +414,6 @@ export class AddSessionService implements Resolve<any>{
 
                     this.sessionsByProgram = response;
                     this.onSessionsChanged.next(response);
-                    console.log(this.sessionsByProgram);
                     resolve(response);
                 }, reject);
         }
@@ -460,7 +429,6 @@ export class AddSessionService implements Resolve<any>{
 
 
                     this.sessionsByThemeDetail = response;
-                    console.log(this.sessionsByThemeDetail);
                     resolve(response);
                 }, reject);
         }
@@ -470,15 +438,11 @@ export class AddSessionService implements Resolve<any>{
     addEvent(event): Promise<any> {
 
         return new Promise((resolve, reject) => {
-            console.log("courseSession in addevent");
-            console.log(event.courseSession);
-            console.log(event);
 
             this._httpClient.post(AUTH_API + 'event', event)
                 .subscribe(response => {
 
 
-                    console.log(response);
                     this.getEvents();
                     resolve(response);
                 });
@@ -492,8 +456,7 @@ export class AddSessionService implements Resolve<any>{
     toggleSelectedContact(id): void {
         // First, check if we already have that contact as selected...
         if (this.selectedContacts.length > 0) {
-            console.log("SELECTED CONTACTS IN SERVICE");
-            console.log(this.selectedContacts);
+        
             const index = this.selectedContacts.indexOf(id.toString());
 
             if (index !== -1) {

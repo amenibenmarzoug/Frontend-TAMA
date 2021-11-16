@@ -170,7 +170,6 @@ export class AllSessionsService implements Resolve<any>
 
             this._httpClient.get(environment.backend_url + 'api/session/trainerId/' + trainerId)
                 .subscribe((response: any) => {
-                    console.log("TRAINER SESSIONS");
                     this.sessions = [];
                     this.sessions = response;
                     this.sessions.sort(function (x, y) {
@@ -180,7 +179,6 @@ export class AllSessionsService implements Resolve<any>
                         if (a.getTime()> b.getTime()) { return 1; }
                         return 0;
                     })
-                    console.log(this.sessions)
                     if (this.filterBy != null) {
 
 
@@ -330,8 +328,7 @@ export class AllSessionsService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'session')
                 .subscribe((response: any) => {
-                    console.log("response course");
-                    console.log(response);
+                   
                     this.courses = response;
                     this.onCoursesChanged.next(response);
 

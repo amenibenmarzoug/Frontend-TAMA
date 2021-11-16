@@ -81,12 +81,7 @@ export class TrainersListComponent implements OnInit, OnDestroy {
                     this.checkboxes = this._addSessionService.checkboxes;
                 }
 
-                /*   this.trainers.map(contact => {
-                      if(this._addSessionService.selectedContacts==null){
-                      this.checkboxes[contact.id] = false;}
-                  });
-   */
-
+              
             });
 
 
