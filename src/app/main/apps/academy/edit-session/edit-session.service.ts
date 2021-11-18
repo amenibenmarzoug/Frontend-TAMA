@@ -5,9 +5,9 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Session } from './session.model';
 import { CalendarEventModel } from '../../calendar/event.model';
-import {environment} from 'environments/environment';
+import { environment } from 'environments/environment';
 
-const AUTH_API = environment.backend_url+ 'api/';
+const AUTH_API = environment.backend_url + 'api/';
 
 @Injectable()
 export class EditSessionService implements Resolve<any>{
@@ -29,13 +29,13 @@ export class EditSessionService implements Resolve<any>{
     onThemeDetailsChanged: BehaviorSubject<any>;
     onSessionsChanged: BehaviorSubject<any>;
     selectedContacts: string[] = [];
-    sessionsByThemeDetail:any[];
-    sessionsByProgram:any[];
-    checkboxes:{};
+    sessionsByThemeDetail: any[];
+    sessionsByProgram: any[];
+    checkboxes: {};
     events: any[];
     unavailableTrainersId: any[];
     unavailableClassroomsId: any[];
-    session:any;
+    session: any;
     trainers: any[];
     programs: any[];
     themes: any[];
@@ -43,9 +43,9 @@ export class EditSessionService implements Resolve<any>{
     themeDetails: any[];
     classRooms: any;
     sessions: Session[];
-    sessionId:number;
+    sessionId: number;
     institutions: any[];
-    currentCity:any;
+    currentCity: any;
     chosenInstitutionId: any;
     onEventsUpdated: Subject<any>;
     chosenClassRoom: any;
@@ -56,9 +56,9 @@ export class EditSessionService implements Resolve<any>{
     selectedDay: String;
     onInstitutionsChanged: BehaviorSubject<any>;
     date: Date;
-    freeDays:any[];
+    freeDays: any[];
     event: CalendarEventModel;
-    trainerId:number;
+    trainerId: number;
     receivedFilter: EventEmitter<any[]>;
     constructor(private _httpClient: HttpClient) {
         this.onContactsChanged = new BehaviorSubject([]);
@@ -126,27 +126,27 @@ export class EditSessionService implements Resolve<any>{
     }
 
     getInstitutions(): Promise<any> {
-       
+
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'institutions')
                 .subscribe((response: any) => {
                     this.onInstitutionsChanged.next(response);
                     this.institutions = response;
 
-                    if(this.currentCity!=null){
+                    if (this.currentCity != null) {
                         this.institutions = response.filter(institution => {
-                            
-                            if (institution.city==this.currentCity) {
-                               
+
+                            if (institution.city == this.currentCity) {
+
                                 return true;
                             }
                             return false;
                         });
                     }
-                    else{
-                        this.institutions=[]
+                    else {
+                        this.institutions = []
                     }
-                    
+
                     resolve(this.institutions);
                 }, reject);
         }
@@ -154,7 +154,7 @@ export class EditSessionService implements Resolve<any>{
     }
 
     getClassRooms(): Promise<any> {
-        
+
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'classroom')
                 .subscribe((response: any) => {
@@ -165,13 +165,13 @@ export class EditSessionService implements Resolve<any>{
                         if (this.sessions.length != 0) {
                             this.sessions.forEach(session => {
                                 this.date = new Date(session.sessionEndDate);
-                                let beginDate=new Date(session.sessionBeginDate);
-                                let endDate=new Date(session.sessionEndDate);
-                              
+                                let beginDate = new Date(session.sessionBeginDate);
+                                let endDate = new Date(session.sessionEndDate);
 
-                             //   if (this.date.toDateString() == this.selectedDate.toDateString()) {
-                                if ((this.selectedEndDate>=beginDate) && (this.selectedBeginDate<=endDate)) {
-                                    if ((session.classRoom != null) && ((this.sessionId!=null)&&(session.id!=this.sessionId)) &&(!this.unavailableClassroomsId.includes(session.classRoom.id)))
+
+                                //   if (this.date.toDateString() == this.selectedDate.toDateString()) {
+                                if ((this.selectedEndDate >= beginDate) && (this.selectedBeginDate <= endDate)) {
+                                    if ((session.classRoom != null) && ((this.sessionId != null) && (session.id != this.sessionId)) && (!this.unavailableClassroomsId.includes(session.classRoom.id)))
                                         this.unavailableClassroomsId.push(session.classRoom.id);
                                 }
 
@@ -207,7 +207,7 @@ export class EditSessionService implements Resolve<any>{
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'session')
                 .subscribe((response: any) => {
-                    
+
                     this.onSessionsChanged.next(response);
                     this.sessions = response;
 
@@ -234,20 +234,20 @@ export class EditSessionService implements Resolve<any>{
                         if (this.sessions.length != 0) {
                             this.sessions.forEach(session => {
                                 this.date = new Date(session.sessionEndDate);
-                                let beginDate=new Date(session.sessionBeginDate);
-                                let endDate=new Date(session.sessionEndDate);
-                              
+                                let beginDate = new Date(session.sessionBeginDate);
+                                let endDate = new Date(session.sessionEndDate);
 
-                             //   if (this.date.toDateString() == this.selectedDate.toDateString()) {
-                                if ((this.selectedEndDate>=beginDate) && (this.selectedBeginDate<=endDate)) {
-                                    if ((session.trainer != null) && ((this.trainerId!=null)&&(session.trainer.id!=this.trainerId)) && (!this.unavailableTrainersId.includes(session.trainer.id)))
+
+                                //   if (this.date.toDateString() == this.selectedDate.toDateString()) {
+                                if ((this.selectedEndDate >= beginDate) && (this.selectedBeginDate <= endDate)) {
+                                    if ((session.trainer != null) && ((this.trainerId != null) && (session.trainer.id != this.trainerId)) && (!this.unavailableTrainersId.includes(session.trainer.id)))
                                         this.unavailableTrainersId.push(session.trainer.id);
                                 }
 
                             });
                             this.trainers = response.filter(trainer => {
-                                
-                                if ((trainer.disponibilityDays.includes(this.selectedDay)) && (!this.unavailableTrainersId.includes(trainer.id)) &&(trainer.specifications.includes(this.selectedModule.themeInstance.programInstance.program.programName))) {
+
+                                if ((trainer.disponibilityDays.includes(this.selectedDay)) && (!this.unavailableTrainersId.includes(trainer.id)) && (trainer.specifications.includes(this.selectedModule.themeInstance.programInstance.program.programName))) {
                                     return true;
                                 }
                                 return false;
@@ -255,7 +255,7 @@ export class EditSessionService implements Resolve<any>{
                         }
                         else {
                             this.trainers = response.filter(trainer => {
-                                if ((trainer.disponibilityDays.includes(this.selectedDay)) &&(trainer.specifications.includes(this.selectedModule.themeInstance.programInstance.program.programName))) {
+                                if ((trainer.disponibilityDays.includes(this.selectedDay)) && (trainer.specifications.includes(this.selectedModule.themeInstance.programInstance.program.programName))) {
                                     return true;
                                 }
                                 return false;
@@ -363,12 +363,12 @@ export class EditSessionService implements Resolve<any>{
 
                     this.freeDays = response;
                     this.freeDays = this.freeDays.filter(_event => {
-                        
-                            if (_event.freeDay == true) {
-                               
-                                return true;
-                            }
-                        
+
+                        if (_event.freeDay == true) {
+
+                            return true;
+                        }
+
                         return false;
                     });
                     resolve(this.freeDays);
@@ -378,7 +378,7 @@ export class EditSessionService implements Resolve<any>{
 
 
     updateCourseSessionAndEvent(session): Promise<any> {
-       
+
         return new Promise((resolve, reject) => {
 
             this._httpClient.put(AUTH_API + 'session', session)
@@ -395,12 +395,15 @@ export class EditSessionService implements Resolve<any>{
 
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'session/' +id)
+            this._httpClient.get(AUTH_API + 'session/' + id)
                 .subscribe((response: any) => {
 
 
                     this.session = response;
-                    this.trainerId=this.session.trainer.id;
+                    if (this.session.trainer != null) {
+                        this.trainerId = this.session.trainer.id;
+
+                    }
                     resolve(response);
                 }, reject);
         }
@@ -411,7 +414,7 @@ export class EditSessionService implements Resolve<any>{
 
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'session/programInst/?programId=' +id)
+            this._httpClient.get(AUTH_API + 'session/programInst/?programId=' + id)
                 .subscribe((response: any) => {
 
 
@@ -426,7 +429,7 @@ export class EditSessionService implements Resolve<any>{
 
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'session/themeDetail/?themeDetailId=' +id)
+            this._httpClient.get(AUTH_API + 'session/themeDetail/?themeDetailId=' + id)
                 .subscribe((response: any) => {
 
 
@@ -441,12 +444,12 @@ export class EditSessionService implements Resolve<any>{
 
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'event/' +id)
+            this._httpClient.get(AUTH_API + 'event/' + id)
                 .subscribe((response: any) => {
 
 
                     this.session = response;
-                    this.trainerId=this.session.trainer.id;
+                    this.trainerId = this.session.trainer.id;
                     resolve(response);
                 }, reject);
         }
@@ -458,22 +461,22 @@ export class EditSessionService implements Resolve<any>{
 
 
         return new Promise((resolve, reject) => {
-            this._httpClient.get(AUTH_API + 'event' )
+            this._httpClient.get(AUTH_API + 'event')
                 .subscribe((response: any) => {
 
 
                     this.events = response;
                     this.events = response.filter(event => {
-                        
-                        
-                        if ((event.session!=null)&&(event.session.id==id)) {
-                            this.event=event;
+
+
+                        if ((event.session != null) && (event.session.id == id)) {
+                            this.event = event;
                             return true;
                         }
                         return false;
                     });
-                    
-                    
+
+
                     resolve(this.event);
                 }, reject);
         }
@@ -482,7 +485,7 @@ export class EditSessionService implements Resolve<any>{
     updateEvent(event): Promise<any> {
 
         return new Promise((resolve, reject) => {
-       
+
 
             this._httpClient.put(AUTH_API + 'event', event)
                 .subscribe(response => {

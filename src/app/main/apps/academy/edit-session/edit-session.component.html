@@ -247,13 +247,13 @@
                     </div>
 
                     <div class="content mb-24">
-                        <div class="message-box warning" *ngIf="session.trainer.gender=='Féminin'">
+                        <div class="message-box warning" *ngIf="session.trainer!=null && session.trainer.gender=='Féminin'">
                             La formatrice actuelle de cette séance est {{session.trainer.firstName }}
                             {{session.trainer.lastName
                             }}.
                             Si vous voulez la modifier, veuillez choisir de la liste suivante :
                         </div>
-                        <div class="message-box warning" *ngIf="session.trainer.gender=='Masculin'">
+                        <div class="message-box warning" *ngIf="session.trainer!=null && session.trainer.gender=='Masculin'">
                             Le formateur actuel de cette séance est {{session.trainer.firstName }}
                             {{session.trainer.lastName
                             }}.

@@ -91,6 +91,10 @@ export class ParticipantsService implements Resolve<any>
 
                     this.onFilterChanged.subscribe(filter => {
                         this.filterBy = filter;
+                        if(this.filterBy==null){
+                            this.getClasses();
+
+                        }
                         this.getContacts();
                     });
 

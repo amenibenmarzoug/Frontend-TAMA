@@ -94,4 +94,20 @@ export class MainComponent implements OnInit, OnDestroy {
     this._participantService.getParticipantsWithoutRegistration();
 }
 
+resetFilters():void{
+    this.filterBy='all';
+    console.log("FILTER");
+    console.log(this.filterBy);
+    this._participantService.filterBy='all';
+    this._participantService.onClassesChanged.next(null);
+    this.classes=[];
+    this._participantService.getClasses();
+
+    this.ngOnInit();
+    console.log(this.filterBy)
+
+
+
+}
+
 }

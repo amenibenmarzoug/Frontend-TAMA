@@ -246,7 +246,7 @@
                             <mat-form-field appearance="outline" fxFlex="100">
                                 <mat-label>Ville</mat-label>
                                 <mat-select formControlName="city" required (blur)="onValueChanged()">
-                                    <mat-option *ngFor="let city of cities" [value]="city">
+                                    <mat-option *ngFor="let city of cities.sort()" [value]="city">
                                         {{city}}
                                     </mat-option>
 
