@@ -437,6 +437,8 @@ export class TrainerService implements Resolve<any>
     ValidateContact(contact): Promise<any> {
         return new Promise((resolve, reject) => {
             contact.validated=true ;
+            let fees= JSON.stringify(contact.fees);
+            contact.fees=fees;
             console.log("trainer à valider :")
             console.log(contact)
             const params = new HttpParams().set('id', contact.id);
@@ -452,6 +454,8 @@ export class TrainerService implements Resolve<any>
     }
 
     refuseTrainer(trainer): Promise<any> {
+        let fees= JSON.stringify(trainer.fees);
+        trainer.fees=fees;
         return new Promise((resolve, reject) => {
             this._httpClient.put(AUTH_API + 'trainer/refuse', trainer)
                 .subscribe(response => {

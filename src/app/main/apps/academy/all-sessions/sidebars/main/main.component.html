@@ -23,7 +23,7 @@
                 <div class="nav-item" aria-label="Formations" fxLayoutAlign="start center">
                     <mat-form-field appearance="outline" class="category-selector ">
                         <mat-label>Formateur</mat-label>
-                        <mat-select (selectionChange)="selectTrainer($event.value)" [(ngModel)]="selectedTrainer" >
+                        <mat-select (selectionChange)="selectTrainer($event.value)" [(ngModel)]="selectedTrainer">
 
                             <mat-option *ngFor="let trainer of trainers" [value]="trainer">
 
@@ -35,7 +35,7 @@
                 <div class="nav-item" aria-label="Formations" fxLayoutAlign="start center">
                     <mat-form-field appearance="outline" class="category-selector ">
                         <mat-label>Classe</mat-label>
-                        <mat-select (selectionChange)="selectProgram($event.value)" [(ngModel)]="selectedProgramInst" >
+                        <mat-select (selectionChange)="selectProgram($event.value)" [(ngModel)]="selectedProgramInst">
 
                             <mat-option *ngFor="let program of programs" [value]="program">
 
@@ -47,7 +47,7 @@
                 <div class="nav-item" aria-label="Thème" fxLayoutAlign="start center">
                     <mat-form-field appearance="outline" class="category-selector ">
                         <mat-label>Thème</mat-label>
-                        <mat-select  (selectionChange)="selectTheme($event.value)" >
+                        <mat-select (selectionChange)="selectTheme($event.value)">
 
                             <mat-option *ngFor="let theme of filteredThemes" [value]="theme">
 
@@ -59,14 +59,14 @@
 
 
 
-           
 
-  
+
+
 
                 <div class="nav-item" aria-label="Module" fxLayoutAlign="start center">
                     <mat-form-field appearance="outline" class="category-selector ">
                         <mat-label>Module</mat-label>
-                        <mat-select (selectionChange)="selectModule($event.value)" >
+                        <mat-select (selectionChange)="selectModule($event.value)">
 
                             <mat-option *ngFor="let module of filteredModules" [value]="module">
 
@@ -79,8 +79,7 @@
                 <div class="nav-item" aria-label="Thème de la journée" fxLayoutAlign="start center">
                     <mat-form-field appearance="outline" class="category-selector ">
                         <mat-label>Thème de la journée</mat-label>
-                        <mat-select (selectionChange)="selectThemeDetail($event.value)"
-                            >
+                        <mat-select (selectionChange)="selectThemeDetail($event.value)">
 
                             <mat-option *ngFor="let themeDet of filteredThemeDetails" [value]="themeDet">
 
@@ -90,8 +89,8 @@
                     </mat-form-field>
                 </div>
 
-            
-             
+
+
 
             </div>
             <div class="nav-item" aria-label="resetFilters" fxLayoutAlign="start center">
