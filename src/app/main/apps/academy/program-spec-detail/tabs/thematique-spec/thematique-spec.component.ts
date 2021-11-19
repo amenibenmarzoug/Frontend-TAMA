@@ -212,7 +212,7 @@ export class ThematiqueSpecComponent implements OnInit {
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log("ajout theme avec succès");
+              
 
                 this._programDetailsService.addTheme(this.theme);
 

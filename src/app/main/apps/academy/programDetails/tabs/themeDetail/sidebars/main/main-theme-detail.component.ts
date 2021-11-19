@@ -46,9 +46,12 @@ export class MainThemeDetailComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.filterBy = this._themeDetailsService.filterByThemeDetail || 'all';
+       //this.filterBy = this._themeDetailsService.filterByThemeDetail || 'all';
 
-
+       this.filterBy = null || 'all';
+        this._themeDetailsService.module = null;
+        this._themeDetailsService.onFilterChangedThemeDetail.next(this.filterBy);
+        
 
         this._themeDetailsService.onThemeDetailChanged
             .pipe(takeUntil(this._unsubscribeAll))

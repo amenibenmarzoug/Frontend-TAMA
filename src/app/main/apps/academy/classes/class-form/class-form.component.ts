@@ -70,14 +70,12 @@ export class ClassFormComponent implements OnInit {
 
     if (this.action === 'edit') {
       this.dialogTitle = 'Modifier la Classe';
-  //   console.log("_data.programInst");
-   //   console.log(_data.programInst);
+ 
       this.programInst = _data.programInst;
       this._programInstService.program = this.programInst.program;
       this.programDeBase=this.programInst.program ; 
 
-    //  console.log("programde basee");
-    //  console.log(this.programDeBase);
+   
 
     
 
@@ -97,8 +95,7 @@ export class ClassFormComponent implements OnInit {
     this._unsubscribeAll = new Subject();
     this.programs = this._programInstService.programs;
 
-    //console.log("prograams fel class add form");
-    //console.log(this.programs);
+    
 
 
   }
@@ -110,7 +107,7 @@ export class ClassFormComponent implements OnInit {
     {
     const toSelect = this.programs.find(p => p.id == this.programDeBase.id);
     this.programInstForm.get('program').setValue(toSelect);
-   // console.log(this.programInstForm.get('program'))
+  
     }
 
   }

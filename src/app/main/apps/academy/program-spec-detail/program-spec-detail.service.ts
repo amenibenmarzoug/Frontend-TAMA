@@ -150,7 +150,7 @@ export class ProgramSpecDetailService {
               .subscribe((response: any) => {
                   this.onProgramChanged.next(response);
                   this.programs = response;
-                  console.log(this.programs);
+                  
                   resolve(response);
               }, reject);
       }
@@ -381,7 +381,7 @@ export class ProgramSpecDetailService {
       this.selectedModules.push(id);
 
 
-      console.log(this.selectedModules.length);
+     
 
 
       // Trigger the next event

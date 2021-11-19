@@ -115,9 +115,7 @@ closeEditThemeDetailForm(){
   console.log(this.oldDaysAffectedValue);
 
   this.actualDaysNumberAffected=this._themeDetailsService.actualDaysAffectedPerThemeDetail -this.oldDaysAffectedValue+ Number(this.themeDetailForm.value.nbDaysthemeDetailInst)  ; 
-  console.log(this.actualDaysNumberAffected)
-  console.log(this._themeDetailsService.actualDaysAffectedPerThemeDetail)
-  console.log(this._themeDetailsService.moduleInst.nbDaysModuleInstance)
+ 
   // case where the modified days number exceeded the limit
   if(this.actualDaysNumberAffected > Number(this._themeDetailsService.moduleInst.nbDaysModuleInstance)) {
                           

@@ -72,8 +72,7 @@ export class ModulesInstListComponent implements OnInit {
             .subscribe(modules => {
                 this.modulesInst = modules;
 
-                //  console.log("ModuleInst");
-                //  console.log(this.modulesInst);
+              
 
                 this.checkboxes = {};
                 modules.map(module => {

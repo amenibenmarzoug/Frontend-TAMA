@@ -99,10 +99,7 @@ closeNewModuleForm(){
  
 
   this.actualDaysNumberAffected = this._moduleService.actualDaysAffectedPerModule+ Number(this.moduleInst.nbDaysModuleInstance)  ; 
-  /*console.log("actual days number affected ")
-  console.log(this.actualDaysNumberAffected)
-  console.log("module days in the new form ")
-  console.log(this.module.nbDaysModule)*/
+  
 
   if (this.actualDaysNumberAffected > this._moduleService.themeInst.nbDaysthemeInst) {
     //this.moduleAlert("Vous avez dépassé le nombre des jours de la thématique");

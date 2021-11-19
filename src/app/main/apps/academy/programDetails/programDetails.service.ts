@@ -129,8 +129,6 @@ export class ProgramDetailsService implements Resolve<any>
                     });
 
 
-
-
                     resolve();
 
                 },
@@ -185,7 +183,7 @@ export class ProgramDetailsService implements Resolve<any>
     getThemesPerProgram(): Promise<any> {
 
         let id = new HttpParams().set('id', this.programId);
-        console.log("id chnw hedha " + id);
+       
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'program/themes', { params: id })
                 .subscribe((response: any) => {
@@ -303,9 +301,11 @@ export class ProgramDetailsService implements Resolve<any>
                                 }
                                 return false;
                             });
-
+                          
 
                         }
+                        
+                        
                     }
                     else {
                         this.modules = [];
@@ -317,7 +317,7 @@ export class ProgramDetailsService implements Resolve<any>
                     /* this.modules = this.modules.map(module => {
                          return new Module(module);
                      });*/
-
+                  
                     this.onmoduleChanged.next(this.modules);
                     resolve(this.modules);
                 }, reject);
@@ -399,7 +399,7 @@ export class ProgramDetailsService implements Resolve<any>
         this.selectedModules.push(id);
 
 
-        console.log(this.selectedModules.length);
+     
 
 
         // Trigger the next event

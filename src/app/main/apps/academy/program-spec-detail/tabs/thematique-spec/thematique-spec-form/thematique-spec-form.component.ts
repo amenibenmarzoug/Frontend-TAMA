@@ -111,7 +111,7 @@ closeEditThemeForm(message){
   this.programTotalDaysNumber=this._programDetailsService.program.nbDaysProg;  
   this.oldDaysAffectedValue= this._programDetailsService.oldDaysAffectedNumber
   
-  //console.log("this.oldDaysAffectedValue in the close") ;console.log(this.oldDaysAffectedValue) ;
+ 
 
   this.actualDaysNumberAffected=this._programDetailsService.actualDaysNumberAffected -this.oldDaysAffectedValue+ Number(this.themeSpec.nbDaysTheme)  ; 
                       

@@ -67,7 +67,7 @@ export class ModuleListComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.dataSource = new FilesDataSource(this._moduleService);
-
+        
         this._moduleService.onmoduleChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(modules => {
@@ -155,8 +155,7 @@ export class ModuleListComponent implements OnInit, OnDestroy {
                              break; 
                          }*/
                         this._moduleService.updateModule(formData.getRawValue(), this._moduleService.theme);
-                        console.log("update Module lekbir")
-                        console.log(formData.getRawValue())
+                        
 
                         break;
                     /**

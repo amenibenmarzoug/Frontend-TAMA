@@ -46,7 +46,11 @@ export class MainComponent3 implements OnInit {
    * On init
    */
   ngOnInit(): void {
-     this.filterBy = this._moduleInstService.filterByModule || 'all';
+    // this.filterBy = this._moduleInstService.filterByModule || 'all';
+
+    this.filterBy = null;
+        this._moduleInstService.theme = null;
+        this._moduleInstService.onFilterChangedModuleInst.next(this.filterBy);
    
 
       this._moduleInstService.onmoduleInstChanged

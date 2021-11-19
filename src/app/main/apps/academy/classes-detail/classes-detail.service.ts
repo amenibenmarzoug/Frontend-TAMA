@@ -168,8 +168,7 @@ getModules(): Promise<any>
               
                 this.onModuleChanged.next(response);
                 this.modules=response;
-                console.log("moduleees fel prog inst detail service");
-                console.log(this.modules);
+               
                 resolve(response);
             }, reject);
         }
@@ -272,11 +271,9 @@ getThemes(): Promise<any> {
 
                    
                         this.themes.forEach(theme => {
-                            console.log(theme.program);
-                            console.log("prog fel service");
-                            console.log(this.program);
+                           
                             if ( theme.program.id == this.program.id){
-                                console.log("cond vérifié");
+                              
                                 this.themesOfProgram.push(theme);
 
                             }
@@ -286,8 +283,7 @@ getThemes(): Promise<any> {
                             
 
                         });
-                       console.log("ThemesofProg");
-                       console.log(this.themesOfProgram); 
+                    
 
                 }
 
@@ -429,9 +425,7 @@ addModuleInst3(themeInst,module): Promise<any> {
     this.moduleClasse.nbDaysModuleInstance=module.nbDaysModule;
     this.moduleClasse.themeInstance=themeInst;
 
-console.log(themeInst);
-    console.log("moduleee Classe ");
-    console.log(this.moduleClasse.themeInstance);
+
     
     return new Promise((resolve, reject) => {
        
@@ -616,8 +610,7 @@ selectThemeDetail(filterParameter?, filterValue?): void {
 addThemeDetail(themeDetail, module): Promise<any> {
     return new Promise((resolve, reject) => {
         themeDetail.moduleInstance = module;
-        console.log("themeDetail inst fel service");
-        console.log(themeDetail);
+      
         //themeDetailInst.themeDetail=themeDetail;
         this._httpClient.post(AUTH_API +'themeDetailInst', themeDetail)
             .subscribe(response => {
@@ -745,7 +738,7 @@ getModulesInst(): Promise<any> {
             .subscribe((response: any) => {
 
                 this.modulesInst = response;
-                console.log("ModuleInst fel class service");
+                
                 console.log(this.modulesInst);
                 this.themeInstId = this.filterByModule;
 

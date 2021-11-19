@@ -44,7 +44,10 @@ export class MainModuleSpecComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
-      this.filterBy = this._moduleService.filterByModule ;
+    
+      this.filterBy = null;
+        this._moduleService.theme = null;
+        this._moduleService.onFilterChangedModule.next(this.filterBy);
 
 
 

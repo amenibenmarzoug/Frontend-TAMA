@@ -154,15 +154,13 @@ export class ProgramInstDetailService {
     getModules(): Promise<any>
     {
       
-       
          return new Promise((resolve, reject) => {
                 this._httpClient.get(environment.backend_url+ 'api/module')
                 .subscribe((response: any) => {
                   
                     this.onModuleChanged.next(response);
                     this.modules=response;
-                    console.log("moduleees fel prog inst detail service");
-                    console.log(this.modules);
+                   
                     resolve(response);
                 }, reject);
             }
@@ -190,7 +188,7 @@ export class ProgramInstDetailService {
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API+'programsInst/'+id)
             .subscribe((response: any) => { 
-                console.log("get program by id ")            
+                      
                 this.programInst=response;              
                 resolve(response);
             }, reject);
@@ -306,9 +304,8 @@ export class ProgramInstDetailService {
 
                        
                             this.themes.forEach(theme => {
-                                console.log(theme.program);
-                                console.log("prog fel service");
-                                console.log(this.program);
+                                
+                               
                                 if ( theme.program.id == this.program.id){
                                     console.log("cond vérifié");
                                     this.themesOfProgram.push(theme);
@@ -320,8 +317,7 @@ export class ProgramInstDetailService {
                                 
 
                             });
-                           console.log("ThemesofProg");
-                           console.log(this.themesOfProgram); 
+                          
 
                     }
 
@@ -338,9 +334,7 @@ export class ProgramInstDetailService {
         this.moduleClasse.nbDaysModuleInstance=module.nbDaysModule;
         this.moduleClasse.themeInstance=themeInst;
 
-console.log(themeInst);
-        console.log("moduleee Classe ");
-        console.log(this.moduleClasse.themeInstance);
+
         
         return new Promise((resolve, reject) => {
            
@@ -758,9 +752,7 @@ console.log(themeInst);
     addThemeDetail(themeDetail, module): Promise<any> {
         return new Promise((resolve, reject) => {
             themeDetail.moduleInstance = module;
-           // console.log("themeDetail inst fel service");
-            //console.log(themeDetail);
-            //themeDetailInst.themeDetail=themeDetail;
+          
             this._httpClient.post(AUTH_API +'themeDetailInst', themeDetail)
                 .subscribe(response => {
                     this.getThemeDetail();
