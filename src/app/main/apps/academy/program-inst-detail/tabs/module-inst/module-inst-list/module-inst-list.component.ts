@@ -73,8 +73,7 @@ export class ModuleInstListComponent implements OnInit {
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(modules => {
                 this.modules = modules;
-                console.log("ModuleInst");
-                console.log(this.modules);
+                
 
                 this.checkboxes = {};
                 modules.map(module => {

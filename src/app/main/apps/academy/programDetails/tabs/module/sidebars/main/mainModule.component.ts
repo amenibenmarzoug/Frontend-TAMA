@@ -46,8 +46,12 @@ export class MainModuleComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.filterBy = this._moduleService.filterByModule;
+        
+       //this.filterBy = this._moduleService.filterByModule;
 
+        this.filterBy = null;
+        this._moduleService.theme = null;
+        this._moduleService.onFilterChangedModule.next(this.filterBy);
 
 
         this._moduleService.onmoduleChanged

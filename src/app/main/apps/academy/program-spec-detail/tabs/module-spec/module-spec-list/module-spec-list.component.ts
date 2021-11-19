@@ -148,8 +148,7 @@ export class ModuleSpecListComponent implements OnInit {
                     case 'save':
 
                         this._moduleService.updateModule(formData.getRawValue(), this._moduleService.theme);
-                        console.log("update Module specific")
-                        console.log(formData.getRawValue())
+                       
 
                         break;
                     /**

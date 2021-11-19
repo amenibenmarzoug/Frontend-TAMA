@@ -59,8 +59,7 @@ participant : any ;
         // Set the private defaults
         this._unsubscribeAll = new Subject();
         this.participant = this._academyCoursesService.participant ;
-        console.log ("la")
-        console.log (this.participant)
+       
     }
     
     // -----------------------------------------------------------------------------------------------------

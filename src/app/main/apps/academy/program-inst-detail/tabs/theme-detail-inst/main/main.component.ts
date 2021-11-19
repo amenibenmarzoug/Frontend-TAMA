@@ -58,8 +58,7 @@ user: any;
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(module => {
                 this.module = module;
-                console.log("module changed in sidebar instance??")
-                console.log(this.module)
+               
             });
 
            

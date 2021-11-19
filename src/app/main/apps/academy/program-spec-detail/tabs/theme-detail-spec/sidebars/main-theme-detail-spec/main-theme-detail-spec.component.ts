@@ -48,8 +48,12 @@ export class MainThemeDetailSpecComponent implements OnInit, OnDestroy{
      * On init
      */
     ngOnInit(): void {
-        this.filterBy = this._themeDetailsService.filterByThemeDetail || 'all';
 
+        //this.filterBy = this._themeDetailsService.filterByThemeDetail || 'all';
+
+        this.filterBy = null  || 'all';
+        this._themeDetailsService.module = null;
+        this._themeDetailsService.onFilterChangedThemeDetail.next(this.filterBy);
       
 
             this._themeDetailsService.onThemeDetailChanged
@@ -99,7 +103,7 @@ export class MainThemeDetailSpecComponent implements OnInit, OnDestroy{
         console.log(filter.id);
      
         this._themeDetailsService.module=filter;
-        //console.log(this._themeDetailsService.module);
+       
   
         this._themeDetailsService.onFilterChangedThemeDetail.next(this.filterBy);
     
