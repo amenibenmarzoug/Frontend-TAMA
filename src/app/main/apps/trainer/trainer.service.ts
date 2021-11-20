@@ -435,6 +435,8 @@ export class TrainerService implements Resolve<any>
     }
 
     ValidateContact(contact): Promise<any> {
+        let fees = JSON.stringify(contact.fees);
+        contact.fees=fees ; 
         return new Promise((resolve, reject) => {
             contact.validated=true ;
             let fees= JSON.stringify(contact.fees);
