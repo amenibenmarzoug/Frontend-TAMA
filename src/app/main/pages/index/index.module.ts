@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { IndexComponent } from './index.component'
 import { RouterModule } from '@angular/router';
-import {LandingPageComponent} from './landing-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 const routes = [
   {
-      path     : 'home2',
-      component: LandingPageComponent
+      path     : 'home',
+      component: IndexComponent
   }
 ];
 
 @NgModule({
   declarations:  [
-    LandingPageComponent
+    IndexComponent
 ],
 imports     : [
   CommonModule,
@@ -23,4 +23,4 @@ imports     : [
 ]
 
 })
-export class LandingPageModule { }
+export class IndexModule { }

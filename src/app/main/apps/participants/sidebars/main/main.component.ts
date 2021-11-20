@@ -102,6 +102,7 @@ resetFilters():void{
     this._participantService.onClassesChanged.next(null);
     this.classes=[];
     this._participantService.getClasses();
+    this._participantService.getContacts();
 
     this.ngOnInit();
     console.log(this.filterBy)
