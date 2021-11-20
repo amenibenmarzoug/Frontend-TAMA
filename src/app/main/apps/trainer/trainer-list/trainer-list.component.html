@@ -19,7 +19,7 @@
     </ng-container>
 
     <!-- Email Column -->
-    <ng-container matColumnDef="email" >
+    <ng-container matColumnDef="email">
         <mat-header-cell *matHeaderCellDef class="name-cell" fxShow.gt-sm>Email</mat-header-cell>
         <mat-cell *matCellDef="let contact" class="name-cell" fxShow.gt-sm>
             <p class="email text-truncate">
@@ -40,10 +40,10 @@
 
 
     <!-- Job Title Column -->
- 
 
-   
-  <!--   <ng-container matColumnDef="address">
+
+
+    <!--   <ng-container matColumnDef="address">
         <mat-header-cell *matHeaderCellDef fxShow.gt-lg>Adresse</mat-header-cell>
         <mat-cell *matCellDef="let contact" fxShow.gt-lg>
             <p class="company text-truncate">
@@ -53,10 +53,11 @@
     </ng-container> -->
 
     <ng-container matColumnDef="specification">
-        <mat-header-cell *matHeaderCellDef fxShow.gt-lg class="speciality-cell" fxLayoutAlign="center center">Spécialité</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef fxShow.gt-lg class="speciality-cell" fxLayoutAlign="center center">Spécialité
+        </mat-header-cell>
         <mat-cell *matCellDef="let contact" fxShow.gt-lg class="speciality-cell">
-            <ng-container >
-                <ul >
+            <ng-container>
+                <ul>
                     <li *ngFor="let specification of contact.specifications.sort()  ">
                         <span> {{specification}} </span>
                     </li>
@@ -85,12 +86,14 @@
                         <mat-icon>delete</mat-icon>
                         <span>Supprimer</span>
                     </button> -->
-                    <button mat-menu-item aria-label="check"  (click)="ValidateContact(contact)" *ngIf="!contact.validated ">
-                        <mat-icon >check</mat-icon>
+                    <button mat-menu-item aria-label="check" (click)="ValidateContact(contact)"
+                        *ngIf="!contact.validated ">
+                        <mat-icon>check</mat-icon>
                         <span>Créer un compte</span>
                     </button>
-                    <button mat-menu-item aria-label="check"  (click)="refuseTrainer(contact)" *ngIf="contact.validated ">
-                        <mat-icon >close</mat-icon>
+                    <button mat-menu-item aria-label="check" (click)="refuseTrainer(contact)"
+                        *ngIf="contact.validated ">
+                        <mat-icon>close</mat-icon>
                         <span>Annuler le compte</span>
                     </button>
                 </mat-menu>
@@ -106,3 +109,6 @@
         [ngClass]="{'accent-50':checkboxes[contact.id]}" [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>
 </mat-table>
+<mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="5"
+    [pageSizeOptions]="[5, 10, 15, 25]">
+</mat-paginator>

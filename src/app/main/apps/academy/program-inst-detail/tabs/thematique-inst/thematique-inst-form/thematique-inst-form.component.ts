@@ -62,9 +62,7 @@ export class ThematiqueInstFormComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log("onInit")
-    console.log("this.programdeBase in init")
-    console.log(this.themeInst.theme)
+    
     if (this.themeInst.theme !== undefined)
     {
     const toSelect = this.themes.find(p => p.id == this.themeInst.theme.id);

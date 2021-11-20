@@ -62,8 +62,7 @@ entreprise : any ;
         // Set the private defaults
         this._unsubscribeAll = new Subject();
         this.entreprise = this._academyCoursesService.entreprise ;
-        console.log ("la")
-        console.log (this.entreprise)
+        
     }
     
     // -----------------------------------------------------------------------------------------------------

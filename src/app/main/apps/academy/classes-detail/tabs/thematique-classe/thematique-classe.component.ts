@@ -74,7 +74,7 @@ export class ThematiqueClasseComponent implements OnInit {
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe(themes => {
               this.filteredThemesInst = this.themesFilteredByCategory = this.themesInst = themes;
-              console.log(this.themesInst);
+             
           });
   }
 

@@ -47,22 +47,18 @@ export class MainComponent4 implements OnInit,OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.filterBy = this._themeDetailsService.filterByThemeDetail || 'all';
+       // this.filterBy = this._themeDetailsService.filterByThemeDetail || 'all';
 
-      
+       this.filterBy = null || 'all';
+       this._themeDetailsService.module= null;
+       this._themeDetailsService.onFilterChangedThemeDetailInst.next(this.filterBy);
 
             this._themeDetailsService.onThemeDetailInstChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(themeDetail => {
                 this.themeDetailsInst = themeDetail;
             });
-          /*  this._themeDetailsService.onmoduleInstChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(module => {
-                this.modulesInst = module;
-                console.log("module changed in sidebar instance??")
-                console.log(this.modulesInst)
-            });*/
+        
 
             this._themeDetailsService.getModulesInstOfClass(); 
             this._themeDetailsService.onmoduleInstClassChanged

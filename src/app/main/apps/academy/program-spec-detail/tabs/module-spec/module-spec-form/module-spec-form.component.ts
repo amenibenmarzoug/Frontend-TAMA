@@ -96,10 +96,7 @@ export class ModuleSpecFormComponent {
 
 
     this.actualDaysNumberAffected = this._moduleService.actualDaysAffectedPerModule + Number(this.moduleSpec.nbDaysModule);
-    /*console.log("actual days number affected ")
-    console.log(this.actualDaysNumberAffected)
-    console.log("module days in the new form ")
-    console.log(this.module.nbDaysModule)*/
+   
 
     if (this.actualDaysNumberAffected > this._moduleService.theme.nbDaysTheme) {
       this.moduleAlert("Vous avez dépassé le nombre des jours de la thématique");

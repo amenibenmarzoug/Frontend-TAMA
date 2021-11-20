@@ -108,8 +108,7 @@ export class ThemeDetailInstComponent implements OnInit {
 
       else {
         this._themeDetailsService.getThemeDetailDaysAffected();
-          console.log("moduleInst ki thalet dialog");
-          console.log(this._themeDetailsService.module);
+          
           this.selectedModule=this._themeDetailsService.module;
           this.dialogRef = this._matDialog.open(ThemeDetailInstFormComponent, {
               panelClass: 'theme-detail-form-dialog',
@@ -126,8 +125,7 @@ export class ThemeDetailInstComponent implements OnInit {
                       return;
                   }
                   this.themeDetail = response.getRawValue();
-                  console.log("formulaaire de add progDetailInst");
-                  console.log(this.themeDetail);
+                  
 
                   this.actualDaysNumberAffected = this._themeDetailsService.actualDaysAffectedPerThemeDetail+ Number(this.themeDetail.nbDaysthemeDetailInst)  ; 
                   console.log("this.actualDaysNumberAffected  from serviice"+ this.actualDaysNumberAffected)
@@ -170,11 +168,7 @@ export class ThemeDetailInstComponent implements OnInit {
 
       this.confirmDialogRef.afterClosed().subscribe(result => {
           if (result) {
-              console.log("ajout theme Detail avec succès");
-              console.log(this.themeDetail);
-              console.log("moduleInsst");
-//console.log(this._themeDetailsService.module);
-console.log(this.selectedModule);
+             
               this._themeDetailsService.addThemeDetail(this.themeDetail,this.selectedModule);
 
           }

@@ -24,6 +24,7 @@ import { MainComponent } from 'app/main/apps/trainer/sidebars/main/main.componen
 import { TrainerFormComponent } from 'app/main/apps/trainer/trainer-form/trainer-form.component';
 import { FormsComponent } from 'app/main/ui/forms/forms.component';
 import { AuthGuardManagerService } from 'app/auth-guard-manager.service';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 const routes: Routes = [
     {
@@ -59,6 +60,7 @@ const routes: Routes = [
         MatTableModule,
         MatToolbarModule,
         MatSelectModule,
+        MatPaginatorModule ,
         FuseSharedModule,
         FuseConfirmDialogModule,
         FuseSidebarModule

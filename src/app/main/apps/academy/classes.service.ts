@@ -269,9 +269,7 @@ export class ClassesService {
         this.moduleClasse.nbDaysModuleInstance = module.nbDaysModule;
         this.moduleClasse.themeInstance = themeInst;
 
-        // console.log(themeInst);
-        // console.log("moduleee Classe ");
-        // console.log(this.moduleClasse.themeInstance);
+     
 
         return new Promise((resolve, reject) => {
 
@@ -323,15 +321,13 @@ export class ClassesService {
 
 
                         this.modules.forEach(theme => {
-                            //  console.log(theme.program);
-                            // console.log("prog fel service");
-                            // console.log(this.program);
+                           
                             if (theme.theme.id == val1.id) {
                                 this.modulesOfTheme.push(theme);
 
                             }
                             else {
-                                // console.log(theme.program.id == this.program.id );
+                              
                             }
 
 
@@ -415,7 +411,6 @@ export class ClassesService {
 
         return new Promise((resolve, reject) => {
         
-          //  console.log(programInst);
             this._httpClient.put(AUTH_API + 'programsInst/confirm', programInst)
                 .subscribe(response => {
                     this.getProgramsInst();
@@ -442,9 +437,7 @@ export class ClassesService {
     updateProgramInst(programInst): Promise<any> {
 
         return new Promise((resolve, reject) => {
-            console.log("program on the update");
-            console.log(programInst);
-          //  console.log(programInst);
+        
             this._httpClient.put(AUTH_API + 'programsInst', programInst)
                 .subscribe(response => {
                     this.getProgramsInst();
@@ -457,8 +450,7 @@ export class ClassesService {
 
         return new Promise((resolve, reject) => {
         
-           console.log("CLASS SERVICE");
-           console.log(programInst);
+          
             this._httpClient.put(AUTH_API + 'programsInst', programInst)
                 .subscribe(response => {
                     console.log(response);
