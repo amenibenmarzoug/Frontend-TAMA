@@ -38,6 +38,15 @@
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item (click)="editEquipment(equipment)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Modifier</span>
+                    </button>
+
+                    <button mat-menu-item (click)="deleteEquipment(equipment.id)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Supprimer</span>
+                    </button>
                
                 </mat-menu>
             </div>
@@ -48,6 +57,6 @@
    
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let equipment; columns: displayedColumns;" class="equipment" (click)="editEquipment(equipment)" [ngClass]="{'accent-50':checkboxes[equipment.id]}" [@animate]="{value:'*',params:{y:'100%'}}">
+    <mat-row *matRowDef="let equipment; columns: displayedColumns;" class="equipment"  [ngClass]="{'accent-50':checkboxes[equipment.id]}" [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>
 </mat-table>

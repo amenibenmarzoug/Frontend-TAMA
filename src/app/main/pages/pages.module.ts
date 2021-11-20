@@ -24,7 +24,6 @@ import { FaqModule } from 'app/main/pages/faq/faq.module';
 import { KnowledgeBaseModule } from 'app/main/pages/knowledge-base/knowledge-base.module';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import {LandingPageModule} from './landing-page/landing-page.module';
-import { IndexModule} from './index/index.module'
 
 @NgModule({
     imports: [
