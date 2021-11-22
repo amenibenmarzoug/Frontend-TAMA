@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
@@ -10,6 +10,7 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { ParticipantsService } from 'app/main/apps/participants/participants.service';
 import { ParticipantFormComponent } from 'app/main/apps/participants/participant-form/participant-form.component';
 import { Participant } from './participant.model';
+import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
 
 
 @Component({
@@ -24,6 +25,9 @@ export class ParticipantsComponent implements OnInit, OnDestroy {
     dialogRef: any;
     hasSelectedContacts: boolean;
     searchInput: FormControl;
+
+    @ViewChild(FusePerfectScrollbarDirective)
+    listScroll: FusePerfectScrollbarDirective;
 
 
     // Private
@@ -56,7 +60,16 @@ export class ParticipantsComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        //this.listScroll.scrollToBottom()
 
+        this._participantsService.onFilterByClasseChanged
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe(classe => {
+              console.log("scrolllerr")
+              this.listScroll.scrollToTop();
+              
+              
+          });
    
         this._participantsService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DataSource } from '@angular/cdk/collections';
@@ -14,6 +14,7 @@ import { ParticipantsService } from 'app/main/apps/participants/participants.ser
 import { ParticipantFormComponent } from 'app/main/apps/participants/participant-form/participant-form.component';
 import { Participant } from 'app/main/apps/participants/participant.model';
 import { ParticipantRegistrationListComponent } from '../participant-registration-list/participant-registration-list.component';
+import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
 @Component({
     selector: 'app-participant-list',
     templateUrl: './participant-list.component.html',
@@ -28,6 +29,9 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
+
+    @ViewChild(FusePerfectScrollbarDirective)
+    listScroll: FusePerfectScrollbarDirective;
     
     
 
@@ -95,6 +99,8 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
           .subscribe(classe => {
               this.selectedClasse = classe ; 
               this.numberOfValidatedPartPerClass=this._participantsService.numberofAcceptedPartPerClass
+              console.log("scroller in participant list")
+              //this.listScroll.scrollToTop();
               
           });
 
