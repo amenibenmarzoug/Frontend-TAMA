@@ -157,7 +157,7 @@ export class ModulesInstListComponent implements OnInit {
                      */
                     case 'delete':
 
-                        this.deleteModule(module.id);
+                        this.deleteModule(module);
 
                         break;
                 }
@@ -181,16 +181,16 @@ export class ModulesInstListComponent implements OnInit {
     /**
      * Delete Module
      */
-    deleteModule(module): void {
+    deleteModule(moduleInst): void {
         this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        this.confirmDialogRef.componentInstance.confirmMessage =  'Etes vous sûr de supprimer le module ' + moduleInst.moduleInstanceName +' ?';
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._moduleInstService.deleteModule(module);
+                this._moduleInstService.deleteModule(moduleInst.id);
             }
             this.confirmDialogRef = null;
         });

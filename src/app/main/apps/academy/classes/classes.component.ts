@@ -432,16 +432,18 @@ this.confirmDialogRef = null;
         this._academyProgramsInstService.cancelProgramInst(programInst);
     }
 
-    deleteClass(contact): void {
+
+    
+    deleteClass(programInst): void {
         this.dialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
   
-        this.dialogRef.componentInstance.confirmMessage = 'Etes vous sûr de supprimer la classe ' + contact.programInstName +' ? C\'est irréversible!';
+        this.dialogRef.componentInstance.confirmMessage = 'Etes vous sûr de supprimer la classe ' + programInst.programInstName +' ?';
 
         this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._academyProgramsInstService.deleteProgramInst(contact);
+                this._academyProgramsInstService.deleteProgramInst(programInst);
             }
             this.dialogRef = null;
         });

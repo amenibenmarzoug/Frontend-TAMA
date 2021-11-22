@@ -129,7 +129,7 @@ export class ProgramsService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.put(AUTH_API + 'programEdit', program)
                 .subscribe(response => {
-                    //this.getCourses();
+                   
                     resolve(response);
                 });
         });

@@ -288,7 +288,7 @@ this.confirmDialogRef = null;
                      */
                     case 'delete':
 
-                        this.deleteTheme(theme.id);
+                        this.deleteTheme(theme);
 
                         break;
                 }
@@ -302,7 +302,7 @@ this.confirmDialogRef = null;
             disableClose: false
         });
 
-        this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        this.dialogRef.componentInstance.confirmMessage = 'Etes vous sûr de supprimer le theme Detail ' + theme.themeName +' ?';
 
         //this.actualDaysNumberAffected=this._programDetailsService.actualDaysNumberAffected ;        
         //this.programTotalDaysNumber=this._programDetailsService.program.nbDaysProg; 
