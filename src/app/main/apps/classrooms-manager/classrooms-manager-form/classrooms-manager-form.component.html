@@ -6,6 +6,10 @@
                 <mat-icon>close</mat-icon>
             </button>
         </mat-toolbar-row>
+        <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
+            <div class="contact-name mt-8">à l'institution:  {{title}}</div>
+        </mat-toolbar-row>
+  
 
         <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
             <div class="contact-name mt-8">{{contact.classRoomName}}</div>
@@ -75,6 +79,10 @@
 
         <button *ngIf="action === 'edit'" mat-button class="save-button" (click)="matDialogRef.close(['save',contactForm])" [disabled]="contactForm.invalid " aria-label="SAVE">
             Enregistrer
+        </button>
+
+        <button *ngIf="action === 'edit'" mat-button class="save-button" (click)="matDialogRef.close(['delete',contactForm])" [disabled]="contactForm.invalid " aria-label="SAVE">
+            Supprimer
         </button>
 
     </div>

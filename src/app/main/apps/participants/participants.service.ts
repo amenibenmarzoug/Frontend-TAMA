@@ -93,6 +93,7 @@ export class ParticipantsService implements Resolve<any>
                         this.filterBy = filter;
                         if(this.filterBy==null){
                             this.getClasses();
+                            
 
                         }
                         this.getContacts();

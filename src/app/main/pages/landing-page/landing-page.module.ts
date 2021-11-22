@@ -7,7 +7,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 const routes = [
   {
-      path     : 'home',
+      path     : 'home2',
       component: LandingPageComponent
   }
 ];

@@ -49,6 +49,15 @@
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item (click)="editClassroom(classroom)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Modifier</span>
+                    </button>
+
+                    <button mat-menu-item (click)="deleteClassroom(classroom.id)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Supprimer</span>
+                    </button>
 
 
                 </mat-menu>
@@ -60,7 +69,7 @@
 
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let classroom; columns: displayedColumns;" class="classroom" (click)="editClassroom(classroom)"
+    <mat-row *matRowDef="let classroom; columns: displayedColumns;" class="classroom" 
         [ngClass]="{'accent-50':checkboxes[classroom.id]}" [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>
 </mat-table>

@@ -97,7 +97,7 @@ export class SelectedBarComponent implements OnInit, OnDestroy
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete all selected equipments?';
+        this.confirmDialogRef.componentInstance.confirmMessage = "Voulez-vous supprimer les ressources séléctionnées?";
 
         this.confirmDialogRef.afterClosed()
             .subscribe(result => {

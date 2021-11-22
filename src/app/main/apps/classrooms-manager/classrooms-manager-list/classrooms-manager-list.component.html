@@ -71,10 +71,15 @@
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
-                    <!-- <button mat-menu-item aria-label="remove" (click)="deleteContact(contact.id)">
+                    <button mat-menu-item (click)="editContact(contact)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Modifier</span>
+                    </button>
+
+                    <button mat-menu-item (click)="deleteContact(contact.id)">
                         <mat-icon>delete</mat-icon>
                         <span>Supprimer</span>
-                    </button> -->
+                    </button>
                 </mat-menu>
 
 

@@ -46,14 +46,15 @@ export class ClassroomsManagerFormComponent {
             this.dialogTitle = 'Modifier Salle';
             this.contact = _data.contact;
             this._classroomsManagerService.institution = this.contact.institution;
+            this.title=  this.contact.institution.institutionName;
         }
         else {
             if (this._classroomsManagerService.institution != null){
                 this.title=  this._classroomsManagerService.institution.institutionName;
-                this.dialogTitle = 'Nouvelle Salle au sein de : ' + this.title;
+                this.dialogTitle = 'Nouvelle Salle  : ';
             }
             else{
-                this.dialogTitle = 'Nouvelle Salle au sein de : ' 
+                this.dialogTitle = 'Nouvelle Salle  : ' 
             }
             
             this.contact = new ClassRoom({});
