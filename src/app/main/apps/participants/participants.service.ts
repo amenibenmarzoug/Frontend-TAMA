@@ -23,11 +23,13 @@ export class ParticipantsService implements Resolve<any>
     onSelectedContactsChanged: BehaviorSubject<any>;
     onUserDataChanged: BehaviorSubject<any>;
     onRegistrationChanged: BehaviorSubject<any>;
+    onNumberOfValidatedPartPerClass : BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
     participantType: string;
     participants: Participant[];
-    selectedContactsList: object[] = [];;
+    selectedContactsList: object[] = [];numberofAcceptedPartPerClass: any;
+;
     user: any;
     selectedContacts: string[] = [];
     registrations:any;
@@ -41,6 +43,8 @@ export class ParticipantsService implements Resolve<any>
     contactSelected: Participant[];
     searchText: string;
     filterBy: string;
+    filterByClasse: string;
+    onFilterByClasseChanged: Subject<any>;
     id: number;
     ages: any;
     /**
@@ -57,9 +61,13 @@ export class ParticipantsService implements Resolve<any>
         this.onRegistrationChanged = new BehaviorSubject([]);
         this.onClassesChanged = new BehaviorSubject([]);
         this.onSelectedContactsChanged = new BehaviorSubject([]);
+        this.onNumberOfValidatedPartPerClass=new BehaviorSubject([]);
+
         this.onUserDataChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
+        this.onFilterByClasseChanged = new Subject();
+        
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -97,6 +105,12 @@ export class ParticipantsService implements Resolve<any>
 
                         }
                         this.getContacts();
+                    });
+                    this.onFilterByClasseChanged.subscribe(classe  => {
+                        this.filterByClasse=classe ;
+                        if(classe != null) {
+                        this.getValidatedParticipantsOfSelectedClass(classe.id) ;  
+                        }
                     });
 
                     resolve();
@@ -227,6 +241,20 @@ export class ParticipantsService implements Resolve<any>
                 }, reject);
         }
         );
+    }
+
+    getValidatedParticipantsOfSelectedClass(classId):Promise<any> {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API+ 'participants/validated/classId/'+classId)
+                .subscribe((response: any) => {
+                    console.log("participants valideted of selected class")
+                    console.log(response)
+                    this.numberofAcceptedPartPerClass=response.length
+                    this.onNumberOfValidatedPartPerClass.next(this.numberofAcceptedPartPerClass) ; 
+                    resolve(this.numberofAcceptedPartPerClass);
+                }, reject);
+        }
+    );
     }
 
 

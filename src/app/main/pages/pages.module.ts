@@ -24,6 +24,7 @@ import { FaqModule } from 'app/main/pages/faq/faq.module';
 import { KnowledgeBaseModule } from 'app/main/pages/knowledge-base/knowledge-base.module';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import {LandingPageModule} from './landing-page/landing-page.module';
+import{HomePageModule} from './home-page/home-page.module';
 
 @NgModule({
     imports: [
@@ -70,8 +71,7 @@ import {LandingPageModule} from './landing-page/landing-page.module';
         KnowledgeBaseModule,
         LandingPageModule,
 
-        //index Module
-        //IndexModule
+        HomePageModule
 
     ],
     declarations: []

@@ -49,9 +49,12 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
     d: Date;
     ages: any;
     age: any;
+    
+    selectedClasse : any ; 
 
     // Private
     private _unsubscribeAll: Subject<any>;
+    numberOfValidatedPartPerClass: any;
 
     /**
      * Constructor
@@ -86,10 +89,29 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
           }
           );
           */
+
+          this._participantsService.onFilterByClasseChanged
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe(classe => {
+              this.selectedClasse = classe ; 
+              this.numberOfValidatedPartPerClass=this._participantsService.numberofAcceptedPartPerClass
+              
+          });
+
+          this._participantsService.onNumberOfValidatedPartPerClass
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe(numberOfValidatedPartPerClass => {
+              this.numberOfValidatedPartPerClass=numberOfValidatedPartPerClass
+              console.log("number from list comp")
+              console.log(this.numberOfValidatedPartPerClass )
+          });
+
+
         this._participantsService.onContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(contacts => {
                 this.contacts = contacts;
+                console.log(contacts)
 
                 this.checkboxes = {};
                 contacts.map(contact => {

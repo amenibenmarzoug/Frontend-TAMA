@@ -25,6 +25,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy {
     hasSelectedContacts: boolean;
     searchInput: FormControl;
 
+
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -55,6 +56,8 @@ export class ParticipantsComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+
+   
         this._participantsService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedContacts => {
