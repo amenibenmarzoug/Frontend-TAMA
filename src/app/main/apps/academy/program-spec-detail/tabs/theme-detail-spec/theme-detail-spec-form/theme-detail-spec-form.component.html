@@ -51,6 +51,14 @@
 
     <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
 
+        <button *ngIf="action === 'edit'"
+        mat-button
+        class="mr-8"
+        (click)="matDialogRef.close(['delete',themeDetailForm])"
+        aria-label="Delete"
+        matTooltip="Delete">
+          Supprimer
+        </button>
 
 
         <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="closeNewThemeDetailForm()"

@@ -275,7 +275,7 @@ export class ProgramSpecDetailService {
           this.onThemeChanged.next(this.themes);
           this._httpClient.delete(AUTH_API + `theme/${theme.id}`)
               .subscribe(response => {
-                  this.getThemes();
+                this.getThemesPerProgram();
                   resolve(response);
               });
       });

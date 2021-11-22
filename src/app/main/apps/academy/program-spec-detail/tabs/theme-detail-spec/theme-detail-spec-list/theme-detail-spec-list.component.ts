@@ -152,7 +152,7 @@ export class ThemeDetailSpecListComponent implements OnInit {
                      */
                     case 'delete':
 
-                        this.deleteThemeDetail(themeDetail.id);
+                        this.deleteThemeDetail(themeDetail);
 
                         break;
                 }
@@ -168,11 +168,11 @@ export class ThemeDetailSpecListComponent implements OnInit {
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Etes vous sûr de supprimer le theme detail ' + themeDetail.themeName +' ?';
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._themeDetailsService.deleteThemeDetail(themeDetail);
+                this._themeDetailsService.deleteThemeDetail(themeDetail.id);
             }
             this.confirmDialogRef = null;
         });
