@@ -124,7 +124,7 @@ export class ClassFormComponent implements OnInit {
         program: new FormControl(this.programInst.program),
         beginDate: new FormControl(this.programInst.beginDate),
         endDate: new FormControl(this.programInst.endDate),
-       
+        privateProgramInstance:new FormControl(this.programInst.privateProgramInstance),
       });
     }
     else {
@@ -136,9 +136,15 @@ export class ClassFormComponent implements OnInit {
         program: new FormControl(this.programInst.program),
         beginDate: new FormControl(this.programInst.beginDate),
         endDate:new FormControl(this.programInst.endDate),
+        privateProgramInstance:new FormControl(this.programInst.privateProgramInstance),
+
       });
     }
 
+  }
+
+  selectPrivateProgramInstance(privateProgramInstance){
+    this.programInstForm.patchValue({privateProgramInstance:privateProgramInstance})
   }
 
   getProgramForm(event) {

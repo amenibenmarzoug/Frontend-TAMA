@@ -15,8 +15,8 @@ import { TrainerService } from 'app/main/apps/trainer/trainer.service';
 export class TrainerFormComponent {
     action: string;
     contact: Trainer;
-    specifications:any[];
-    themes:any[];
+    specifications: any[];
+    themes: any[];
     days: any[] = Days;
     contactForm: FormGroup;
     dialogTitle: string;
@@ -35,18 +35,18 @@ export class TrainerFormComponent {
     ) {
         // Set the defaults
         this.action = _data.action;
-        this._serviceTrainer.onProgramsChanged.subscribe((programs)=>{
-            this.specifications=programs;
+        this._serviceTrainer.onProgramsChanged.subscribe((programs) => {
+            this.specifications = programs;
         })
-       
-        this._serviceTrainer.onThemesChanged.subscribe((themes)=>{
-            this.themes=themes;
+
+        this._serviceTrainer.onThemesChanged.subscribe((themes) => {
+            this.themes = themes;
         })
         console.log("specification");
         console.log(this.specifications)
         if (this.action === 'edit') {
             this.dialogTitle = 'Modifier Formateur';
-            
+
             this.contact = _data.contact;
             //let pl=JSON.parse(this.contact.fees);
             //console.log(pl)
@@ -63,8 +63,8 @@ export class TrainerFormComponent {
     changeFilter(filter): void {
         console.log(filter);
         //this._serviceTrainer.specifications = filter.specifications;
-        this.contactForm.patchValue({disponibilityDays:filter.disponibilityDays})
-       //this._serviceTrainer.disponibilities=filter.disponibilityDays;
+        this.contactForm.patchValue({ disponibilityDays: filter.disponibilityDays })
+        //this._serviceTrainer.disponibilities=filter.disponibilityDays;
     }
 
 
@@ -72,16 +72,16 @@ export class TrainerFormComponent {
         console.log("theme");
         console.log(theme);
         //this._serviceTrainer.specifications = filter.specifications;
-       //this._serviceTrainer.themeId=themeId;
-       this._serviceTrainer.getModulesNames(theme);
-       //this._serviceTrainer.getModules();
+        //this._serviceTrainer.themeId=themeId;
+        this._serviceTrainer.getModulesNames(theme);
+        //this._serviceTrainer.getModules();
     }
 
     sendSpecifications(spec): void {
         console.log(spec);
-        this.contactForm.patchValue({specifications:spec.specifications})
+        this.contactForm.patchValue({ specifications: spec.specifications })
         //this._serviceTrainer.specifications = spec.specifications;
-       //this._serviceTrainer.disponibilities=spec.disponibilityDays;
+        //this._serviceTrainer.disponibilities=spec.disponibilityDays;
     }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -93,36 +93,67 @@ export class TrainerFormComponent {
      * @returns {FormGroup}
      */
     createContactForm(): FormGroup {
-        return this._formBuilder.group({
-            id: [this.contact.id],
-            firstName: [this.contact.firstName],
-            lastName: [this.contact.lastName],
-            specifications: [this.contact.specifications],
-            email: [this.contact.email],
-            phoneNumber: [this.contact.phoneNumber],
-            //address   : [this.contact.address],
-            gender: [this.contact.gender],
-            street: [this.contact.street],
-            city: [this.contact.city],
-            postalCode: [this.contact.postalCode],
-            //fees :   [this.contact.fees],
-            disponibilityDays: [this.contact.disponibilityDays],
-            theme:[''],
+        if (this.contact.fees != null) {
+            return this._formBuilder.group({
+                id: [this.contact.id],
+                firstName: [this.contact.firstName],
+                lastName: [this.contact.lastName],
+                specifications: [this.contact.specifications],
+                email: [this.contact.email],
+                phoneNumber: [this.contact.phoneNumber],
+                //address   : [this.contact.address],
+                gender: [this.contact.gender],
+                street: [this.contact.street],
+                city: [this.contact.city],
+                postalCode: [this.contact.postalCode],
+                //fees :   [this.contact.fees],
+                disponibilityDays: [this.contact.disponibilityDays],
+                theme: [''],
 
-            
-            fees : this._formBuilder.group({
-                amount      : [this.contact.fees.amount],
-                currency            : [this.contact.fees.currency]
-                
+
+                fees: this._formBuilder.group({
+
+                    amount: [this.contact.fees.amount],
+                    currency: [this.contact.fees.currency]
+
                 }),
-                
 
-        });
+
+            });
+        }
+        else {
+            return this._formBuilder.group({
+                id: [this.contact.id],
+                firstName: [this.contact.firstName],
+                lastName: [this.contact.lastName],
+                specifications: [this.contact.specifications],
+                email: [this.contact.email],
+                phoneNumber: [this.contact.phoneNumber],
+                //address   : [this.contact.address],
+                gender: [this.contact.gender],
+                street: [this.contact.street],
+                city: [this.contact.city],
+                postalCode: [this.contact.postalCode],
+                //fees :   [this.contact.fees],
+                disponibilityDays: [this.contact.disponibilityDays],
+                theme: [''],
+
+
+                fees: this._formBuilder.group({
+
+                    amount: [this.contact.fees.amount],
+                    currency: [this.contact.fees.currency]
+
+                }),
+
+
+            });
+        }
     }
     cities: String[] = [
         'Tunis', 'Ariana', 'Ben Arous', 'Manouba', 'Nabeul', 'Zaghouan', 'Bizerte', 'Béja', 'Jendouba', 'Kef', 'Siliana',
         'Sousse', 'Monastir', 'Mahdia', 'Sfax', 'Kairouan', 'Kasserine', 'Sidi Bouzid', 'Gabès', 'Mednine', 'Tataouine', 'Gafsa', 'Tozeur', 'Kebili'
 
     ];
-   
+
 }

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Program } from 'app/shared/models/program.model';
-import {environment} from 'environments/environment';
+import { environment } from 'environments/environment';
 
 
-const AUTH_API = environment.backend_url+ 'api/';
+const AUTH_API = environment.backend_url + 'api/';
 @Injectable()
 export class ProgramsService implements Resolve<any>
 {
@@ -60,7 +60,7 @@ export class ProgramsService implements Resolve<any>
         });
     }
 
-    
+
 
 
 
@@ -74,19 +74,49 @@ export class ProgramsService implements Resolve<any>
             this._httpClient.get(AUTH_API + 'programs')
                 .subscribe((response: any) => {
                     this.programs = response;
-                    this.programs=  this.programs.filter(program => {
-                        if(program.specificProgram==false) {
-                            return true ; 
+                    this.programs = this.programs.filter(program => {
+                        if (program.specificProgram == false) {
+                            return true;
                         }
                         return false;
                     }
-                        
+
                     )
-  
+
                     this.onProgramsChanged.next(this.programs);
                     resolve(this.programs);
                 }, reject);
         });
+    }
+
+    getProgramsByCategory(category) {
+        const params = new HttpParams().set('category', category);
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(AUTH_API + 'programs/category', { params: params })
+                .subscribe((response: any) => {
+                    this.programs = response;
+                    this.onProgramsChanged.next(this.programs);
+                    resolve(this.programs);
+                }, reject);
+        }
+        );
+    }
+
+    getOtherPrograms() {
+        return new Promise((resolve, reject) => {
+            const params = new HttpParams().set('category1', 'Soft').
+                set('category2', 'LEAN').set('category3', 'Project Management');
+            this._httpClient.get(AUTH_API + 'programs/category/other', { params: params })
+                .subscribe((response: any) => {
+
+                    this.programs = response;
+
+                    
+                    this.onProgramsChanged.next(this.programs);
+                    resolve(this.programs);
+                }, reject);
+        }
+        );
     }
     /**
      * Update contact
@@ -115,7 +145,7 @@ export class ProgramsService implements Resolve<any>
             const courseIndex = this.programs.indexOf(program.id);
             this.programs.splice(courseIndex, 1);
             this.onProgramsChanged.next(this.programs);
-            this._httpClient.delete(AUTH_API + 'programs/'+program.id)
+            this._httpClient.delete(AUTH_API + 'programs/' + program.id)
                 .subscribe(response => {
                     this.getPrograms();
 
@@ -136,7 +166,7 @@ export class ProgramsService implements Resolve<any>
     }
 
 
-   
+
 
 
 

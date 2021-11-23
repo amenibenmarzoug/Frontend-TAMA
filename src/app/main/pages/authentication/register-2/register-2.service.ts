@@ -50,7 +50,7 @@ export class Register2Service implements Resolve<any>{
 
 
         return new Promise((resolve, reject) => {
-            this.http.get(AUTH_API + 'programsInst')
+            this.http.get(AUTH_API + 'programsInst/public')
                 .subscribe((response: any) => {
                     this.onClassesChanged.next(response);
                     this.classes = response;

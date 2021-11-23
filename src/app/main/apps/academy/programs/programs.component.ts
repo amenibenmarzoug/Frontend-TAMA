@@ -131,13 +131,24 @@ export class ProgramsComponent implements OnInit, OnDestroy {
         }
     }
 
-
+    filterProgramsByCategory(category) {
+        if (category === "Tous") {
+            this._academyProgramsService.getPrograms();
+        } else {
+            if (category == "Autre") {
+                this._academyProgramsService.getOtherPrograms();
+            }
+            else {
+                this._academyProgramsService.getProgramsByCategory(category);
+            }
+        }
+    }
     /**
      * New program
      */
     newProgram(): void {
         this.dialogRef = this.dialog.open(ProgramFormComponent, {
-            disableClose: true ,
+            disableClose: true,
             panelClass: 'program-form-dialog',
             data: {
                 action: 'new'
@@ -149,7 +160,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
                 if (!response) {
                     return;
                 }
-                 console.log(response.getRawValue())
+                console.log(response.getRawValue())
                 this._academyProgramsService.addProgram(response.getRawValue());
             });
     }
@@ -162,7 +173,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
       */
     editProgram(program): void {
         this.dialogRef = this.dialog.open(ProgramFormComponent, {
-            disableClose: true ,
+            disableClose: true,
             panelClass: 'cursus-form-dialog',
             data: {
                 program: program,
@@ -208,7 +219,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
         });
 
 
-        this.dialogRef.componentInstance.confirmMessage = 'Etes vous sûr de supprimer la classe ' + program.programName +' ? C\'est irréversible!';
+        this.dialogRef.componentInstance.confirmMessage = 'Etes vous sûr de supprimer la classe ' + program.programName + ' ? C\'est irréversible!';
         this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this._academyProgramsService.deleteProgram(program);

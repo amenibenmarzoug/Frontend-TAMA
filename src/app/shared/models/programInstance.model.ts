@@ -14,7 +14,7 @@ export class ProgramInstance{
     endDate:Date;
     validated:boolean;
     place: string;
-   
+    privateProgramInstance:boolean;
 
 
     constructor(programInstance)
@@ -28,6 +28,7 @@ export class ProgramInstance{
         this.endDate=programInstance.endDate;
         this.validated=programInstance.validated || '';
         this.place=programInstance.place || '';
+        this.privateProgramInstance=programInstance.privateProgramInstance;
         
 
     

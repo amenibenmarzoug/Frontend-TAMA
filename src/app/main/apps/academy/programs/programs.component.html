@@ -29,7 +29,26 @@
                         (input)="filterCoursesByTerm()">
                 </mat-form-field>
 
-
+                <mat-form-field appearance="outline" class="category-selector">
+                    <mat-label>Catégorie</mat-label>
+                    <mat-select (selectionChange)="filterProgramsByCategory($event.value)">
+                        <mat-option [value]="'Tous'">
+                            Tous
+                        </mat-option>
+                        <mat-option [value]="'Soft'">
+                            Soft Skills
+                        </mat-option>
+                        <mat-option [value]="'LEAN'">
+                            LEAN
+                        </mat-option>
+                        <mat-option [value]="'Project Management'">
+                            Project Management
+                        </mat-option>
+                        <mat-option [value]="'Autre'">
+                            Autre
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
                 <!-- ADD EVENT BUTTON -->
                 <!--button mat-fab class="add-event-button mat-accent" aria-label="Add event"
                     [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}" (click)="newProgram()">

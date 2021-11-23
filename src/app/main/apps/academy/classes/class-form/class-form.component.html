@@ -52,7 +52,23 @@
                 <input matInput name="nbDaysProgInst" formControlName="nbDaysProgInst" required
                     [(ngModel)]="programInst.nbDaysProgInst">
             </mat-form-field>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Classe exclusive</mat-label>
+                    <mat-select formControlName="privateProgramInstance"
+                        (selectionChange)="selectPrivateProgramInstance($event.value)" required
+                        >
 
+                        <mat-option [value]="true">
+                            Oui
+                        </mat-option>
+                        <mat-option [value]="false">
+                            Non
+                        </mat-option>
+                    </mat-select>
+                   
+                </mat-form-field>
+            </div>
             <div >
                 <mat-form-field appearance="outline"  class="w-100-p">
                     <mat-label>Date début</mat-label>
