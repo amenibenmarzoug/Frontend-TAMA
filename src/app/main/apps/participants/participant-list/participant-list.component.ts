@@ -229,12 +229,13 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Etes vous sûr de la suppression?';
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
                 console.log(id)
-                this._participantsService.deleteContact(id);
+                //this._participantsService.deleteContact(id);
+                this._participantsService.omitParticipant(id)
             }
             this.confirmDialogRef = null;
         });

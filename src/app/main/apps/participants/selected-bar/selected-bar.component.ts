@@ -161,7 +161,7 @@ export class SelectedBarComponent implements OnInit, OnDestroy {
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete all selected contacts?';
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Etes vous sûr de la suppression des participants séléctionnés?';
 
         this.confirmDialogRef.afterClosed()
             .subscribe(result => {

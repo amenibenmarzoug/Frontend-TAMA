@@ -238,6 +238,21 @@ export class RessourcesService implements Resolve<any>
         });
     }
 
+    omitEquipment(id): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            const equipmentIndex = this.equipments.indexOf(id);
+            this.equipments.splice(equipmentIndex, 1);
+            this.onEquipmentsChanged.next(this.equipments);
+            this._httpClient.delete(AUTH_API + `equipment/omit/${id}`)
+                .subscribe(response => {
+
+                    resolve(response);
+                });
+        });
+    }
+
 
     /**
       * Delete selected equipments
@@ -248,7 +263,9 @@ export class RessourcesService implements Resolve<any>
                 return _equipment.id === Number(equipmentId);
 
             });
-            this.deleteEquipment(Number(equipmentId));
+            //this.deleteEquipment(Number(equipmentId));
+            this.omitEquipment(Number(equipmentId));
+
             const equipmentIndex = this.equipments.indexOf(equipment);
             this.equipments.splice(equipmentIndex, 1);
 

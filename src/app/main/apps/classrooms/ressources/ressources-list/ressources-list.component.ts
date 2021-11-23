@@ -171,7 +171,9 @@ export class RessourcesListComponent implements OnInit, OnDestroy {
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
                 console.log(id)
-                this._ressourcesService.deleteEquipment(id);
+                //this._ressourcesService.deleteEquipment(id);
+                this._ressourcesService.omitEquipment(id);
+
             }
             this.confirmDialogRef = null;
         });

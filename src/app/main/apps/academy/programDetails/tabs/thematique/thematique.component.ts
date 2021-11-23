@@ -156,7 +156,7 @@ export class ThematiqueComponent implements OnInit, OnDestroy {
         let dialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
-        dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        dialogRef.componentInstance.confirmMessage = 'Etes vous sûr de la suppression?';
 
         dialogRef.afterClosed().subscribe(result => {
             console.log(`Dialog result: ${result}`);
@@ -311,7 +311,9 @@ this.confirmDialogRef = null;
 
         this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._programDetailsService.deleteTheme(theme);
+                //this._programDetailsService.deleteTheme(theme);
+                this._programDetailsService.omitTheme(theme);
+
             }
             this.dialogRef = null;
         });

@@ -215,7 +215,8 @@ export class ProgramSpecComponent implements OnInit {
 
         this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                    this._academyProgramsSpecService.deleteProgram(programSpec);
+                   // this._academyProgramsSpecService.deleteProgram(programSpec);
+                    this._academyProgramsSpecService.omitProgram(programSpec);
             }
             this.dialogRef = null;
         });

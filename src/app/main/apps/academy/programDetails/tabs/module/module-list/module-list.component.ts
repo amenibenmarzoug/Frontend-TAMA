@@ -196,7 +196,9 @@ export class ModuleListComponent implements OnInit, OnDestroy {
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._moduleService.deleteModule(module.id);
+                //this._moduleService.deleteModule(module.id);
+                this._moduleService.omitModule(module.id);
+
             }
             this.confirmDialogRef = null;
         });

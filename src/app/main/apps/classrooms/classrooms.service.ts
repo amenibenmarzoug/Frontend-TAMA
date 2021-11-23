@@ -237,6 +237,22 @@ export class ClassroomsService implements Resolve<any>
         });
     }
 
+    omitClassroom(id): Promise<any> {
+        console.log(id);
+
+
+        return new Promise((resolve, reject) => {
+            const classroomIndex = this.classrooms.indexOf(id);
+            this.classrooms.splice(classroomIndex, 1);
+            this.onClassroomsChanged.next(this.classrooms);
+            this._httpClient.delete(AUTH_API + `classroom/omit/${id}`)
+                .subscribe(response => {
+
+                    resolve(response);
+                });
+        });
+    }
+
 
     /**
       * Delete selected contacts
@@ -247,7 +263,8 @@ export class ClassroomsService implements Resolve<any>
                 return _classroom.id === Number(classroomId);
 
             });
-            this.deleteClassroom(Number(classroomId));
+            //this.deleteClassroom(Number(classroomId));
+            this.omitClassroom(Number(classroomId));
             const classroomIndex = this.classrooms.indexOf(classroom);
             this.classrooms.splice(classroomIndex, 1);
 

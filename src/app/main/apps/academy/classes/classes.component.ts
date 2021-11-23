@@ -444,6 +444,8 @@ this.confirmDialogRef = null;
         this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this._academyProgramsInstService.deleteProgramInst(programInst);
+                this._academyProgramsInstService.omitProgramInst(programInst);
+
             }
             this.dialogRef = null;
         });

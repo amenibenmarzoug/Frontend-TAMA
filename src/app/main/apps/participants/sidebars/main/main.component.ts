@@ -81,6 +81,8 @@ export class MainComponent implements OnInit, OnDestroy {
 
   chooseStatus(filter): void{
       this.filterBy=filter;
+      this._participantService.onFilterChanged.next(this.filterBy);
+
       this._participantService.getParticipantsByStatus(filter)
   }
 
@@ -91,6 +93,8 @@ export class MainComponent implements OnInit, OnDestroy {
 
   chooseUnregistered(filter): void{
     this.filterBy=filter;
+    this._participantService.onFilterChanged.next(this.filterBy);
+
     this._participantService.getParticipantsWithoutRegistration();
 }
 

@@ -406,6 +406,19 @@ export class ClassesService {
         });
     }
 
+    
+    omitProgramInst(program): Promise<any> {
+        return new Promise((resolve, reject) => {
+            const courseIndex = this.programsInst.indexOf(program.id);
+            this.programsInst.splice(courseIndex, 1);
+            this.onProgramsInstChanged.next(this.programsInst);
+            this._httpClient.delete(AUTH_API + 'programsInst/omit/'+program.id)
+                .subscribe(response => {
+                    this.getProgramsInst();
+                    resolve(response);
+                },reject);
+        });
+    }
 
     confirmProgramInst(programInst): Promise<any> {
 

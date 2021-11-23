@@ -183,7 +183,9 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._themeDetailsService.deleteThemeDetail(themeDetail.id);
+                //this._themeDetailsService.deleteThemeDetail(themeDetail.id);
+                this._themeDetailsService.omitThemeDetail(themeDetail.id);
+
             }
             this.confirmDialogRef = null;
         });

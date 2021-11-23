@@ -306,6 +306,21 @@ export class ClassroomsManagerService implements Resolve<any>
         });
     }
 
+    omitClassroom(id): Promise<any> {
+        console.log(id);
+
+
+        return new Promise((resolve, reject) => {
+            const classroomIndex = this.classes.indexOf(id);
+            this.classes.splice(classroomIndex, 1);
+            this.onContactsChanged.next(this.classes);
+            this._httpClient.delete(AUTH_API + `classroom/omit/${id}`)
+                .subscribe(response => {
+
+                    resolve(response);
+                });
+        });
+    }
     /**
      * Delete selected contacts
      */
@@ -315,7 +330,9 @@ export class ClassroomsManagerService implements Resolve<any>
                 return _contact.id === Number(contactId);
 
             });
-            this.deleteContact(Number(contactId));
+            //this.deleteContact(Number(contactId));
+            this.omitClassroom(Number(contactId));
+
             const contactIndex = this.classes.indexOf(contact);
             this.classes.splice(contactIndex, 1);
 

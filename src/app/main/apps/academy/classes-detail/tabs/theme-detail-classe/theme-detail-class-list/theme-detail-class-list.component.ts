@@ -162,7 +162,9 @@ export class ThemeDetailClassListComponent implements OnInit {
 
       this.confirmDialogRef.afterClosed().subscribe(result => {
           if (result) {
-              this._themeDetailsService.deleteThemeDetail(themeDetailInst.id);
+              //this._themeDetailsService.deleteThemeDetail(themeDetailInst.id);
+              this._themeDetailsService.omitThemeDetail(themeDetailInst.id);
+
           }
           this.confirmDialogRef = null;
       });

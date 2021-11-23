@@ -175,7 +175,9 @@ export class ClassroomsListComponent implements OnInit, OnDestroy
           if ( result )
           { 
               console.log(id)
-              this._classroomsService.deleteClassroom(id);
+              //this._classroomsService.deleteClassroom(id);
+              this._classroomsService.omitClassroom(id);
+
           }
           this.confirmDialogRef = null;
       });

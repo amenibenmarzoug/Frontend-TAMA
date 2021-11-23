@@ -273,6 +273,22 @@ export class ProgramDetailsService implements Resolve<any>
         });
     }
 
+    omitTheme(theme): Promise<any> {
+
+        this.actualDaysNumberAffected = this.actualDaysNumberAffected - Number(theme.nbDaysTheme);
+
+
+        return new Promise((resolve, reject) => {
+            const courseIndex = this.themes.indexOf(theme.id);
+            this.themes.splice(courseIndex, 1);
+            this.onThemeChanged.next(this.themes);
+            this._httpClient.delete(AUTH_API + `theme/omit/${theme.id}`)
+                .subscribe(response => {
+                    this.getThemesPerProgram();
+                    resolve(response);
+                });
+        });
+    }
 
     /* ***********************module**********************/
 
@@ -494,14 +510,29 @@ export class ProgramDetailsService implements Resolve<any>
                 });
         });
     }
+    omitModule(id): Promise<any> {
+        return new Promise((resolve, reject) => {
+            const moduleIndex = this.modules.indexOf(id);
+            this.modules.splice(moduleIndex, 1);
+            this.onmoduleChanged.next(this.modules);
+            this._httpClient.delete(AUTH_API + `module/omit/${id}`)
+                .subscribe(response => {
+                    this.getModules();
+                    resolve(response);
+                });
+        });
+    }
     /**
     * Delete selected contacts
     */
     deleteSelectedModule(): void {
         for (const moduleId of this.selectedModules) {
             const module = this.modules.find(_module => {
-                return (_module.id).toString() === moduleId;
+                return (_module.id).toString() ===Number(moduleId);
             });
+            //this.deleteModule(Number(moduleId));
+            this.omitModule(Number(moduleId));
+
             const moduleIndex = this.modules.indexOf(module);
             this.modules.splice(moduleIndex, 1);
         }
@@ -699,14 +730,30 @@ export class ProgramDetailsService implements Resolve<any>
                 });
         });
     }
+
+    omitThemeDetail(id): Promise<any> {
+       
+        return new Promise((resolve, reject) => {
+            const themeDetailIndex = this.themeDetails.indexOf(id);
+            this.themeDetails.splice(themeDetailIndex, 1);
+            this.onThemeDetailChanged.next(this.themeDetails);
+            this._httpClient.delete(AUTH_API + `themeDetail/omit/${id}`)
+                .subscribe(response => {
+                    this.getThemeDetail();
+                    resolve(response);
+                });
+        });
+    }
     /**
     * Delete selected contacts
     */
     deleteSelectedThemeDetail(): void {
         for (const themeDetailId of this.selectedThemeDetail) {
             const themeDetail = this.themeDetails.find(_themeDetail => {
-                return (_themeDetail.id).toString() === themeDetailId;
+                return (_themeDetail.id).toString() === Number(themeDetailId);
             });
+            this.omitThemeDetail(Number(themeDetailId));
+            //this.deleteThemeDetail(Number(themeDetailId));
             const themeDetailIndex = this.themeDetails.indexOf(themeDetail);
             this.themeDetails.splice(themeDetailIndex, 1);
         }

@@ -191,13 +191,14 @@ export class TrainerListComponent implements OnInit, OnDestroy
           disableClose: false
       });
 
-      this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+      this.confirmDialogRef.componentInstance.confirmMessage = 'Etes vous sûr de la suppression?';
 
       this.confirmDialogRef.afterClosed().subscribe(result => {
           if ( result )
           { 
               console.log(id)
-              this._trainersService.deleteContact(id);
+              //this._trainersService.deleteContact(id);
+              this._trainersService.omitTrainer(id);
           }
           this.confirmDialogRef = null;
       });

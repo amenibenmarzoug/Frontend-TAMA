@@ -476,14 +476,30 @@ export class ProgramSpecDetailService {
               });
       });
   }
+
+  omitModule(id): Promise<any> {
+    return new Promise((resolve, reject) => {
+        const moduleIndex = this.modules.indexOf(id);
+        this.modules.splice(moduleIndex, 1);
+        this.onmoduleChanged.next(this.modules);
+        this._httpClient.delete(AUTH_API + `module/omit/${id}`)
+            .subscribe(response => {
+                this.getModules();
+                resolve(response);
+            });
+    });
+}
   /**
   * Delete selected contacts
   */
   deleteSelectedModule(): void {
       for (const moduleId of this.selectedModules) {
           const module = this.modules.find(_module => {
-              return (_module.id).toString() === moduleId;
+              return (_module.id).toString() === Number(moduleId);
           });
+          //this.deleteModule(Number(moduleId));
+          this.omitModule(Number(moduleId));
+
           const moduleIndex = this.modules.indexOf(module);
           this.modules.splice(moduleIndex, 1);
       }

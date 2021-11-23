@@ -70,6 +70,22 @@ export class ParticipantsComponent implements OnInit, OnDestroy {
               
               
           });
+
+          this._participantsService.onContactsChanged
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe(filter => {
+              this.listScroll.scrollToTop();
+              
+              
+          });
+
+          this._participantsService.onFilterChanged
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe(filter => {
+              this.listScroll.scrollToTop();
+              
+              
+          });
    
         this._participantsService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))

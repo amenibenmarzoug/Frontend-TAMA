@@ -466,6 +466,21 @@ export class ParticipantsService implements Resolve<any>
         });
     }
 
+    omitParticipant(id): Promise<any> {
+
+
+        return new Promise((resolve, reject) => {
+            const contactIndex = this.participants.indexOf(id);
+            this.participants.splice(contactIndex, 1);
+            this.onContactsChanged.next(this.participants);
+            this._httpClient.delete(AUTH_API + `participants/omit/${id}`)
+                .subscribe(response => {
+                    // this.getContacts();
+
+                    resolve(response);
+                });
+        });
+    }
     /**
      * Delete selected contacts
      */
@@ -476,7 +491,8 @@ export class ParticipantsService implements Resolve<any>
                 return _contact.id === Number(contactId);
 
             });
-            this.deleteContact(Number(contactId));
+            this.omitParticipant(Number(contactId));
+            //this.deleteContact(Number(contactId));
             const contactIndex = this.participants.indexOf(contact);
             this.participants.splice(contactIndex, 1);
 

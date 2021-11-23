@@ -190,7 +190,9 @@ export class ModulesInstListComponent implements OnInit {
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._moduleInstService.deleteModule(moduleInst.id);
+                //this._moduleInstService.deleteModule(moduleInst.id);
+                this._moduleInstService.omitModule(moduleInst.id);
+
             }
             this.confirmDialogRef = null;
         });

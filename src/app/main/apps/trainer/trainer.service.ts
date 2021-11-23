@@ -38,7 +38,7 @@ export class TrainerService implements Resolve<any>
     onThemesChanged: BehaviorSubject<any>;
     themes: any[];
     onProgramsChanged: BehaviorSubject<any>;
-    programs: any[]=[];
+    programs: any[] = [];
     themeId: number;
 
     /**
@@ -110,10 +110,10 @@ export class TrainerService implements Resolve<any>
         return new Promise((resolve, reject) => {
             this._httpClient.get(AUTH_API + 'trainers')
                 .subscribe((response: any) => {
-                   
+
                     for (const trainer of response) {
                         const trainerFees = JSON.parse(trainer.fees)
-                        trainer.fees = trainerFees ; 
+                        trainer.fees = trainerFees;
                     }
 
                     this.contacts = response;
@@ -282,8 +282,8 @@ export class TrainerService implements Resolve<any>
             this._httpClient.get(AUTH_API + 'programs')
                 .subscribe((response: any) => {
                     this.programs = response;
-                   
-  
+
+
                     this.onProgramsChanged.next(this.programs);
                     resolve(this.programs);
                 }, reject);
@@ -369,10 +369,10 @@ export class TrainerService implements Resolve<any>
 
         this.disponibilities = null;
         this.specifications = null;*/
-        console.log("creating trainer" );
+        console.log("creating trainer");
         console.log(contact);
         let fees = JSON.stringify(contact.fees);
-        contact.fees=fees ; 
+        contact.fees = fees;
         return new Promise((resolve, reject) => {
             /* if (this.disponibilities != null) {
                  contact.disponibilityDays = this.disponibilities;
@@ -392,7 +392,7 @@ export class TrainerService implements Resolve<any>
         });
     }
     updateContact1(contact): Promise<any> {
-        
+
         /* if (this.disponibilities != null) {
              contact.disponibilityDays = this.disponibilities;
  
@@ -403,10 +403,10 @@ export class TrainerService implements Resolve<any>
  
          this.disponibilities = null;
          this.specifications = null;*/
-         
+
         let fees = JSON.stringify(contact.fees);
-        contact.fees=fees ;
-        console.log("updating trainer" );
+        contact.fees = fees;
+        console.log("updating trainer");
         console.log(contact);
         return new Promise((resolve, reject) => {
             console.log(contact);
@@ -436,11 +436,11 @@ export class TrainerService implements Resolve<any>
 
     ValidateContact(contact): Promise<any> {
         let fees = JSON.stringify(contact.fees);
-        contact.fees=fees ; 
+        contact.fees = fees;
         return new Promise((resolve, reject) => {
-            contact.validated=true ;
-            let fees= JSON.stringify(contact.fees);
-            contact.fees=fees;
+            contact.validated = true;
+            let fees = JSON.stringify(contact.fees);
+            contact.fees = fees;
             console.log("trainer à valider :")
             console.log(contact)
             const params = new HttpParams().set('id', contact.id);
@@ -456,8 +456,8 @@ export class TrainerService implements Resolve<any>
     }
 
     refuseTrainer(trainer): Promise<any> {
-        let fees= JSON.stringify(trainer.fees);
-        trainer.fees=fees;
+        let fees = JSON.stringify(trainer.fees);
+        trainer.fees = fees;
         return new Promise((resolve, reject) => {
             this._httpClient.put(AUTH_API + 'trainer/refuse', trainer)
                 .subscribe(response => {
@@ -502,6 +502,23 @@ export class TrainerService implements Resolve<any>
         });
     }
 
+    omitTrainer(id): Promise<any> {
+        console.log(id);
+
+
+        return new Promise((resolve, reject) => {
+            const contactIndex = this.contacts.indexOf(id);
+            this.contacts.splice(contactIndex, 1);
+            this.onContactsChanged.next(this.contacts);
+            this._httpClient.delete(AUTH_API + `trainers/omit/${id}`)
+                .subscribe(response => {
+                    // this.getContacts();
+
+                    resolve(response);
+                });
+        });
+    }
+
 
     /**
       * Delete selected contacts
@@ -512,7 +529,8 @@ export class TrainerService implements Resolve<any>
                 return _contact.id === Number(contactId);
 
             });
-            this.deleteContact(Number(contactId));
+            //this.deleteContact(Number(contactId));
+            this.omitTrainer(Number(contactId));
             const contactIndex = this.contacts.indexOf(contact);
             this.contacts.splice(contactIndex, 1);
 
