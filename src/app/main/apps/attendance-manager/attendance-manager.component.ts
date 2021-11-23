@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
@@ -12,6 +12,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { saveAs } from 'file-saver';
 import Swal from 'sweetalert2';
 import { AttendanceManagerService } from './attendance-manager.service';
+import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
 
 
 
@@ -44,6 +45,9 @@ export class AttendanceManagerComponent implements OnInit {
   absencesNumber: any ; 
   justifiedAbsencesNumber : any ; 
   selectedParticipant : any  ; 
+
+  @ViewChild(FusePerfectScrollbarDirective)
+    listScroll: FusePerfectScrollbarDirective;
 
   /**
    * Constructor
@@ -109,6 +113,7 @@ export class AttendanceManagerComponent implements OnInit {
       this.selectedParticipant = participant;
       console.log("this.selected parii")
       console.log(this.selectedParticipant)
+    
     });
 
 

@@ -1,3 +1,15 @@
+<div class="card-preview" *ngIf="selectedClasse != null" >
+
+    <div class="fuse-card indigo"   >
+
+        <div class="p-12" >
+            <div class="h4 secondary-text">Nombre des participants acceptés : </div>
+            <div class="h2">{{numberOfValidatedPartPerClass}} /  {{selectedClasse.nbMaxParticipants}} </div>
+
+        </div>
+
+    </div>
+</div>
 <mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}">
     <!-- Checkbox Column -->
     <ng-container matColumnDef="checkbox">

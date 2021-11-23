@@ -1,4 +1,4 @@
-<div id="contacts" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+<div id="contacts" class="page-layout simple left-sidebar inner-sidebar content-scroll">
 
     <!-- HEADER -->
     <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-xs="row"
@@ -44,7 +44,7 @@
         <fuse-sidebar class="sidebar" name="contacts-main-sidebar" position="left" lockedOpen="gt-sm">
 
             <!-- SIDEBAR CONTENT -->
-            <div class="content" fusePerfectScrollbar>
+            <div class="content" >
                 <app-attendance-manager-sidebars [@animate]="{value:'*'}"></app-attendance-manager-sidebars>
             </div>
             <!-- / SIDEBAR CONTENT -->
@@ -56,6 +56,7 @@
         <div class="center p-24 pb-56 pr-sm-92" fusePerfectScrollbar>
             <div class="content">
 
+                
                 <!-- PREVIEW -->
                 <div class="card-preview" *ngIf="selectedParticipant != null">
 

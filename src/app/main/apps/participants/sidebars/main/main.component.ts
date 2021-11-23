@@ -85,7 +85,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   chooseByClass(classe): void{
-   
+    this._participantService.onFilterByClasseChanged.next(classe) ;
     this._participantService.getParticipantsByClass(classe.id);
 }
 
@@ -100,6 +100,7 @@ resetFilters():void{
     console.log(this.filterBy);
     this._participantService.filterBy='all';
     this._participantService.onClassesChanged.next(null);
+    this._participantService.onFilterByClasseChanged.next(null) ; 
     this.classes=[];
     this._participantService.getClasses();
     this._participantService.getContacts();
