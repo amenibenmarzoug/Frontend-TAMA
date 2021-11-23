@@ -161,8 +161,8 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
                      * Delete
                      */
                     case 'delete':
-
-                        this.deleteThemeDetail(themeDetail.id);
+                         console.log(themeDetail.themeDetailNameName);
+                        this.deleteThemeDetail(themeDetail);
 
                         break;
                 }
@@ -171,18 +171,19 @@ export class ThemeDetailsListComponent implements OnInit, OnDestroy {
 
 
     /**
-     * Delete Module
+     * Delete 
      */
     deleteThemeDetail(themeDetail): void {
+        
         this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Etes vous sûr de supprimer le theme Detail ' + themeDetail.themeDetailName +' ?';
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._themeDetailsService.deleteThemeDetail(themeDetail);
+                this._themeDetailsService.deleteThemeDetail(themeDetail.id);
             }
             this.confirmDialogRef = null;
         });

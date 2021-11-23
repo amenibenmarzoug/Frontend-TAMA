@@ -81,5 +81,9 @@
             Enregistrer
         </button>
 
+        <button *ngIf="action === 'edit'" mat-button class="save-button" (click)="matDialogRef.close(['delete',contactForm])" [disabled]="contactForm.invalid " aria-label="SAVE">
+            Supprimer
+        </button>
+
     </div>
 </div>

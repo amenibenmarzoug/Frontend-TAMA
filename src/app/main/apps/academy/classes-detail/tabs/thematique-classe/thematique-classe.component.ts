@@ -8,8 +8,10 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ThematiqueInstFormComponent } from '../../../program-inst-detail/tabs/thematique-inst/thematique-inst-form/thematique-inst-form.component';
+
 import{ClassesDetailService} from '../../classes-detail.service'
+
+import {ThematiqueClasseFormComponent} from './thematique-classe-form/thematique-classe-form.component';
 @Component({
   selector: 'app-thematique-classe',
   templateUrl: './thematique-classe.component.html',
@@ -19,7 +21,6 @@ import{ClassesDetailService} from '../../classes-detail.service'
 })
 export class ThematiqueClasseComponent implements OnInit {
 
-  
   categories: any[];
   themesInst: any[];
   themesFilteredByCategory: any[];
@@ -145,9 +146,6 @@ export class ThematiqueClasseComponent implements OnInit {
 
 
   }
-
-
-
  
 
 
@@ -156,8 +154,8 @@ export class ThematiqueClasseComponent implements OnInit {
     *
     * @param contact
     */
-  editThemeInst(themeInst): void {
-      this.dialogRef = this.dialog.open(ThematiqueInstFormComponent, {
+  editThemeInst(themeInst): void {  
+      this.dialogRef = this.dialog.open(ThematiqueClasseFormComponent, {
         disableClose: true ,  
         panelClass: 'theme-form-dialog',
           data: {
@@ -186,23 +184,23 @@ export class ThematiqueClasseComponent implements OnInit {
                    */
                   case 'delete':
 
-                      this.deleteThemeInst(themeInst.id);
+                      this.deleteThemeInst(themeInst);
 
                       break;
               }
           });
   }
 
-  deleteThemeInst(theme): void {
+  deleteThemeInst(themeInst): void {
       this.dialogRef = this.dialog.open(FuseConfirmDialogComponent, {
           disableClose: false
       });
 
-      this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+      this.dialogRef.componentInstance.confirmMessage = 'Etes vous sûr de supprimer le theme ' + themeInst.themeInstName +' ?';
 
       this.dialogRef.afterClosed().subscribe(result => {
           if (result) {
-              this._programInstDetailsService.deleteThemeInst(theme);
+              this._programInstDetailsService.deleteThemeInst(themeInst);
           }
           this.dialogRef = null;
       });

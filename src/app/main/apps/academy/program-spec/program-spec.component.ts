@@ -206,16 +206,16 @@ export class ProgramSpecComponent implements OnInit {
         console.log("programInst id" + id)
     }
 
-    deleteProgramSpec(contact): void {
+    deleteProgramSpec(programSpec): void {
         this.dialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
 
-        this.dialogRef.componentInstance.confirmMessage = 'Etes vous sûr de supprimer la classe ' + contact.programName +' ? C\'est irréversible!';
+        this.dialogRef.componentInstance.confirmMessage = 'Etes vous sûr de supprimer la classe ' + programSpec.programName +' ?';
 
         this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                    this._academyProgramsSpecService.deleteProgram(contact);
+                    this._academyProgramsSpecService.deleteProgram(programSpec);
             }
             this.dialogRef = null;
         });

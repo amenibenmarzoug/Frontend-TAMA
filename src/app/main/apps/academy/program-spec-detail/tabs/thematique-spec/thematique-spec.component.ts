@@ -272,7 +272,7 @@ export class ThematiqueSpecComponent implements OnInit {
                      */
                     case 'delete':
 
-                        this.deleteTheme(theme.id);
+                        this.deleteTheme(theme);
 
                         break;
                 }
@@ -286,7 +286,7 @@ export class ThematiqueSpecComponent implements OnInit {
             disableClose: false
         });
 
-        this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        this.dialogRef.componentInstance.confirmMessage = 'Etes vous sûr de supprimer le module ' + theme.themeName +' ?';
 
 
 

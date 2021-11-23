@@ -25,7 +25,7 @@ export class RessourcesListComponent implements OnInit, OnDestroy {
 
     equipments: any;
     dataSource: FilesDataSource | null;
-    displayedColumns = ['checkbox', 'name', 'quantity'];
+    displayedColumns = ['checkbox', 'name', 'quantity', 'buttons'];
     selectedEquipments: any[];
     checkboxes: {};
     dialogRef: any;
@@ -166,7 +166,7 @@ export class RessourcesListComponent implements OnInit, OnDestroy {
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        this.confirmDialogRef.componentInstance.confirmMessage = "Voulez-vous confirmer la suppression de cette Ressource?";
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {

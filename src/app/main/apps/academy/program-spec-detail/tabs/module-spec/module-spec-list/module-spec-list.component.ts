@@ -156,7 +156,7 @@ export class ModuleSpecListComponent implements OnInit {
                      */
                     case 'delete':
 
-                        this.deleteModule(module.id);
+                        this.deleteModule(module);
 
                         break;
                 }
@@ -185,11 +185,11 @@ export class ModuleSpecListComponent implements OnInit {
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Etes vous sûr de supprimer le module ' + module.moduleName +' ?';
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._moduleService.deleteModule(module);
+                this._moduleService.deleteModule(module.id);
             }
             this.confirmDialogRef = null;
         });

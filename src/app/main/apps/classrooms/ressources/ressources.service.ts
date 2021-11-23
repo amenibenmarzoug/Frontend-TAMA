@@ -215,6 +215,7 @@ export class RessourcesService implements Resolve<any>
 
         // Trigger the next event
         this.onSelectedEquipmentsChanged.next(this.selectedEquipments);
+
     }
 
     /**
@@ -254,6 +255,7 @@ export class RessourcesService implements Resolve<any>
         }
         this.onEquipmentsChanged.next(this.equipments);
         this.deselectEquipments();
+        this. getEquipments();
     }
 
 

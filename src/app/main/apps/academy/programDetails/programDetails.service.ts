@@ -267,7 +267,7 @@ export class ProgramDetailsService implements Resolve<any>
             this.onThemeChanged.next(this.themes);
             this._httpClient.delete(AUTH_API + `theme/${theme.id}`)
                 .subscribe(response => {
-                    this.getThemes();
+                    this.getThemesPerProgram();
                     resolve(response);
                 });
         });
@@ -687,6 +687,7 @@ export class ProgramDetailsService implements Resolve<any>
      * @param id
      */
     deleteThemeDetail(id): Promise<any> {
+       
         return new Promise((resolve, reject) => {
             const themeDetailIndex = this.themeDetails.indexOf(id);
             this.themeDetails.splice(themeDetailIndex, 1);

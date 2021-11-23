@@ -131,6 +131,7 @@ import { AllSessionsTrainerSidebarsComponent } from './all-sessions-trainer/all-
 import { AllSessionsTrainerListComponent } from './all-sessions-trainer/all-sessions-trainer-list/all-sessions-trainer-list.component';
 
 import { AuthGuardTrainerService } from 'app/auth-guard-trainer.service';
+import { ThematiqueClasseFormComponent } from './classes-detail/tabs/thematique-classe/thematique-classe-form/thematique-classe-form.component';
 registerLocaleData(localeFr, 'fr');
 
 export const MY_FORMATS = {
@@ -398,6 +399,7 @@ const routes = [
         AllSessionsTrainerComponent,
         AllSessionsTrainerSidebarsComponent,
         AllSessionsTrainerListComponent,
+        ThematiqueClasseFormComponent,
         
         
 

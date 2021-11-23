@@ -33,10 +33,10 @@
 
     <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
 
-        <!-- <button *ngIf="action === 'edit'" mat-button class="mr-8" (click)="matDialogRef.close(['delete',themeForm])"
+         <button *ngIf="action === 'edit'" mat-button class="mr-8" (click)="matDialogRef.close(['delete',themeForm])"
             aria-label="Delete" matTooltip="Delete">
             Supprimer
-        </button> -->
+        </button> 
 
         <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)=" closeNewThemeForm()"
             [disabled]="themeForm.invalid" aria-label="SAVE">

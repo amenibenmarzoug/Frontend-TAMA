@@ -1,6 +1,6 @@
 @import "src/@fuse/scss/fuse";
 
-contacts-contact-list {
+app-classrooms-list {
     display: flex;
     flex: 1 1 auto;
     width: 100%;
@@ -18,9 +18,18 @@ contacts-contact-list {
         .mat-column-avatar {
             flex: 0 1 64px;
         }
+        .mat-column-capacity {
+            flex: 0 1 80px;
+            text-align: center;
+        }
 
         .mat-column-buttons {
-            flex: 0 1 80px;
+            flex: 0 1 20px;
+        }
+        .mat-column-equipments {
+            flex: 0 1 160px;
+            padding-left: 18px;
+           
         }
 
         .mat-row {
@@ -58,6 +67,8 @@ contacts-contact-list {
     }
 }
 
+/*
 .resources-button{
     padding: 3px;
 }
+*/

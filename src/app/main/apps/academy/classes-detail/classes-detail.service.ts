@@ -309,7 +309,7 @@ deleteThemeInst(theme): Promise<any> {
         this.onThemeInstChanged.next(this.themesInst);
         this._httpClient.delete(AUTH_API + `theme/${theme.id}`)
             .subscribe(response => {
-                this.getThemeInst();
+               // this.getThemeInst(); 
                 resolve(response);
             });
     });
@@ -723,7 +723,7 @@ updateThemeInst(theme,program): Promise<any> {
     return new Promise((resolve, reject) => {
         this._httpClient.put(AUTH_API +'themeInst', theme)
             .subscribe(response => {
-               // this.lastprogramInst=response;
+               
                 resolve(response);
             });
     });

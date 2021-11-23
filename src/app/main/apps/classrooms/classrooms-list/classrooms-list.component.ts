@@ -169,7 +169,7 @@ export class ClassroomsListComponent implements OnInit, OnDestroy
           disableClose: false
       });
 
-      this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+      this.confirmDialogRef.componentInstance.confirmMessage = 'Voulez-vous supprimer la salle?';
 
       this.confirmDialogRef.afterClosed().subscribe(result => {
           if ( result )
