@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
@@ -9,6 +9,7 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { TrainerService } from 'app/main/apps/trainer/trainer.service';
 import { TrainerFormComponent } from 'app/main/apps/trainer/trainer-form/trainer-form.component';
+import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
 
 @Component({
     selector     : 'app-trainers',
@@ -25,6 +26,11 @@ export class TrainersComponent implements OnInit, OnDestroy
 
     // Private
     private _unsubscribeAll: Subject<any>;
+
+    @ViewChild(FusePerfectScrollbarDirective)
+    listScroll2: FusePerfectScrollbarDirective;
+    @ViewChild(FusePerfectScrollbarDirective)
+    listScroll: FusePerfectScrollbarDirective;
 
     /**
      * Constructor
@@ -55,6 +61,12 @@ export class TrainersComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        this._trainersService.onFilterChanged
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe(filter => {
+              this.listScroll.scrollToTop();
+
+          });
         this._trainersService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedContacts => {

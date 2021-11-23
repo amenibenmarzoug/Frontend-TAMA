@@ -91,6 +91,7 @@ export class SessionsListComponent implements OnInit, OnDestroy {
                     }
 
                 });
+                this.paginator.firstPage();
             });
 
         this.dataSource = new FilesDataSource(this._allSessionsService, this.paginator);

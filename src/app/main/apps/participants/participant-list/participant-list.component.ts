@@ -123,6 +123,8 @@ export class ParticipantListComponent implements OnInit, OnDestroy {
                 contacts.map(contact => {
                     this.checkboxes[contact.id] = false;
                 });
+                this.paginator.firstPage();
+               
 
             });
 
@@ -347,6 +349,7 @@ export class FilesDataSource extends DataSource<any>
 
         const displayDataChanges = [
             this._participantsService.onContactsChanged,
+            
             this._matPaginator.page,
            // this._filterChange,
             //this._matSort.sortChange

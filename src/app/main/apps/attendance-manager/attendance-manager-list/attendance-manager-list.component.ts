@@ -81,6 +81,7 @@ export class AttendanceManagerListComponent implements OnInit {
                 this.attendances.map(attendance => {
                     this.checkboxes[attendance.id] = false;
                 });
+                this.paginator.firstPage();
             });
     }
 

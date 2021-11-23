@@ -76,6 +76,7 @@ export class AllSessionsTrainerListComponent implements OnInit, OnDestroy {
                   }
 
               });
+              this.paginator.firstPage();
           });
       
       this.dataSource = new FilesDataSource(this._allSessionsService,this.paginator);

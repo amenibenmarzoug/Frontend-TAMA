@@ -76,6 +76,7 @@ export class TrainerListComponent implements OnInit, OnDestroy
                 contacts.map(contact => {
                     this.checkboxes[contact.id] = false;
                 });
+                this.paginator.firstPage();
             });
 
         this._trainersService.onSelectedContactsChanged

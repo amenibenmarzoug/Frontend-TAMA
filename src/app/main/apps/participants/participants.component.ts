@@ -70,6 +70,15 @@ export class ParticipantsComponent implements OnInit, OnDestroy {
               
               
           });
+
+          this._participantsService.onFilterChanged
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe(classe => {
+              console.log("contacts ")
+              this.listScroll.scrollToTop();
+              
+              
+          });
    
         this._participantsService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
